@@ -7,6 +7,7 @@ export default {
   CHATS_STACK: 'Chats_Stack',
   APPOINTMENTS_STACK: 'Appointments_Stack',
   PROFILE_STACK: 'Profile_Stack',
+  NOVICE_HOME_STACK: 'Novice_Home_Stack',
 
   //COMMON ROUTES
   USER_APPOINTMENTS: 'Appointments',
@@ -21,4 +22,6 @@ export default {
 
   //NOVICE ROUTES
   NOVICE_PROFILE: 'Novice_Profile',
+  NOVICE_HOME: 'Novice_Home',
+  NOVICE_BOOK_APPOINTMENT: 'Novice_Book_Appointment',
 };
