@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 
 type UserContent = {
-  user: {},
+  user: {id:number, name: string, user_type: string, imageURL: string },
   setUser:(user: {id:number, name: string, user_type: string, imageURL: string }) => void
 };
 
