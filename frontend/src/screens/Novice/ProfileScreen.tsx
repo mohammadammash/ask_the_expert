@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, Button, Image } from "react-native";
-import { ROUTES, IMAGES, COLORS } from "../../constants";
+import { ROUTES, IMAGES, COLORS, USERTYPES } from "../../constants";
 import styles from "../../../styles";
 import { UserContext } from "../../hooks/UserContext";
 import { useContext } from "react";
@@ -9,7 +9,7 @@ const ProfileScreen = () => {
   const navigation = useNavigation();
   const { user, setUser } = useContext(UserContext);
   const shownuser_id = 22; //user_id
-  const {id, user_type} = user;
+  const { id, user_type } = user;
 
   return (
     <View className="flex-1 items-center bg-white">
@@ -18,7 +18,7 @@ const ProfileScreen = () => {
       </View>
 
       {/* EXPERT VISITING NOVICE PROFILE */}
-      {user_type === "expert" && (
+      {user_type === USERTYPES.EXPERT && (
         <>
           <View style={styles.blue_button_lg}>
             <Button color={COLORS.white} title="Expert Send Msg to Novice" onPress={() => navigation.navigate(ROUTES.USER_SINGLE_CHAT)} />
@@ -30,7 +30,7 @@ const ProfileScreen = () => {
       )}
 
       {/* NOVICE VISITING HIS OWN PROFILE */}
-      {user_type === "novice" && id === shownuser_id && (
+      {user_type === USERTYPES.NOVICE && id === shownuser_id && (
         <View className="mt-5" style={styles.blue_button_lg}>
           <Button color={COLORS.white} title="Edit Profile" onPress={() => navigation.navigate(ROUTES.USER_EDIT_PROFILE)} />
         </View>

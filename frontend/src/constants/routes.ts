@@ -17,11 +17,16 @@ export default {
   USER_LEADERBOARD: 'leaderboard',
 
   //EXPERT ROUTES
-  EXPERT_PROFILE: 'Expert_Profile',
+  EXPERT_PROFILE: 'Expert_Profile', //home
   EXPERT_GO_ONLINE: 'Expert_Go_Online',
 
   //NOVICE ROUTES
   NOVICE_PROFILE: 'Novice_Profile',
   NOVICE_HOME: 'Novice_Home',
   NOVICE_BOOK_APPOINTMENT: 'Novice_Book_Appointment',
+
+  //ADMIN ROUTES
+  ADMIN_HOME: 'Admin_Home', //statistics
+  ADMIN_VIEW_USERS: 'Admin_View_Users',
+  ADMIN_PROFILE: 'Admin_Profile',
 };

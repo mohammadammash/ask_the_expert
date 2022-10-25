@@ -1,8 +1,8 @@
 import { createContext, useContext } from "react";
 
-export type UserContent = {
+type UserContent = {
   user: {},
-  setUser:(user: {}) => void
+  setUser:(user: {id:number, name: string, user_type: string, imageURL: string }) => void
 };
 
 export const UserContext = createContext<UserContent>({
