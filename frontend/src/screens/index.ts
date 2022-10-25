@@ -15,3 +15,5 @@ export {default as GoOnlineScreen} from "./Expert/GoOnlineScreen";
 
 //NOVICE
 export {default as NoviceProfileScreen} from "./Novice/ProfileScreen";
+export {default as BookAppointmentScreen} from "./Novice/BookAppointmentScreen";
+export {default as HomeScreen} from "./Novice/HomeScreen";
