@@ -13,7 +13,7 @@ const ProfileScreen = () => {
       </View>
 
       <View style={styles.blue_button_lg}>
-        <Button color={COLORS.white} title="Expert Msg Novice" onPress={() => navigation.navigate(ROUTES.USER_SINGLE_CHAT)} />
+        <Button color={COLORS.white} title="Specific Expert Profile" onPress={() => navigation.navigate(ROUTES.EXPERT_PROFILE)} />
       </View>
 
       <View className="flex-1 items-center justify-center">
