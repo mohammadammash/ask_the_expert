@@ -1,6 +1,6 @@
 //AUTH
-export {default as RegisterScreen} from "./Auth/RegisterScreen";
-export {default as LoginScreen} from "./Auth/LoginScreen";
+export {default as AuthRegisterScreen} from "./Auth/RegisterScreen";
+export {default as AuthLoginScreen} from "./Auth/LoginScreen";
 
 //COMMON
 export {default as AppointmentsScreen} from "./Common/AppointmentsScreen";
@@ -11,9 +11,14 @@ export {default as EditProfileScreen} from "./Common/EditProfileScreen";
 
 //EXPERT
 export {default as ExpertProfileScreen} from "./Expert/ProfileScreen";
-export {default as GoOnlineScreen} from "./Expert/GoOnlineScreen";
+export {default as ExpertGoOnlineScreen} from "./Expert/GoOnlineScreen";
 
 //NOVICE
 export {default as NoviceProfileScreen} from "./Novice/ProfileScreen";
-export {default as BookAppointmentScreen} from "./Novice/BookAppointmentScreen";
-export {default as HomeScreen} from "./Novice/HomeScreen";
+export {default as NoviceBookAppointmentScreen} from "./Novice/BookAppointmentScreen";
+export {default as NoviceHomeScreen} from "./Novice/HomeScreen";
+
+//ADMIN
+export {default as AdminProfileScreen} from "./Admin/ProfileScreen";
+export {default as AdminHomeScreen} from "./Admin/HomeScreen";
+export {default as AdminViewUsersScreen} from "./Admin/ViewUsersScreen";
