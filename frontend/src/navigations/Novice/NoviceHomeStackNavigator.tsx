@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ExpertProfileScreen, BookAppointmentScreen, HomeScreen } from "../screens";
-import { ROUTES } from "../constants";
+import { ExpertProfileScreen, BookAppointmentScreen, HomeScreen } from "../../screens";
+import { ROUTES } from "../../constants";
 const Stack = createStackNavigator();
 
 const NoviceHomeStackNavigator = () => {
