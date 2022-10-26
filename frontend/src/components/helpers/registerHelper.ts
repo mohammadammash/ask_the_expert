@@ -41,4 +41,5 @@ export const validateRegisterFormSchema = Yup.object().shape({
       .test("password-match", "Password must match", function (value) {
         return this.parent.password === value;
       }),
+    languages: Yup.array().min(1, 'At least one language').required('Required')
   });
