@@ -1,10 +1,10 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { ROUTES, USERTYPES} from "../../constants";
 import { LeaderboardScreen } from "../../screens";
-import { ProfileStackNavigator, ChatsStackNavigator, AppointmentsStackNavigator, NoviceHomeStackNavigator } from "../index";
 import { UserContext } from "../../hooks/UserContext";
 import { useContext } from "react";
-
+import {ProfileStackNavigator, ChatsStackNavigator, AppointmentsStackNavigator} from "./index";
+import NoviceHomeStackNavigator from "../Novice/NoviceHomeStackNavigator";
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {

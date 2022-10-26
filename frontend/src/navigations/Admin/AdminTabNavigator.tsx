@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ROUTES } from "../../constants";
 import { LeaderboardScreen, AdminHomeScreen, AdminViewUsersScreen } from "../../screens";
-import {ProfileStackNavigator} from "../index";
+import ProfileStackNavigator from "../Common/ProfileStackNavigator";
 
 
 const Tab = createBottomTabNavigator();
