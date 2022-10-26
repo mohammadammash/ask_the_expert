@@ -6,7 +6,7 @@ type UserContent = {
 };
 
 export const UserContext = createContext<UserContent>({
-user: {}, // set a default value
+user: {id:1, name: "", user_type: "", imageURL: "" }, // set a default value
 setUser: () => {},
 });
 
