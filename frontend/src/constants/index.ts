@@ -6,4 +6,9 @@ const USERTYPES = {
     NOVICE: 'novice',
     EXPERT: 'expert',
 }
-export {ROUTES, COLORS, IMAGES, USERTYPES};
+
+import ALLANGUAGES from './helpers/allLanguages';
+import ALLJOBSFIELDS from './helpers/allJobsFields';
+import ALLJOBSSPECIALTIES from './helpers/allJobsSpecialties';
+
+export {ROUTES, COLORS, IMAGES, USERTYPES, ALLANGUAGES, ALLJOBSFIELDS,ALLJOBSSPECIALTIES};
