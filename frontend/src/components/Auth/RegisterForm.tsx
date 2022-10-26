@@ -4,10 +4,9 @@ import { ROUTES, IMAGES } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
-import { ALLJOBSFIELDS } from "../../constants";
+import { ALLJOBSFIELDS, ALLJOBSSPECIALTIES } from "../../constants";
 import * as Yup from "yup";
 
-import SpecialitySelectOptions from "./SpecialitySelectOptions";
 import LanguagesSelectOptions from "./LanguagesSelectInput";
 interface formValues {
   firstName: string;
@@ -121,7 +120,11 @@ const RegisterForm = () => {
             ))}
           </Picker>
 
-              
+          <Picker enabled={true} mode="dropdown" placeholder="Select Field" selectedValue={values.field} onValueChange={handleChange("field")}>
+            {ALLJOBSSPECIALTIES.map((job, index) => (
+              <Picker.Item label={job} value={job} key={index} />
+            ))}
+          </Picker>
 
           <LanguagesSelectOptions />
 
