@@ -3,8 +3,12 @@ import styles from "../../../styles";
 import { ROUTES, IMAGES } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
+import { Picker } from "@react-native-picker/picker";
+import { ALLJOBSFIELDS } from "../../constants";
 import * as Yup from "yup";
 
+import SpecialitySelectOptions from "./SpecialitySelectOptions";
+import LanguagesSelectOptions from "./LanguagesSelectInput";
 interface formValues {
   firstName: string;
   lastName: string;
@@ -12,8 +16,8 @@ interface formValues {
   password: string;
   confirmPassword: string;
   profile_base64: string;
-  field: { selectedOption: string };
-  speciality: { selectedOption: string };
+  field: string;
+  speciality: string;
   languages: string;
   start_date: Date;
 }
@@ -27,8 +31,8 @@ const RegisterForm = () => {
     password: "",
     confirmPassword: "",
     profile_base64: "",
-    field: { selectedOption: "Tech" },
-    speciality: { selectedOption: "Software Engineer" },
+    field: "Tech1",
+    speciality: "",
     languages: "",
     start_date: new Date(),
   };
@@ -61,7 +65,6 @@ const RegisterForm = () => {
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
         <View className="w-4/5 justify-around gap-2">
-
           <View className="items-center">
             <View className="border-2 rounded-full h-36 w-36 ">
               <Image className="rounded-full h-full w-full" source={IMAGES.dummyProfile} />
@@ -112,6 +115,16 @@ const RegisterForm = () => {
             {errors.confirmPassword && touched.confirmPassword && <Text className="text-red-600  ">{errors.confirmPassword}</Text>}
           </View>
 
+          <Picker enabled={true} mode="dropdown" placeholder="Select Field" selectedValue={values.field} onValueChange={handleChange("field")}>
+            {ALLJOBSFIELDS.map((job, index) => (
+              <Picker.Item label={job} value={job} key={index} />
+            ))}
+          </Picker>
+
+              
+
+          <LanguagesSelectOptions />
+
           <Pressable className="mt-2" style={styles.blue_button_xl} onPress={handleSubmit}>
             <Text className="text-xl text-white font-bold">LOGIN</Text>
           </Pressable>
@@ -122,6 +135,3 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
-{
-  /*  */
-}
