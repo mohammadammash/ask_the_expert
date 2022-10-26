@@ -1,15 +1,16 @@
 import { View, Text, Pressable, TextInput, Image } from "react-native";
 import { useState } from "react";
-import { Formik } from "formik";
+import { Formik, validateYupSchema } from "formik";
 import { Picker } from "@react-native-picker/picker";
 import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 import styles from "../../../styles";
 import authStyles from "./auth.styles";
 import { IMAGES } from "../../constants";
 import { ALLJOBSFIELDS, ALLJOBSSPECIALTIES } from "../../constants";
-import { validateRegisterFormSchema, registerInitialValues } from "../index";
+import { validateRegisterFormSchema, registerInitialValues } from "../helpers/registerHelper";
 import { ALLANGUAGES } from "../../constants";
 
 const RegisterForm = () => {
@@ -94,7 +95,16 @@ const RegisterForm = () => {
             </Picker>
           </View>
 
-          <View className="border-2 rounded-lg mb-5">
+          <View >
+            <Text className="mb-0 font-bold border-b-2 bold">Start Date:</Text>
+            <View className="border-2 rounded-lg items-center mb-5">
+              <DateTimePicker style={authStyles.date} value={values.start_date} onChange={(event, date)=>{
+                date ? values.start_date = date: new Date();
+              }} />
+            </View>
+          </View>
+
+          <View className="border-2 rounded-lg mb-5 pl-1">
             <MultiSelect
               style={authStyles.dropdown}
               placeholderStyle={authStyles.placeholderStyle}
@@ -112,7 +122,7 @@ const RegisterForm = () => {
                 setSelectedLanguages(item);
                 values.languages = item;
               }}
-              renderLeftIcon={() => <AntDesign style={styles.icon} color="black" name="Safety" size={20} />}
+              renderLeftIcon={() => <AntDesign color="black" name="Safety" size={20} />}
               selectedStyle={authStyles.selectedStyle}
             />
             {errors.languages && touched.languages && <Text className="text-red-600  ">{errors.languages}</Text>}

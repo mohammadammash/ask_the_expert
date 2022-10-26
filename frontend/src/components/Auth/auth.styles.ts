@@ -30,4 +30,12 @@ export default StyleSheet.create({
     selectedStyle: {
       borderRadius: 12,
     },
+
+    //STYLING DATE
+    date:{
+      textAlign: 'center',
+      alignItems: 'center',
+      width: '35%',
+      backgroundColor: '#fefefe',
+    }
 });
