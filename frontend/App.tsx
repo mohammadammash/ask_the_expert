@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthStackNavigator, DrawerNavigator, AdminTabNavigator } from "./src/navigations";
 import { useState, createContext } from "react";
 import { UserContext } from "./src/hooks/UserContext";
-import { USERTYPES } from "./src/constants";
+import {USERTYPES} from "./src/constants";
 
 export default function App() {
   const [user, setUser] = useState({ id: 22, name: "hadi", user_type: "exper", imageURL: "/frontend/src/assets/images/dummy_profile.png" });
