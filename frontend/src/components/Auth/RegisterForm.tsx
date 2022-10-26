@@ -1,15 +1,19 @@
 import { View, Text, Pressable, TextInput, Image } from "react-native";
-import styles from "../../../styles";
-import { ROUTES, IMAGES } from "../../constants";
-import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
+import { MultiSelect } from "react-native-element-dropdown";
+import AntDesign from "react-native-vector-icons/AntDesign";
+
+import styles from "../../../styles";
+import authStyles from "./auth.styles";
+import { IMAGES } from "../../constants";
 import { ALLJOBSFIELDS, ALLJOBSSPECIALTIES } from "../../constants";
-import { validateRegisterFormSchema, registerFormValues, registerInitialValues } from "../index";
-import LanguagesSelectOptions from "./LanguagesSelectInput";
+import { validateRegisterFormSchema, registerInitialValues } from "../index";
+import { ALLANGUAGES } from "../../constants";
 
 const RegisterForm = () => {
-  const navigation = useNavigation();
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
 
   return (
     <Formik
@@ -21,7 +25,7 @@ const RegisterForm = () => {
       validationSchema={validateRegisterFormSchema}
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
-        <View className="w-4/5 justify-center border ">
+        <View className="w-4/5 justify-center">
           <View className="items-center">
             <View className="border-2 rounded-full h-36 w-36 ">
               <Image className="rounded-full h-full w-full" source={IMAGES.dummyProfile} />
@@ -90,7 +94,29 @@ const RegisterForm = () => {
             </Picker>
           </View>
 
-          <LanguagesSelectOptions />
+          <View className="border-2 rounded-lg mb-5">
+            <MultiSelect
+              style={authStyles.dropdown}
+              placeholderStyle={authStyles.placeholderStyle}
+              selectedTextStyle={authStyles.selectedTextStyle}
+              inputSearchStyle={authStyles.inputSearchStyle}
+              iconStyle={authStyles.iconStyle}
+              search
+              data={ALLANGUAGES}
+              labelField="label"
+              valueField="value"
+              placeholder="Select Spoken Languages"
+              searchPlaceholder="Search..."
+              value={selectedLanguages}
+              onChange={(item) => {
+                setSelectedLanguages(item);
+                values.languages = item;
+              }}
+              renderLeftIcon={() => <AntDesign style={styles.icon} color="black" name="Safety" size={20} />}
+              selectedStyle={authStyles.selectedStyle}
+            />
+            {errors.languages && touched.languages && <Text className="text-red-600  ">{errors.languages}</Text>}
+          </View>
 
           <Pressable className="mt-2" style={styles.blue_button_xl} onPress={handleSubmit}>
             <Text className="text-xl text-white font-bold">LOGIN</Text>
