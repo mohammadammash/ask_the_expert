@@ -5,65 +5,23 @@ import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
 import { ALLJOBSFIELDS, ALLJOBSSPECIALTIES } from "../../constants";
-import * as Yup from "yup";
-
+import { validateRegisterFormSchema, registerFormValues, registerInitialValues } from "../index";
 import LanguagesSelectOptions from "./LanguagesSelectInput";
-interface formValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  profile_base64: string;
-  field: string;
-  speciality: string;
-  languages: string;
-  start_date: Date;
-}
 
 const RegisterForm = () => {
   const navigation = useNavigation();
-  const initialValues: formValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    profile_base64: "",
-    field: "Tech1",
-    speciality: "",
-    languages: "",
-    start_date: new Date(),
-  };
-
-  const validationSchema = Yup.object().shape({
-    firstName: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
-    lastName: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
-    email: Yup.string().email("Please enter valid email").required("Email is required"),
-    password: Yup.string()
-      .matches(/\w*[a-z]\w*/, "Password must have a small letter")
-      .matches(/\w*[A-Z]\w*/, "Password must have a capital letter")
-      .matches(/\d/, "Password must have a number")
-      .matches(/[!@#$%^&*()\-_"=+{}; :,<.>]/, "Password must have a special character")
-      .required("Password is required"),
-    confirmPassword: Yup.string()
-      .required("Required")
-      .test("password-match", "Password must match", function (value) {
-        return this.parent.password === value;
-      }),
-  });
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={registerInitialValues}
       onSubmit={(values, actions) => {
         console.log({ values, actions });
         alert(JSON.stringify(values, null, 2));
       }}
-      validationSchema={validationSchema}
+      validationSchema={validateRegisterFormSchema}
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
-        <View className="w-4/5 justify-around gap-2">
+        <View className="w-4/5 justify-center border ">
           <View className="items-center">
             <View className="border-2 rounded-full h-36 w-36 ">
               <Image className="rounded-full h-full w-full" source={IMAGES.dummyProfile} />
@@ -114,17 +72,23 @@ const RegisterForm = () => {
             {errors.confirmPassword && touched.confirmPassword && <Text className="text-red-600  ">{errors.confirmPassword}</Text>}
           </View>
 
-          <Picker enabled={true} mode="dropdown" placeholder="Select Field" selectedValue={values.field} onValueChange={handleChange("field")}>
-            {ALLJOBSFIELDS.map((job, index) => (
-              <Picker.Item label={job} value={job} key={index} />
-            ))}
-          </Picker>
+          <View>
+            <Text className="mt-3 mb-0 font-bold border-b-2 bold">Field:</Text>
+            <Picker style={styles.select_input} enabled={true} mode="dropdown" placeholder="Select Field" selectedValue={values.field} onValueChange={handleChange("field")}>
+              {ALLJOBSFIELDS.map((job, index) => (
+                <Picker.Item label={job} value={job} key={index} />
+              ))}
+            </Picker>
+          </View>
 
-          <Picker enabled={true} mode="dropdown" placeholder="Select Field" selectedValue={values.field} onValueChange={handleChange("field")}>
-            {ALLJOBSSPECIALTIES.map((job, index) => (
-              <Picker.Item label={job} value={job} key={index} />
-            ))}
-          </Picker>
+          <View>
+            <Text className="mb-0 font-bold border-b-2 bold">Speciality:</Text>
+            <Picker style={styles.select_input} enabled={true} mode="dropdown" placeholder="Select Field" selectedValue={values.speciality} onValueChange={handleChange("speciality")}>
+              {ALLJOBSSPECIALTIES.map((job, index) => (
+                <Picker.Item label={job} value={job} key={index} />
+              ))}
+            </Picker>
+          </View>
 
           <LanguagesSelectOptions />
 

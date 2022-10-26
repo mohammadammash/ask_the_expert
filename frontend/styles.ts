@@ -30,5 +30,11 @@ export default StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: COLORS.blue,
-    }
+    },
+  //SELECT INPUTS:
+  select_input: {
+    borderWidth: 2,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
 });
