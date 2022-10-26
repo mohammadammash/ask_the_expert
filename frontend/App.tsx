@@ -5,7 +5,7 @@ import { UserContext } from "./src/hooks/UserContext";
 import { USERTYPES } from "./src/constants";
 
 export default function App() {
-  const [user, setUser] = useState({ id: 22, name: "hadi", user_type: "admin", imageURL: "/frontend/src/assets/images/dummy_profile.png" });
+  const [user, setUser] = useState({ id: 22, name: "hadi", user_type: "exper", imageURL: "/frontend/src/assets/images/dummy_profile.png" });
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
