@@ -1,10 +1,11 @@
-import { View, Text, Pressable, TextInput, Image } from "react-native";
+import { View, Text, Pressable, TextInput, Image, Button } from "react-native";
 import { useState } from "react";
-import { Formik, validateYupSchema } from "formik";
+import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
 import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import * as ImagePicker from "expo-image-picker";
 
 import styles from "../../../styles";
 import authStyles from "./auth.styles";
@@ -15,6 +16,26 @@ import { ALLANGUAGES } from "../../constants";
 
 const RegisterForm = () => {
   const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+      ImgToBase64.getBase64String("file://youfileurl")
+        .then((base64String) => doSomethingWith(base64String))
+        .catch((err) => doSomethingWith(err));
+    }
+  };
 
   return (
     <Formik
@@ -27,9 +48,10 @@ const RegisterForm = () => {
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
         <View className="w-4/5 justify-center">
-          <View className="items-center">
+          <View className="items-center mb-20">
             <View className="border-2 rounded-full h-36 w-36 ">
-              <Image className="rounded-full h-full w-full" source={IMAGES.dummyProfile} />
+              <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />
+              <Button title="Pick an image from camera roll" onPress={pickImage} />
             </View>
           </View>
 
@@ -95,12 +117,16 @@ const RegisterForm = () => {
             </Picker>
           </View>
 
-          <View >
+          <View>
             <Text className="mb-0 font-bold border-b-2 bold">Start Date:</Text>
             <View className="border-2 rounded-lg items-center mb-5">
-              <DateTimePicker style={authStyles.date} value={values.start_date} onChange={(event, date)=>{
-                date ? values.start_date = date: new Date();
-              }} />
+              <DateTimePicker
+                style={authStyles.date}
+                value={values.start_date}
+                onChange={(event, date) => {
+                  date ? (values.start_date = date) : new Date();
+                }}
+              />
             </View>
           </View>
 
