@@ -1,5 +1,5 @@
 import { View, Text, Pressable, TextInput, Image, Button } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
 import { MultiSelect } from "react-native-element-dropdown";
@@ -13,27 +13,48 @@ import { IMAGES } from "../../constants";
 import { ALLJOBSFIELDS, ALLJOBSSPECIALTIES } from "../../constants";
 import { validateRegisterFormSchema, registerInitialValues } from "../helpers/registerHelper";
 import { ALLANGUAGES } from "../../constants";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../firebaseConfig";
 
 const RegisterForm = () => {
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [image, setImage] = useState(null);
+  const [emailAlreadyUsed, setEmailAlreadyUsed] = useState(false);
+
+  const firebaseSubmitSignup = (email: string, password: string) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("------SUCCESS------");
+        alert({ ...user });
+        console.log("------SUCCESS-----");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        console.log("------ERROR------");
+        if (errorCode == "auth/email-already-in-use") {
+          alert("Email already in use");
+          setEmailAlreadyUsed(true);
+        }
+        console.log("------ERROR-----");
+      });
+  };
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
+      base64: true,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
-      ImgToBase64.getBase64String("file://youfileurl")
-        .then((base64String) => doSomethingWith(base64String))
-        .catch((err) => doSomethingWith(err));
     }
   };
 
@@ -41,18 +62,20 @@ const RegisterForm = () => {
     <Formik
       initialValues={registerInitialValues}
       onSubmit={(values, actions) => {
-        console.log({ values, actions });
-        alert(JSON.stringify(values, null, 2));
+        firebaseSubmitSignup(values.email, values.password);
+        values.profile_base64 = "My Profile";
+        // console.log({ values, actions });
+        // alert(JSON.stringify(values, null, 2));
       }}
       validationSchema={validateRegisterFormSchema}
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
         <View className="w-4/5 justify-center">
-          <View className="items-center mb-20">
-            <View className="border-2 rounded-full h-36 w-36 ">
+          <View className="items-center mb-3 ">
+            <View className="border-2 rounded-full h-36 w-36">
               <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />
-              <Button title="Pick an image from camera roll" onPress={pickImage} />
             </View>
+            <Button title="Pick an image from camera roll" onPress={pickImage} />
           </View>
 
           <View>
@@ -78,6 +101,7 @@ const RegisterForm = () => {
             <Text className="font-bold">Email</Text>
             <TextInput onChangeText={handleChange("email")} onBlur={handleBlur("email")} value={values.email} style={styles.text_input} className="placeholder:pl-3" placeholder="Email" />
             {errors.email && touched.email && <Text className="text-red-600">{errors.email}</Text>}
+            {emailAlreadyUsed && <Text className="text-red-600">Email Already Used</Text>}
           </View>
 
           <View className="mt-2">
@@ -154,8 +178,8 @@ const RegisterForm = () => {
             {errors.languages && touched.languages && <Text className="text-red-600  ">{errors.languages}</Text>}
           </View>
 
-          <Pressable className="mt-2" style={styles.blue_button_xl} onPress={handleSubmit}>
-            <Text className="text-xl text-white font-bold">LOGIN</Text>
+          <Pressable className="mt-2 mb-7" style={styles.blue_button_xl} onPress={handleSubmit}>
+            <Text className="text-xl text-white font-bold">SIGN UP</Text>
           </Pressable>
         </View>
       )}

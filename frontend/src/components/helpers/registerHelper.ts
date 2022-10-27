@@ -29,13 +29,14 @@ export const registerInitialValues: registerFormValues = {
 export const validateRegisterFormSchema = Yup.object().shape({
     firstName: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
     lastName: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
-    email: Yup.string().email("Please enter valid email").required("Email is required"),
+    email: Yup.string().email("Please enter valid email").required("Required"),
     password: Yup.string()
       .matches(/\w*[a-z]\w*/, "Password must have a small letter")
       .matches(/\w*[A-Z]\w*/, "Password must have a capital letter")
       .matches(/\d/, "Password must have a number")
       .matches(/[!@#$%^&*()\-_"=+{}; :,<.>]/, "Password must have a special character")
-      .required("Password is required"),
+      .min(6,'At Least 6 Characters')
+      .required("Required"),
     confirmPassword: Yup.string()
       .required("Required")
       .test("password-match", "Password must match", function (value) {
