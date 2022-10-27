@@ -1,20 +1,21 @@
 import { View, Text, Pressable, TextInput, Image, Button } from "react-native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
 import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import styles from "../../../styles";
 import authStyles from "./auth.styles";
 import { IMAGES } from "../../constants";
 import { ALLJOBSFIELDS, ALLJOBSSPECIALTIES } from "../../constants";
-import { validateRegisterFormSchema, registerInitialValues } from "../helpers/registerHelper";
+import { validateRegisterFormSchema, registerInitialValues } from "./helpers/registerFormHelper";
 import { ALLANGUAGES } from "../../constants";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebaseConfig";
+
 
 const RegisterForm = () => {
   const [selectedLanguages, setSelectedLanguages] = useState([]);
@@ -24,22 +25,13 @@ const RegisterForm = () => {
   const firebaseSubmitSignup = (email: string, password: string) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
-        console.log("------SUCCESS------");
-        alert({ ...user });
-        console.log("------SUCCESS-----");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        console.log("------ERROR------");
-        if (errorCode == "auth/email-already-in-use") {
+        if (error.code == "auth/email-already-in-use") {
           alert("Email already in use");
           setEmailAlreadyUsed(true);
         }
-        console.log("------ERROR-----");
       });
   };
 
@@ -52,7 +44,6 @@ const RegisterForm = () => {
       aspect: [4, 3],
       quality: 1,
     });
-
     if (!result.cancelled) {
       setImage(result.uri);
     }
