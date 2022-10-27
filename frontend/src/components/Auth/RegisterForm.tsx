@@ -5,28 +5,33 @@ import { Picker } from "@react-native-picker/picker";
 import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import * as ImagePicker from "expo-image-picker";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
+import { auth } from "../../../firebaseConfig";
+//internal imports:
 import styles from "../../../styles";
 import authStyles from "./auth.styles";
 import { IMAGES } from "../../constants";
 import { ALLJOBSFIELDS, ALLJOBSSPECIALTIES } from "../../constants";
 import { validateRegisterFormSchema, registerInitialValues } from "./helpers/registerFormHelper";
+import { uploadImageAsync, pickImage } from "./helpers/registerImageHandlerHelper";
 import { ALLANGUAGES } from "../../constants";
-import { auth } from "../../../firebaseConfig";
-
 
 const RegisterForm = () => {
   const [selectedLanguages, setSelectedLanguages] = useState([]);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
   const [emailAlreadyUsed, setEmailAlreadyUsed] = useState(false);
 
-  const firebaseSubmitSignup = (email: string, password: string) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+  const firebaseSubmitSignup = async (email: string, password: string) => {
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
         const user = userCredential.user;
+        if (image) {
+          const profileimage_url = await uploadImageAsync(image, email);
+          setImage(profileimage_url);
+        }
+        console.log(user.uid);
       })
+
       .catch((error) => {
         if (error.code == "auth/email-already-in-use") {
           alert("Email already in use");
@@ -35,28 +40,14 @@ const RegisterForm = () => {
       });
   };
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      base64: true,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
-
   return (
     <Formik
       initialValues={registerInitialValues}
-      onSubmit={(values, actions) => {
-        firebaseSubmitSignup(values.email, values.password);
-        values.profile_base64 = "My Profile";
+      onSubmit={async (values, actions) => {
+        await firebaseSubmitSignup(values.email, values.password);
+        values.profile_url = image;
         // console.log({ values, actions });
-        // alert(JSON.stringify(values, null, 2));
+        alert(JSON.stringify(values, null, 2));
       }}
       validationSchema={validateRegisterFormSchema}
     >
@@ -66,7 +57,7 @@ const RegisterForm = () => {
             <View className="border-2 rounded-full h-36 w-36">
               <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />
             </View>
-            <Button title="Pick an image from camera roll" onPress={pickImage} />
+            <Button title="Pick an image from camera roll" onPress={() => pickImage(setImage)} />
           </View>
 
           <View>
