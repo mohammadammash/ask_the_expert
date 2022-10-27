@@ -3,7 +3,7 @@ import { View, Text, Pressable } from "react-native";
 import { useContext } from "react";
 import { UserContext } from "../../hooks/UserContext";
 //internal imports
-import { ProfileImageCardComponent } from "../../components";
+import { ProfileImageCardComponent, ProfilePersonalInfoComponent } from "../../components";
 import { ROUTES, COLORS, USERTYPES } from "../../constants";
 import styles from "../../../styles";
 
@@ -14,7 +14,7 @@ const ProfileScreen = () => {
 
   return (
     <View className="flex-1 items-center bg-white">
-      {/*  */}
+
       <ProfileImageCardComponent />
 
       {user_type === USERTYPES.EXPERT && (
@@ -24,9 +24,10 @@ const ProfileScreen = () => {
               <Text className="text-white font-bold text-base">EDIT PROFILE</Text>
             </Pressable>
           </View>
-
         </>
       )}
+
+      <ProfilePersonalInfoComponent/>
     </View>
   );
 };
