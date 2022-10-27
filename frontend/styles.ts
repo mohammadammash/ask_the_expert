@@ -31,6 +31,16 @@ export default StyleSheet.create({
       justifyContent: "center",
       backgroundColor: COLORS.blue,
     },
+    blue_button_md: {
+      borderWidth: 2,
+      height: 60,
+      width:140,
+      textTransform: "uppercase",
+      borderRadius: 10,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: COLORS.blue,
+    },
   //SELECT INPUTS:
   select_input: {
     borderWidth: 2,
