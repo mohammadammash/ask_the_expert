@@ -4,7 +4,7 @@ import { UserContext } from "../../hooks/UserContext";
 import styles from "../../../styles";
 import { Formik } from "formik";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../firebaseConfig";
+import { auth} from "../../../firebaseConfig";
 
 import { validateLoginFormSchema, loginIntialValues } from "./helpers/loginFormHelper";
 

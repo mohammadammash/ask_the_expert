@@ -6,7 +6,7 @@ export interface registerFormValues {
   email: string;
   password: string;
   confirmPassword: string;
-  profile_base64: string;
+  profile_url: string;
   field: string;
   speciality: string;
   languages: string[];
@@ -19,7 +19,7 @@ export const registerInitialValues: registerFormValues = {
     email: "",
     password: "",
     confirmPassword: "",
-    profile_base64: "",
+    profile_url: "",
     field: "Information Technology",
     languages: [],
     speciality: "Software developer",
