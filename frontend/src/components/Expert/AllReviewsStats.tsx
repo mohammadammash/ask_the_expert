@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TextInput } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
-import ProgressBar from "react-native-progress/Bar";
 //internal imports
 import { COLORS } from "../../constants";
 import { calculateReviewsStatsHelper } from "./helpers/calculateReviewsStatsHelper";
+import { SingleReviewStat, ReviewCard } from "..";
+import styles from "../../../styles";
 
 const AllReviewsStats = () => {
   //hard Coded Reviews:
@@ -25,37 +26,29 @@ const AllReviewsStats = () => {
   }, []);
 
   return (
+    // REVIEWS STATS
     <View className="bg-white">
       <View>
         <Text className="text-center text-3xl font-bold">{rating.average}.0</Text>
         <AirbnbRating defaultRating={rating.average} isDisabled reviews={[""]} />
         <Text className="text-center mt-3">Based on {reviews.length} Reviews</Text>
       </View>
+      <SingleReviewStat progress={rating.totalOf5 / reviews.length} rating={5} />
+      <SingleReviewStat progress={rating.totalOf4 / reviews.length} rating={4} />
+      <SingleReviewStat progress={rating.totalOf3 / reviews.length} rating={3} />
+      <SingleReviewStat progress={rating.totalOf2 / reviews.length} rating={2} />
+      <SingleReviewStat progress={rating.totalOf1 / reviews.length} rating={1} />
 
-      <View className="flex-row h-10 mt-4 items-center justify-center">
-        <AirbnbRating starContainerStyle={{ display: "flex", alignItems: "center", height: 80 }} size={20} defaultRating={5} isDisabled reviews={[""]} />
-        <ProgressBar progress={rating.totalOf5 / reviews.length} width={140} color={COLORS.blue} />
+      {/* SEARCH BAR */}
+      <View className="items-center mt-5">
+        <TextInput style={styles.text_input} className="placeholder:pl-3" placeholder="Search" />
       </View>
 
-      <View className="flex-row h-10 items-center justify-center">
-        <AirbnbRating starContainerStyle={{ display: "flex", alignItems: "center", height: 80 }} size={20} defaultRating={4} isDisabled reviews={[""]} />
-        <ProgressBar progress={rating.totalOf4 / reviews.length} width={140} color={COLORS.blue} />
-      </View>
+      {/* ALL REVIEWS SHOW */}
+      {reviews.map((review) => (
+        <ReviewCard review={review}/>
+      ))}
 
-      <View className="flex-row h-10 items-center justify-center">
-        <AirbnbRating starContainerStyle={{ display: "flex", alignItems: "center", height: 80 }} size={20} defaultRating={3} isDisabled reviews={[""]} />
-        <ProgressBar progress={rating.totalOf3 / reviews.length} width={140} color={COLORS.blue} />
-      </View>
-
-      <View className="flex-row  h-10 items-center justify-center">
-        <AirbnbRating starContainerStyle={{ display: "flex", alignItems: "center", height: 80 }} size={20} defaultRating={2} isDisabled reviews={[""]} />
-        <ProgressBar progress={rating.totalOf2 / reviews.length} width={140} color={COLORS.blue} />
-      </View>
-
-      <View className="flex-row h-10 items-center justify-center">
-        <AirbnbRating starContainerStyle={{ display: "flex", alignItems: "center", height: 80 }} size={20} defaultRating={1} isDisabled reviews={[""]} />
-        <ProgressBar progress={rating.totalOf1 / reviews.length} width={140} color={COLORS.blue} />
-      </View>
     </View>
   );
 };
