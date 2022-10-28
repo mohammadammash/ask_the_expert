@@ -11,6 +11,8 @@ export default StyleSheet.create({
     borderWidth: 2,
     height: 50,
     borderRadius: 10,
+  },
+  search_input:{
     width:'80%',
   },
     select_input: {

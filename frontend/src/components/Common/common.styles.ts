@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import {COLORS} from "../..//constants";
 
 const commonStyles = StyleSheet.create({
+  //CONFIRM AVAILABILITY STYLES
     dropdown: {
       margin: 16,
       height: 50,
@@ -24,6 +25,41 @@ const commonStyles = StyleSheet.create({
       width: 20,
       height: 20,
     },
+
+  //EDIT PROFILE LANGUAGE AND THEME INPUT STYLES
+  edit_dropdown: {
+      height: 50,
+      width: '100%',
+      borderWidth: 2,
+      borderRadius: 8,
+      paddingHorizontal: 8,
+    },
+    icon: {
+      marginRight: 5,
+    },
+    label: {
+      position: 'absolute',
+      backgroundColor: 'white',
+      left: 22,
+      top: 8,
+      zIndex: 999,
+      paddingHorizontal: 8,
+      fontSize: 14,
+    },
+    edit_placeholderStyle: {
+      fontSize: 16,
+    },
+    edit_selectedTextStyle: {
+      fontSize: 16,
+    },
+    edit_iconStyle: {
+      width: 20,
+      height: 20,
+    },
+    inputSearchStyle: {
+      height: 40,
+      fontSize: 16,
+    }
   });
 
 export default commonStyles;
