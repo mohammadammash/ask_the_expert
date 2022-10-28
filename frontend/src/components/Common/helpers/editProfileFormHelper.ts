@@ -28,3 +28,17 @@ export const validateEditProfileFormSchema = Yup.object().shape({
     about: Yup.string().min(20, "Min 20 Characters").max(250, "Too Long").required('Required'),
     languages: Yup.array().min(1, 'At least one language').required('Required')
   });
+
+
+
+export const app_languages = [
+    { label: "English", value: "english" },
+    { label: "Mandarin", value: "mandarin" },
+    { label: "Hindi", value: "hindi" },
+    { label: "Spanish", value: "spanish" },
+  ];
+
+export const app_themes = [
+    { label: "White", value: "white" },
+    { label: "Dark", value: "dark" },
+  ];

@@ -11,7 +11,7 @@ import styles from "../../../styles";
 import authStyles from "../Auth/auth.styles";
 import { IMAGES } from "../../constants";
 import { ALLJOBSSPECIALTIES } from "../../constants";
-import { validateEditProfileFormSchema, editProfileInitialValues } from "./helpers/editProfileFormHelper";
+import { validateEditProfileFormSchema, editProfileInitialValues, app_languages, app_themes } from "./helpers/editProfileFormHelper";
 import { uploadImageAsync, pickImage } from "../Auth/helpers/registerImageHandlerHelper";
 import { ALLANGUAGES } from "../../constants";
 import commonStyles from "./common.styles";
@@ -29,17 +29,6 @@ const EditProfileForm = () => {
   const { user, setUser } = useContext(UserContext);
   const {email} = user;
 
-  const app_languages = [
-    { label: "English", value: "english" },
-    { label: "Mandarin", value: "mandarin" },
-    { label: "Hindi", value: "hindi" },
-    { label: "Spanish", value: "spanish" },
-  ];
-
-  const app_themes = [
-    { label: "White", value: "white" },
-    { label: "Dark", value: "dark" },
-  ];
 
   return (
     <Formik
