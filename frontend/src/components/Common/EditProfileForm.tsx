@@ -20,23 +20,20 @@ const EditProfileForm = () => {
   //app_language_input
   const [appLanguage, setAppLanguage] = useState(null);
   const [isAppLanguageFocus, setIsAppLanguageFocus] = useState(false);
+  //app_theme_input
+const [appTheme, setAppTheme] = useState(null);
+const [isAppThemeFocus, setAppThemeFocus] = useState(false);
 
   const app_languages = [
-    { label: "English", value: "English" },
-    { label: "Mandarin", value: "Mandarin" },
-    { label: "Hindi", value: "Hindi" },
-    { label: "Spanish", value: "Spanish" },
+    { label: "English", value: "english" },
+    { label: "Mandarin", value: "mandarin" },
+    { label: "Hindi", value: "hindi" },
+    { label: "Spanish", value: "spanish" },
   ];
 
   const app_themes = [
-    { label: "Item 1", value: "1" },
-    { label: "Item 2", value: "2" },
-    { label: "Item 3", value: "3" },
-    { label: "Item 4", value: "4" },
-    { label: "Item 5", value: "5" },
-    { label: "Item 6", value: "6" },
-    { label: "Item 7", value: "7" },
-    { label: "Item 8", value: "8" },
+    { label: "White", value: "white" },
+    { label: "Dark", value: "dark" },
   ];
 
   return (
@@ -100,7 +97,7 @@ const EditProfileForm = () => {
           </View>
 
           <View>
-            <Text className="mb-0 font-bold border-b-2 bold">Speciality</Text>
+            <Text className="mt-2 font-bold border-b-2 bold">Speciality</Text>
             <Picker style={styles.select_input} enabled={true} mode="dropdown" placeholder="Select Field" selectedValue={values.speciality} onValueChange={handleChange("speciality")}>
               {ALLJOBSSPECIALTIES.map((job, index) => (
                 <Picker.Item label={job} value={job} key={index} />
@@ -109,7 +106,7 @@ const EditProfileForm = () => {
           </View>
 
           <Text className="font-bold">Spoken Languages</Text>
-          <View className="border-2 rounded-lg mb-5 pl-1">
+          <View className="border-2 rounded-lg pl-1">
             <MultiSelect
               style={authStyles.dropdown}
               placeholderStyle={authStyles.placeholderStyle}
@@ -160,8 +157,35 @@ const EditProfileForm = () => {
             />
           </View>
 
-          <Pressable className="mt-2 mb-7" style={styles.blue_button_xl} onPress={handleSubmit}>
-            <Text className="text-xl text-white font-bold">SIGN UP</Text>
+          <View className="mt-2">
+            <Text className="font-bold">App Theme</Text>
+            <Dropdown
+              style={commonStyles.edit_dropdown}
+              placeholderStyle={commonStyles.edit_placeholderStyle}
+              selectedTextStyle={commonStyles.edit_selectedTextStyle}
+              inputSearchStyle={commonStyles.inputSearchStyle}
+              iconStyle={commonStyles.edit_iconStyle}
+              data={app_themes}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isAppThemeFocus ? "White" : "..."}
+              searchPlaceholder="Search..."
+              value={appTheme}
+              onFocus={() => setAppThemeFocus(true)}
+              onBlur={() => setAppThemeFocus(false)}
+              onChange={(item) => {
+                setAppTheme(item.value);
+                values.theme = item.value;
+                setAppThemeFocus(false);
+              }}
+              renderLeftIcon={() => <AntDesign style={commonStyles.edit_iconStyle} color={isAppThemeFocus ? "blue" : "black"} name="Safety" size={20} />}
+            />
+          </View>
+
+          <Pressable className="my-7" style={styles.blue_button_xl} onPress={handleSubmit}>
+            <Text className="text-xl text-white font-bold">SUBMIT</Text>
           </Pressable>
         </View>
       )}

@@ -9,3 +9,4 @@ export {default as ProfilePersonalInfoComponent} from "./Common/ProfilePersonalI
 //COMMON
 export {default as AllReviewsStatsComponent} from "./Expert/AllReviewsStats";
 export {default as ConfirmAvailabilityFormCard} from "./Common/ConfirmAvailabilityFormCard";
+export {default as EditProfileFormComponent} from "./Common/EditProfileForm";
