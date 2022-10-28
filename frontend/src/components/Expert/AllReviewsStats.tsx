@@ -44,7 +44,7 @@ const AllReviewsStats = () => {
 
       {/* SEARCH BAR */}
       <View className="items-center mt-5">
-        <TextInput style={[styles.text_input]} className="placeholder:pl-3" placeholder="Search" />
+        <TextInput style={[styles.text_input, styles.search_input]} className="placeholder:pl-3" placeholder="Search" />
       </View>
 
       {/* ALL REVIEWS SHOW */}

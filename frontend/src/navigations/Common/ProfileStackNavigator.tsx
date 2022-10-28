@@ -17,6 +17,7 @@ const ProfileStackNavigator = () => {
         <>
           <Stack.Screen name={ROUTES.EXPERT_PROFILE} component={ExpertProfileScreen} />
           <Stack.Screen name={ROUTES.EXPERT_GO_ONLINE} component={ExpertGoOnlineScreen} />
+          <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={NoviceProfileScreen} />
         </>
       )}
 
