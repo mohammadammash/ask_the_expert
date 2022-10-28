@@ -33,6 +33,7 @@ const AllReviewsStats = () => {
         <AirbnbRating defaultRating={rating.average} isDisabled reviews={[""]} />
         <Text className="text-center mt-3">Based on {reviews.length} Reviews</Text>
       </View>
+
       <SingleReviewStat progress={rating.totalOf5 / reviews.length} rating={5} />
       <SingleReviewStat progress={rating.totalOf4 / reviews.length} rating={4} />
       <SingleReviewStat progress={rating.totalOf3 / reviews.length} rating={3} />
@@ -41,14 +42,15 @@ const AllReviewsStats = () => {
 
       {/* SEARCH BAR */}
       <View className="items-center mt-5">
-        <TextInput style={styles.text_input} className="placeholder:pl-3" placeholder="Search" />
+        <TextInput style={[styles.text_input]} className="placeholder:pl-3" placeholder="Search" />
       </View>
 
       {/* ALL REVIEWS SHOW */}
-      {reviews.map((review) => (
-        <ReviewCard review={review}/>
-      ))}
-
+      <View className="w-full items-center my-5">
+        {reviews.map((review) => (
+          <ReviewCard review={review} />
+        ))}
+      </View>
     </View>
   );
 };
