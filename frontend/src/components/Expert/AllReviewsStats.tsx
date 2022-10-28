@@ -4,7 +4,9 @@ import { AirbnbRating } from "react-native-ratings";
 //internal imports
 import { COLORS } from "../../constants";
 import { calculateReviewsStatsHelper } from "./helpers/calculateReviewsStatsHelper";
-import { SingleReviewStat, ReviewCard } from "..";
+import SingleReviewStat from "./SingleReviewStat";
+import ReviewCard from "./ReviewCard";
+
 import styles from "../../../styles";
 
 const AllReviewsStats = () => {

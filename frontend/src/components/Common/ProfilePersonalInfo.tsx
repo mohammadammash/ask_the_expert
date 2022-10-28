@@ -46,9 +46,9 @@ const ProfilePersonalInfo = () => {
           <View className="border rounded-2xl">
             <Switch
               trackColor={{ false: COLORS.white, true: COLORS.white }}
-              thumbColor={user.online ? COLORS.blue : COLORS.white}
+              thumbColor={!user.online ? COLORS.blue : COLORS.white}
               onValueChange={() => navigation.navigate(ROUTES.EXPERT_GO_ONLINE)}
-              value={user.online}
+              value={!user.online}
             />
           </View>
         </View>
