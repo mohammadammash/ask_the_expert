@@ -11,7 +11,14 @@ export default StyleSheet.create({
     borderWidth: 2,
     height: 50,
     borderRadius: 10,
+    width:'80%',
   },
+    select_input: {
+    borderWidth: 2,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+
   //BUTTONS
     blue_button_xl: {
       borderWidth: 2,
@@ -41,10 +48,9 @@ export default StyleSheet.create({
       justifyContent: "center",
       backgroundColor: COLORS.blue,
     },
-  //SELECT INPUTS:
-  select_input: {
-    borderWidth: 2,
-    borderRadius: 10,
-    marginBottom: 15,
-  },
+  
+  //CARDS:
+  bg_grey_opacity30: {
+    backgroundColor: 'rgba(211, 214, 219, 0.20)',
+  }
 });
