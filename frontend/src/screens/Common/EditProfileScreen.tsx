@@ -1,7 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, Pressable, TextInput, Image } from "react-native";
+//internal imports
 import { ROUTES, IMAGES } from "../../constants";
 import styles from "../../../styles";
+import { EditProfileFormComponent } from "../../components";
 
 const EditProfileScreen = () => {
   const navigation = useNavigation();
@@ -13,7 +15,9 @@ const EditProfileScreen = () => {
       </View>
 
       <View className="flex-1 items-center justify-center">
-        <Text className="text-slate-800">Edit Profile Screen! 🎉</Text>
+
+        <EditProfileFormComponent/>
+        
       </View>
     </View>
   );
