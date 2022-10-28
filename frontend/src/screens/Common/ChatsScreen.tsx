@@ -1,24 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, Button, Image } from "react-native";
-import { ROUTES, IMAGES, COLORS } from "../../constants";
-import styles from "../../../styles";
+//internal imports
+import { ChatAndAppointmentCardComponent } from "../../components";
 
 const ChatsScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <View className="flex-1 items-center bg-white">
-      <View className="w-full mb-2 h-1/2">
-        <Image className="max-w-full max-h-full" source={IMAGES.logo_500px} />
-      </View>
-
-      <View style={styles.blue_button_lg}>
-        <Button color={COLORS.white} title="Single Chat" onPress={() => navigation.navigate(ROUTES.USER_SINGLE_CHAT)} />
-      </View>
-
-      <View className="flex-1 items-center justify-center">
-        <Text className="text-slate-800">All Chats! 🎉</Text>
-      </View>
+    <View className="flex-1 items-center justify-center bg-white">
+      <Text className="text-slate-800">All Chats! 🎉</Text>
+      <ChatAndAppointmentCardComponent />
     </View>
   );
 };
