@@ -6,6 +6,8 @@ import styles from "../../../../styles";
 //internal imports
 import CalculateYearsOfExperienceHelper from "../helpers/calculateYearsOfExperienceHelper";
 import { useNavigation } from "@react-navigation/native";
+import AvailabilitySwitchButtonComponent from "./AvailabilitySwitchButton";
+import ButtonsComponent from "./Buttons";
 
 const ProfilePersonalInfo = () => {
   const { user, setUser } = useContext(UserContext);
@@ -28,43 +30,11 @@ const ProfilePersonalInfo = () => {
         </Text>
         <Text className="opacity-40 text-xs text-center">WITH</Text>
         <Text className="opacity-80 text-xs font-medium">{yearsOfExperience} of Experience</Text>
-
-        {/* EDIT PROFILE BUTTON  */}
-        {/* {user_type === USERTYPES.EXPERT && (
-          <View>
-            <Pressable className="my-2" style={styles.blue_button_md} onPress={() => navigation.navigate(ROUTES.USER_EDIT_PROFILE)}>
-              <Text className="text-white font-bold text-base">EDIT PROFILE</Text>
-            </Pressable>
-          </View>
-        )} */}
-
-        {/* EXPERT VISITING NOVICE PROFILE*/}
-        {user_type === USERTYPES.EXPERT && (
-          <View className="flex-row w-full justify-center gap-2">
-              <Pressable  style={styles.blue_button_sm} onPress={() => navigation.navigate(ROUTES.USER_SINGLE_CHAT)}>
-                <Text className="text-white font-bold text-sm">MESSAGE</Text>
-              </Pressable>
-              <Pressable style={styles.blue_button_sm} onPress={() => alert('Blocked')}>
-                <Text className="text-white font-bold text-sm">BLOCK</Text>
-              </Pressable>
-          </View>
-        )}
       </View>
 
-      {/* SWITCH AVAILABLE BUTTON */}
-      {user.user_type === USERTYPES.EXPERT && (
-        <View className="h-24 w-full items-center justify-center gap-2 mt-2" style={{ backgroundColor: COLORS.grey }}>
-          <Text className="text-md">Go Online</Text>
-          <View className="border rounded-2xl">
-            <Switch
-              trackColor={{ false: COLORS.white, true: COLORS.white }}
-              thumbColor={!user.online ? COLORS.blue : COLORS.white}
-              onValueChange={() => navigation.navigate(ROUTES.EXPERT_GO_ONLINE)}
-              value={!user.online}
-            />
-          </View>
-        </View>
-      )}
+      <ButtonsComponent />
+
+      <AvailabilitySwitchButtonComponent />
 
       {/* ABOUT SECTION */}
       <View style={user.user_type === USERTYPES.NOVICE && { backgroundColor: COLORS.grey }} className="items-center pt-3 pb-7 px-3">
