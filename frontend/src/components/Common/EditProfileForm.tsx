@@ -4,6 +4,8 @@ import { Formik } from "formik";
 import { MultiSelect, Dropdown } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { Picker } from "@react-native-picker/picker";
+import { useContext } from "react";
+import { UserContext } from "../../hooks/UserContext";
 //internal imports:
 import styles from "../../../styles";
 import authStyles from "../Auth/auth.styles";
@@ -21,8 +23,11 @@ const EditProfileForm = () => {
   const [appLanguage, setAppLanguage] = useState(null);
   const [isAppLanguageFocus, setIsAppLanguageFocus] = useState(false);
   //app_theme_input
-const [appTheme, setAppTheme] = useState(null);
-const [isAppThemeFocus, setAppThemeFocus] = useState(false);
+  const [appTheme, setAppTheme] = useState(null);
+  const [isAppThemeFocus, setAppThemeFocus] = useState(false);
+  //currentUser
+  const { user, setUser } = useContext(UserContext);
+  const {email} = user;
 
   const app_languages = [
     { label: "English", value: "english" },
@@ -40,8 +45,8 @@ const [isAppThemeFocus, setAppThemeFocus] = useState(false);
     <Formik
       initialValues={editProfileInitialValues}
       onSubmit={async (values, actions) => {
-        // const profileimage_url = await uploadImageAsync(image, "mohammad@fsd.gmail");
-        // setImage(profileimage_url);
+        const profileimage_url = await uploadImageAsync(image, email);
+        setImage(profileimage_url);
         values.profile_url = image;
         alert(JSON.stringify(values, null, 2));
       }}
