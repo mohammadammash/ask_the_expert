@@ -10,6 +10,9 @@ export {default as ConfirmAvailabilityFormCard} from "./Expert/ConfirmAvailabili
 //ADMIN
 export {default as FilterPageTitleComponent} from "./Admin/FilterPageTitle";
 export {default as UserCardComponent} from "./Admin/UserCard";
+export {default as AllUsersStatisticsChartComponent} from "./Admin/Charts/AllUsersStatistics";
+export {default as NewUsersStatisticsChartComponent} from "./Admin/Charts/NewUsersStatistics";
+export {default as FieldsStatisticsChartComponent} from "./Admin/Charts/FieldsStatistics";
 
 //COMMON
 export {default as AllReviewsStatsComponent} from "./Expert/AllReviewsStats";
