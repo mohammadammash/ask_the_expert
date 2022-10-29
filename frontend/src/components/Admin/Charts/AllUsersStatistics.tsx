@@ -3,90 +3,43 @@ import { View, Text } from "react-native";
 
 const AllUsersCountChart = () => {
   const pieData = [
-    {
-      value: 67,
-      color: "#009FFF",
-      gradientCenterColor: "#006DFF",
-      focused: true,
-    },
+    { value: 67, color: "#009FFF", gradientCenterColor: "#006DFF", focused: true },
     { value: 33, color: "#BDB2FA", gradientCenterColor: "#8F80F3" },
   ];
 
-  const renderDot = (color) => {
-    return (
-      <View
-        style={{
-          borderRadius: 5,
-          backgroundColor: color,
-          marginRight: 10,
-        }}
-      />
-    );
-  };
+  //LABEL DOT JSX
+  const renderDot = (color: string): JSX.Element => <View className={`rounded-full h-3 w-3 mr-1`} style={{ backgroundColor: color }} />;
 
+  // LEGEND DATA JSX
   const renderLegendComponent = () => {
     return (
       <>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            marginBottom: 10,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              width: 120,
-              marginRight: 20,
-            }}
-          >
+        <View className="flex-row mb-3">
+          <View className="flex-row mr-5 items-center">
             {renderDot("#006DFF")}
-            <Text style={{ color: "white" }}>Experts: 121</Text>
+            <Text className="text-white">Experts: 121</Text>
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center", width: 120 }}>
+          <View className="flex-row ml-10 items-center">
             {renderDot("#8F80F3")}
-            <Text style={{ color: "white" }}>Novices: 59</Text>
+            <Text className="text-white">Novices: 59</Text>
           </View>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              width: 120,
-              marginRight: 20,
-            }}
-          >
+        <View className="flex-row justify-center">
+          <View className="flex-row items-center justify-center w-32 mr-5">
             {renderDot("#3BE9DE")}
-            <Text style={{ color: "white" }}>Users: 180</Text>
+            <Text className="text-white">Users: 180</Text>
           </View>
         </View>
       </>
     );
   };
 
+  // MAIN CHART
   return (
-    <View
-      style={{
-        backgroundColor: "#34448B",
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 10,
-      }}
-    >
-      <View
-        style={{
-          margin: 20,
-          padding: 16,
-          borderRadius: 20,
-          backgroundColor: "#232B5D",
-        }}
-      >
-        <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>Performance</Text>
-        <View style={{ padding: 20, alignItems: "center" }}>
+    <View className="bg-[#34448B] flex-1 items-center justify-center rounded-2xl">
+      <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
+        <Text className="text-white text-base font-bold">Performance</Text>
+        <View className="items-center p-5">
           <PieChart
             data={pieData}
             donut
@@ -95,14 +48,12 @@ const AllUsersCountChart = () => {
             radius={90}
             innerRadius={60}
             innerCircleColor={"#232B5D"}
-            centerLabelComponent={() => {
-              return (
-                <View style={{ justifyContent: "center", alignItems: "center" }}>
-                  <Text style={{ fontSize: 22, color: "white", fontWeight: "bold" }}>67%</Text>
-                  <Text style={{ fontSize: 14, color: "white" }}>Experts</Text>
-                </View>
-              );
-            }}
+            centerLabelComponent={() => (
+              <View className="justify-center items-center">
+                <Text className="text-xl text-white font-bold">67%</Text>
+                <Text className="text-base text-white">Experts</Text>
+              </View>
+            )}
           />
         </View>
         {renderLegendComponent()}
