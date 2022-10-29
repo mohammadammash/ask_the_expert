@@ -20,7 +20,7 @@ const AllUsersCountChart = () => {
             <Text className="text-white">Experts: 121</Text>
           </View>
           <View className="flex-row ml-10 items-center">
-            {renderDot("#8F80F3")}
+            {renderDot("#BDB2FA")}
             <Text className="text-white">Novices: 59</Text>
           </View>
         </View>
@@ -36,7 +36,7 @@ const AllUsersCountChart = () => {
 
   // MAIN CHART
   return (
-    <View className="bg-[#34448B] flex-1 items-center justify-center rounded-2xl">
+    <View className="bg-[#34448B] flex-1 items-center justify-center rounded-2xl mx-5">
       <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
         <Text className="text-white text-base font-bold">Performance</Text>
         <View className="items-center p-5">
