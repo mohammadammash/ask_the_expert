@@ -1,12 +1,11 @@
 import { View, Text, Pressable, Switch, Button } from "react-native";
 import { UserContext } from "../../../hooks/UserContext";
-import { COLORS, USERTYPES, ROUTES } from "../../../constants";
 import { useContext } from "react";
+import { COLORS,  } from "../../../constants";
 import styles from "../../../../styles";
 //internal imports
 import CalculateYearsOfExperienceHelper from "../helpers/calculateYearsOfExperienceHelper";
 import { useNavigation } from "@react-navigation/native";
-import AvailabilitySwitchButtonComponent from "./AvailabilitySwitchButton";
 import ButtonsComponent from "./Buttons";
 
 const ProfilePersonalInfo = () => {
@@ -33,17 +32,7 @@ const ProfilePersonalInfo = () => {
       </View>
 
       <ButtonsComponent />
-
-      <AvailabilitySwitchButtonComponent />
-
-      {/* ABOUT SECTION */}
-      <View style={user.user_type === USERTYPES.NOVICE && { backgroundColor: COLORS.grey }} className="items-center pt-3 pb-7 px-3">
-        <Text style={{ color: COLORS.blue }} className="font-bold text-2xl pb-3">
-          ABOUT
-        </Text>
-        <Text className="text-center">{about}</Text>
       </View>
-    </View>
   );
 };
 

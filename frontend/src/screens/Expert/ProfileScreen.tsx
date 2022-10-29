@@ -3,7 +3,7 @@ import { View, Text, ScrollView } from "react-native";
 import { useContext } from "react";
 import { UserContext } from "../../hooks/UserContext";
 //internal imports
-import { AllReviewsStatsComponent, ProfileImageCardComponent, ProfilePersonalInfoComponent } from "../../components";
+import { AllReviewsStatsComponent, ProfileImageCardComponent, ProfilePersonalInfoComponent, AvailabilitySwitchButtonComponent, AboutSectionComponent } from "../../components";
 import { COLORS} from "../../constants";
 
 const ProfileScreen = () => {
@@ -17,6 +17,10 @@ const ProfileScreen = () => {
         <ProfileImageCardComponent />
 
         <ProfilePersonalInfoComponent />
+
+        <AvailabilitySwitchButtonComponent />
+
+        <AboutSectionComponent/>
 
         {/* REVIEWS TITLE */}
         <View style={{ backgroundColor: COLORS.grey }} className="h-24 justify-center w-full font-bold">

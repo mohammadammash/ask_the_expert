@@ -5,7 +5,7 @@ import { useContext } from "react";
 //internal imports:
 import { ROUTES, IMAGES, COLORS, USERTYPES } from "../../constants";
 import styles from "../../../styles";
-import { ProfilePersonalInfoComponent, ProfileImageCardComponent } from "../../components";
+import { ProfilePersonalInfoComponent, ProfileImageCardComponent, AboutSectionComponent } from "../../components";
 
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();
@@ -18,7 +18,8 @@ const ProfileScreen = () => {
       <ProfileImageCardComponent />
 
       <ProfilePersonalInfoComponent />
-      
+
+      <AboutSectionComponent />
 
       {/* NOVICE VISITING HIS OWN PROFILE */}
       {/* {user_type === USERTYPES.NOVICE && id === shownuser_id && (
