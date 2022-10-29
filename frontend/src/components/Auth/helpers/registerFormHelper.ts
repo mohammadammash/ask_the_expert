@@ -11,6 +11,7 @@ export interface registerFormValues {
   speciality: string;
   languages: string[];
   start_date: Date;
+  about: '',
 }
 
 export const registerInitialValues: registerFormValues = {
@@ -24,6 +25,7 @@ export const registerInitialValues: registerFormValues = {
     languages: [],
     speciality: "Software developer",
     start_date: new Date(),
+    about: '',
   };
 
 export const validateRegisterFormSchema = Yup.object().shape({
@@ -42,5 +44,6 @@ export const validateRegisterFormSchema = Yup.object().shape({
       .test("password-match", "Password must match", function (value) {
         return this.parent.password === value;
       }),
-    languages: Yup.array().min(1, 'At least one language').required('Required')
+    languages: Yup.array().min(1, 'At least one language').required('Required'),
+    about: Yup.string().min(20, "Min 20 Characters").max(250, "Too Long").required('Required'),
   });

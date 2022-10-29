@@ -105,6 +105,20 @@ const RegisterForm = () => {
             {errors.confirmPassword && touched.confirmPassword && <Text className="text-red-600  ">{errors.confirmPassword}</Text>}
           </View>
 
+          <View className="mt-2">
+            <Text className="font-bold">About</Text>
+            <TextInput
+              onChangeText={handleChange("about")}
+              onBlur={handleBlur("about")}
+              value={values.about}
+              className=" placeholder:pl-3 h-20 border-2 rounded-lg"
+              placeholder="Talk About Your Career/Experience"
+              multiline={true}
+              numberOfLines={10}
+            />
+            {errors.about && touched.about && <Text className="text-red-600">{errors.about}</Text>}
+          </View>
+
           <View>
             <Text className="mt-3 mb-0 font-bold border-b-2 bold">Field:</Text>
             <Picker style={styles.select_input} enabled={true} mode="dropdown" placeholder="Select Field" selectedValue={values.field} onValueChange={handleChange("field")}>
