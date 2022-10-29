@@ -1,5 +1,5 @@
-import { View, Text, ScrollView } from "react-native";
-import { AllUsersStatisticsChartComponent, FieldsStatisticsChartComponent, NewUsersStatisticsChartComponent } from "../../components";
+import { View, ScrollView } from "react-native";
+import { AllUsersStatisticsChartComponent, FieldsStatisticsChartComponent, NewUsersStatisticsChartComponent, AppointmentsStatisticsChartComponent } from "../../components";
 
 const HomeScreen = () => {
   return (
@@ -11,6 +11,8 @@ const HomeScreen = () => {
           <NewUsersStatisticsChartComponent />
 
           <FieldsStatisticsChartComponent />
+
+          <AppointmentsStatisticsChartComponent />
         </ScrollView>
       </View>
     </View>

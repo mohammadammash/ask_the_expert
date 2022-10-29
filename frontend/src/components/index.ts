@@ -13,6 +13,7 @@ export {default as UserCardComponent} from "./Admin/UserCard";
 export {default as AllUsersStatisticsChartComponent} from "./Admin/Charts/AllUsersStatistics";
 export {default as NewUsersStatisticsChartComponent} from "./Admin/Charts/NewUsersStatistics";
 export {default as FieldsStatisticsChartComponent} from "./Admin/Charts/FieldsStatistics";
+export {default as AppointmentsStatisticsChartComponent} from "./Admin/Charts/AppointmentsStatistics";
 
 //COMMON
 export {default as AllReviewsStatsComponent} from "./Expert/AllReviewsStats";
