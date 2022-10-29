@@ -17,6 +17,13 @@ const SingleChatScreen = () => {
           <Text className="w-1/6 text-center text-[10px] opacity-75 text-white">11:59</Text>
         </View>
 
+        {/* RIGHT BUBBLE */}
+        <View className="items-end">
+          <View style={{ backgroundColor: COLORS.grey }} className="mr-2 mb-2 w-3/5 min-w-1/2 max-w-3/4 min-h-8 p-2 rounded-2xl rounded-tr-none flex-row ">
+            <Text className="w-5/6 ">Lorem psum dolor? Lorem psum dolor?</Text>
+            <Text className="w-1/6 text-center text-[10px] opacity-75">11:59</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
