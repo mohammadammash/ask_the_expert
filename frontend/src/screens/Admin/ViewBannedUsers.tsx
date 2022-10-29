@@ -1,12 +1,17 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View } from "react-native";
+import { useState } from "react";
+//internal imports
+import { FilterPageTitleComponent } from "../../components";
+import { USERS_TYPES_OPTIONS} from "../../constants";
 
 const ViewBannedUsers = () => {
-  return (
-    <View>
-      <Text>ViewBannedUsers</Text>
-    </View>
-  )
-}
+  const [shownUsersType, setShownUsersType] = useState("users");
 
-export default ViewBannedUsers
+  return (
+    <View className="flex-1 items-center bg-white">
+      <FilterPageTitleComponent userType={shownUsersType} options={USERS_TYPES_OPTIONS} set_userType={setShownUsersType}/>
+    </View>
+  );
+};
+
+export default ViewBannedUsers;
