@@ -9,10 +9,11 @@ const LeaderboardScreen = () => {
 
   return (
     <View className="flex-1 items-center bg-white">
-      <Text className="text-slate-800">Leaderboard! 🎉</Text>
-      <LeaderboardCardComponent rank={"Top"} />
-      <LeaderboardCardComponent />
-      <LeaderboardCardComponent />
+      <View className="h-full mt-10 items-center w-full">
+        <LeaderboardCardComponent rank={"Top"} />
+        <LeaderboardCardComponent />
+        <LeaderboardCardComponent />
+      </View>
     </View>
   );
 };
