@@ -80,7 +80,7 @@ const AppointmentsStatistics = () => {
 
   //MAIN COMPONENT
   return (
-    <View style={{ backgroundColor: COLORS.dark }} className="rounded-xl">
+    <View style={{ backgroundColor: COLORS.dark }} className="rounded-xl mx-5">
       {renderTitle()}
       <BarChart
         data={barData}
