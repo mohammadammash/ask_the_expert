@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ExpertProfileScreen, NoviceProfileScreen, ExpertGoOnlineScreen, EditProfileScreen, AdminProfileScreen } from "../../screens";
+import { ExpertProfileScreen, NoviceProfileScreen, ExpertGoOnlineScreen, EditProfileScreen, AdminProfileScreen, SingleChatScreen } from "../../screens";
 import { ROUTES, USERTYPES } from "../../constants";
 import { UserContext } from "../../hooks/UserContext";
 import { useContext } from "react";
@@ -18,6 +18,7 @@ const ProfileStackNavigator = () => {
           <Stack.Screen name={ROUTES.EXPERT_PROFILE} component={ExpertProfileScreen} />
           <Stack.Screen name={ROUTES.EXPERT_GO_ONLINE} component={ExpertGoOnlineScreen} />
           <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={NoviceProfileScreen} />
+          <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} />
         </>
       )}
 
