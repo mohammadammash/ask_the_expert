@@ -3,6 +3,7 @@ import { View, Text, Image, Pressable, TouchableOpacity, ScrollView } from "reac
 import { COLORS, IMAGES } from "../../constants";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "../../../styles";
+import UserMoreInfoSectionComponent from "./UserMoreInfoSection";
 
 const UserCard = () => {
   return (
@@ -25,64 +26,11 @@ const UserCard = () => {
           <Text className="opacity-40 italic text-sm">Press On The Card To View All Info</Text>
         </View>
 
-        {/* IF NOVICE'S CARD with h-100 */}
-        {/* <View className="h-64 p-1 justify-end">
-        <View className="mb-1">
-          <Text className="font-semibold text-sm">About:</Text>
-          <Text className="font-normal text-xs">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas modi ut minima possimus ex illum sint nisi harum ipsam? Incidunt? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non facilis quo laudantium voluptatum</Text>
-        </View>
+        {/* IF NOVICE CARD - send user maybe and data or whatever - when card is clicked */}
+        {/* <UserMoreInfoSectionComponent/> */}
 
-        <View className="mb-1">
-          <Text className="font-semibold text-sm">Field:</Text>
-          <Text className="font-normal text-xs">Technology</Text>
-        </View>
-
-        <View className="mb-1">
-          <Text className="font-semibold text-sm">Email:</Text>
-          <Text className="font-normal text-xs">mohamamdammash31@gmail.com</Text>
-        </View>
-
-        <View className="mb-1">
-          <Text className="font-semibold text-sm">Spoken Languages:</Text>
-          <Text className="font-normal text-xs">English, French, Italian</Text>
-        </View>
-      </View> */}
-
-        {/* IF EXPERT's CARD */}
-        {/* <View className="p-1 justify-end">
-          <View className="mb-1">
-            <Text className="font-semibold text-sm">About:</Text>
-            <Text className="font-normal text-xs">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas modi ut minima possimus ex illum sint nisi harum ipsam? Incidunt? Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Non facilis quo laudantium voluptatum
-            </Text>
-          </View>
-
-          <View className="mb-1">
-            <Text className="font-semibold text-sm">Field:</Text>
-            <Text className="font-normal text-xs">Technology</Text>
-          </View>
-
-          <View className="mb-1">
-            <Text className="font-semibold text-sm">Email:</Text>
-            <Text className="font-normal text-xs">mohamamdammash31@gmail.com</Text>
-          </View>
-
-          <View className="mb-1">
-            <Text className="font-semibold text-sm">Experience Years:</Text>
-            <Text className="font-normal text-xs">11 Years and 33 months</Text>
-          </View>
-
-          <View className="mb-1">
-            <Text className="font-semibold text-sm">Available Right now:</Text>
-            <Text className="font-normal text-xs">False</Text>
-          </View>
-
-          <View className="mb-1">
-            <Text className="font-semibold text-sm">Score:</Text>
-            <Text className="font-normal text-xs">230 Points</Text>
-          </View>
-        </View> */}
+        {/* IF EXPERT CARD - send user type or data and check there */}
+        {/* <UserMoreInfoSectionComponent/> */}
       </TouchableOpacity>
     </ScrollView>
   );
