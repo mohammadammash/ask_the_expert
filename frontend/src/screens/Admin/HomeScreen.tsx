@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from "react-native";
-import {AllUsersStatisticsChartComponent, AppointmentsStatisticsChartComponent} from "../../components";
+import {AllUsersStatisticsChartComponent, NewUsersStatisticsChartComponent} from "../../components";
 
 const HomeScreen = () => {
   return (
@@ -7,7 +7,7 @@ const HomeScreen = () => {
       <View className="h-5/6">
         <ScrollView horizontal={true} className="flex-row">
           <AllUsersStatisticsChartComponent />
-          <AppointmentsStatisticsChartComponent/>
+          <NewUsersStatisticsChartComponent/>
         </ScrollView>
       </View>
     </View>
