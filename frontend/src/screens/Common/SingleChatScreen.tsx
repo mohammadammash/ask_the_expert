@@ -1,7 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, Pressable, TextInput, Image } from "react-native";
+//internal imports
 import { ROUTES, IMAGES, COLORS } from "../../constants";
 import styles from "../../../styles";
+import { SendMessageFormComponent } from "../../components";
 
 const SingleChatScreen = () => {
   const navigation = useNavigation();
@@ -24,6 +26,8 @@ const SingleChatScreen = () => {
             <Text className="w-1/6 text-center text-[10px] opacity-75">11:59</Text>
           </View>
         </View>
+
+        <SendMessageFormComponent/>
       </View>
     </View>
   );
