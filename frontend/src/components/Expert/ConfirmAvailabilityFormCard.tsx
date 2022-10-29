@@ -1,12 +1,12 @@
 import { View, Text, Pressable } from "react-native";
-import { SelectCountry } from "react-native-element-dropdown";
 import { useState } from "react";
 import { Formik } from "formik";
+import { SelectCountry } from "react-native-element-dropdown";
 //internal imports
 import commonStyles from "../Common/common.styles";
 import styles from "../../../styles";
-import { availability_options, session_time_options } from "../Common/helpers/confirmAvailabilityDropdownDataHelper";
 import { availabilityIntialValues, validateSetAvailabilityForm } from "./helpers/confirmAvailabilityFormHelper";
+import { AVAILABILITY_SESSION_OPTIONS, AVAILABILITY_OPTIONS } from "../../constants";
 
 const ConfirmAvailabilityFormCard = () => {
   const [selectedMeetingsTime, setSelectedMeetingsTime] = useState("0");
@@ -34,7 +34,7 @@ const ConfirmAvailabilityFormCard = () => {
                   iconStyle={commonStyles.iconStyle}
                   maxHeight={200}
                   value={selectedMeetingsTime}
-                  data={availability_options}
+                  data={AVAILABILITY_OPTIONS}
                   valueField="value"
                   labelField="label"
                   imageField=""
@@ -58,7 +58,7 @@ const ConfirmAvailabilityFormCard = () => {
                   iconStyle={commonStyles.iconStyle}
                   maxHeight={200}
                   value={selectedSingleSessionTime}
-                  data={session_time_options}
+                  data={AVAILABILITY_SESSION_OPTIONS}
                   valueField="value"
                   labelField="label"
                   imageField=""
