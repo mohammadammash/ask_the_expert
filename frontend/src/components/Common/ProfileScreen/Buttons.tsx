@@ -24,6 +24,18 @@ const Buttons = () => {
           </Pressable>
         </View>
       )}
+
+      {/* ADMIN PROFILE BUTTONS */}
+      {user_type === USERTYPES.ADMIN && (
+        <View className="flex-row w-full justify-center gap-2 my-1">
+          <Pressable style={styles.blue_button_sm} onPress={() => navigation.navigate(ROUTES.USER_EDIT_PROFILE)}>
+            <Text className="text-white font-bold text-[10px]">EDIT PROFILE</Text>
+          </Pressable>
+          <Pressable style={styles.blue_button_sm} onPress={() => navigation.navigate(ROUTES.ADMIN_VIEW_BANNED_USERS)}>
+            <Text className="text-white font-bold text-[10px]">BANNED USERS</Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 };
