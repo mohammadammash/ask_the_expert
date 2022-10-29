@@ -15,10 +15,14 @@ export default StyleSheet.create({
   search_input:{
     width:'80%',
   },
-    select_input: {
+  select_input: {
     borderWidth: 2,
     borderRadius: 10,
     marginBottom: 15,
+  },
+  send_message_input:{
+    backgroundColor: COLORS.white,
+    borderWidth: 0,
   },
 
   //BUTTONS
