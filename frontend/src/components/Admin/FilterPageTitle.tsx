@@ -15,7 +15,7 @@ interface FilterPageTitleProps {
 
 const FilterPageTitle: React.FC<FilterPageTitleProps> = ({userType, options, set_userType}) => {
   return (
-      <View className="flex-row h-20 items-center w-full justify-between px-3">
+      <View className="flex-row h-1/6 items-center w-full justify-between px-3">
         <Text className="font-bold">View Banned {userType.charAt(0).toUpperCase() + userType.slice(1)}</Text>
         <SelectCountry
           style={commonStyles.dropdown}
