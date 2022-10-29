@@ -3,14 +3,14 @@ import { SelectCountry } from "react-native-element-dropdown";
 import { useState } from "react";
 import { Formik } from "formik";
 //internal imports
-import commonStyles from "./common.styles";
+import commonStyles from "../Common/common.styles";
 import styles from "../../../styles";
-import { availability_options, session_time_options } from "./helpers/confirmAvailabilityDropdownDataHelper";
+import { availability_options, session_time_options } from "../Common/helpers/confirmAvailabilityDropdownDataHelper";
 import { availabilityIntialValues, validateSetAvailabilityForm } from "./helpers/confirmAvailabilityFormHelper";
 
 const ConfirmAvailabilityFormCard = () => {
-  const [selectedMeetingsTime, setSelectedMeetingsTime] = useState('0');
-  const [selectedSingleSessionTime, setSelectedSingleSessionTime] = useState('0');
+  const [selectedMeetingsTime, setSelectedMeetingsTime] = useState("0");
+  const [selectedSingleSessionTime, setSelectedSingleSessionTime] = useState("0");
 
   return (
     <View className="h-3/4 w-5/6 border justify-around rounded-xl">
@@ -22,7 +22,6 @@ const ConfirmAvailabilityFormCard = () => {
         }}
         validationSchema={validateSetAvailabilityForm}
       >
-        
         {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
           <>
             <View className="px-2">
@@ -88,4 +87,3 @@ const ConfirmAvailabilityFormCard = () => {
 };
 
 export default ConfirmAvailabilityFormCard;
-              
