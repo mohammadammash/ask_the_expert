@@ -22,8 +22,8 @@ const UserCard = () => {
         </View>
 
         <View className="h-1/3 justify-end pb-5">
-        <Text className="opacity-40 italic text-sm">Press On The Card To View All Info</Text>
-      </View>
+          <Text className="opacity-40 italic text-sm">Press On The Card To View All Info</Text>
+        </View>
 
         {/* IF NOVICE'S CARD with h-100 */}
         {/* <View className="h-64 p-1 justify-end">
@@ -48,7 +48,7 @@ const UserCard = () => {
         </View>
       </View> */}
 
-        {/* IF EXPERT's CARD */} 
+        {/* IF EXPERT's CARD */}
         {/* <View className="p-1 justify-end">
           <View className="mb-1">
             <Text className="font-semibold text-sm">About:</Text>
