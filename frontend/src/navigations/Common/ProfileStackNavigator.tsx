@@ -1,11 +1,10 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ExpertProfileScreen, NoviceProfileScreen, ExpertGoOnlineScreen, EditProfileScreen, AdminProfileScreen, SingleChatScreen } from "../../screens";
+import { ExpertProfileScreen, NoviceProfileScreen, ExpertGoOnlineScreen, EditProfileScreen, AdminProfileScreen, SingleChatScreen, AdminViewBannedUsersScreen } from "../../screens";
 import { ROUTES, USERTYPES } from "../../constants";
 import { UserContext } from "../../hooks/UserContext";
 import { useContext } from "react";
 const Stack = createStackNavigator();
-
 
 const ProfileStackNavigator = () => {
   const { user, setUser } = useContext(UserContext);
@@ -24,7 +23,12 @@ const ProfileStackNavigator = () => {
 
       {user_type === USERTYPES.NOVICE && <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={NoviceProfileScreen} />}
 
-      {user_type === USERTYPES.ADMIN && <Stack.Screen name={ROUTES.ADMIN_PROFILE} component={AdminProfileScreen} />}
+      {user_type === USERTYPES.ADMIN && (
+        <>
+          <Stack.Screen name={ROUTES.ADMIN_PROFILE} component={AdminProfileScreen} />
+          <Stack.Screen name={ROUTES.ADMIN_VIEW_BANNED_USERS} component={AdminViewBannedUsersScreen} />
+        </>
+      )}
 
       <Stack.Screen name={ROUTES.USER_EDIT_PROFILE} component={EditProfileScreen} />
     </Stack.Navigator>
