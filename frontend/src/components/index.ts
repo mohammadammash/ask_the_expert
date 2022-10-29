@@ -15,3 +15,4 @@ export {default as EditProfileFormComponent} from "./Common/EditProfileForm";
 export {default as ChatAndAppointmentCardComponent} from "./Common/ChatAndAppointmentCard";
 export {default as SendMessageFormComponent} from "./Common/SendMessageForm";
 export {default as LeaderboardCardComponent} from "./Common/LeaderboardCard";
+export {default as ButtonsComponent} from "./Common/ProfileScreen/Buttons";

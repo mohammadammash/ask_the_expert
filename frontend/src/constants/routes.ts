@@ -29,4 +29,5 @@ export default {
   ADMIN_HOME: 'Admin_Home', //statistics
   ADMIN_VIEW_USERS: 'Admin_View_Users',
   ADMIN_PROFILE: 'Admin_Profile',
+  ADMIN_VIEW_BANNED_USERS: 'Admin_View_Banned_Users',
 };
