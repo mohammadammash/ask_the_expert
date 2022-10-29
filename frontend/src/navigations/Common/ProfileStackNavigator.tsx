@@ -24,7 +24,7 @@ const ProfileStackNavigator = () => {
 
       {user_type === USERTYPES.NOVICE && <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={NoviceProfileScreen} />}
 
-      {user_type === USERTYPES.ADMIN && <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={AdminProfileScreen} />}
+      {user_type === USERTYPES.ADMIN && <Stack.Screen name={ROUTES.ADMIN_PROFILE} component={AdminProfileScreen} />}
 
       <Stack.Screen name={ROUTES.USER_EDIT_PROFILE} component={EditProfileScreen} />
     </Stack.Navigator>
