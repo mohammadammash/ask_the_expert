@@ -3,11 +3,17 @@ import { View, Text, ScrollView } from "react-native";
 import { useContext } from "react";
 import { UserContext } from "../../hooks/UserContext";
 //internal imports
-import { AllReviewsStatsComponent, ProfileImageCardComponent, ProfilePersonalInfoComponent, AvailabilitySwitchButtonComponent, AboutSectionComponent } from "../../components";
-import { COLORS} from "../../constants";
+import {
+  AllReviewsStatsComponent,
+  ProfileImageCardComponent,
+  ProfilePersonalInfoComponent,
+  AvailabilitySwitchButtonComponent,
+  AboutSectionComponent,
+  AddReviewModalFormComponent,
+} from "../../components";
+import { COLORS, USERTYPES } from "../../constants";
 
 const ProfileScreen = () => {
-  const navigation = useNavigation<any>();
   const { user, setUser } = useContext(UserContext);
   const { user_type } = user;
 
@@ -20,13 +26,17 @@ const ProfileScreen = () => {
 
         <AvailabilitySwitchButtonComponent />
 
-        <AboutSectionComponent/>
+        <AboutSectionComponent />
 
         {/* REVIEWS TITLE */}
         <View style={{ backgroundColor: COLORS.grey }} className="h-24 justify-center w-full font-bold">
-          <Text style={{ color: COLORS.blue }} className="font-bold text-2xl text-center">
-            REVIEWS
-          </Text>
+          {user_type === USERTYPES.EXPERT ? (
+            <Text style={{ color: COLORS.blue }} className="font-bold text-2xl text-center">
+              REVIEWS
+            </Text>
+          ) : (
+            <AddReviewModalFormComponent />
+          )}
         </View>
       </View>
 
