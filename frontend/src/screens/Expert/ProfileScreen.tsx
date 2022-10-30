@@ -35,7 +35,7 @@ const ProfileScreen = () => {
               REVIEWS
             </Text>
           ) : (
-            <AddReviewModalFormComponent />
+            <AddReviewButtonSectionComponent />
           )}
         </View>
       </View>
