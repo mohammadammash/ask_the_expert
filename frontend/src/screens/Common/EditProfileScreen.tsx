@@ -1,18 +1,18 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, Pressable, TextInput, Image, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
+import { useContext } from "react";
+import { UserContext } from "../../hooks/UserContext";
 //internal imports
-import { ROUTES, IMAGES } from "../../constants";
-import styles from "../../../styles";
-import { EditProfileFormComponent } from "../../components";
+import { EditProfileFormComponent, EditAdminProfileFormComponent } from "../../components";
+import { USERTYPES } from "../../constants";
 
 const EditProfileScreen = () => {
-  const navigation = useNavigation();
+  const { user, setUser } = useContext(UserContext);
+  const { user_type } = user;
 
   return (
     <ScrollView>
-        <View className="flex-1 items-center justify-center">
-          <EditProfileFormComponent />
-        </View>
+      <View className="flex-1 items-center justify-center">{user_type === USERTYPES.ADMIN ? <EditAdminProfileFormComponent /> : <EditProfileFormComponent />}</View>
     </ScrollView>
   );
 };

@@ -14,6 +14,7 @@ export {default as AllUsersStatisticsChartComponent} from "./Admin/Charts/AllUse
 export {default as NewUsersStatisticsChartComponent} from "./Admin/Charts/NewUsersStatistics";
 export {default as FieldsStatisticsChartComponent} from "./Admin/Charts/FieldsStatistics";
 export {default as AppointmentsAndNewChatsStatisticsChartComponent} from "./Admin/Charts/AppointmentsAndNewChatsStatistics";
+export {default as EditAdminProfileFormComponent} from "./Admin/EditProfileForm";
 
 //COMMON
 export {default as AllReviewsStatsComponent} from "./Expert/AllReviewsStats";
