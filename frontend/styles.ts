@@ -24,6 +24,9 @@ export default StyleSheet.create({
     backgroundColor: COLORS.white,
     borderWidth: 0,
   },
+  admin_search_input: {
+    width: '85%',
+  },
 
   //BUTTONS
     blue_button_xl: {
