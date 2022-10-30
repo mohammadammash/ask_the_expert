@@ -29,7 +29,7 @@ const ProfileScreen = () => {
         <AboutSectionComponent />
 
         {/* REVIEWS TITLE */}
-        <View style={{ backgroundColor: COLORS.grey }} className="h-24 justify-center w-full font-bold">
+        <View style={{ backgroundColor: COLORS.grey }} className="h-24 justify-center w-full font-bold border mb-5">
           {user_type === USERTYPES.EXPERT ? (
             <Text style={{ color: COLORS.blue }} className="font-bold text-2xl text-center">
               REVIEWS
@@ -38,9 +38,9 @@ const ProfileScreen = () => {
             <AddReviewButtonSectionComponent />
           )}
         </View>
-      </View>
 
-      <AllReviewsStatsComponent />
+        <AllReviewsStatsComponent />
+      </View>
     </ScrollView>
   );
 };
