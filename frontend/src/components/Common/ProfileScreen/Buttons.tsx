@@ -12,7 +12,7 @@ const Buttons = () => {
   const { firstName, lastName, field, start_date, about, speciality, user_type } = user;
 
   return (
-    <View>
+    <View className="w-full">
       {/* EXPERT VISITING NOVICE PROFILE*/}
       {user_type === USERTYPES.EXPERT && (
         <View className="flex-row w-full justify-center gap-2 my-1">
@@ -33,6 +33,21 @@ const Buttons = () => {
           </Pressable>
           <Pressable style={styles.blue_button_sm} onPress={() => navigation.navigate(ROUTES.ADMIN_VIEW_BANNED_USERS)}>
             <Text className="text-white font-bold text-[10px]">BANNED USERS</Text>
+          </Pressable>
+        </View>
+      )}
+
+      {/* NOVICE VISTING EXPERT PROFILE BUTTONS */}
+      {user_type === USERTYPES.NOVICE && (
+        <View className="flex-row justify-evenly my-2">
+          <Pressable style={styles.blue_button_sm} onPress={() => navigation.navigate(ROUTES.NOVICE_BOOK_APPOINTMENT)}>
+            <Text className="text-white font-bold text-[10px]">BOOK</Text>
+          </Pressable>
+          <Pressable style={styles.blue_button_sm} onPress={() => navigation.navigate(ROUTES.USER_SINGLE_CHAT)}>
+            <Text className="text-white font-bold text-[10px]">MESSAGE</Text>
+          </Pressable>
+          <Pressable style={styles.blue_button_sm} onPress={() => alert('Blocked')}>
+            <Text className="text-white font-bold text-[10px]">BLOCK</Text>
           </Pressable>
         </View>
       )}

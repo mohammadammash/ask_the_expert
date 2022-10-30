@@ -6,7 +6,6 @@ import styles from "../../../../styles";
 //internal imports
 import CalculateYearsOfExperienceHelper from "../helpers/calculateYearsOfExperienceHelper";
 import { useNavigation } from "@react-navigation/native";
-import ButtonsComponent from "./Buttons";
 
 const ProfilePersonalInfo = () => {
   const { user, setUser } = useContext(UserContext);
@@ -31,7 +30,6 @@ const ProfilePersonalInfo = () => {
         <Text className="opacity-80 text-xs font-medium">{yearsOfExperience} of Experience</Text>
       </View>
 
-      <ButtonsComponent />
       </View>
   );
 };

@@ -10,6 +10,7 @@ import {
   AvailabilitySwitchButtonComponent,
   AboutSectionComponent,
   AddReviewButtonSectionComponent,
+  ButtonsComponent
 } from "../../components";
 import { COLORS, USERTYPES } from "../../constants";
 
@@ -23,6 +24,8 @@ const ProfileScreen = () => {
         <ProfileImageCardComponent />
 
         <ProfilePersonalInfoComponent />
+
+        <ButtonsComponent />
 
         <AvailabilitySwitchButtonComponent />
 
