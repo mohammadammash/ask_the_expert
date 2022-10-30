@@ -28,7 +28,7 @@ const AppointmentsStatistics = () => {
   //MAIN COMPONENT
   return (
     <View style={{ backgroundColor: COLORS.dark, width: 330 }} className="rounded-xl mx-5">
-      <ChartsUpperTitleComponent chart_type='AppointmentsChart'/>
+      <ChartsUpperTitleComponent chart_type="AppointmentsAndChats" dot1_title={"116 Chat"} dot2_title={"432 Appointment"} />
       <LineChart
         data={chatsData}
         data2={appointmentsData}
