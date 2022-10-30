@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 //internal imports
 import { COLORS } from "../../../constants";
-import ChartsUpperTitleComponent from "./Common/ChartsUpperTitle";
+import ChartsUpperLegendComponent from "./Common/ChartsUpperLegend";
 // HARD CODED DATA TO REMOVE
 const barData = [
   {
@@ -82,7 +82,7 @@ const AppointmentsStatistics = () => {
   //MAIN COMPONENT
   return (
     <View style={{ backgroundColor: COLORS.dark }} className="rounded-xl mx-5">
-      <ChartsUpperTitleComponent chart_type='newUsers' dot1_title={'118 Expert'} dot2_title={'1000 Novice'} />
+      <ChartsUpperLegendComponent chart_type="newUsers" dot1_title={"118 Expert"} dot2_title={"1000 Novice"} />
       <BarChart
         data={barData}
         barWidth={8}
