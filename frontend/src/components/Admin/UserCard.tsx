@@ -8,12 +8,12 @@ import UserMoreInfoSectionComponent from "./UserMoreInfoSection";
 const UserCard = () => {
   return (
     <ScrollView>
-      <TouchableOpacity style={{ borderColor: COLORS.blue }} className="rounded-lg border-2 items-center mx-5 w-80 pt-3 mb-5 h-100 bg-slate-100 bg-opacity-70">
+      <TouchableOpacity style={{ borderColor: COLORS.blue }} className="rounded-lg border-2 items-center mx-5 w-80 min-h-64 pt-3 mb-5 bg-slate-100 bg-opacity-70">
         <View style={{ borderColor: COLORS.blue }} className="avatar aspect-square max-w-28 max-h-28 h-2/5 w-2/5 rounded-full items-center border-4">
           <Image className="max-w-full max-h-full h-full w-full rounded-full" source={IMAGES.dummyProfile} />
         </View>
 
-        <View className="relative text-center w-full">
+        <View className="text-center w-full">
           <Text className="font-bold text-center text-lg">Mohammad THETOP</Text>
           <Text className="text-sm opacity-50 text-center">Senior Web Developer</Text>
           <Text className="text-xs font-semibold text-center mt-2">EXPERT</Text>
@@ -27,10 +27,11 @@ const UserCard = () => {
         </View>
 
         {/* IF NOVICE CARD - send user maybe and data or whatever - when card is clicked */}
-        {/* <UserMoreInfoSectionComponent/> */}
+        {/* <UserMoreInfoSectionComponent /> */}
 
         {/* IF EXPERT CARD - send user type or data and check there */}
         {/* <UserMoreInfoSectionComponent/> */}
+
       </TouchableOpacity>
     </ScrollView>
   );
