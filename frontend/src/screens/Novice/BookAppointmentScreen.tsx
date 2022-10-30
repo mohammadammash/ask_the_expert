@@ -10,7 +10,7 @@ const BookAppointmentScreen = () => {
 
       {/* CONFIRM AVAILBILITY FORM */}
       <View className="w-full items-center justify-around">
-        <Text>Book Appointment Form</Text>
+        <BookAppointmentScreen />
       </View>
     </View>
   );
