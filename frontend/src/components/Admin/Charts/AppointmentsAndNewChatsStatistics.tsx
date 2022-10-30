@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 //internal imports:
 import { COLORS } from "../../../constants";
-import ChartsUpperTitleComponent from "./Common/ChartsUpperTitle";
+import ChartsUpperLegendComponent from "./Common/ChartsUpperLegend";
 
 //HARD CODED DATA:
 const chatsData = [
@@ -24,11 +24,10 @@ const appointmentsData = [
   { value: 54, dataPointText: "54" },
 ];
 const AppointmentsStatistics = () => {
-
   //MAIN COMPONENT
   return (
     <View style={{ backgroundColor: COLORS.dark, width: 330 }} className="rounded-xl mx-5">
-      <ChartsUpperTitleComponent chart_type="AppointmentsAndChats" dot1_title={"116 Chat"} dot2_title={"432 Appointment"} />
+      <ChartsUpperLegendComponent chart_type="AppointmentsAndChats" dot1_title={"116 Chat"} dot2_title={"432 Appointment"} />
       <LineChart
         data={chatsData}
         data2={appointmentsData}

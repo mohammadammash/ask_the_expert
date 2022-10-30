@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 //internal imports
-import { COLORS } from "../../../constants";
+import ChartsLowerLegendComponent from "./Common/ChartsLowerLegend";
 
 //HARD CODED DATA TESTING
 const data = [
@@ -23,33 +23,6 @@ const data = [
   { value: 2300, frontColor: "#BDB2FA", spacing: 0, label: "Jun" },
   { value: 2800, frontColor: "#006DFF" },
 ];
-
-//LABEL DOT JSX
-const renderDot = (color: string): JSX.Element => <View className={`rounded-full h-3 w-3 mr-1`} style={{ backgroundColor: color }} />;
-
-// LEGEND DATA JSX
-const renderLegendComponent = () => {
-  return (
-    <>
-      <View className="flex-row my-5 px-3">
-        <View className="flex-row mr-5 items-center">
-          {renderDot("#006DFF")}
-          <Text className="text-white">Experts: 121</Text>
-        </View>
-        <View className="flex-row ml-10 items-center">
-          {renderDot("#BDB2FA")}
-          <Text className="text-white">Novices: 59</Text>
-        </View>
-      </View>
-      <View className="flex-row justify-center">
-        <View className="flex-row items-center justify-center w-32 mr-5">
-          {renderDot("#3BE9DE")}
-          <Text className="text-white">Users: 180</Text>
-        </View>
-      </View>
-    </>
-  );
-};
 
 const FieldsStatistics = () => {
   return (
@@ -78,7 +51,7 @@ const FieldsStatistics = () => {
             hideDataPoints: true,
           }}
         />
-        {renderLegendComponent()}
+        <ChartsLowerLegendComponent novices_total={40} experts_total={113} users_total={153} />
       </View>
     </View>
   );
