@@ -1,23 +1,16 @@
-import { useNavigation } from "@react-navigation/native";
-import { View, Text, Button, Image } from "react-native";
-import { ROUTES, IMAGES, COLORS } from "../../constants";
-import styles from "../../../styles";
+import { View, Text } from "react-native";
 
 const BookAppointmentScreen = () => {
-  const navigation = useNavigation();
-
   return (
-    <View className="flex-1 items-center bg-white">
-      <View className="w-full mb-2 h-1/2">
-        <Image className="max-w-full max-h-full" source={IMAGES.logo_500px} />
+    <View className="flex-1 w-full items-center justify-evenly bg-white border">
+      <View className="w-full items-center gap-5">
+        <Text className="text-slate-800 text-xl text-center">Your Career Advice Is One Click Away</Text>
+        <Text className="text-center w-3/4 text-xs color-[#828282]">Choose the available appointment time, and make sure to be there on time. A short timespan for a huge boost.</Text>
       </View>
 
-      <View style={styles.blue_button_lg}>
-        <Button color={COLORS.white} title="Expert Msg Novice" onPress={() => navigation.navigate(ROUTES.USER_SINGLE_CHAT)} />
-      </View>
-
-      <View className="flex-1 items-center justify-center">
-        <Text className="text-slate-800">Novice Profile! 🎉</Text>
+      {/* CONFIRM AVAILBILITY FORM */}
+      <View className="w-full items-center justify-around">
+        <Text>Book Appointment Form</Text>
       </View>
     </View>
   );
