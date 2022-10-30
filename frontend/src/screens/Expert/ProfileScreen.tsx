@@ -9,7 +9,7 @@ import {
   ProfilePersonalInfoComponent,
   AvailabilitySwitchButtonComponent,
   AboutSectionComponent,
-  AddReviewModalFormComponent,
+  AddReviewButtonSectionComponent,
 } from "../../components";
 import { COLORS, USERTYPES } from "../../constants";
 

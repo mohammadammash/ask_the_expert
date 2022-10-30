@@ -2,6 +2,9 @@
 export {default as LoginFormComponent} from "./Auth/LoginForm";
 export {default as RegisterFormComponent} from "./Auth/RegisterForm";
 
+//NOVICE
+export {default as AddReviewButtonSectionComponent} from "./Novice/AddReviewButtonSection";
+
 //EXPERT
 export {default as ProfileImageCardComponent} from "./Common/ProfileScreen/ProfileImageCard";
 export {default as ProfilePersonalInfoComponent} from "./Common/ProfileScreen/ProfilePersonalInfo";
