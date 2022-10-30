@@ -30,17 +30,19 @@ const AllReviewsStats = () => {
   return (
     // REVIEWS STATS
     <View className="bg-white">
-      <View>
-        <Text className="text-center text-3xl font-bold">{rating.average}.0</Text>
-        <AirbnbRating defaultRating={rating.average} isDisabled reviews={[""]} />
-        <Text className="text-center mt-3">Based on {reviews.length} Reviews</Text>
+      <View className="h-40 justify-start">
+        <View className="">
+          <Text className="text-center text-3xl font-bold">{rating.average}.0</Text>
+        </View>
+        <AirbnbRating defaultRating={rating.average} isDisabled reviews={[""]} starContainerStyle={{ height: 10 }} />
+        <Text className="text-center mt-6">Based on {reviews.length} Reviews</Text>
       </View>
 
-      <SingleReviewStat progress={rating.totalOf5 / reviews.length} rating={5} />
-      <SingleReviewStat progress={rating.totalOf4 / reviews.length} rating={4} />
-      <SingleReviewStat progress={rating.totalOf3 / reviews.length} rating={3} />
-      <SingleReviewStat progress={rating.totalOf2 / reviews.length} rating={2} />
-      <SingleReviewStat progress={rating.totalOf1 / reviews.length} rating={1} />
+      <SingleReviewStat key={1} progress={rating.totalOf5 / reviews.length} rating={5} />
+      <SingleReviewStat key={2} progress={rating.totalOf4 / reviews.length} rating={4} />
+      <SingleReviewStat key={3} progress={rating.totalOf3 / reviews.length} rating={3} />
+      <SingleReviewStat key={4} progress={rating.totalOf2 / reviews.length} rating={2} />
+      <SingleReviewStat key={5} progress={rating.totalOf1 / reviews.length} rating={1} />
 
       {/* SEARCH BAR */}
       <View className="items-center mt-5">
@@ -49,8 +51,8 @@ const AllReviewsStats = () => {
 
       {/* ALL REVIEWS SHOW */}
       <View className="w-full items-center my-5">
-        {reviews.map((review) => (
-          <ReviewCard review={review} />
+        {reviews.map((review,index) => (
+          <ReviewCard key={index} review={review} />
         ))}
       </View>
     </View>
