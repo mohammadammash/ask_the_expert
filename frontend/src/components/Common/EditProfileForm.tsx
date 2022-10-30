@@ -10,8 +10,8 @@ import { UserContext } from "../../hooks/UserContext";
 import styles from "../../../styles";
 import authStyles from "../Auth/auth.styles";
 import { IMAGES } from "../../constants";
-import { ALLJOBSSPECIALTIES } from "../../constants";
-import { validateEditProfileFormSchema, editProfileInitialValues, app_languages, app_themes } from "./helpers/editProfileFormHelper";
+import { ALLJOBSSPECIALTIES, APP_LANGUAGES_OPTIONS, APP_THEME_OPTIONS } from "../../constants";
+import { validateEditProfileFormSchema, editProfileInitialValues} from "./helpers/editProfileFormHelper";
 import { uploadImageAsync, pickImage } from "../Auth/helpers/registerImageHandlerHelper";
 import { ALLANGUAGES } from "../../constants";
 import commonStyles from "./common.styles";
@@ -132,7 +132,7 @@ const EditProfileForm = () => {
               selectedTextStyle={commonStyles.edit_selectedTextStyle}
               inputSearchStyle={commonStyles.inputSearchStyle}
               iconStyle={commonStyles.edit_iconStyle}
-              data={app_languages}
+              data={APP_LANGUAGES_OPTIONS}
               search
               maxHeight={300}
               labelField="label"
@@ -159,7 +159,7 @@ const EditProfileForm = () => {
               selectedTextStyle={commonStyles.edit_selectedTextStyle}
               inputSearchStyle={commonStyles.inputSearchStyle}
               iconStyle={commonStyles.edit_iconStyle}
-              data={app_themes}
+              data={APP_THEME_OPTIONS}
               search
               maxHeight={300}
               labelField="label"
