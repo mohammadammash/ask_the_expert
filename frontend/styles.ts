@@ -37,6 +37,7 @@ export default StyleSheet.create({
       justifyContent: "center",
       backgroundColor: COLORS.blue,
       color: COLORS.white,
+      width: 345,
     },
     blue_button_lg: {
       borderWidth: 2,
