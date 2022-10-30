@@ -1,7 +1,7 @@
 import { View, Text, Pressable, TextInput, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ROUTES, IMAGES } from "../../constants";
-import { LoginForm } from "../../components";
+import { LoginFormComponent } from "../../components";
 import styles from "../../../styles";
 
 const LoginScreen = () => {
@@ -13,7 +13,7 @@ const LoginScreen = () => {
         <Image className="max-w-full max-h-full" source={IMAGES.logo_500px} />
       </View>
 
-      <LoginForm />
+      <LoginFormComponent />
 
       <View className="flex-row mt-10">
         <Text className="inline mr-1 font-bold">Don't have an account?</Text>
