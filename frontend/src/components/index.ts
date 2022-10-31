@@ -30,3 +30,6 @@ export {default as ChatAndAppointmentCardComponent} from "./Common/ChatAndAppoin
 export {default as SendMessageFormComponent} from "./Common/SendMessageForm";
 export {default as LeaderboardCardComponent} from "./Common/LeaderboardCard";
 export {default as ButtonsComponent} from "./Common/ProfileScreen/Buttons";
+
+//NAVIGATION
+export {default as CustomDrawerComponent} from "./Navigation/CustomDrawer";

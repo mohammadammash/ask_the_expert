@@ -1,7 +1,7 @@
-import { ImageBackground, StyleSheet, Image, View, Dimensions } from "react-native";
-import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
+import { ImageBackground, Image, View } from "react-native";
+import { DrawerContentScrollView, DrawerItemList, DrawerItem } from "@react-navigation/drawer";
 //internal imports
-import { COLORS, IMAGES } from "../../constants";
+import { IMAGES, COLORS } from "../../constants";
 import navigationStyles from "./navigation.styles";
 
 const CustomDrawer = (props: DrawerContentComponentProps): JSX.Element => {
@@ -12,7 +12,6 @@ const CustomDrawer = (props: DrawerContentComponentProps): JSX.Element => {
         <Image source={IMAGES.dummyProfile} style={navigationStyles.userImg} />
       </ImageBackground>
       <View style={navigationStyles.drawerListWrapper}>
-        {/* drawer items */}
         <DrawerItemList {...props} />
       </View>
     </DrawerContentScrollView>
@@ -20,4 +19,3 @@ const CustomDrawer = (props: DrawerContentComponentProps): JSX.Element => {
 };
 
 export default CustomDrawer;
-
