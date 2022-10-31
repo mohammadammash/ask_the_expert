@@ -4,29 +4,18 @@ import { TouchableOpacity } from "react-native";
 //internal imports
 import { ExpertProfileScreen, NoviceBookAppointmentScreen, NoviceHomeScreen, SingleChatScreen } from "../../screens";
 import { ROUTES, COLORS } from "../../constants";
-import {menuIcon} from "../Common/helpers/drawerNavigatorHelper";
+import { menuIcon, stackScreenOptionsStyle } from "../helpers/navigatorsHelpers";
 const Stack = createStackNavigator();
-
-const titleScreenOptions = {
-  headerBackTitleVisible: false,
-  headerStyle: {
-    backgroundColor: COLORS.blue,
-  },
-  headerTintColor: COLORS.white,
-  headerTitleStyle: {
-    fontWeight: "bold",
-  },
-};
 
 const NoviceHomeStackNavigator = () => {
   const navigation = useNavigation<any>();
 
   return (
-    <Stack.Navigator screenOptions={titleScreenOptions}>
+    <Stack.Navigator screenOptions={stackScreenOptionsStyle}>
       <Stack.Screen
         name={ROUTES.NOVICE_HOME}
         component={NoviceHomeScreen}
-        options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>{menuIcon}</TouchableOpacity> }}
+        options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>{menuIcon}</TouchableOpacity>, title: 'Home' }}
       />
       <Stack.Screen name={ROUTES.EXPERT_PROFILE} component={ExpertProfileScreen} options={{ title: "Profile" }} />
       <Stack.Screen name={ROUTES.NOVICE_BOOK_APPOINTMENT} component={NoviceBookAppointmentScreen} options={{ title: "Book" }} />
