@@ -10,7 +10,9 @@ export const chatIcon = <Entypo name="chat" size={24} color={COLORS.blue} />;
 export const settingsIcon = <MaterialCommunityIcons name="account-cog" size={24} color={COLORS.blue} />;
 
 export const screenOptions = (navigation: any) => ({
-  headerShown: false,
+  drawerActiveBackgroundColor: COLORS.grey,
+  drawerActiveTintColor: COLORS.blue,
+  drawerInactiveTintColor: COLORS.white,
   headerTitle: "",
   headerStyle: {
     backgroundColor: COLORS.blue,
