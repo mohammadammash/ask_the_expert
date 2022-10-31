@@ -14,18 +14,20 @@ const ProfileStackNavigator = () => {
     <Stack.Navigator>
       {user_type === USERTYPES.EXPERT && (
         <>
-          <Stack.Screen name={ROUTES.EXPERT_PROFILE} component={ExpertProfileScreen} />
+          <Stack.Screen name={ROUTES.EXPERT_PROFILE} component={ExpertProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name={ROUTES.EXPERT_GO_ONLINE} component={ExpertGoOnlineScreen} />
           <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={NoviceProfileScreen} />
           <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} />
         </>
       )}
 
-      {user_type === USERTYPES.NOVICE && <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={NoviceProfileScreen} />}
+      {user_type === USERTYPES.NOVICE && (
+        <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={NoviceProfileScreen} options={{ headerShown: false }} />
+      )}
 
       {user_type === USERTYPES.ADMIN && (
         <>
-          <Stack.Screen name={ROUTES.ADMIN_PROFILE} component={AdminProfileScreen} />
+          <Stack.Screen name={ROUTES.ADMIN_PROFILE} component={AdminProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name={ROUTES.ADMIN_VIEW_BANNED_USERS} component={AdminViewBannedUsersScreen} />
         </>
       )}

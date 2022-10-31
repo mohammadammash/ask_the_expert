@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 const AppointmentsStackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name={ROUTES.USER_APPOINTMENTS} component={AppointmentsScreen} />
+      <Stack.Screen name={ROUTES.USER_APPOINTMENTS} component={AppointmentsScreen} options={{headerShown: false}} />
       <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={NoviceProfileScreen} />
       <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} />
     </Stack.Navigator>
