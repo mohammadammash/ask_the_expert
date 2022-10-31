@@ -14,8 +14,8 @@ import {
   SingleChatScreen,
   AdminViewBannedUsersScreen,
 } from "../../screens";
-import { ROUTES, USERTYPES, COLORS } from "../../constants";
-import { menuIcon } from "./helpers/drawerNavigatorHelper";
+import { ROUTES, USERTYPES } from "../../constants";
+import { menuIcon, stackScreenOptionsStyle } from "../helpers/navigatorsHelpers";
 
 const Stack = createStackNavigator();
 
@@ -24,19 +24,8 @@ const ProfileStackNavigator = () => {
   const { user_type } = user;
   const navigation = useNavigation<any>();
 
-  const titleScreenOptions = {
-    headerStyle: {
-      backgroundColor: COLORS.blue,
-    },
-    headerTintColor: COLORS.white,
-    headerBackTitleVisible: false,
-    headerTitleStyle: {
-      fontWeight: "bold",
-    },
-  };
-
   return (
-    <Stack.Navigator screenOptions={titleScreenOptions}>
+    <Stack.Navigator screenOptions={stackScreenOptionsStyle}>
       {/* EXPERT PROFILE STACK */}
       {user_type === USERTYPES.EXPERT && (
         <>
