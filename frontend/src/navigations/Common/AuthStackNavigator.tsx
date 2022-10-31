@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthLoginScreen, AuthRegisterScreen } from "../../screens";
-import { ROUTES } from "../../constants";
+import { COLORS, ROUTES } from "../../constants";
 const Stack = createStackNavigator();
 
 const AuthStackNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName={ROUTES.LOGIN}>
-      <Stack.Screen name={ROUTES.LOGIN} component={AuthLoginScreen} />
-      <Stack.Screen name={ROUTES.REGISTER} component={AuthRegisterScreen} />
+    <Stack.Navigator initialRouteName={ROUTES.LOGIN} screenOptions={{ headerStyle: { backgroundColor: COLORS.blue }, headerBackTitle: " " }}>
+      <Stack.Screen name={ROUTES.LOGIN} component={AuthLoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name={ROUTES.REGISTER} component={AuthRegisterScreen} options={{ title: "Sign Up" }} />
     </Stack.Navigator>
   );
 }
