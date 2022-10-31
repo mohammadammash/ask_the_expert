@@ -1,28 +1,18 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
 //internal imports
 import { ChatsScreen, SingleChatScreen } from "../../screens";
-import { COLORS, ROUTES } from "../../constants";
-import { menuIcon } from "./helpers/drawerNavigatorHelper";
-import { TouchableOpacity } from "react-native";
+import { ROUTES } from "../../constants";
+import { menuIcon, stackScreenOptionsStyle } from "../helpers/navigatorsHelpers";
 const Stack = createStackNavigator();
 
-const titleScreenOptions = () => ({
-  headerBackTitleVisible: false,
-  headerStyle: {
-    backgroundColor: COLORS.blue,
-  },
-  headerTintColor: COLORS.white,
-  headerTitleStyle: {
-    fontWeight: "bold",
-  },
-});
 
 const ChatsStackNavigator = () => {
   const navigation = useNavigation<any>();
 
   return (
-    <Stack.Navigator screenOptions={titleScreenOptions}>
+    <Stack.Navigator screenOptions={stackScreenOptionsStyle}>
       <Stack.Screen
         name={ROUTES.USER_CHATS}
         component={ChatsScreen}
