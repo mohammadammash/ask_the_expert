@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { ROUTES, USERTYPES } from "../../constants";
 import { LeaderboardScreen } from "../../screens";
 import { ProfileStackNavigator, ChatsStackNavigator, AppointmentsStackNavigator } from "./index";
-import { screenOptions, homeIcon, settingsIcon, appointmentsIcon, leaderboardIcon, chatIcon } from "./helpers/drawerNavigatorHelper";
+import { drawerScreenOptionsStyle, homeIcon, settingsIcon, appointmentsIcon, leaderboardIcon, chatIcon } from "../helpers/navigatorsHelpers";
 import { CustomDrawerComponent } from "../../components";
 import NoviceHomeStackNavigator from "../Novice/NoviceHomeStackNavigator";
 const Drawer = createDrawerNavigator();
@@ -18,14 +18,14 @@ const DrawerNavigator = () => {
     <Drawer.Navigator
       useLegacyImplementation={true}
       drawerContent={(props) => <CustomDrawerComponent {...props} />}
-      screenOptions={({ navigation }) => screenOptions(navigation)}
+      screenOptions={({ navigation }) => drawerScreenOptionsStyle(navigation)}
     >
       {/* NOVICE HOME_STACK */}
       {user.user_type === USERTYPES.NOVICE && (
         <Drawer.Screen
           name={ROUTES.NOVICE_HOME_STACK}
           component={NoviceHomeStackNavigator}
-          options={{ drawerIcon: () => homeIcon, headerShown: false }}
+          options={{ drawerIcon: () => homeIcon, headerShown: false, drawerLabel: "Home" }}
         />
       )}
 
@@ -34,25 +34,33 @@ const DrawerNavigator = () => {
         <Drawer.Screen
           name={ROUTES.PROFILE_STACK}
           component={ProfileStackNavigator}
-          options={{ drawerIcon: () => settingsIcon, headerShown: false }}
+          options={{ drawerIcon: () => settingsIcon, headerShown: false, drawerLabel: "Profile/Settings" }}
         />
       )}
 
       {/* COMMON STACKS */}
-      <Drawer.Screen name={ROUTES.USER_LEADERBOARD} component={LeaderboardScreen} options={{ drawerIcon: () => leaderboardIcon }} />
-      <Drawer.Screen name={ROUTES.CHATS_STACK} component={ChatsStackNavigator} options={{ drawerIcon: () => chatIcon, headerShown: false }} />
+      <Drawer.Screen
+        name={ROUTES.USER_LEADERBOARD}
+        component={LeaderboardScreen}
+        options={{ drawerIcon: () => leaderboardIcon, drawerLabel: "Leaderboard" }}
+      />
+      <Drawer.Screen
+        name={ROUTES.CHATS_STACK}
+        component={ChatsStackNavigator}
+        options={{ drawerIcon: () => chatIcon, headerShown: false, drawerLabel: "Chats" }}
+      />
       <Drawer.Screen
         name={ROUTES.APPOINTMENTS_STACK}
         component={AppointmentsStackNavigator}
-        options={{ drawerIcon: () => appointmentsIcon, headerShown: false }}
+        options={{ drawerIcon: () => appointmentsIcon, headerShown: false, drawerLabel: "Appointments" }}
       />
 
-      {/* NOVICE&EXPERT PROFILE_STACK */}
+      {/* NOVICE PROFILE_STACK */}
       {user.user_type === USERTYPES.NOVICE && (
         <Drawer.Screen
           name={ROUTES.PROFILE_STACK}
           component={ProfileStackNavigator}
-          options={{ drawerIcon: () => settingsIcon, headerShown: false }}
+          options={{ drawerIcon: () => settingsIcon, headerShown: false, drawerLabel: "Profile/Settings" }}
         />
       )}
     </Drawer.Navigator>
