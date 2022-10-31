@@ -12,10 +12,20 @@ const navigationStyles = StyleSheet.create({
     left: width / 2 - 110,
     bottom: -110 / 2,
     borderColor: COLORS.blue,
+    borderWidth: 4,
   },
   drawerListWrapper: {
     marginTop: 65,
   },
+  logoutButton: {
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: COLORS.blue,
+    backgroundColor: COLORS.white,
+    width: '50%',
+    marginBottom: 20,
+    height: 50,
+  }
 });
 
 export default navigationStyles;
