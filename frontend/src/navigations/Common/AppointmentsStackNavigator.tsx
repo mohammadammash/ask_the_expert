@@ -1,7 +1,11 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
 //internal imports
 import { AppointmentsScreen, NoviceProfileScreen, ExpertProfileScreen, SingleChatScreen } from "../../screens";
 import { ROUTES, COLORS } from "../../constants";
+import { menuIcon } from "./helpers/drawerNavigatorHelper";
+
 const Stack = createStackNavigator();
 
 const titleScreenOptions = {
@@ -16,12 +20,18 @@ const titleScreenOptions = {
 };
 
 const AppointmentsStackNavigator = () => {
+  const navigation = useNavigation<any>();
+  
   return (
-    <Stack.Navigator>
-      <Stack.Screen name={ROUTES.USER_APPOINTMENTS} component={AppointmentsScreen} options={{ headerShown: false }} />
-      <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={NoviceProfileScreen} options={titleScreenOptions} />
-      <Stack.Screen name={ROUTES.EXPERT_PROFILE} component={ExpertProfileScreen} options={titleScreenOptions} />
-      <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} options={titleScreenOptions} />
+    <Stack.Navigator screenOptions={titleScreenOptions}>
+      <Stack.Screen
+        name={ROUTES.USER_APPOINTMENTS}
+        component={AppointmentsScreen}
+        options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>{menuIcon}</TouchableOpacity> }}
+      />
+      <Stack.Screen name={ROUTES.NOVICE_PROFILE} component={NoviceProfileScreen} />
+      <Stack.Screen name={ROUTES.EXPERT_PROFILE} component={ExpertProfileScreen}/>
+      <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} />
     </Stack.Navigator>
   );
 };
