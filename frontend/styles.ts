@@ -72,5 +72,13 @@ export default StyleSheet.create({
   //CARDS:
   bg_grey_opacity30: {
     backgroundColor: 'rgba(211, 214, 219, 0.20)',
+  },
+  shadow_bg: {
+    backgroundColor: COLORS.white,
+    borderWidth: 0,
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
   }
 });

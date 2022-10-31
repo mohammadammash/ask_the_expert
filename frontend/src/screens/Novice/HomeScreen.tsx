@@ -10,7 +10,7 @@ const ProfileScreen = () => {
   return (
     <View className="flex-1 items-center bg-white">
       <ImageBackground className="w-full h-full" source={IMAGES.fakeMapImage}>
-        <View className="flex-1 items-center justify-center">
+        <View className="flex-1 items-center justify-end mb-5">
           <HomeUserCardComponent/>
         </View>
       </ImageBackground>
