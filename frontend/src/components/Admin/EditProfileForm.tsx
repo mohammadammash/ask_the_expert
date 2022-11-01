@@ -1,38 +1,33 @@
 import { View, Text, Pressable, TextInput, Image, Button } from "react-native";
-import { useState } from "react";
 import { Formik } from "formik";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import { useContext } from "react";
-import { UserContext } from "../../hooks/UserContext";
 //internal imports:
 import styles from "../../../styles";
 import commonStyles from "../Common/common.styles";
 import { IMAGES, APP_LANGUAGES_OPTIONS, APP_THEME_OPTIONS } from "../../constants";
 import { validateEditProfileFormSchema, editProfileInitialValues } from "./helpers/editProfileFormHelper";
-import { uploadImageAsync, pickImage } from "../Auth/helpers/registerImageHandlerHelper";
+import { AdminEditProfileFormProps } from "./types";
 
-const EditProfileForm = () => {
-  const [image, setImage] = useState(""); //set default value as use image_url
-  const [appLanguage, setAppLanguage] = useState(null);
-  const [isAppLanguageFocus, setIsAppLanguageFocus] = useState(false);
-  //app_theme_input
-  const [appTheme, setAppTheme] = useState(null);
-  const [isAppThemeFocus, setAppThemeFocus] = useState(false);
-  //currentUser
-  const { user, setUser } = useContext(UserContext);
-  const { email } = user;
-
+const EditProfileForm: React.FC<AdminEditProfileFormProps> = ({
+  image,
+  showImage,
+  isAppLanguageFocus,
+  appLanguage,
+  handleAppLanguage,
+  focusAppLanguage,
+  appTheme,
+  isAppThemeFocus,
+  handleAppTheme,
+  focusAppTheme,
+  handleSubmitForm,
+  // MAIN FORM COMPONENT:
+}): JSX.Element => {
   return (
     <Formik
       initialValues={editProfileInitialValues}
       onSubmit={async (values, actions) => {
-        if (image) {
-          const profileimage_url = await uploadImageAsync(image, email);
-          setImage(profileimage_url);
-          values.profile_url = image;
-        }
-        alert(JSON.stringify(values, null, 2));
+        handleSubmitForm(values);
       }}
       validationSchema={validateEditProfileFormSchema}
     >
@@ -42,7 +37,7 @@ const EditProfileForm = () => {
             <View className="border-2 rounded-full h-36 w-36">
               <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />
             </View>
-            <Button title="Pick an image from camera roll" onPress={() => pickImage(setImage)} />
+            <Button title="Pick an image from camera roll" onPress={showImage} />
           </View>
 
           <View>
@@ -87,12 +82,12 @@ const EditProfileForm = () => {
               placeholder={!isAppLanguageFocus ? "English" : "..."}
               searchPlaceholder="Search..."
               value={appLanguage}
-              onFocus={() => setIsAppLanguageFocus(true)}
-              onBlur={() => setIsAppLanguageFocus(false)}
+              onFocus={() => focusAppLanguage(true)}
+              onBlur={() => focusAppLanguage(false)}
               onChange={(item) => {
-                setAppLanguage(item.value);
+                handleAppLanguage(item.value);
                 values.language = item.value;
-                setIsAppLanguageFocus(false);
+                focusAppLanguage(false);
               }}
               renderLeftIcon={() => (
                 <AntDesign style={commonStyles.edit_iconStyle} color={isAppLanguageFocus ? "blue" : "black"} name="Safety" size={20} />
@@ -116,12 +111,12 @@ const EditProfileForm = () => {
               placeholder={!isAppThemeFocus ? "White" : "..."}
               searchPlaceholder="Search..."
               value={appTheme}
-              onFocus={() => setAppThemeFocus(true)}
-              onBlur={() => setAppThemeFocus(false)}
+              onFocus={() => focusAppTheme(true)}
+              onBlur={() => focusAppTheme(false)}
               onChange={(item) => {
-                setAppTheme(item.value);
+                handleAppTheme(item.value);
                 values.theme = item.value;
-                setAppThemeFocus(false);
+                focusAppTheme(false);
               }}
               renderLeftIcon={() => (
                 <AntDesign style={commonStyles.edit_iconStyle} color={isAppThemeFocus ? "blue" : "black"} name="Safety" size={20} />
