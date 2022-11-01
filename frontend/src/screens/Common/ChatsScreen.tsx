@@ -2,14 +2,23 @@ import { useNavigation } from "@react-navigation/native";
 import { View, Text, Button, Image } from "react-native";
 //internal imports
 import { ChatAndAppointmentCardComponent } from "../../components";
+import { ROUTES } from "../../constants";
 
 const ChatsScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
+  const NavigateToPage = () => {
+    // CHATS PAGE NAVIGATION
+    navigation.navigate(ROUTES.USER_SINGLE_CHAT);
+  };
+
+  // PARAMS
+  const data = {
+    NavigateToPage,
+  } 
 
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-slate-800">All Chats! 🎉</Text>
-      <ChatAndAppointmentCardComponent />
+    <View className="flex-1 items-center pb-5 bg-white">
+      <ChatAndAppointmentCardComponent {...data}/>
     </View>
   );
 };
