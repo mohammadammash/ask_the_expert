@@ -1,18 +1,9 @@
-import { View, Text, Pressable, Switch, Button } from "react-native";
-import { UserContext } from "../../../hooks/UserContext";
-import { useContext } from "react";
-import { COLORS,  } from "../../../constants";
-import styles from "../../../../styles";
+import { View, Text } from "react-native";
 //internal imports
-import CalculateYearsOfExperienceHelper from "../helpers/calculateYearsOfExperienceHelper";
-import { useNavigation } from "@react-navigation/native";
+import { COLORS } from "../../../constants";
+import { ProfilePersonalInfoProps } from "../types";
 
-const ProfilePersonalInfo = () => {
-  const { user, setUser } = useContext(UserContext);
-  const { firstName, lastName, field, start_date, about, speciality, user_type } = user;
-  const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
-  const navigation = useNavigation<any>();
-
+const ProfilePersonalInfo: React.FC<ProfilePersonalInfoProps> = ({ firstName, lastName, field, speciality, yearsOfExperience, spoken_languages }) => {
   return (
     <View className="w-full">
       <View className="w-full items-center justify-start gap-2">
@@ -28,9 +19,9 @@ const ProfilePersonalInfo = () => {
         </Text>
         <Text className="opacity-40 text-xs text-center">WITH</Text>
         <Text className="opacity-80 text-xs font-medium">{yearsOfExperience} of Experience</Text>
+        <Text className="opacity-80 text-[10px] font-medium bg-red">({spoken_languages})</Text>
       </View>
-
-      </View>
+    </View>
   );
 };
 
