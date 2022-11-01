@@ -16,7 +16,7 @@ const AdminTabNavigator = () => {
         options={{ tabBarIcon: () => leaderboardIcon, title: "Leaderboard"}}
       />
       <Tab.Screen name={ROUTES.ADMIN_VIEW_USERS} component={AdminViewUsersScreen} options={{ tabBarIcon: () => usersIcon, title: "All Users" }} />
-      <Tab.Screen name={ROUTES.PROFILE_STACK} component={ProfileStackNavigator} options={{ tabBarIcon: () => settingsIcon, title: "Profile" }} />
+      <Tab.Screen name={ROUTES.PROFILE_STACK} component={ProfileStackNavigator} options={{ tabBarIcon: () => settingsIcon, title: "Profile", headerShown: false }} />
     </Tab.Navigator>
   );
 };

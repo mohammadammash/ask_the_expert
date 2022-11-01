@@ -52,7 +52,7 @@ const ProfileStackNavigator = () => {
       {/* ADMIN PROFILE STACK */}
       {user_type === USERTYPES.ADMIN && (
         <>
-          <Stack.Screen name={ROUTES.ADMIN_PROFILE} component={AdminProfileScreen} options={{headerShown: false}}/>
+          <Stack.Screen name={ROUTES.ADMIN_PROFILE} component={AdminProfileScreen} options={{title: 'Profile'}}/>
           <Stack.Screen name={ROUTES.ADMIN_VIEW_BANNED_USERS} component={AdminViewBannedUsersScreen} options={{ title: "Banned Users" }} />
         </>
       )}
