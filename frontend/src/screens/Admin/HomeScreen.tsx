@@ -1,6 +1,5 @@
 import { View, ScrollView } from "react-native";
 import { AllUsersStatisticsChartComponent, FieldsStatisticsChartComponent, NewUsersStatisticsChartComponent, AppointmentsAndNewChatsStatisticsChartComponent } from "../../components";
-import { COLORS } from "../../constants";
 
 const HomeScreen = () => {
   return (

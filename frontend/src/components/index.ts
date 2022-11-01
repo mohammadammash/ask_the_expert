@@ -1,9 +1,12 @@
+import AddReviewModalForm from "./Novice/AddReviewModalForm";
+
 //AUTH
 export {default as LoginFormComponent} from "./Auth/LoginForm";
 export {default as RegisterFormComponent} from "./Auth/RegisterForm";
 
 //NOVICE
 export {default as AddReviewButtonSectionComponent} from "./Novice/AddReviewButtonSection";
+export {default as AddReviewModalForm} from "./Novice/AddReviewModalForm";
 export {default as BookAppointmentFormCardComponent} from "./Novice/BookAppointmentFormCard";
 export {default as HomeUserCardComponent} from "./Novice/HomeUserCard";
 
@@ -11,6 +14,7 @@ export {default as HomeUserCardComponent} from "./Novice/HomeUserCard";
 export {default as ProfileImageCardComponent} from "./Common/ProfileScreen/ProfileImageCard";
 export {default as ProfilePersonalInfoComponent} from "./Common/ProfileScreen/ProfilePersonalInfo";
 export {default as ConfirmAvailabilityFormCard} from "./Expert/ConfirmAvailabilityFormCard";
+export {default as ReviewCardComponent} from "./Expert/ReviewCard";
 
 //ADMIN
 export {default as FilterPageTitleComponent} from "./Admin/FilterPageTitle";

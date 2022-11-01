@@ -1,9 +1,11 @@
-import { ImageBackground, Image, View, StatusBar, TouchableOpacity, Text } from "react-native";
-import { DrawerContentScrollView, DrawerItemList, DrawerItem } from "@react-navigation/drawer";
+import { ImageBackground, Image, View, TouchableOpacity, Text } from "react-native";
+import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
+import navigationStyles from "./navigation.styles";
+
 import { SimpleLineIcons } from "@expo/vector-icons";
 //internal imports
 import { IMAGES, COLORS } from "../../constants";
-import navigationStyles from "./navigation.styles";
+import { DrawerContentComponentProps } from "@react-navigation/drawer";
 
 const CustomDrawer = (props: DrawerContentComponentProps): JSX.Element => {
   return (
@@ -19,9 +21,11 @@ const CustomDrawer = (props: DrawerContentComponentProps): JSX.Element => {
         </View>
 
         <View className="justify-center items-center">
-          <TouchableOpacity style={navigationStyles.logoutButton} className='items-center flex-row justify-center' onPress={() => alert("LOGOUT")}>
+          <TouchableOpacity style={navigationStyles.logoutButton} className="items-center flex-row justify-center" onPress={() => alert("LOGOUT")}>
             <SimpleLineIcons name="logout" size={20} color={COLORS.blue} />
-            <Text style={{color: COLORS.blue}} className="ml-2 text-sm font-semibold">LOGOUT</Text>
+            <Text style={{ color: COLORS.blue }} className="ml-2 text-sm font-semibold">
+              LOGOUT
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
