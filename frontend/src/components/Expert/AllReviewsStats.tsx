@@ -1,31 +1,14 @@
-import { useState, useEffect } from "react";
 import { View, Text, TextInput } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
 //internal imports
-import { COLORS } from "../../constants";
-import { calculateReviewsStatsHelper } from "./helpers/calculateReviewsStatsHelper";
 import SingleReviewStat from "./SingleReviewStat";
-import ReviewCard from "./ReviewCard";
-
 import styles from "../../../styles";
+import { AllReviewsStatsProps } from "./types";
 
-const AllReviewsStats = () => {
-  //hard Coded Reviews:
-  const reviews = [
-    { rating: 5, content: "Bruhh", created_at: Date.now() },
-    { rating: 1, content: "Good Dude!1", created_at: Date.now() },
-    { rating: 4, content: "Very Good!!", created_at: Date.now() },
-    { rating: 5, content: "Wow!! Enormous info", created_at: Date.now() },
-    { rating: 3, content: "Not Badd :(", created_at: Date.now() },
-    { rating: 3, content: "Normal, can be better", created_at: Date.now() },
-    { rating: 3, content: "Bad For me dude!", created_at: Date.now() },
-  ];
-
-  const [rating, setRating] = useState({ average: 0, totalOf5: 0, totalOf4: 0, totalOf3: 0, totalOf2: 0, totalOf1: 0 });
-
-  useEffect(() => {
-    calculateReviewsStatsHelper(reviews, setRating);
-  }, []);
+const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({
+  reviews,
+  rating,
+}) => {
 
   return (
     // REVIEWS STATS
@@ -49,12 +32,7 @@ const AllReviewsStats = () => {
         <TextInput style={[styles.text_input, styles.search_input]} className="placeholder:pl-3" placeholder="Search" />
       </View>
 
-      {/* ALL REVIEWS SHOW */}
-      <View className="w-full items-center my-5">
-        {reviews.map((review,index) => (
-          <ReviewCard key={index} review={review} />
-        ))}
-      </View>
+      
     </View>
   );
 };
