@@ -13,7 +13,7 @@ import { validateEditProfileFormSchema, editProfileInitialValues } from "./helpe
 import { uploadImageAsync, pickImage } from "../Auth/helpers/registerImageHandlerHelper";
 
 const EditProfileForm = () => {
-  const [image, setImage] = useState(''); //set default value as use image_url
+  const [image, setImage] = useState(""); //set default value as use image_url
   const [appLanguage, setAppLanguage] = useState(null);
   const [isAppLanguageFocus, setIsAppLanguageFocus] = useState(false);
   //app_theme_input
@@ -37,7 +37,7 @@ const EditProfileForm = () => {
       validationSchema={validateEditProfileFormSchema}
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
-        <View className="w-4/5 justify-center">
+        <View className="w-4/5 justify-center mt-5">
           <View className="items-center mb-3 ">
             <View className="border-2 rounded-full h-36 w-36">
               <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />
@@ -60,7 +60,14 @@ const EditProfileForm = () => {
 
           <View className="mt-2 w-full">
             <Text className="font-bold">LastName</Text>
-            <TextInput onChangeText={handleChange("lastName")} onBlur={handleBlur("lastName")} value={values.lastName} style={styles.text_input} className="placeholder:pl-3" placeholder="Lastname" />
+            <TextInput
+              onChangeText={handleChange("lastName")}
+              onBlur={handleBlur("lastName")}
+              value={values.lastName}
+              style={styles.text_input}
+              className="placeholder:pl-3"
+              placeholder="Lastname"
+            />
             {errors.lastName && touched.lastName && <Text className="text-red-600">{errors.lastName}</Text>}
           </View>
 
@@ -87,7 +94,9 @@ const EditProfileForm = () => {
                 values.language = item.value;
                 setIsAppLanguageFocus(false);
               }}
-              renderLeftIcon={() => <AntDesign style={commonStyles.edit_iconStyle} color={isAppLanguageFocus ? "blue" : "black"} name="Safety" size={20} />}
+              renderLeftIcon={() => (
+                <AntDesign style={commonStyles.edit_iconStyle} color={isAppLanguageFocus ? "blue" : "black"} name="Safety" size={20} />
+              )}
             />
           </View>
 
@@ -114,7 +123,9 @@ const EditProfileForm = () => {
                 values.theme = item.value;
                 setAppThemeFocus(false);
               }}
-              renderLeftIcon={() => <AntDesign style={commonStyles.edit_iconStyle} color={isAppThemeFocus ? "blue" : "black"} name="Safety" size={20} />}
+              renderLeftIcon={() => (
+                <AntDesign style={commonStyles.edit_iconStyle} color={isAppThemeFocus ? "blue" : "black"} name="Safety" size={20} />
+              )}
             />
           </View>
 
