@@ -1,10 +1,11 @@
 import { View, ScrollView } from "react-native";
 import { AllUsersStatisticsChartComponent, FieldsStatisticsChartComponent, NewUsersStatisticsChartComponent, AppointmentsAndNewChatsStatisticsChartComponent } from "../../components";
+import { COLORS } from "../../constants";
 
 const HomeScreen = () => {
   return (
-    <View className="bg-white items-center justify-evenly flex-1 gap-1">
-      <View className="h-5/6">
+    <View className="items-center justify-evenly flex-1 gap-1 bg-white">
+      <View>
         <ScrollView horizontal={true} className="flex-row">
           <AllUsersStatisticsChartComponent />
 
