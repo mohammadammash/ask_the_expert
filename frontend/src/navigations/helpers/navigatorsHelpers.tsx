@@ -40,6 +40,10 @@ export const stackScreenOptionsStyle = () => ({
 
 //TAB BOTTOM NAVIGATOR: SCREEN OPTIONS
 export const tabBarScreenOptions = (navigation: any) => ({
+  headerStyle: {
+    backgroundColor :COLORS.blue,
+  },
+  headerTintColor: COLORS.white,
   tabBarActiveTintColor: COLORS.blue,
   tabBarActiveBackgroundColor: COLORS.blue,
   tabBarStyle: {
@@ -53,7 +57,6 @@ export const tabBarScreenOptions = (navigation: any) => ({
     borderRadius: 5,
   },
   tabBarInactiveTintColor: COLORS.dark,
-  headerTitle: "",
   tabBarIconStyle: {
     backgroundColor: COLORS.blue,
   },
