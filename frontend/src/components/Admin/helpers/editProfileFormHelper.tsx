@@ -1,14 +1,7 @@
 import * as Yup from "yup";
+import { EditProfileFormValuesTypes } from "../types";
 
-export interface editProfileFormValues {
-  firstName: string;
-  lastName: string;
-  profile_url: string;
-  language: string;
-  theme: string;
-}
-
-export const editProfileInitialValues: editProfileFormValues = {
+export const editProfileInitialValues: EditProfileFormValuesTypes = {
   firstName: "",
   lastName: "",
   profile_url: "",
