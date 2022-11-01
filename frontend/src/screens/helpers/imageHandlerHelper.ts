@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import { storage } from "../../../../firebaseConfig";
+import { storage } from "../../../firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 //upload image to firebase storage and return profile url tp send to db
@@ -29,8 +29,7 @@ export async function uploadImageAsync(uri: string, email: string) {
     }
 
 
-//capture image added and show it to the user
-export const pickImage = async (setImage: React.Dispatch<React.SetStateAction<string>>) => {
+export const pickImage = async () => {
 // No permissions request is necessary for launching the image library
 let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -39,6 +38,6 @@ let result = await ImagePicker.launchImageLibraryAsync({
     quality: 1,
 });
 if (!result.cancelled) {
-    setImage(result.uri);
+    return result.uri;
 }
 };

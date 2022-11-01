@@ -1,14 +1,7 @@
 export type reviewType = { rating: number, content: string, created_at: number };
-export type setRatingType = React.Dispatch<React.SetStateAction<{
-    average: number;
-    totalOf5: number;
-    totalOf4: number;
-    totalOf3: number;
-    totalOf2: number;
-    totalOf1: number;
-}>>;
+type ratingContent = { average: number; totalOf5: number; totalOf4: number; totalOf3: number; totalOf2: number; totalOf1: number };
 
-export const calculateReviewsStatsHelper = (reviews: reviewType[], setRating: setRatingType): void => {
+export const calculateReviewsStatsHelper = (reviews: reviewType[], handleRatingType: (rating: ratingContent) => void): void => {
     let sum = 0;
     const length = reviews.length;
     let [totalOf5, totalOf4, totalOf3, totalOf2, totalOf1] = [0,0,0,0,0];
@@ -21,5 +14,5 @@ export const calculateReviewsStatsHelper = (reviews: reviewType[], setRating: se
       else if (rating === 1) totalOf1++;
     }
     const average = Math.round(sum / length);
-    setRating({ average, totalOf5, totalOf4, totalOf3, totalOf2, totalOf1 });
+    handleRatingType({ average, totalOf5, totalOf4, totalOf3, totalOf2, totalOf1 });
   };
