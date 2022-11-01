@@ -4,19 +4,14 @@ import * as Yup from "yup";
 import { AirbnbRating } from "react-native-ratings";
 //internal imports
 import styles from "../../../styles";
+import { RatingFormValuesTypes, AddReviewModalFormProps } from "./types";
 
-interface AddReviewModalFormProps {
-  modalRef: React.MutableRefObject<undefined>;
-}
-interface formValues {
-  content: string;
-  rating: number;
-}
-export const reviewIntialValues: formValues = {
+const reviewIntialValues: RatingFormValuesTypes = {
   content: "",
   rating: 3,
 };
-export const validateReviewIntialValues = Yup.object().shape({
+
+const validateReviewIntialValues = Yup.object().shape({
   content: Yup.string(),
   rating: Yup.number().required("Required"),
 });
