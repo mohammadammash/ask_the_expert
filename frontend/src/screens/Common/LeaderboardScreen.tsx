@@ -9,7 +9,7 @@ const LeaderboardScreen = () => {
 
   return (
     <View className="flex-1 items-center bg-white">
-      <View className="h-full mt-10 items-center w-full">
+      <View className="h-full items-center w-full">
         <LeaderboardCardComponent rank={"Top"} />
         <LeaderboardCardComponent />
         <LeaderboardCardComponent />

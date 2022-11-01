@@ -22,7 +22,7 @@ const FilterPageTitle: React.FC<FilterPageTitleProps> = ({ userType, options, se
   const { name: route_name } = route;
 
   return (
-    <View className="h-2/6 my-10 w-full justify-start">
+    <View className="h-2/6 w-full justify-start">
       <View className="flex-row  items-center w-full justify-between pr-3 pl-7">
         <Text className="font-bold">
           View {route_name === ROUTES.ADMIN_VIEW_BANNED_USERS ? "Banned" : "All"} {userType.charAt(0).toUpperCase() + userType.slice(1)}
