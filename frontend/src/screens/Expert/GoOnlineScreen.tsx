@@ -1,10 +1,28 @@
-import { useNavigation } from "@react-navigation/native";
 import { View, Text } from "react-native";
-import styles from "../../../styles";
+import { useState } from "react";
+//internal imports
 import { ConfirmAvailabilityFormCard } from "../../components";
 import { COLORS } from "../../constants";
 
+interface AvailabilityformValues {
+  meetings_time: string;
+  single_session_time: string;
+}
+
 const ProfileScreen = () => {
+  // START OF CONFIRM AVAILBILITY FORM DATA
+  const handleSubmitForm = (values: AvailabilityformValues) => {
+    alert(JSON.stringify(values, null, 2));
+  };
+  const [selectedMeetingsTime, setSelectedMeetingsTime] = useState("0");
+  const [selectedSingleSessionTime, setSelectedSingleSessionTime] = useState("0");
+  const handleSetSelectedMeetingsTime = (value: string) => setSelectedMeetingsTime(value);
+  const handleSetSelectedSingleSessionTime = (value: string) => setSelectedSingleSessionTime(value);
+  //PARAMS
+  const data = { selectedMeetingsTime, selectedSingleSessionTime, handleSetSelectedMeetingsTime, handleSetSelectedSingleSessionTime, handleSubmitForm };
+  // END OF CONFIRM AVAILBILITY FORM DATA
+
+  // MAIN COMPONENT
   return (
     <View className="flex-1 w-full h-full items-center justify-evenly bg-white border">
       <View className="w-full px-3 items-center gap-5">
@@ -17,7 +35,7 @@ const ProfileScreen = () => {
       {/* CONFIRM AVAILBILITY FORM */}
       <View className="w-full h-3/5 items-center justify-center">
         <View className="w-5/6 h-5/6 border-2 rounded-xl">
-          <ConfirmAvailabilityFormCard />
+          <ConfirmAvailabilityFormCard {...data} />
         </View>
       </View>
     </View>
