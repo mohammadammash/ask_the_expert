@@ -1,18 +1,28 @@
 import { View, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { UserContext } from "../../hooks/UserContext";
 import { useContext } from "react";
 import { Entypo } from "@expo/vector-icons";
 //internal imports:
 import { ProfileImageCardComponent, ButtonsComponent } from "../../components";
-import { COLORS } from "../../constants";
+import { COLORS, ROUTES } from "../../constants";
 
 const ProfileScreen = () => {
   const { user, setUser } = useContext(UserContext);
-  const { firstName, lastName, email } = user;
+  const { firstName, lastName, email, profile_url, user_type } = user;
+
+  const navigation = useNavigation<any>();
+  const navigateToPage = (routeName: string) => navigation.navigate(routeName);
+
+  //Buttons comp params
+  const data = {
+    user_type,
+    navigateToPage,
+  };
 
   return (
     <View className="flex-1 items-center bg-white">
-      <ProfileImageCardComponent />
+      <ProfileImageCardComponent profile_url={profile_url} />
       <View className="w-full items-center justify-start gap-6">
         {/* PERSONAL INFO */}
         <View className="mb-2">
@@ -30,9 +40,8 @@ const ProfileScreen = () => {
         </View>
 
         <View className="items-center w-full">
-          <ButtonsComponent />
+          <ButtonsComponent {...data} />
         </View>
-
       </View>
     </View>
   );
