@@ -1,7 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
 import { View, } from "react-native";
-import { UserContext } from "../../hooks/UserContext";
-import { useContext } from "react";
 //internal imports:
 import { ProfilePersonalInfoComponent, ProfileImageCardComponent, AboutSectionComponent, ButtonsComponent } from "../../components";
 
@@ -16,7 +13,6 @@ const ProfileScreen = () => {
       <AboutSectionComponent />
 
       <ButtonsComponent/>
-        
     </View>
   );
 };
