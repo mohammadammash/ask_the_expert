@@ -1,10 +1,8 @@
 import * as Yup from "yup";
+import { LoginFormValuesTypes } from "../types";
 
-interface formValues {
-  email: string;
-  password: string;
-}
-export const loginIntialValues: formValues = {
+
+export const loginIntialValues: LoginFormValuesTypes = {
     email: "",
     password: "",
   };

@@ -1,20 +1,7 @@
 import * as Yup from "yup";
+import { RegisterFormValuesTypes } from "../types";
 
-export interface registerFormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  profile_url: string;
-  field: string;
-  speciality: string;
-  languages: string[];
-  start_date: Date;
-  about: '',
-}
-
-export const registerInitialValues: registerFormValues = {
+export const registerInitialValues: RegisterFormValuesTypes = {
     firstName: "",
     lastName: "",
     email: "",
