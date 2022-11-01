@@ -11,7 +11,7 @@ const ProfileScreen = () => {
   const { firstName, lastName, email } = user;
 
   return (
-    <View className="flex-1 items-center justify-center bg-white">
+    <View className="flex-1 items-center bg-white">
       <ProfileImageCardComponent />
       <View className="w-full items-center justify-start gap-6">
         {/* PERSONAL INFO */}
