@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 //internal imports:
 import { COLORS } from "../../../constants";
@@ -26,34 +26,36 @@ const appointmentsData = [
 const AppointmentsStatistics = () => {
   //MAIN COMPONENT
   return (
-    <View style={{ backgroundColor: COLORS.dark, width: 330 }} className="rounded-xl mx-5">
-      <ChartsUpperLegendComponent chart_type="AppointmentsAndChats" dot1_title={"116 Chat"} dot2_title={"432 Appointment"} />
-      <LineChart
-        data={chatsData}
-        data2={appointmentsData}
-        height={250}
-        width={270}
-        showVerticalLines
-        spacing={45}
-        initialSpacing={0}
-        color1={COLORS.blue}
-        color2={COLORS.orange}
-        textColor1="white"
-        textColor2="white"
-        xAxisThickness={2}
-        yAxisThickness={2}
-        verticalLinesThickness={0}
-        yAxisTextStyle={{ color: COLORS.grey }}
-        xAxisLabelTextStyle={{ color: COLORS.grey }}
-        xAxisLabelTexts={["", "Jan", "Feb", "Mar", "Apr", "May", "Jun"]}
-        dataPointsHeight={6}
-        dataPointsWidth={6}
-        dataPointsColor1="blue"
-        dataPointsColor2="red"
-        textShiftY={-5}
-        textShiftX={-6}
-        textFontSize={10}
-      />
+    <View style={{ backgroundColor: COLORS.dark }} className="w-96 items-center justify-center">
+      <View>
+        <ChartsUpperLegendComponent chart_type="AppointmentsAndChats" dot1_title={"116 Chat"} dot2_title={"432 Appointment"} />
+        <LineChart
+          data={chatsData}
+          data2={appointmentsData}
+          height={250}
+          width={300}
+          showVerticalLines
+          spacing={45}
+          initialSpacing={0}
+          color1={COLORS.blue}
+          color2={COLORS.orange}
+          textColor1="white"
+          textColor2="white"
+          xAxisThickness={2}
+          yAxisThickness={2}
+          verticalLinesThickness={0}
+          yAxisTextStyle={{ color: COLORS.grey }}
+          xAxisLabelTextStyle={{ color: COLORS.grey }}
+          xAxisLabelTexts={["", "Jan", "Feb", "Mar", "Apr", "May", "Jun"]}
+          dataPointsHeight={6}
+          dataPointsWidth={6}
+          dataPointsColor1="blue"
+          dataPointsColor2="red"
+          textShiftY={-5}
+          textShiftX={-6}
+          textFontSize={10}
+        />
+      </View>
     </View>
   );
 };

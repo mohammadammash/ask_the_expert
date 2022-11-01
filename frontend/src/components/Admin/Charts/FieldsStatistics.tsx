@@ -1,7 +1,9 @@
 import { View, Text } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
+import { AntDesign } from "@expo/vector-icons";
 //internal imports
 import ChartsLowerLegendComponent from "./Common/ChartsLowerLegend";
+import { COLORS } from "../../../constants";
 
 //HARD CODED DATA TESTING
 const data = [
@@ -26,8 +28,8 @@ const data = [
 
 const FieldsStatistics = () => {
   return (
-    <View style={{ width: 330 }} className="bg-[#34448B] flex-1 items-center justify-center rounded-2xl mr-5">
-      <View className="w-5/6 rounded-2xl py-5 bg-[#232B5D]">
+    <View className="bg-[#34448B] flex-1 items-center justify-center w-96">
+      <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
         <Text className="text-white text-base font-bold ml-2">Fields Users</Text>
         <BarChart
           data={data}
@@ -52,6 +54,9 @@ const FieldsStatistics = () => {
           }}
         />
         <ChartsLowerLegendComponent novices_total={40} experts_total={113} users_total={153} />
+        <View className="absolute right-0 h-full justify-center mr-1">
+          <AntDesign name="rightcircle" size={24} color={COLORS.white} />
+        </View>
       </View>
     </View>
   );

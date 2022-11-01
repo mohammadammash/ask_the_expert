@@ -1,5 +1,6 @@
 import { View, Text } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
+import { AntDesign } from "@expo/vector-icons";
 //internal imports
 import { COLORS } from "../../../constants";
 import ChartsUpperLegendComponent from "./Common/ChartsUpperLegend";
@@ -81,25 +82,31 @@ const AppointmentsStatistics = () => {
 
   //MAIN COMPONENT
   return (
-    <View style={{ backgroundColor: COLORS.dark }} className="rounded-xl mx-5">
-      <ChartsUpperLegendComponent chart_type="newUsers" dot1_title={"118 Expert"} dot2_title={"1000 Novice"} />
-      <BarChart
-        data={barData}
-        barWidth={8}
-        spacing={24}
-        roundedTop
-        roundedBottom
-        hideRules
-        xAxisThickness={2}
-        yAxisThickness={2}
-        yAxisTextStyle={{ color: COLORS.grey }}
-        xAxisLabelTextStyle={{ color: COLORS.grey }}
-        noOfSections={3}
-        maxValue={150}
-      />
+    <View style={{ backgroundColor: COLORS.dark }} className="w-96 items-center justify-center">
+      <View className="">
+        <ChartsUpperLegendComponent chart_type="newUsers" dot1_title={"118 Expert"} dot2_title={"1000 Novice"} />
+        <BarChart
+          data={barData}
+          barWidth={8}
+          spacing={24}
+          roundedTop
+          roundedBottom
+          hideRules
+          xAxisThickness={2}
+          yAxisThickness={2}
+          yAxisTextStyle={{ color: COLORS.grey }}
+          xAxisLabelTextStyle={{ color: COLORS.grey }}
+          noOfSections={3}
+          maxValue={150}
+        />
 
-      <View className="h-1/4 justify-center">
-        <Text className="text-white text-md font-semibold text-center">1118 New Users</Text>
+        <View className="h-1/4 justify-center">
+          <Text className="text-white text-md font-semibold text-center">1118 New Users</Text>
+        </View>
+
+        <View className="absolute right-0 h-full justify-center mr-1">
+          <AntDesign name="rightcircle" size={24} color={COLORS.white} />
+        </View>
       </View>
     </View>
   );
