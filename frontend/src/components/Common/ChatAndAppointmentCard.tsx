@@ -2,15 +2,12 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 //internal imports
-import styles from "../../../styles";
-import { ROUTES, IMAGES } from "../../constants";
+import { IMAGES } from "../../constants";
+import { ChatAndAppointmentCardProps } from "./types";
 
-const ChatAndAppointmentCard = () => {
-  const navigation = useNavigation<any>();
-  const NavigateToSingleChat = ()=>{
-    // CHATS PAGE NAVIGATION
-    navigation.navigate(ROUTES.USER_SINGLE_CHAT);
-  }
+const ChatAndAppointmentCard : React.FC<ChatAndAppointmentCardProps> = ({
+  NavigateToPage
+}) => {
 
   return (
     // CHATS TOUCHABLE OPACITY
@@ -41,7 +38,7 @@ const ChatAndAppointmentCard = () => {
         <View className="flex-row items-center justify-between w-52 ">
           <View className="opacity-80 flex-row gap-2">
             <MaterialCommunityIcons onPress={() => alert("Removed")} name="book-cancel" size={24} color="black" />
-            <Entypo name="new-message" size={24} color="black" onPress={NavigateToSingleChat}/>
+            <Entypo name="new-message" size={24} color="black" onPress={NavigateToPage}/>
           </View>
           <View className="gap-1">
             <Text className="text-[9px] opacity-80">12:15pm</Text>
