@@ -18,7 +18,7 @@ const ChatsStackNavigator = () => {
         component={ChatsScreen}
         options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>{menuIcon}</TouchableOpacity> }}
       />
-      <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} />
+      <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} options={{title: 'Messages'}} />
     </Stack.Navigator>
   );
 };
