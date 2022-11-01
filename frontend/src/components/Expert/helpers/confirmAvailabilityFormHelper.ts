@@ -1,10 +1,7 @@
 import * as Yup from "yup";
+import { FormValuesTypes } from "../types";
 
-interface formValues {
-  meetings_time: string;
-  single_session_time: string;
-}
-export const availabilityIntialValues: formValues = {
+export const availabilityIntialValues: FormValuesTypes = {
     meetings_time: "",
     single_session_time: "",
     //should get current location longitude and latitude and send them with to the db
