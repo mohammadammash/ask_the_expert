@@ -6,7 +6,7 @@ const Stack = createStackNavigator();
 
 const AuthStackNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName={ROUTES.LOGIN} screenOptions={{ headerStyle: { backgroundColor: COLORS.blue }, headerBackTitle: " " }}>
+    <Stack.Navigator initialRouteName={ROUTES.LOGIN} screenOptions={{ headerStyle: { backgroundColor: COLORS.blue }, headerBackTitle: " ", headerTintColor: COLORS.white }}>
       <Stack.Screen name={ROUTES.LOGIN} component={AuthLoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name={ROUTES.REGISTER} component={AuthRegisterScreen} options={{ title: "Sign Up" }} />
     </Stack.Navigator>
