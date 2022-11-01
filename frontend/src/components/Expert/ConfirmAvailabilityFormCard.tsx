@@ -1,5 +1,4 @@
 import { View, Text, Pressable } from "react-native";
-import { useState } from "react";
 import { Formik } from "formik";
 import { SelectCountry } from "react-native-element-dropdown";
 //internal imports
@@ -8,10 +7,24 @@ import styles from "../../../styles";
 import { availabilityIntialValues, validateSetAvailabilityForm } from "./helpers/confirmAvailabilityFormHelper";
 import { AVAILABILITY_SESSION_OPTIONS, AVAILABILITY_OPTIONS } from "../../constants";
 
-const ConfirmAvailabilityFormCard = () => {
-  const [selectedMeetingsTime, setSelectedMeetingsTime] = useState("0");
-  const [selectedSingleSessionTime, setSelectedSingleSessionTime] = useState("0");
+interface AvailabilityformValues {
+  meetings_time: string;
+  single_session_time: string;
+}
+interface ConfirmAvailabilityFormCardProps {
+  selectedMeetingsTime: string;
+  selectedSingleSessionTime: string;
+  handleSetSelectedMeetingsTime: (value: any) => void;
+  handleSetSelectedSingleSessionTime: (value: any) => void;
+  handleSubmitForm: (values: AvailabilityformValues) => void;
+}
 
+const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = ({
+  selectedMeetingsTime,
+  selectedSingleSessionTime,
+  handleSetSelectedMeetingsTime,
+  handleSetSelectedSingleSessionTime,
+}) => {
   return (
     <Formik
       initialValues={availabilityIntialValues}
@@ -40,9 +53,8 @@ const ConfirmAvailabilityFormCard = () => {
                 placeholder="Start Time"
                 searchPlaceholder="Search..."
                 onChange={(e) => {
-                  setSelectedMeetingsTime(e.value);
+                  handleSetSelectedMeetingsTime(e.value);
                   values.meetings_time = e.value;
-                  alert(values.meetings_time);
                 }}
               />
             </View>
@@ -64,7 +76,7 @@ const ConfirmAvailabilityFormCard = () => {
                 placeholder="Session Time"
                 searchPlaceholder="Search.."
                 onChange={(e) => {
-                  setSelectedSingleSessionTime(e.value);
+                  handleSetSelectedSingleSessionTime(e.value);
                   values.single_session_time = e.value;
                 }}
               />
