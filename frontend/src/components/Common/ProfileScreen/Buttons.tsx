@@ -46,11 +46,18 @@ const Buttons = () => {
           <Pressable style={styles.blue_button_sm} onPress={() => navigation.navigate(ROUTES.USER_SINGLE_CHAT)}>
             <Text className="text-white font-bold text-[10px]">MESSAGE</Text>
           </Pressable>
-          <Pressable style={styles.blue_button_sm} onPress={() => alert('Blocked')}>
+          <Pressable style={styles.blue_button_sm} onPress={() => alert("Blocked")}>
             <Text className="text-white font-bold text-[10px]">BLOCK</Text>
           </Pressable>
         </View>
       )}
+
+      {/* NOVICE VISITNG HIS OWN PROFILE */}
+      {/* {user_type === USERTYPES.NOVICE && id === shownuser_id && (
+        <View className="mt-5" style={styles.blue_button_lg}>
+          <Button color={COLORS.white} title="Edit Profile" onPress={() => navigation.navigate(ROUTES.USER_EDIT_PROFILE)} />
+        </View>
+      )} */}
     </View>
   );
 };
