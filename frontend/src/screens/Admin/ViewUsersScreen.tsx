@@ -1,15 +1,26 @@
 import { View, ScrollView } from "react-native";
 import { useState } from "react";
+import { useRoute } from "@react-navigation/native";
 //internal imports
 import { FilterPageTitleComponent, UserCardComponent } from "../../components";
-import { USERS_TYPES_OPTIONS } from "../../constants";
 
 const ViewUsersScreen = () => {
   const [shownUsersType, setShownUsersType] = useState("users");
+  const handleShownUserType = (value: string) => setShownUsersType(value);
+
+  const route = useRoute();
+  const { name: route_name } = route;
+
+  //params
+  const data = {
+    route_name,
+    userType: shownUsersType,
+    handleShownUserType,
+  };
 
   return (
     <View className="flex-1 items-center justify-between bg-white">
-      <FilterPageTitleComponent userType={shownUsersType} options={USERS_TYPES_OPTIONS} set_userType={setShownUsersType} />
+      <FilterPageTitleComponent {...data} />
 
       <ScrollView className="h-5/6 pt-5" horizontal={true}>
         <UserCardComponent />
