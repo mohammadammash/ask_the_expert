@@ -19,7 +19,7 @@ const AppointmentsScreen = () => {
 
   return (
     <View className="flex-1 items-center bg-white">
-      <ScrollView className="w-full  mt-10" contentContainerStyle={{ alignItems: "center" }}>
+      <ScrollView className="w-full" contentContainerStyle={{ alignItems: "center" }}>
         <ChatAndAppointmentCardComponent {...data} />
       </ScrollView>
     </View>
