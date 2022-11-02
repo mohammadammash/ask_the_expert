@@ -1,18 +1,18 @@
-import express, {Express, Request, Response} from "express";
-require("dotenv").config();
+import express, { Express, Request, Response } from "express";
+const app: Express = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
-const app: Express = express();
+require("dotenv").config();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-app.get('/',(req: Request, res: Response)=>{
-    res.send('Typescript runs well');
-})
+//ROUTES
+const authRoutes = require("./routes/auth");
+app.use("/", authRoutes);
 
-app.listen(process.env.SERVER_PORT, ()=>{
-    console.log('Running on 3000');
+
+app.listen(process.env.SERVER_PORT, () => {
+    console.log('Running on ' + process.env.SERVER_PORT);
 });
