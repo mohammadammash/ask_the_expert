@@ -19,10 +19,8 @@ export {default as ReviewCardComponent} from "./Expert/ReviewCard";
 //ADMIN
 export {default as FilterPageTitleComponent} from "./Admin/FilterPageTitle";
 export {default as UserCardComponent} from "./Admin/UserCard";
-export {default as AllUsersStatisticsChartComponent} from "./Admin/Charts/AllUsersStatistics";
-export {default as NewUsersStatisticsChartComponent} from "./Admin/Charts/NewUsersStatistics";
-export {default as FieldsStatisticsChartComponent} from "./Admin/Charts/FieldsStatistics";
-export {default as AppointmentsAndNewChatsStatisticsChartComponent} from "./Admin/Charts/AppointmentsAndNewChatsStatistics";
+export {default as ChartsLowerLegendComponent} from "./Admin/Charts/ChartsLowerLegend";
+export {default as ChartsUpperLegendComponent} from "./Admin/Charts/ChartsUpperLegend";
 export {default as EditAdminProfileFormComponent} from "./Admin/EditProfileForm";
 
 //COMMON
