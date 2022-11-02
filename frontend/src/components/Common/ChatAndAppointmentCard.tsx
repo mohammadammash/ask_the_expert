@@ -17,12 +17,12 @@ const ChatAndAppointmentCard : React.FC<ChatAndAppointmentCardProps> = ({
     //   onPress={NavigateToSingleChat}
     // >
 
-    <View className="flex-row w-5/6 rounded-lg border-0.5 items-center justify-around h-24 mb-5">
+    <View className="flex-row w-full border-0.5 items-center justify-around h-24 mb-5">
       <View className="avatar aspect-square max-w-1/5 max-h-1/5 h-2/5 w-1/5 rounded-full items-center border-2 border-[#1FA6D1]">
         <Image className="max-w-full max-h-full h-full w-full rounded-full" source={IMAGES.dummyProfile} />
       </View>
 
-      <View className="h-full justify-around">
+      <View className="h-full w-3/5 justify-around">
         <View>
           <Text className="text-sm font-bold">Mohammad Ammash</Text>
           <Text className="text-xs opacity-50">Senior Web Developer</Text>

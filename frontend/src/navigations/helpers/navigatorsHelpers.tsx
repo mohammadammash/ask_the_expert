@@ -41,7 +41,7 @@ export const stackScreenOptionsStyle = () => ({
 //TAB BOTTOM NAVIGATOR: SCREEN OPTIONS
 export const tabBarScreenOptions = (navigation: any) => ({
   headerStyle: {
-    backgroundColor :COLORS.blue,
+    backgroundColor: COLORS.blue,
   },
   headerTintColor: COLORS.white,
   tabBarActiveTintColor: COLORS.blue,

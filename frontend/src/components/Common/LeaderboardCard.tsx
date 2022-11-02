@@ -8,7 +8,7 @@ const LeaderboardCard = ({ rank = "notTop" }): JSX.Element => {
   //ALL CARDS DESIGN EXCEPT TOP 1
   if (rank === "Top") {
     return (
-      <View style={styles.shadow_bg} className="w-full border-y-2 relative justify-around items-center h-72 my-10 border-[#E89923] pt-3">
+      <View style={styles.shadow_bg} className="w-full border-y-2 relative justify-around items-center h-72 border-[#E89923] pt-3">
         <View className="avatar aspect-square max-w-2/5 max-h-2/5 h-2/5 w-2/5 rounded-full items-center border-4 border-[#E89923]">
           <Image className="max-w-full max-h-full h-full w-full rounded-full" source={IMAGES.dummyProfile} />
         </View>
@@ -33,8 +33,8 @@ const LeaderboardCard = ({ rank = "notTop" }): JSX.Element => {
     //CARD RANK 2,3, and else DESIGN
   } else {
     return (
-      <View  className="flex-row w-full border-0.5 items-center justify-around h-24 mb-2">
-        <View className="avatar aspect-square max-w-1/5 max-h-1/5 h-2/5 w-1/5 rounded-full items-center ml-2 border-2">
+      <View  className="flex-row w-full border-0.5 items-center justify-around h-24">
+        <View className="avatar aspect-square max-w-1/5 max-h-1/5 h-1/5 w-1/5 rounded-full items-center ml-2 border">
           <Image className="max-w-full max-h-full h-full w-full rounded-full" source={IMAGES.dummyProfile} />
         </View>
 
