@@ -49,11 +49,9 @@ const userSchema = new mongoose.Schema({
   },
   app_language: {
     type: String,
-    required: "Field is required",
   },
   theme: {
     type: String,
-    required: 'Theme is required',
   },
   user_type: {
     type: String,
@@ -113,15 +111,12 @@ const userSchema = new mongoose.Schema({
   ],
   score: {
     type: Number,
-    required: 'Score is required'
   },
   isAvailable: {
     type: Boolean,
-    required: 'isAvailable is required'
   },
   location: {
     type: String,
-    required: "location is required",
   },
   //END OF ONLY EXPERT:
 },

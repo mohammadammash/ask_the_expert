@@ -4,10 +4,10 @@ const jwt = require("jsonwebtoken");
 
 const loginUser = async (email: String, password: String, _id: String) => {
     const user = await UserModel.findOne({ _id, email }).select("+password").lean();
-    if (!user) return {};
+    if (!user) return false;
 
     const matchingPassword = await bcrypt.compareSync(password, user.password);
-    if (!matchingPassword) return {};
+    if (!matchingPassword) return false;
 
     user.password = undefined; //remove pass from result
     const token = jwt.sign({ email, _id }, process.env.JWT_SECRET_KEY, {
