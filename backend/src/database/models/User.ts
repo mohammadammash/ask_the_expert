@@ -66,7 +66,7 @@ const userSchema = new mongoose.Schema({
   blocked_users: [
     {
       type: String,
-      ref: "Expert",
+      ref: "User",
     }
   ],
   reviews: [
@@ -86,7 +86,7 @@ const userSchema = new mongoose.Schema({
     },
     { timestamps: true }
   ],
-  
+
   //START OF ONLY NOVICE:
   appointments: [
     {
@@ -101,6 +101,7 @@ const userSchema = new mongoose.Schema({
     {
       end_timestamp: {
         type: Date,
+        required: 'end_timestamp is required'
       },
       appointments: [
         {
@@ -108,7 +109,7 @@ const userSchema = new mongoose.Schema({
           ref: 'Appointment'
         }
       ],
-    }, { timestamps: true }
+    }, { timestamps: true } //to access created_at as start_timestamp
   ],
   score: {
     type: Number,
