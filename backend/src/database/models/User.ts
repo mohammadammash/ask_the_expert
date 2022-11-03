@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: "spoken languages is required",
   },
+  start_date: {
+    type: String,
+    required: 'Start Date is required',
+  },
   about: {
     type: String,
     required: "About is required",
