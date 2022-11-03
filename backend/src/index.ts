@@ -17,6 +17,9 @@ const checkIfAdminMiddleware = require("./middlewares/checkIfAdmin");
 const authRoutes = require("./routes/auth");
 app.use("/", authRoutes);
 
+const userRoutes = require('./routes/user'); //common
+app.use("/user", authMiddleware, userRoutes)
+
 const noviceRoutes = require("./routes/novice");
 app.use("/novice", authMiddleware, checkIfNoviceMiddleware, noviceRoutes);
 
