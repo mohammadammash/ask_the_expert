@@ -4,8 +4,9 @@ const bcrypt = require("bcrypt");
 const UserModel = require('../../database/models/User');
 import { LoginBodyInterface, RegisterBodyInterface, UserInfoObjectType } from "./types";
 import getMonthDifferenceHelper from "./helpers/getMonthDifference";
+import loginUserHelper from "./helpers/loginUser";
 
-const registerUserOrExpert = async (req: Request<{}, {}, RegisterBodyInterface>, res: Response) => {
+const registerUser = async (req: Request<{}, {}, RegisterBodyInterface>, res: Response) => {
     try {
         //to be removed and replaced by 'start_date': get start Year
         const date = (new Date());
@@ -19,8 +20,10 @@ const registerUserOrExpert = async (req: Request<{}, {}, RegisterBodyInterface>,
 
         const newUser = new UserModel({ ...req.body, ...userData });
         await newUser.save();
-
-        res.status(200).send(newUser);
+        //login new user auto with jwt token
+        const result = await loginUserHelper(req.body.email, req.body.password, req.body._id);
+        if (!result) res.status(400).send({ message: 'Invalid Credentials' });
+        else res.status(200).send({ ...result })
     }
     catch (err: any) {
         res.status(400).send({
@@ -30,22 +33,16 @@ const registerUserOrExpert = async (req: Request<{}, {}, RegisterBodyInterface>,
 }
 
 
-const loginUserOrExpert = async (req: Request<{}, {}, LoginBodyInterface>, res: Response) => {
+const loginUser = async (req: Request<{}, {}, LoginBodyInterface>, res: Response) => {
     const { email, password, _id } = req.body;
+    const result = await loginUserHelper(email, password, _id);
 
-    const user = await UserModel.findOne({ _id, email }).select("+password");
-    if (!user) res.status(400).send({ message: "Invalid Credentials" });
-
-    const matchingPassword = await bcrypt.compareSync(password, user.password);
-    if (!matchingPassword) res.status(400).send({ message: "Invalid Credentials" });
-    else {
-        user.password = undefined; //remove pass from result
-        res.status(200).send({ user: user });
-    }
+    if (!result) res.status(400).send({ message: 'Invalid Credentials' });
+    else res.status(200).send({ ...result })
 }
 
 module.exports = {
-    registerUserOrExpert,
-    loginUserOrExpert,
+    registerUser,
+    loginUser,
 };
 
