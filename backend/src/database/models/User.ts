@@ -63,24 +63,66 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     required: 'isBanned is required'
   },
-  blocked_experts: [
+  blocked_users: [
     {
       type: String,
       ref: "Expert",
     }
   ],
+  reviews: [
+    {
+      reviewed_user_id: {
+        type: String,
+        ref: 'User',
+      },
+      rating: {
+        type: Number,
+        required: 'Rating Number is Required',
+      },
+      content: {
+        type: String,
+        required: 'Rating Content is Required',
+      },
+    },
+    { timestamps: true }
+  ],
+  
+  //START OF ONLY NOVICE:
   appointments: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Appointment'
     }
   ],
-  reviews: [
+  //START OF ONLY NOVICE:
+
+  //START OF ONLY EXPERT:
+  appointments_groups: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Review'
-    }
+      end_timestamp: {
+        type: Date,
+      },
+      appointments: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Appointment'
+        }
+      ],
+    }, { timestamps: true }
   ],
+  score: {
+    type: Number,
+    required: 'Score is required'
+  },
+  isAvailable: {
+    type: Boolean,
+    required: 'isAvailable is required'
+  },
+  location: {
+    type: String,
+    required: "location is required",
+  },
+  //END OF ONLY EXPERT:
 },
   { timestamps: true }
 );
