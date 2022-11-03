@@ -1,9 +1,9 @@
 export interface LoginBodyInterface {
     email: String,
     password: String,
+    _id: String,
 };
 export interface RegisterBodyInterface extends LoginBodyInterface {
-    _id: String,
     firstName: String,
     lastName: String,
     spoken_languages: String,
@@ -19,6 +19,7 @@ export type UserInfoObjectType = {
     app_language: String,
     user_type: String,
     isBanned: Boolean,
+    password: String,
     blocked_users: string[],
     reviews: string[],
     appointments?: string[],
