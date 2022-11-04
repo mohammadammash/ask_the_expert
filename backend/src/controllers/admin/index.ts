@@ -24,7 +24,11 @@ const getAllUsersWithStatistics = async (req: Request, res: Response) => {
 };
 
 const banOrUnbanUser = async (req: Request<{}, {}, banOrUnbanUserBodyInterface>, res: Response) => {
-    res.send({ message: 'Ban User!' });
+    const { user_id, ban } = req.body;
+
+    await UserModel.findByIdAndUpdate(user_id, { isBanned: ban })
+        .then((data: any) => res.status(200).send({ message: `Success` }))
+        .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
 };
 
 module.exports = { getAllUsersWithStatistics, banOrUnbanUser };
