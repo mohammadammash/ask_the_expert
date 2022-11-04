@@ -45,7 +45,19 @@ const goOnline = async (req: Request<{}, {}, GoOnlineBodyInterface>, res: Respon
 };
 
 const addScore = async (req: Request<{}, {}, AddScoreBodyInterface>, res: Response) => {
-    res.send({ message: 'addScoreeee' });
+    const { currentUser_id } = req;
+    const { score_to_add } = req.body;
+
+    //Get expert previous score
+    const userPrevData = await UserModel.findById(currentUser_id);
+    if (!userPrevData) res.status(404).send({ message: 'User Not Found' });
+
+    //update expert score using previous score and added score
+    const new_score = Number(userPrevData.score) + Number(score_to_add);
+
+    await UserModel.findByIdAndUpdate(currentUser_id, { score: new_score })
+        .then((data: any) => res.status(200).send({ message: 'Success' }))
+        .catch((err: any) => res.status(400).send("Score isn't updated! Something Went wrong!"))
 };
 
 module.exports = {
