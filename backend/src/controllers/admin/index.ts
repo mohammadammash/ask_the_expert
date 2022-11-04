@@ -1,20 +1,13 @@
 import { Request, Response } from "express";
+//internal imports:
+import { banOrUnbanUserBodyInterface } from "./types";
 
 const getAllUsersWithStatistics = async (req: Request, res: Response) => {
     res.send({ message: 'getAllUsers && getChatsAndAppointmentsCountForLastSixMonths' });
 };
 
-const banUser = async (req: Request, res: Response) => {
+const banOrUnbanUser = async (req: Request<{}, {}, banOrUnbanUserBodyInterface>, res: Response) => {
     res.send({ message: 'Ban User!' });
 };
 
-const unBanUser = async (req: Request, res: Response) => {
-    res.send({ message: 'UnBan User!' });
-};
-
-
-module.exports = {
-    getAllUsersWithStatistics,
-    banUser,
-    unBanUser
-}
+module.exports = { getAllUsersWithStatistics, banOrUnbanUser };
