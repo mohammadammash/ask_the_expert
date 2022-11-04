@@ -3,7 +3,7 @@ const router = Router();
 
 const {
     getCloseExperts, bookAppointment, addReview, updateReview, deleteReview,
-} = require("../controllers/novice");
+} = require("../../controllers/novice");
 
 router.get("/", getCloseExperts);
 router.post("/book", bookAppointment);
