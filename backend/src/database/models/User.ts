@@ -97,6 +97,10 @@ const userSchema = new mongoose.Schema({
   //START OF ONLY EXPERT:
   appointments_groups: [
     {
+      start_timestamp: {
+        type: Date,
+        required: 'start_timestamp is required'
+      },
       end_timestamp: {
         type: Date,
         required: 'end_timestamp is required'
@@ -107,7 +111,7 @@ const userSchema = new mongoose.Schema({
           ref: 'Appointment'
         }
       ],
-    }, { timestamps: true } //to access created_at as start_timestamp
+    },
   ],
   score: {
     type: Number,

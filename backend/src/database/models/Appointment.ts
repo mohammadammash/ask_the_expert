@@ -9,21 +9,20 @@ const appointmentSchema = new mongoose.Schema({
         type: String,
         ref: 'Expert'
     },
-    isReserved:{
+    isReserved: {
         type: Boolean,
         required: 'isReserved is required'
     },
     start_timestamp: {
         type: Date,
-        required: 'Start Timestamp is required', 
+        required: 'Start Timestamp is required',
     },
     end_timestamp: {
         type: Date,
-        required: 'End Timestamp is required', 
+        required: 'End Timestamp is required',
     },
     notes: {
         type: String,
-        required: 'Notes are required',
     },
 },
     { timestamps: true } //for admin stats
