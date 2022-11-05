@@ -10,9 +10,9 @@ const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface
     await UserModel.aggregate([
         {
             $geoNear: {
-                near: { type: "Point", coordinates: [parseFloat(longitude), parseFloat(latitude)] },
+                near: { type: "Point", coordinates: [Number(longitude), Number(latitude)] },
                 distanceField: "distance.calculated",
-                maxDistance: 300000, //20km
+                maxDistance: 30000, //30km
                 spherical: true
             }
         }
