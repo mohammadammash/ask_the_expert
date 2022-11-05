@@ -1,8 +1,13 @@
 import { Request, Response } from "express";
+//internal imports
 import { getCurrentUserAppointmentsBodyInterface, getUsersDataBodyInterface, removeAppointmentBodyInterface, blockOrUnblockUserBodyInterface, updateProfileBodyInterface } from "./types";
+const UserModel = require('../../database/models/User');
 
 const getRankedExperts = async (req: Request, res: Response) => {
-    res.send({ message: 'getRankedExperts' });
+    //get experts sorted where score more than 0
+    await UserModel.find({ "score": { $gt: 3 } }).sort({ score: -1 })
+        .then((data: any) => res.status(200).send(data))
+        .catch((err: any) => res.status(400).send({ message: 'Experts Cannot be Retrieved' }))
 };
 
 const updateProfile = async (req: Request<{}, {}, updateProfileBodyInterface>, res: Response) => {
