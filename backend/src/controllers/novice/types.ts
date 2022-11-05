@@ -18,5 +18,5 @@ export interface addReviewBodyInterface {
 
 
 export interface deleteReviewBodyInterface {
-    score_to_add: Number
+    expert_id: String,
 }
