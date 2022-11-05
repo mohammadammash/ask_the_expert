@@ -1,4 +1,4 @@
-import { Number } from "mongoose";
+import { ObjectId } from "mongoose";
 
 export interface updateProfileBodyInterface {
     firstName: string;
@@ -11,14 +11,8 @@ export interface updateProfileBodyInterface {
     theme: string,
 };
 
-export interface getCurrentUserAppointmentsBodyInterface {
-    content?: String,
-    rating: Number,
-    expert_id: String,
-}
-
 export interface removeAppointmentBodyInterface {
-    expert_id: String,
+   appointment_id: ObjectId,
 }
 
 export interface blockOrUnblockUserBodyInterface {
