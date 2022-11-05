@@ -45,19 +45,25 @@ const addReview = async (req: Request, res: Response) => {
     const { expert_id, content, rating } = req.body;
     const { currentUser_id } = req;
 
-    const new_review = {
-        _id: currentUser_id,
-        rating: rating,
-        content: content,
-    }
+    //adding '1' because we are using string_id so it shouldn't be same as already used user id(novice)
+    const exists = await UserModel.findOne({ "reviews._id": currentUser_id + '1' });
+    if (exists) return res.status(400).send({ message: 'User Cannot have more than one review for one expert' });
 
+    const new_review = { _id: currentUser_id + '1', rating: rating, content: content, }
     await UserModel.updateOne({ _id: expert_id }, { $push: { reviews: new_review } }, { upserted: true })
         .then((data: any) => res.status(200).send(data))
         .catch((err: any) => res.status(400).send(err.message));
 };
 
 const deleteReview = async (req: Request, res: Response) => {
-    res.send({ message: 'deleteReview' });
+    const { expert_id } = req.body;
+    const { currentUser_id } = req;
+
+    await UserModel.updateOne({ _id: expert_id }, {
+        $pull: { reviews: { _id: currentUser_id + '1' } }
+    })
+        .then((data: any) => res.status(200).send({ message: 'Review Removed' }))
+        .catch((err: any) => res.status(400).send(err.message));
 };
 
 module.exports = {
