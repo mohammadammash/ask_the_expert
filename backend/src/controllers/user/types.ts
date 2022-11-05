@@ -12,11 +12,12 @@ export interface updateProfileBodyInterface {
 };
 
 export interface removeAppointmentBodyInterface {
-   appointment_id: ObjectId,
+    appointment_id: ObjectId,
 }
 
 export interface blockOrUnblockUserBodyInterface {
-    expert_id: String,
+    block: Boolean,
+    user_id: String,
 }
 
 export interface getUsersDataBodyInterface {
