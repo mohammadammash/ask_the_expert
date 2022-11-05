@@ -5,22 +5,18 @@ const AppointmentModel = require("../../database/models/Appointment");
 
 const getCloseExperts = async (req: Request, res: Response) => {
     const { latitude, longitude } = req.body;
-    const unitValue = 1000;
-    const distance = 5;
 
-    // const closeExperts = await UserModel.find({
-    //     location: {
-    //         $near: {
-    //             $maxDistance: distance * unitValue, // distance in meters
-    //             $geometry: {
-    //                 type: 'Point',
-    //                 coordinates: [longitude, latitude]
-    //             }
-    //         }
-    //     }
-    // })
-
-    // res.status(200).send({ experts: closeExperts });
+    await UserModel.aggregate([
+        {
+            $geoNear: {
+                near: { type: "Point", coordinates: [parseFloat(longitude), parseFloat(latitude)] },
+                distanceField: "distance.calculated",
+                maxDistance: 300000, //20km
+                spherical: true
+            }
+        }
+    ]).then((data: any) => res.status(200).send({ users: data }))
+        .catch((err: any) => res.status(400).send({ error: err.message }));
 };
 
 const bookAppointment = async (req: Request, res: Response) => {
@@ -45,12 +41,11 @@ const addReview = async (req: Request, res: Response) => {
     const { expert_id, content, rating } = req.body;
     const { currentUser_id } = req;
 
-    //adding '1' because we are using string_id so it shouldn't be same as already used user id(novice)
-    const exists = await UserModel.findOne({ "reviews._id": currentUser_id + '1' });
+    const exists = await UserModel.findOne({ "reviews.novice_id": currentUser_id });
     if (exists) return res.status(400).send({ message: 'User Cannot have more than one review for one expert' });
 
-    const new_review = { _id: currentUser_id + '1', rating: rating, content: content, }
-    await UserModel.updateOne({ _id: expert_id }, { $push: { reviews: new_review } }, { upserted: true })
+    const new_review = { novice_id: currentUser_id, rating: rating, content: content }
+    await UserModel.updateOne({ _id: expert_id }, { $push: { reviews: new_review } })
         .then((data: any) => res.status(200).send(data))
         .catch((err: any) => res.status(400).send(err.message));
 };
@@ -60,7 +55,7 @@ const deleteReview = async (req: Request, res: Response) => {
     const { currentUser_id } = req;
 
     await UserModel.updateOne({ _id: expert_id }, {
-        $pull: { reviews: { _id: currentUser_id + '1' } }
+        $pull: { reviews: { novice_id: currentUser_id } }
     })
         .then((data: any) => res.status(200).send({ message: 'Review Removed' }))
         .catch((err: any) => res.status(400).send(err.message));
