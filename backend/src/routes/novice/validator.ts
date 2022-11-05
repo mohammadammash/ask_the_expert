@@ -17,15 +17,10 @@ const bookAppointmentValidationRules = () => {
 const addReviewValidationRules = () => {
     return [
         body('expert_id').not().isEmpty().withMessage('cannot be empty'),
-        body('rating').isInt({ min: 0, max: 2 })
+        body('rating').isInt({ min: 1, max: 5 })
     ]
 }
 
-const updateReviewValidationRules = () => {
-    return [
-        body('score_to_add').isNumeric().isIn([-5, 5, 10]).withMessage('-5, or 5, or 10'),
-    ]
-}
 
 const deleteReviewValidationRules = () => {
     return [
@@ -34,4 +29,4 @@ const deleteReviewValidationRules = () => {
 }
 
 
-module.exports = { getCloseExpertsValidationRules, bookAppointmentValidationRules, addReviewValidationRules, updateReviewValidationRules, deleteReviewValidationRules }
+module.exports = { getCloseExpertsValidationRules, bookAppointmentValidationRules, addReviewValidationRules, deleteReviewValidationRules }

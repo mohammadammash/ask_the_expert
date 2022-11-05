@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { idText } from "typescript";
 //internal imports
 const UserModel = require("../../database/models/User");
 const AppointmentModel = require("../../database/models/Appointment");
@@ -43,12 +42,18 @@ const bookAppointment = async (req: Request, res: Response) => {
 };
 
 const addReview = async (req: Request, res: Response) => {
-    const { expert_id, appointment_id } = req.body;
+    const { expert_id, content, rating } = req.body;
     const { currentUser_id } = req;
-};
 
-const updateReview = async (req: Request, res: Response) => {
-    res.send({ message: 'updateReview' });
+    const new_review = {
+        _id: currentUser_id,
+        rating: rating,
+        content: content,
+    }
+
+    await UserModel.updateOne({ _id: expert_id }, { $push: { reviews: new_review } }, { upserted: true })
+        .then((data: any) => res.status(200).send(data))
+        .catch((err: any) => res.status(400).send(err.message));
 };
 
 const deleteReview = async (req: Request, res: Response) => {
@@ -59,6 +64,5 @@ module.exports = {
     getCloseExperts,
     bookAppointment,
     addReview,
-    updateReview,
     deleteReview,
 };

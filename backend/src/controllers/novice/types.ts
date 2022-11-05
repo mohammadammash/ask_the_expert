@@ -11,14 +11,11 @@ export interface bookAppointmentBodyInterface {
 };
 
 export interface addReviewBodyInterface {
-    content: String,
+    content?: String,
     rating: Number,
     expert_id: String,
 }
 
-export interface updateReviewBodyInterface{
-    score_to_add: Number
-}
 
 export interface deleteReviewBodyInterface {
     score_to_add: Number
