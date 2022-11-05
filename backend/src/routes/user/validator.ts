@@ -6,13 +6,6 @@ const getUsersDataValidationRules = () => {
     ]
 }
 
-const getCurrentUserAppointmentsValidationRules = () => {
-    return [
-        body('expert_id').not().isEmpty().withMessage('cannot be empty'),
-        body('rating').isInt({ min: 1, max: 5 })
-    ]
-}
-
 const updateProfileValidationRules = () => {
     return [
         body('firstName').isLength({ min: 2, max: 50 }).withMessage('3 < < 50 charcs'),
@@ -23,17 +16,19 @@ const updateProfileValidationRules = () => {
     ]
 }
 
-const blockOrUnblockUserValidationRules = () => {
-    return [
-        body('expert_id').not().isEmpty().withMessage('cannot be empty'),
-    ]
-}
-
 const removeAppointmentValidationRules = () => {
     return [
-        body('expert_id').not().isEmpty().withMessage('cannot be empty'),
+        body('appointment_id').not().isEmpty().withMessage('cannot be empty'),
+    ]
+}
+
+const blockOrUnblockUserValidationRules = () => {
+    return [
+        body('appointment_id').not().isEmpty().withMessage('cannot be empty'),
     ]
 }
 
 
-module.exports = { blockOrUnblockUserValidationRules, updateProfileValidationRules, getCurrentUserAppointmentsValidationRules, getUsersDataValidationRules, removeAppointmentValidationRules };
+
+
+module.exports = { blockOrUnblockUserValidationRules, updateProfileValidationRules, getUsersDataValidationRules, removeAppointmentValidationRules };
