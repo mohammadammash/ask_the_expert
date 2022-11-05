@@ -25,17 +25,35 @@ const removeAppointment = async (req: Request<{}, {}, removeAppointmentBodyInter
 
     const appointmentRemoved = await AppointmentModel.findByIdAndDelete(appointment_id);
     //if novice removed the appointment notify the expert
-    if(appointmentRemoved.novice_id === currentUser_id){
-        res.status(200).send({message: "lets notify the expert"});
+    if (appointmentRemoved.novice_id === currentUser_id) {
+        res.status(200).send({ message: "lets notify the expert" });
     }
     //if expert removed the appointment notify the novice
-    else if(appointmentRemoved.expert_id === currentUser_id){
+    else if (appointmentRemoved.expert_id === currentUser_id) {
         res.status(200).send({ message: "lets notify the novice" });
     }
 };
 
 const blockOrUnblockUser = async (req: Request<{}, {}, blockOrUnblockUserBodyInterface>, res: Response) => {
-    res.send({ message: 'blockOrUnblockUser' });
+    const { currentUser_id } = req;
+    const { user_id, block } = req.body;
+
+    //block is bool //block user
+    if (block) {
+        const exists = await UserModel.findOne({ "blocked_users._id": user_id });
+        if (exists) return res.status(400).send({ message: 'User Already blocked' });
+
+        const blocked_user = { _id: user_id };
+        await UserModel.findByIdAndUpdate(currentUser_id, { $push: { blocked_users: blocked_user } })
+            .then((data: any) => res.status(200).send({ message: data }))
+            .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
+    }
+    //if false unblock user
+    else {
+        await UserModel.findByIdAndUpdate(currentUser_id, { $pull: { blocked_users: user_id } })
+            .then((data: any) => res.status(200).send({ message: data }))
+            .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
+    }
 };
 
 const getUsersData = async (req: Request<{}, {}, getUsersDataBodyInterface>, res: Response) => {
