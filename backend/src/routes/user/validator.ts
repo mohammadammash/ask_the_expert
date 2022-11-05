@@ -2,7 +2,7 @@ import { body } from 'express-validator';
 
 const getUsersDataValidationRules = () => {
     return [
-        body('expert_id').not().isEmpty().withMessage('cannot be empty'),
+        body('users_ids').isArray().withMessage('should be array'),
     ]
 }
 
@@ -15,8 +15,11 @@ const getCurrentUserAppointmentsValidationRules = () => {
 
 const updateProfileValidationRules = () => {
     return [
-        body('expert_id').not().isEmpty().withMessage('cannot be empty'),
-        body('appointment_id').not().isEmpty().withMessage('cannot be empty'),
+        body('firstName').isLength({ min: 2, max: 50 }).withMessage('3 < < 50 charcs'),
+        body('lastName').isLength({ min: 2, max: 50 }).withMessage('3 < < 50 charcs'),
+        body('about').optional().isLength({ min: 20, max: 250 }).withMessage('20 < < 250'),
+        body('speciality').optional().not().isEmpty().withMessage('not empty'),
+        body('languages').optional().not().isEmpty().withMessage('not empty')
     ]
 }
 
@@ -26,11 +29,11 @@ const blockOrUnblockUserValidationRules = () => {
     ]
 }
 
-const removeAppoointmentValidationRules = () => {
+const removeAppointmentValidationRules = () => {
     return [
         body('expert_id').not().isEmpty().withMessage('cannot be empty'),
     ]
 }
 
 
-module.exports = { blockOrUnblockUserValidationRules, updateProfileValidationRules, getCurrentUserAppointmentsValidationRules, getUsersDataValidationRules, removeAppoointmentValidationRules };
+module.exports = { blockOrUnblockUserValidationRules, updateProfileValidationRules, getCurrentUserAppointmentsValidationRules, getUsersDataValidationRules, removeAppointmentValidationRules };
