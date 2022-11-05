@@ -24,7 +24,7 @@ const addReviewValidationRules = () => {
 
 const deleteReviewValidationRules = () => {
     return [
-        body('score_to_add').isNumeric().isIn([-5, 5, 10]).withMessage('-5, or 5, or 10'),
+        body('expert_id').not().isEmpty().withMessage('cannot be empty'),
     ]
 }
 
