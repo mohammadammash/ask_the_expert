@@ -57,7 +57,11 @@ const blockOrUnblockUser = async (req: Request<{}, {}, blockOrUnblockUserBodyInt
 };
 
 const getUsersData = async (req: Request<{}, {}, getUsersDataBodyInterface>, res: Response) => {
-    res.send({ message: 'getUsersDataForChatsFromFirebase' });
+    const { users_ids } = req.body;
+
+    await UserModel.find({ _id: { $in: users_ids } })
+        .then((data: any) => res.status(200).send(data))
+        .catch((err: any) => res.status(200).send({ message: err.message }))
 };
 
 module.exports = { getRankedExperts, updateProfile, removeAppointment, blockOrUnblockUser, getUsersData };
