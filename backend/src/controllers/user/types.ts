@@ -21,5 +21,5 @@ export interface blockOrUnblockUserBodyInterface {
 }
 
 export interface getUsersDataBodyInterface {
-    expert_id: String,
+    users_ids: String[],
 }
