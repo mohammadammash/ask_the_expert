@@ -11,7 +11,11 @@ const getRankedExperts = async (req: Request, res: Response) => {
 };
 
 const updateProfile = async (req: Request<{}, {}, updateProfileBodyInterface>, res: Response) => {
-    res.send({ message: 'editProfileee!!' });
+    const { currentUser_id } = req;
+
+    await UserModel.findByIdAndUpdate(currentUser_id, { ...req.body })
+        .then((data: any) => res.status(200).send({message: 'Success'}))
+        .catch((err: any) => res.status(400).send({ message: err.message }))
 };
 
 const getCurrentUserAppointments = async (req: Request<{}, {}, getCurrentUserAppointmentsBodyInterface>, res: Response) => {
