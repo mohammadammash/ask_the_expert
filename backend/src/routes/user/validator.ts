@@ -24,7 +24,8 @@ const removeAppointmentValidationRules = () => {
 
 const blockOrUnblockUserValidationRules = () => {
     return [
-        body('appointment_id').not().isEmpty().withMessage('cannot be empty'),
+        body('user_id').not().isEmpty().withMessage('cannot be empty'),
+        body('block').isBoolean().withMessage('should be bool'),
     ]
 }
 
