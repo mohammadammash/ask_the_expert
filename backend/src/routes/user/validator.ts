@@ -1,11 +1,5 @@
 import { body } from 'express-validator';
 
-const getUsersDataValidationRules = () => {
-    return [
-        body('users_ids').isArray().withMessage('should be array'),
-    ]
-}
-
 const updateProfileValidationRules = () => {
     return [
         body('firstName').isLength({ min: 2, max: 50 }).withMessage('3 < < 50 charcs'),
@@ -16,11 +10,7 @@ const updateProfileValidationRules = () => {
     ]
 }
 
-const removeAppointmentValidationRules = () => {
-    return [
-        body('appointment_id').not().isEmpty().withMessage('cannot be empty'),
-    ]
-}
+const removeAppointmentValidationRules = () => body('appointment_id').not().isEmpty().withMessage('cannot be empty');
 
 const blockOrUnblockUserValidationRules = () => {
     return [
@@ -29,7 +19,7 @@ const blockOrUnblockUserValidationRules = () => {
     ]
 }
 
-
+const getUsersDataValidationRules = () => body('users_ids').not().isEmpty().withMessage('cannot be empty');
 
 
 module.exports = { blockOrUnblockUserValidationRules, updateProfileValidationRules, getUsersDataValidationRules, removeAppointmentValidationRules };
