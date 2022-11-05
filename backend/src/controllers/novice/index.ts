@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 //internal imports
 const UserModel = require("../../database/models/User");
 const AppointmentModel = require("../../database/models/Appointment");
+import { getCloseExpertsBodyInterface, bookAppointmentBodyInterface, addReviewBodyInterface, deleteReviewBodyInterface } from "./types";
 
-const getCloseExperts = async (req: Request, res: Response) => {
+const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface>, res: Response) => {
     const { latitude, longitude } = req.body;
 
     await UserModel.aggregate([
@@ -19,7 +20,7 @@ const getCloseExperts = async (req: Request, res: Response) => {
         .catch((err: any) => res.status(400).send({ error: err.message }));
 };
 
-const bookAppointment = async (req: Request, res: Response) => {
+const bookAppointment = async (req: Request<{}, {}, bookAppointmentBodyInterface>, res: Response) => {
     const { expert_id, appointment_id } = req.body;
     const { currentUser_id } = req;
 
@@ -37,7 +38,7 @@ const bookAppointment = async (req: Request, res: Response) => {
     else res.status(400).send('Cannot be Reserved');
 };
 
-const addReview = async (req: Request, res: Response) => {
+const addReview = async (req: Request<{}, {}, addReviewBodyInterface>, res: Response) => {
     const { expert_id, content, rating } = req.body;
     const { currentUser_id } = req;
 
@@ -50,7 +51,7 @@ const addReview = async (req: Request, res: Response) => {
         .catch((err: any) => res.status(400).send(err.message));
 };
 
-const deleteReview = async (req: Request, res: Response) => {
+const deleteReview = async (req: Request<{}, {}, deleteReviewBodyInterface>, res: Response) => {
     const { expert_id } = req.body;
     const { currentUser_id } = req;
 
