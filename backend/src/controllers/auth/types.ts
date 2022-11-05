@@ -21,10 +21,13 @@ export type UserInfoObjectType = {
     isBanned: Boolean,
     password: String,
     blocked_users: string[],
-    reviews: string[],
+    reviews: [],
     appointments?: string[],
     appointments_groups?: string[],
     score?: Number,
     isAvailable?: Boolean,
-    location?: String,
+    location: {
+        type: String,
+        coordinates: Number[],
+    }
 }

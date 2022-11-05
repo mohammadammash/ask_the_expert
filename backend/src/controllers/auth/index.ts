@@ -14,11 +14,15 @@ const registerUser = async (req: Request<{}, {}, RegisterBodyInterface>, res: Re
         const yearsDiff = (getMonthDifferenceHelper(date) / 12);
 
         const password = await bcrypt.hash(req.body.password, 10);
-        const userData: UserInfoObjectType = { theme: '', app_language: '', user_type: '', isBanned: false, blocked_users: [], reviews: [], password };
+        //common
+        const userData: UserInfoObjectType = { reviews: [], theme: '', app_language: '', user_type: '', isBanned: false, blocked_users: [], password, location: { type: "Point", coordinates: [0, 0] } };
+        //if novice
         if (yearsDiff < 4) [userData.user_type, userData.appointments] = ['novice', []];
-        else[userData.user_type, userData.appointments_groups, userData.score, userData.isAvailable, userData.location] = ['expert', [], 0, false, ''];
+        //if expert
+        else[userData.user_type, userData.appointments_groups, userData.score, userData.isAvailable] = ['expert', [], 0, false];
 
         const newUser = new UserModel({ ...req.body, ...userData });
+        
         await newUser.save();
         //login new user auto with jwt token
         const result = await loginUserHelper(req.body.email, req.body.password, req.body._id);

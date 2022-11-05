@@ -69,20 +69,19 @@ const userSchema = new mongoose.Schema({
   ],
   reviews: [
     {
-      reviewed_user_id: {
+      novice_id: {
         type: String,
         ref: 'User',
+        required: 'novice id is req'
       },
       rating: {
         type: Number,
-        required: 'Rating Number is Required',
+        required: 'rating is req'
       },
       content: {
         type: String,
-        required: 'Rating Content is Required',
       },
     },
-    { timestamps: true }
   ],
 
   //START OF ONLY NOVICE:
@@ -120,9 +119,16 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
   },
   location: {
-    type: String,
-  },
-  //END OF ONLY EXPERT:
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  }
 },
   { timestamps: true }
 );
