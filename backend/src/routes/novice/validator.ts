@@ -7,12 +7,8 @@ const getCloseExpertsValidationRules = () => {
     ]
 }
 
-const bookAppointmentValidationRules = () => {
-    return [
-        body('expert_id').not().isEmpty().withMessage('cannot be empty'),
-        body('appointment_id').not().isEmpty().withMessage('cannot be empty'),
-    ]
-}
+const bookAppointmentValidationRules = () => body('appointment_id').not().isEmpty().withMessage('cannot be empty');
+
 
 const addReviewValidationRules = () => {
     return [
@@ -22,11 +18,7 @@ const addReviewValidationRules = () => {
 }
 
 
-const deleteReviewValidationRules = () => {
-    return [
-        body('expert_id').not().isEmpty().withMessage('cannot be empty'),
-    ]
-}
+const deleteReviewValidationRules = () => body('expert_id').not().isEmpty().withMessage('cannot be empty');
 
 
 module.exports = { getCloseExpertsValidationRules, bookAppointmentValidationRules, addReviewValidationRules, deleteReviewValidationRules }

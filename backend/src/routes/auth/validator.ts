@@ -12,6 +12,7 @@ const registerValidationRules = () => {
         body('start_date').isLength({ min: 8 }).withMessage('Date contains at least 8 charcs'),
         body('field').not().isEmpty().withMessage('cannot be empty'),
         body('speciality').not().isEmpty().withMessage('cannot be empty'),
+        body('device_token').not().isEmpty().withMessage('cannot be empty'),
     ]
 }
 

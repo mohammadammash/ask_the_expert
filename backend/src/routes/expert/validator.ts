@@ -7,10 +7,6 @@ const goOnlineValidationRules = () => {
     ]
 }
 
-const addScoreValidationRules = () => {
-    return [
-        body('score_to_add').isNumeric().isIn([-5, 5, 10]).withMessage('-5, or 5, or 10'),
-    ]
-}
+const addScoreValidationRules = () => body('score_to_add').isNumeric().isIn([-5, 5, 10]).withMessage('-5, or 5, or 10');
 
 module.exports = { goOnlineValidationRules, addScoreValidationRules }
