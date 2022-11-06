@@ -61,10 +61,13 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     required: 'isBanned is required'
   },
+  device_token: String,
   blocked_users: [
     {
-      type: String,
-      ref: "User",
+      _id: {
+        type: String,
+        ref: "User",
+      }
     }
   ],
   reviews: [
@@ -103,6 +106,9 @@ const userSchema = new mongoose.Schema({
       end_timestamp: {
         type: Date,
         required: 'end_timestamp is required'
+      },
+      isActive: {
+        type: Boolean,
       },
       appointments: [
         {
