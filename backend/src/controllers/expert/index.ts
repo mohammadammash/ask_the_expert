@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+const mongoose = require('mongoose');
 //internal imports
 import { GoOnlineBodyInterface, AddScoreBodyInterface } from "./types";
 const AppointmentModel = require("../../database/models/Appointment");
@@ -33,12 +34,15 @@ const goOnline = async (req: Request<{}, {}, GoOnlineBodyInterface>, res: Respon
 
     // Add newly created Appointments ids to Appointment group of the expert
     if (appointments_ids) {
+        const _id = new mongoose.Types.ObjectId();
+        const appointment_group = { _id:_id, start_timestamp: added_appointments[0].start_timestamp, isActive: true, end_timestamp: added_appointments[added_appointments.length - 1].end_timestamp, appointments: [...appointments_ids] };
+
         await UserModel.updateOne({ _id: currentUser_id }, {
             $push: {
-                appointments_groups: { start_timestamp: added_appointments[0].start_timestamp, end_timestamp: added_appointments[added_appointments.length - 1].end_timestamp, appointments: [...appointments_ids] }
+                appointments_groups: appointment_group,
             }
         })
-            .then((data: any) => res.status(200).send({ message: 'Success' }))
+            .then((data: any) => res.status(200).send({ ...appointment_group }))
             .catch((err: any) => res.status(400).send({ message: err.message }));
     }
     else res.status(400).send({ errorMessage: 'Something went wrong' })
@@ -56,7 +60,7 @@ const addScore = async (req: Request<{}, {}, AddScoreBodyInterface>, res: Respon
     const new_score = Number(userPrevData.score) + Number(score_to_add);
 
     await UserModel.findByIdAndUpdate(currentUser_id, { score: new_score })
-        .then((data: any) => res.status(200).send({ message: 'Success' }))
+        .then((data: any) => res.status(200).send({ message: "Success Score Update" }))
         .catch((err: any) => res.status(400).send("Score isn't updated! Something Went wrong!"))
 };
 
