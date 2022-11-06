@@ -6,7 +6,6 @@ export interface getCloseExpertsBodyInterface {
 }
 
 export interface bookAppointmentBodyInterface {
-    expert_id: String,
     appointment_id: ObjectId,
 };
 
