@@ -8,10 +8,8 @@ import loginUserHelper from "./helpers/loginUser";
 
 const registerUser = async (req: Request<{}, {}, RegisterBodyInterface>, res: Response) => {
     try {
-        //to be removed and replaced by 'start_date': get start Year
-        const date = (new Date());
-        date.setDate(date.getDate() - 500);
-        const yearsDiff = (getMonthDifferenceHelper(date) / 12);
+        const { start_date } = req.body;
+        const yearsDiff = (getMonthDifferenceHelper(start_date) / 12);
 
         const password = await bcrypt.hash(req.body.password, 10);
         //common
@@ -22,7 +20,7 @@ const registerUser = async (req: Request<{}, {}, RegisterBodyInterface>, res: Re
         else[userData.user_type, userData.appointments_groups, userData.score, userData.isAvailable] = ['expert', [], 0, false];
 
         const newUser = new UserModel({ ...req.body, ...userData });
-        
+
         await newUser.save();
         //login new user auto with jwt token
         const result = await loginUserHelper(req.body.email, req.body.password, req.body._id);

@@ -8,7 +8,7 @@ export interface RegisterBodyInterface extends LoginBodyInterface {
     lastName: String,
     spoken_languages: String,
     about: String,
-    start_date: String,
+    start_date: Date,
     profile_url: String,
     field: String,
     speciality: String,
