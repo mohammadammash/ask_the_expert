@@ -22,11 +22,11 @@ const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface
         else {
             //remove unactive appointment_groups and populate only active experts with at least one unreserved appointment
             let experts = closeExperts.filter((expert: any) => {
-                expert.appointments_groups = expert.appointments_groups.find((app:any) => app.isActive)
+                expert.appointments_groups = expert.appointments_groups.find((app: any) => app.isActive)
                 return expert;
             })
 
-            experts = await UserModel.populate(experts, { path: "appointments_groups.appointments"})
+            experts = await UserModel.populate(experts, { path: "appointments_groups.appointments" })
             res.status(200).send(experts);
         }
     }
@@ -36,21 +36,28 @@ const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface
 };
 
 const bookAppointment = async (req: Request<{}, {}, bookAppointmentBodyInterface>, res: Response) => {
-    const { expert_id, appointment_id } = req.body;
+    const { appointment_id } = req.body;
     const { currentUser_id } = req;
 
-    const appointment = await AppointmentModel.findOne({ _id: appointment_id }).lean();
-    if (!appointment) res.status(400).send('Appointment Not Found');
+    try {
+        const appointment = await AppointmentModel.findOne({ _id: appointment_id }).lean();
+        if (!appointment) res.status(400).send('Appointment Not Found');
 
-    //make sure app exists and it is not reserved
-    const now = new Date();
-    if (appointment.start_timestamp > now && !appointment.isReserved) {
-        await AppointmentModel.findByIdAndUpdate(appointment_id, { $set: { novice_id: currentUser_id, isReserved: true } }, { new: true })
-            .then((data: any) => res.status(200).send(data))
-            .catch((err: any) => res.status(400).send(err.message))
-        //!!!!if appointment is reserved send to expert_id notification!!!!!
+        const expert = await UserModel.findOne({ _id: appointment.expert_id }).lean();
+        if (!expert) res.status(400).send('Expert Not Found');
+        const expert_device_token = expert.device_token;
+
+        // make sure app exists and it is not reserved
+        const now = new Date();
+        if (appointment.start_timestamp > now && !appointment.isReserved) {
+            const data = await AppointmentModel.findByIdAndUpdate(appointment_id, { $set: { novice_id: currentUser_id, isReserved: true } }, { new: true }).lean();
+            res.status(200).send({...data, expert_device_token})
+        }
+        else res.status(400).send('Cannot be Reserved');
     }
-    else res.status(400).send('Cannot be Reserved');
+    catch (err: any) {
+        res.status(400).send({ message: err.message });
+    }
 };
 
 const addReview = async (req: Request<{}, {}, addReviewBodyInterface>, res: Response) => {
