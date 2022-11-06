@@ -14,8 +14,8 @@ const getRankedExperts = async (req: Request, res: Response) => {
 const updateProfile = async (req: Request<{}, {}, updateProfileBodyInterface>, res: Response) => {
     const { currentUser_id } = req;
 
-    await UserModel.findByIdAndUpdate(currentUser_id, { ...req.body })
-        .then((data: any) => res.status(200).send({ message: 'Success' }))
+    await UserModel.findByIdAndUpdate(currentUser_id, { ...req.body }, {new: true})
+        .then((data: any) => res.status(200).send())
         .catch((err: any) => res.status(400).send({ message: err.message }))
 };
 
@@ -45,13 +45,13 @@ const blockOrUnblockUser = async (req: Request<{}, {}, blockOrUnblockUserBodyInt
 
         const blocked_user = { _id: user_id };
         await UserModel.findByIdAndUpdate(currentUser_id, { $push: { blocked_users: blocked_user } })
-            .then((data: any) => res.status(200).send({ message: data }))
+            .then((data: any) => res.status(200).send({ message: 'User Blocked' }))
             .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
     }
     //if false unblock user
     else {
         await UserModel.findByIdAndUpdate(currentUser_id, { $pull: { blocked_users: user_id } })
-            .then((data: any) => res.status(200).send({ message: data }))
+            .then((data: any) => res.status(200).send({ message: 'User UnBlocked' }))
             .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
     }
 };
@@ -59,7 +59,7 @@ const blockOrUnblockUser = async (req: Request<{}, {}, blockOrUnblockUserBodyInt
 const getUsersData = async (req: Request<{}, {}, getUsersDataBodyInterface>, res: Response) => {
     const { users_ids } = req.body;
 
-    await UserModel.find({ _id: { $in: users_ids } })
+    await UserModel.find({ _id: { $in: users_ids } }).populate('reviews.novice_id appointments_groups.appointments').lean()
         .then((data: any) => res.status(200).send(data))
         .catch((err: any) => res.status(200).send({ message: err.message }))
 };
