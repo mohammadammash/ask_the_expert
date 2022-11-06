@@ -4,6 +4,7 @@ const getCloseExpertsValidationRules = () => {
     return [
         body('latitude').isNumeric().withMessage('should be number'),
         body('longitude').isNumeric().withMessage('should be number'),
+        body('field').not().isEmpty().withMessage('cannot be empty')
     ]
 }
 

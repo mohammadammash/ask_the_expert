@@ -6,7 +6,7 @@ const AppointmentModel = require("../../database/models/Appointment");
 import { getCloseExpertsBodyInterface, bookAppointmentBodyInterface, addReviewBodyInterface, deleteReviewBodyInterface } from "./types";
 
 const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface>, res: Response) => {
-    const { latitude, longitude } = req.body;
+    const { latitude, longitude, field } = req.body;
 
     try {
         const closeExperts = await UserModel.aggregate([{
@@ -20,13 +20,13 @@ const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface
 
         if (!closeExperts) res.status(200).send([]);
         else {
-            //remove unactive appointment_groups and populate only active experts with at least one unreserved appointment
+            //remove unactive appointment_groups and populate only active experts with at least one unreserved appointment within same field
             let experts = closeExperts.filter((expert: any) => {
                 expert.appointments_groups = expert.appointments_groups.find((app: any) => app.isActive)
-                return expert;
+                if (expert.field === field) return field;
             })
 
-            experts = await UserModel.populate(experts, { path: "appointments_groups.appointments" })
+            experts = await UserModel.populate(experts, { path: "appointments_groups.appointments reviews.novice_id" })
             res.status(200).send(experts);
         }
     }
@@ -51,7 +51,7 @@ const bookAppointment = async (req: Request<{}, {}, bookAppointmentBodyInterface
         const now = new Date();
         if (appointment.start_timestamp > now && !appointment.isReserved) {
             const data = await AppointmentModel.findByIdAndUpdate(appointment_id, { $set: { novice_id: currentUser_id, isReserved: true } }, { new: true }).lean();
-            res.status(200).send({...data, expert_device_token})
+            res.status(200).send({ ...data, expert_device_token })
         }
         else res.status(400).send('Cannot be Reserved');
     }
