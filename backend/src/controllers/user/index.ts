@@ -4,6 +4,14 @@ import { getUsersDataBodyInterface, removeAppointmentBodyInterface, blockOrUnblo
 const UserModel = require('../../database/models/User');
 const AppointmentModel = require('../../database/models/Appointment');
 
+const getCurrentUser = async (req: Request, res: Response) => {
+    const { currentUser_id } = req;
+
+    await UserModel.findById(currentUser_id).populate('reviews.novice_id appointments appointments_groups.appointments blocked_users')
+        .then((data: any) => res.status(200).send(data))
+        .catch((err: any) => res.status(200).send({ message: err.message }))
+}
+
 const getRankedExperts = async (req: Request, res: Response) => {
     //get experts sorted where score more than 0
     await UserModel.find({ "score": { $gt: 3 } }).sort({ score: -1 })
@@ -14,7 +22,7 @@ const getRankedExperts = async (req: Request, res: Response) => {
 const updateProfile = async (req: Request<{}, {}, updateProfileBodyInterface>, res: Response) => {
     const { currentUser_id } = req;
 
-    await UserModel.findByIdAndUpdate(currentUser_id, { ...req.body }, {new: true})
+    await UserModel.findByIdAndUpdate(currentUser_id, { ...req.body }, { new: true })
         .then((data: any) => res.status(200).send())
         .catch((err: any) => res.status(400).send({ message: err.message }))
 };
@@ -24,13 +32,24 @@ const removeAppointment = async (req: Request<{}, {}, removeAppointmentBodyInter
     const { appointment_id } = req.body;
 
     const appointmentRemoved = await AppointmentModel.findByIdAndDelete(appointment_id);
-    //if novice removed the appointment notify the expert
+
+    //get the second part in the appointment device_token to notify in the frontend
     if (appointmentRemoved.novice_id === currentUser_id) {
-        res.status(200).send({ message: "lets notify the expert" });
+        const expert = await UserModel.findOne({ _id: appointmentRemoved.expert_id }).lean();
+        if (!expert) res.status(400).send('Expert to receive Notification not Found');
+        else {
+            const user_device_token = expert.device_token;
+            res.status(200).send({ user_device_token });
+        }
     }
     //if expert removed the appointment notify the novice
     else if (appointmentRemoved.expert_id === currentUser_id) {
-        res.status(200).send({ message: "lets notify the novice" });
+        const novice = await UserModel.findOne({ _id: appointmentRemoved.novice_id }).lean();
+        if (!novice) res.status(400).send('Novice to receive Notification not Found');
+        else {
+            const user_device_token = novice.device_token;
+            res.status(200).send({ user_device_token });
+        }
     }
 };
 
@@ -64,4 +83,4 @@ const getUsersData = async (req: Request<{}, {}, getUsersDataBodyInterface>, res
         .catch((err: any) => res.status(200).send({ message: err.message }))
 };
 
-module.exports = { getRankedExperts, updateProfile, removeAppointment, blockOrUnblockUser, getUsersData };
+module.exports = { getCurrentUser, getRankedExperts, updateProfile, removeAppointment, blockOrUnblockUser, getUsersData };
