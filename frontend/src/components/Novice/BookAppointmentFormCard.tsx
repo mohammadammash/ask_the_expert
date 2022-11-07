@@ -7,6 +7,7 @@ import { Formik } from "formik";
 import { COLORS } from "../../constants";
 import styles from "../../../styles";
 import {BookFormValuesTypes, BookAppointmentFormCardProps} from "./types";
+import noviceStyles from "./novice.styles";
 
 
 //FORMIK
@@ -39,9 +40,9 @@ const BookAppointmentFormCard: React.FC<BookAppointmentFormCardProps> = ({
         <View className="items-center">
           <RadioButton
             data={data}
-            style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start", justifyContent: "space-evenly", marginTop: 10 }}
-            boxStyle={{ width: "40%", justifyContent: "space-evenly" }}
-            textStyle={{ marginLeft: 10, fontSize: 12 }}
+            style={noviceStyles.radioButton}
+            boxStyle={noviceStyles.radioButtonBox}
+            textStyle={noviceStyles.radioButtonText}
             selectedBtn={(e) => handleSubmitTimeStamps({ start_timestamp: e.start_timestamp, end_timestamp: e.end_timestamp })}
             icon={<Icon name="check-circle" size={25} color={COLORS.blue} />}
           />
@@ -60,7 +61,7 @@ const BookAppointmentFormCard: React.FC<BookAppointmentFormCardProps> = ({
           <Text className="my-5 font-bold">10/11/2022 12:15 pm</Text>
           <Pressable className="mb-5 flex-row" style={styles.blue_button_lg} onPress={handleSubmit}>
             <FontAwesome name="calendar-check-o" size={20} color="white" />
-            <Text className="font-bold text-base ml-2" style={{ color: COLORS.white }}>
+            <Text className="font-bold text-base ml-2" style={styles.white_text}>
               BOOK
             </Text>
           </Pressable>

@@ -5,6 +5,7 @@ import { AirbnbRating } from "react-native-ratings";
 //internal imports
 import styles from "../../../styles";
 import { RatingFormValuesTypes, AddReviewModalFormProps } from "./types";
+import noviceStyles from "./novice.styles";
 
 const reviewIntialValues: RatingFormValuesTypes = {
   content: "",
@@ -32,7 +33,7 @@ const AddReviewModalForm: React.FC<AddReviewModalFormProps> = ({ modalRef }) => 
         <View className="w-full items-center">
           <AirbnbRating
             onFinishRating={(v) => (values.rating = v)}
-            starContainerStyle={{ display: "flex", alignItems: "center", height: 30 }}
+            starContainerStyle={noviceStyles.starRowRating}
             size={20}
             reviews={["Terrible", "Bad", "Okay", "Good", "Great"]}
           />
