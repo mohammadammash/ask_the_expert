@@ -59,21 +59,34 @@ const goOnline = async (req: Request<{}, {}, GoOnlineBodyInterface>, res: Respon
 const goOffline = async (req: Request, res: Response) => {
     const { currentUser_id } = req;
 
-    const user = await UserModel.findByIdAndUpdate(currentUser_id, { isAvailable: false }).populate('appointments_groups.appointments');
-    const active_appointment = user.appointments_groups.find((app: any) => app.isActive);
-    const now = new Date();
-    for (let app of active_appointment.appointments) {
-        if (app.start_timestamp < now) continue;
-        if (app.isReserved) {
-            //remove from Appointment Model
-            console.log("🚀 ~ file: index.ts ~ line 67 ~ goOffline ~ Appointment Model", 'const app = await AppointmentModel.findByIdAndDelete()')
-            //use app.novice_id to notify novice //maybe i would add each id to array and notify by once
-            console.log("🚀 ~ file: index.ts ~ line 65 ~ goOffline ~ app.novice_id", app.novice_id)
-        }
-    }
+    try {
+        const user = await UserModel.findByIdAndUpdate(currentUser_id, { isAvailable: false }).populate('appointments_groups.appointments');
+        const active_appointment = user.appointments_groups.find((app: any) => app.isActive);
+        const now = new Date();
 
-    if (!user) res.status(400).send({ message: 'User Not Found' })
-    else res.status(200).send(active_appointment);
+        const novices_ids = [];
+        const appointments_ids = [];
+        for (let app of active_appointment.appointments) {
+            if (app.start_timestamp < now) continue;
+            if (app.isReserved) {
+                //get all reserved apps ids to remove once
+                appointments_ids.push(app._id);
+                //get each novice id to get device token from once
+                novices_ids.push(app);
+            }
+        }
+
+        await AppointmentModel.deleteMany({ _id: { $in: appointments_ids } });
+        //when all apps are removed and no error occured //get all devices tokens return to frontend to send notifications to users
+        const novices = await UserModel.populate(novices_ids, { path: 'novice_id' }); //populate novices ids to get device token
+        const novices_device_tokens = novices.reduce((result: any, novice: any) => {
+            result.push(novice.novice_id.device_token);
+            return result;
+        }, [])
+        res.send(novices_device_tokens);
+    } catch (err: any) {
+        res.status(400).send({ message: err.message })
+    }
 };
 
 const addScore = async (req: Request<{}, {}, AddScoreBodyInterface>, res: Response) => {
