@@ -22,8 +22,10 @@ const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface
         else {
             //remove unactive appointment_groups and populate only active experts with at least one unreserved appointment within same field
             let experts = closeExperts.filter((expert: any) => {
-                expert.appointments_groups = expert.appointments_groups.find((app: any) => app.isActive)
-                if (expert.field === field) return field;
+                if (expert.field === field) {
+                    expert.appointments_groups = expert.appointments_groups.find((app: any) => app.isActive)
+                    return field;
+                }
             })
 
             experts = await UserModel.populate(experts, { path: "appointments_groups.appointments reviews.novice_id" })
