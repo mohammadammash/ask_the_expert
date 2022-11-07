@@ -2,37 +2,21 @@ import { Request, Response } from "express";
 const mongoose = require('mongoose');
 //internal imports
 import { GoOnlineBodyInterface, AddScoreBodyInterface, } from "./types";
+import createArrayOfAppointmentsObjectsHelper from "./helpers/createArrayOfAppointmentsObjects";
+import autoTurnUserToOfflineAtEndHelper from "./helpers/autoTurnUserToOfflineAtEnd";
 const AppointmentModel = require("../../database/models/Appointment");
 const UserModel = require("../../database/models/User");
 
+//When Expert Chooses to Be Available for appointments
 const goOnline = async (req: Request<{}, {}, GoOnlineBodyInterface>, res: Response) => {
     const { currentUser_id } = req;
     const { meetings_time, single_session_time } = req.body;
 
-    const number_of_sessions = Number(meetings_time) / Number(single_session_time);
     //after start of last session turn user auto to unavailable
-    const milliseconds_to_turn_user_to_unAvailable = (Number(meetings_time) - Number(single_session_time)) * 60000;
-    setTimeout(async () => {
-        console.log("🚀 ~ file: index.ts ~ line 17 ~ setTimeout ~", "hey timerr i am here");
-        await UserModel.findByIdAndUpdate({ _id: currentUser_id }, { isAvailable: false });
-    }, milliseconds_to_turn_user_to_unAvailable)
+    autoTurnUserToOfflineAtEndHelper(Number(meetings_time), Number(single_session_time), currentUser_id);
 
     //Turn time inputs into appointment schema object
-    const appointments = [];
-    let now = new Date();
-    let currentTs = new Date(now.getTime() + 5 * 60000);
-    for (let i = 0; i < number_of_sessions; i++) {
-        const end_timestamp = new Date(currentTs.getTime() + Number(single_session_time) * 60000);
-        const tempAppointment = {
-            expert_id: currentUser_id,
-            isReserved: false,
-            start_timestamp: currentTs,
-            end_timestamp,
-            notes: '',
-        };
-        currentTs = end_timestamp;
-        appointments.push(tempAppointment);
-    }
+    const appointments = createArrayOfAppointmentsObjectsHelper(Number(meetings_time), Number(single_session_time), currentUser_id);
 
     //Add all appointments to Appointments table and save new _id of each appointment 
     const added_appointments = await AppointmentModel.insertMany(appointments, { ordered: true });
@@ -55,7 +39,9 @@ const goOnline = async (req: Request<{}, {}, GoOnlineBodyInterface>, res: Respon
     else res.status(400).send({ errorMessage: 'Something went wrong' })
 };
 
-//when expert chooses to go Offline before all his meetings timestamp ends
+//When expert chooses to go Offline before all his meetings timestamp ens =>
+//Get all his appointments => delete them &&
+//Notify Experts for already reserved appointments
 const goOffline = async (req: Request, res: Response) => {
     const { currentUser_id } = req;
 
@@ -89,6 +75,7 @@ const goOffline = async (req: Request, res: Response) => {
     }
 };
 
+//Increase or Decrease the score of expert
 const addScore = async (req: Request<{}, {}, AddScoreBodyInterface>, res: Response) => {
     const { currentUser_id } = req;
     const { score_to_add } = req.body;
