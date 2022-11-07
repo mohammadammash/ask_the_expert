@@ -22,4 +22,3 @@ export { default as NoviceHomeScreen } from "./Novice/HomeScreen";
 export { default as AdminProfileScreen } from "./Admin/ProfileScreen";
 export { default as AdminHomeScreen } from "./Admin/HomeScreen";
 export { default as AdminViewUsersScreen } from "./Admin/ViewUsersScreen";
-export { default as AdminViewBannedUsersScreen } from "./Admin/ViewBannedUsers";

@@ -1,5 +1,3 @@
-import AddReviewModalForm from "./Novice/AddReviewModalForm";
-
 //AUTH
 export {default as LoginFormComponent} from "./Auth/LoginForm";
 export {default as RegisterFormComponent} from "./Auth/RegisterForm";
@@ -17,7 +15,6 @@ export {default as ConfirmAvailabilityFormCard} from "./Expert/ConfirmAvailabili
 export {default as ReviewCardComponent} from "./Expert/ReviewCard";
 
 //ADMIN
-export {default as FilterPageTitleComponent} from "./Admin/FilterPageTitle";
 export {default as UserCardComponent} from "./Admin/UserCard";
 export {default as ChartsLowerLegendComponent} from "./Admin/Charts/ChartsLowerLegend";
 export {default as ChartsUpperLegendComponent} from "./Admin/Charts/ChartsUpperLegend";
