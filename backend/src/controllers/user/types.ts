@@ -1,5 +1,8 @@
 import { ObjectId } from "mongoose";
 
+export interface getSingleUserDataParamsInterface {
+    user_id?: String,
+}
 export interface updateProfileBodyInterface {
     firstName: string;
     lastName: string;
