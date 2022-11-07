@@ -3,6 +3,7 @@ import { useState } from "react";
 //internal imports
 import { BookAppointmentFormCardComponent } from "../../components";
 import { COLORS } from "../../constants";
+import styles from "../../../styles";
 
 const BookAppointmentScreen = () => {
   //START OF FORM HANDLE DATA
@@ -79,10 +80,10 @@ const BookAppointmentScreen = () => {
   return (
     <View className="flex-1 w-full items-center justify-evenly bg-white border">
       <View className="w-full items-center h-1/6 gap-5">
-        <Text style={{ color: COLORS.blue }} className="text-slate-800 font-bold text-lg text-center">
+        <Text style={styles.blue_text} className="text-slate-800 font-bold text-lg text-center">
           Your Career Advice Is One Click Away
         </Text>
-        <Text className="text-center w-3/4 text-xs color-[#828282]">
+        <Text style={styles.grey_text} className="text-center w-3/4 text-xs">
           Choose the available appointment time, and make sure to be there on time. A short timespan for a huge boost.
         </Text>
       </View>

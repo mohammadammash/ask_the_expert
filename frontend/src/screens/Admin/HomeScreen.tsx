@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 //internal imports
 import { ChartsLowerLegendComponent, ChartsUpperLegendComponent } from "../../components";
 import { COLORS } from "../../constants";
+import styles from "../../../styles";
 
 //HARD CODED DATA
 const pieData = [
@@ -100,7 +101,7 @@ const appointmentsData = [
 
 const HomeScreen = () => {
   return (
-    <View style={{ backgroundColor: COLORS.dark }} className="items-center justify-evenly flex-1 gap-1">
+    <View style={styles.bg_dark} className="items-center justify-evenly flex-1 gap-1">
       <View>
         <ScrollView horizontal={true} className="flex-row">
           {/* START OF ALL USERS CHARTS */}
@@ -133,7 +134,7 @@ const HomeScreen = () => {
           {/* END OF ALL USERS CHARTS */}
 
           {/* START OF NEW USERS CHART */}
-          <View style={{ backgroundColor: COLORS.dark }} className="w-96 items-center justify-center">
+          <View style={styles.bg_dark} className="w-96 items-center justify-center">
             <View>
               <ChartsUpperLegendComponent chart_type="newUsers" dot1_title={"118 Expert"} dot2_title={"1000 Novice"} />
               <BarChart
@@ -145,8 +146,8 @@ const HomeScreen = () => {
                 hideRules
                 xAxisThickness={2}
                 yAxisThickness={2}
-                yAxisTextStyle={{ color: COLORS.grey }}
-                xAxisLabelTextStyle={{ color: COLORS.grey }}
+                yAxisTextStyle={styles.grey_text}
+                xAxisLabelTextStyle={styles.grey_text}
                 noOfSections={3}
                 maxValue={150}
               />
@@ -173,7 +174,7 @@ const HomeScreen = () => {
                 yAxisThickness={0}
                 xAxisType={"solid"}
                 xAxisColor={"lightgray"}
-                yAxisTextStyle={{ color: "lightgray" }}
+                yAxisTextStyle={styles.grey_text}
                 stepValue={1000}
                 maxValue={6000}
                 noOfSections={6}
@@ -195,7 +196,7 @@ const HomeScreen = () => {
           {/* END OF FIELDS STATISTICS CHART */}
 
           {/* START OF APPOINTMENTS AND NEW STATISTICS CHART */}
-          <View style={{ backgroundColor: COLORS.dark }} className="w-96 items-center justify-center">
+          <View style={styles.bg_dark} className="w-96 items-center justify-center">
             <View>
               <ChartsUpperLegendComponent chart_type="AppointmentsAndChats" dot1_title={"116 Chat"} dot2_title={"432 Appointment"} />
               <LineChart
@@ -213,8 +214,8 @@ const HomeScreen = () => {
                 xAxisThickness={2}
                 yAxisThickness={2}
                 verticalLinesThickness={0}
-                yAxisTextStyle={{ color: COLORS.grey }}
-                xAxisLabelTextStyle={{ color: COLORS.grey }}
+                yAxisTextStyle={styles.grey_text}
+                xAxisLabelTextStyle={styles.grey_text}
                 xAxisLabelTexts={["", "Jan", "Feb", "Mar", "Apr", "May", "Jun"]}
                 dataPointsHeight={6}
                 dataPointsWidth={6}

@@ -16,6 +16,7 @@ import {
 import { COLORS, USERTYPES, ROUTES } from "../../constants";
 import CalculateYearsOfExperienceHelper from "../Helpers/CalculateYearsOfExperienceHelper";
 import { calculateReviewsStatsHelper } from "../Helpers/CalculateReviewsStatsHelper";
+import styles from "../../../styles";
 
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();
@@ -66,9 +67,9 @@ const ProfileScreen = () => {
         <AboutSectionComponent {...aboutData} />
 
         {/* REVIEWS TITLE */}
-        <View style={{ backgroundColor: COLORS.grey }} className="h-24 justify-center w-full font-bold border mb-5">
+        <View style={styles.bg_grey} className="h-24 justify-center w-full font-bold border mb-5">
           {user_type === USERTYPES.EXPERT ? (
-            <Text style={{ color: COLORS.blue }} className="font-bold text-2xl text-center">
+            <Text style={styles.blue_text} className="font-bold text-2xl text-center">
               REVIEWS
             </Text>
           ) : (

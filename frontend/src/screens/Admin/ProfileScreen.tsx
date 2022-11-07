@@ -4,8 +4,8 @@ import { UserContext } from "../../hooks/UserContext";
 import { useContext } from "react";
 import { Entypo } from "@expo/vector-icons";
 //internal imports:
+import styles from "../../../styles";
 import { ProfileImageCardComponent, ButtonsComponent } from "../../components";
-import { COLORS, ROUTES } from "../../constants";
 
 const ProfileScreen = () => {
   const { user, setUser } = useContext(UserContext);
@@ -26,7 +26,7 @@ const ProfileScreen = () => {
       <View className="w-full items-center justify-start gap-6">
         {/* PERSONAL INFO */}
         <View className="mb-2">
-          <Text style={{ color: COLORS.blue }} className="font-bold text-2xl">
+          <Text style={styles.blue_text} className="font-bold text-2xl">
             {firstName} {lastName}
           </Text>
           <Text className="opacity-60 text-sm text-center">{email}</Text>
@@ -34,7 +34,7 @@ const ProfileScreen = () => {
 
         <View className="items-center gap-2">
           <Entypo name="shield" size={50} color="black" />
-          <Text style={{ color: COLORS.dark }} className="text-base font-bold">
+          <Text style={styles.dark_text} className="text-base font-bold">
             ADMINSTRATOR
           </Text>
         </View>

@@ -4,6 +4,7 @@ import { useState } from "react";
 //internal imports
 import { COLORS } from "../../constants";
 import { SendMessageFormComponent } from "../../components";
+import styles from "../../../styles";
 
 const SingleChatScreen = () => {
   //START OF SEND MESSAGE FORM
@@ -28,7 +29,7 @@ const SingleChatScreen = () => {
         <View className="">
           {/* LEFT BUBBLE */}
           <View
-            style={{ backgroundColor: COLORS.blue }}
+            style={styles.bg_blue}
             className="ml-2 min-w-1/2 w-3/5 max-w-3/4 min-h-8 p-2 rounded-2xl rounded-tl-none mb-2 flex-row"
           >
             <Text className="w-5/6 text-white">
@@ -41,7 +42,7 @@ const SingleChatScreen = () => {
           {/* RIGHT BUBBLE */}
           <View className="items-end">
             <View
-              style={{ backgroundColor: COLORS.grey }}
+              style={styles.bg_grey}
               className="mr-2 mb-2 w-3/5 min-w-1/2 max-w-3/4 min-h-8 p-2 rounded-2xl rounded-tr-none flex-row "
             >
               <Text className="w-5/6 ">Lorem psum dolor? Lorem psum dolor?</Text>

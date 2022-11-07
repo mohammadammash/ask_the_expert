@@ -2,7 +2,7 @@ import { View, ScrollView } from "react-native";
 import { useContext, useState } from "react";
 import { UserContext } from "../../hooks/UserContext";
 //internal imports
-import { EditProfileFormComponent, EditAdminProfileFormComponent } from "../../components";
+import { EditProfileFormComponent } from "../../components";
 import { USERTYPES } from "../../constants";
 import { pickImage, uploadImageAsync } from "../Helpers/ImageHandlerHelper";
 

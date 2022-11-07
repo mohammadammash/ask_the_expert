@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, Button, Image } from "react-native";
+import { View } from "react-native";
 //internal imports
 import { ChatAndAppointmentCardComponent } from "../../components";
 import { ROUTES } from "../../constants";
