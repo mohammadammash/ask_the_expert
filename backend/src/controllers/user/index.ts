@@ -1,17 +1,21 @@
 import { Request, Response } from "express";
 //internal imports
-import { getUsersDataBodyInterface, removeAppointmentBodyInterface, blockOrUnblockUserBodyInterface, updateProfileBodyInterface } from "./types";
+import { getUsersDataBodyInterface, getSingleUserDataParamsInterface, removeAppointmentBodyInterface, blockOrUnblockUserBodyInterface, updateProfileBodyInterface } from "./types";
 const UserModel = require('../../database/models/User');
 const AppointmentModel = require('../../database/models/Appointment');
 
-const getCurrentUser = (req: Request, res: Response) => {
-    const { currentUser_id } = req;
+//Update User Data (reviews, appointments, appointments_groups) => Can be for currentUser or if param provided for another user page to refresh if there is any changes
+const getSingleUserData = (req: Request<getSingleUserDataParamsInterface>, res: Response) => {
+    let { user_id } = req.params;
+    //if no user id param given => get the data of current user
+    if (!user_id) user_id = req.currentUser_id;
 
-    UserModel.findById(currentUser_id).populate('reviews.novice_id appointments appointments_groups.appointments blocked_users')
+    UserModel.findById(user_id).populate('reviews.novice_id appointments appointments_groups.appointments blocked_users')
         .then((data: any) => res.status(200).send(data))
         .catch((err: any) => res.status(200).send({ message: err.message }))
 }
 
+//For Leaderboard Results
 const getRankedExperts = (req: Request, res: Response) => {
     //get experts sorted where score more than 0
     UserModel.find({ "score": { $gt: 3 } }).sort({ score: -1 })
@@ -19,6 +23,7 @@ const getRankedExperts = (req: Request, res: Response) => {
         .catch((err: any) => res.status(400).send({ message: 'Experts Cannot be Retrieved' }))
 };
 
+//Update own profile
 const updateProfile = (req: Request<{}, {}, updateProfileBodyInterface>, res: Response) => {
     const { currentUser_id } = req;
 
@@ -27,6 +32,7 @@ const updateProfile = (req: Request<{}, {}, updateProfileBodyInterface>, res: Re
         .catch((err: any) => res.status(400).send({ message: err.message }))
 };
 
+//Remove Appointment and notify second part in this appointment
 const removeAppointment = async (req: Request<{}, {}, removeAppointmentBodyInterface>, res: Response) => {
     const { currentUser_id } = req;
     const { appointment_id } = req.body;
@@ -53,6 +59,7 @@ const removeAppointment = async (req: Request<{}, {}, removeAppointmentBodyInter
     }
 };
 
+
 const blockOrUnblockUser = async (req: Request<{}, {}, blockOrUnblockUserBodyInterface>, res: Response) => {
     const { currentUser_id } = req;
     const { user_id, block } = req.body;
@@ -75,6 +82,7 @@ const blockOrUnblockUser = async (req: Request<{}, {}, blockOrUnblockUserBodyInt
     }
 };
 
+//Get users data for Chats collection saved in firestore with users_ids only
 const getUsersData = (req: Request<{}, {}, getUsersDataBodyInterface>, res: Response) => {
     const { users_ids } = req.body;
 
@@ -83,4 +91,4 @@ const getUsersData = (req: Request<{}, {}, getUsersDataBodyInterface>, res: Resp
         .catch((err: any) => res.status(200).send({ message: err.message }))
 };
 
-module.exports = { getCurrentUser, getRankedExperts, updateProfile, removeAppointment, blockOrUnblockUser, getUsersData };
+module.exports = { getSingleUserData, getRankedExperts, updateProfile, removeAppointment, blockOrUnblockUser, getUsersData };
