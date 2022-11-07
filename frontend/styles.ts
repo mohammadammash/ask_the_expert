@@ -1,5 +1,8 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "./src/constants/index";
+import { Dimensions } from "react-native";
+
+const { width } = Dimensions.get("screen");
 
 export default StyleSheet.create({
   //TEXT COLORS
@@ -40,7 +43,7 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
   search_input: {
-    width: '80%',
+    width: '100%',
   },
   select_input: {
     borderWidth: 2,
@@ -111,6 +114,11 @@ export default StyleSheet.create({
 
   //UTILS
   alignCenter: {
-    alignItems: "center" 
+    alignItems: "center"
+  },
+
+  //screen width
+  screenWidth: {
+    width: width,
   }
 });
