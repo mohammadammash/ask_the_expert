@@ -9,7 +9,7 @@ const navigationStyles = StyleSheet.create({
     height: 110,
     borderRadius: 110 / 2,
     position: "absolute",
-    left: width / 2 - 110,
+    left: width / 6,
     bottom: -110 / 2,
     borderColor: COLORS.blue,
     borderWidth: 4,
@@ -25,7 +25,8 @@ const navigationStyles = StyleSheet.create({
     width: '50%',
     marginBottom: 20,
     height: 50,
-  }
+  },
+  mainContainer: { paddingTop: 0, backgroundColor: COLORS.dark, height: "100%" }
 });
 
 export default navigationStyles;

@@ -10,7 +10,7 @@ import { DrawerContentComponentProps } from "@react-navigation/drawer";
 const CustomDrawer = (props: DrawerContentComponentProps): JSX.Element => {
   return (
     // drawer whole content
-    <DrawerContentScrollView {...props} contentContainerStyle={{ paddingTop: 0, backgroundColor: COLORS.dark, height: "100%" }}>
+    <DrawerContentScrollView {...props} contentContainerStyle={navigationStyles.mainContainer}>
       <ImageBackground className="h-36" source={IMAGES.fakeMapImage}>
         <Image source={IMAGES.dummyProfile} style={navigationStyles.userImg} />
       </ImageBackground>
