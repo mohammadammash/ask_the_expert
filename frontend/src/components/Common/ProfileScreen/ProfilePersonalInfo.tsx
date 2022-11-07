@@ -1,4 +1,5 @@
 import { View, Text } from "react-native";
+import styles from "../../../../styles";
 //internal imports
 import { COLORS } from "../../../constants";
 import { ProfilePersonalInfoProps } from "../types";
@@ -9,12 +10,12 @@ const ProfilePersonalInfo: React.FC<ProfilePersonalInfoProps> = ({ firstName, la
       <View className="w-full items-center justify-start gap-2">
         {/* PERSONAL INFO */}
         <View className="mb-2">
-          <Text style={{ color: COLORS.blue }} className="font-bold text-2xl">
+          <Text style={styles.blue_text} className="font-bold text-2xl">
             {firstName} {lastName}
           </Text>
           <Text className="opacity-60 text-xs text-center">{field}</Text>
         </View>
-        <Text style={{ color: COLORS.dark }} className="text-sm font-bold">
+        <Text style={styles.dark_text} className="text-sm font-bold">
           {speciality}
         </Text>
         <Text className="opacity-40 text-xs text-center">WITH</Text>

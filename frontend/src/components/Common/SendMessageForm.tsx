@@ -7,7 +7,7 @@ import { sendMessageFormProps } from "./types";
 
 const SendMessageForm: React.FC<sendMessageFormProps> = ({ message, handleMessageChange, submitMessage }) => {
   return (
-    <View style={{ backgroundColor: COLORS.grey }} className="flex-row h-20 items-center justify-around">
+    <View style={styles.bg_grey} className="flex-row h-20 items-center justify-around">
       <TextInput
         value={message}
         onChangeText={(v)=>handleMessageChange(v)}
