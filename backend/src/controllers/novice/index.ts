@@ -5,6 +5,7 @@ const UserModel = require("../../database/models/User");
 const AppointmentModel = require("../../database/models/Appointment");
 import { getCloseExpertsBodyInterface, bookAppointmentBodyInterface, addReviewBodyInterface, deleteReviewBodyInterface } from "./types";
 
+//Get Close Experts within range to show on map in landing page
 const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface>, res: Response) => {
     const { latitude, longitude, field } = req.body;
 
@@ -37,6 +38,7 @@ const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface
     }
 };
 
+// Novice book single appointment with expert
 const bookAppointment = async (req: Request<{}, {}, bookAppointmentBodyInterface>, res: Response) => {
     const { appointment_id } = req.body;
     const { currentUser_id } = req;
@@ -62,6 +64,7 @@ const bookAppointment = async (req: Request<{}, {}, bookAppointmentBodyInterface
     }
 };
 
+
 const addReview = async (req: Request<{}, {}, addReviewBodyInterface>, res: Response) => {
     const { expert_id, content, rating } = req.body;
     const { currentUser_id } = req;
@@ -76,6 +79,7 @@ const addReview = async (req: Request<{}, {}, addReviewBodyInterface>, res: Resp
         .catch((err: any) => res.status(400).send(err.message));
 };
 
+//Delete own review
 const deleteReview = (req: Request<{}, {}, deleteReviewBodyInterface>, res: Response) => {
     const { expert_id } = req.body;
     const { currentUser_id } = req;
@@ -84,6 +88,7 @@ const deleteReview = (req: Request<{}, {}, deleteReviewBodyInterface>, res: Resp
         .then((data: any) => res.status(200).send({ message: 'Review Removed' }))
         .catch((err: any) => res.status(400).send(err.message));
 };
+
 
 module.exports = {
     getCloseExperts,
