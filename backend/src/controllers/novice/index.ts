@@ -27,7 +27,8 @@ const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface
                 return expert;
             })
 
-            experts = await UserModel.populate(experts, { path: "appointments_groups.appointments reviews.novice_id" })
+            const populateQuery = [{ path: 'appointments_groups.appointments' }, { path: 'reviews.novice_id' }];
+            experts = await UserModel.populate(experts, populateQuery);
             res.status(200).send(experts);
         }
     }
