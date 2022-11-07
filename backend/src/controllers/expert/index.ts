@@ -48,7 +48,7 @@ const goOnline = async (req: Request<{}, {}, GoOnlineBodyInterface>, res: Respon
             $push: { appointments_groups: appointment_group }
         };
 
-        await UserModel.updateOne({ _id: currentUser_id }, update)
+        UserModel.updateOne({ _id: currentUser_id }, update)
             .then((data: any) => res.status(200).send({ ...appointment_group }))
             .catch((err: any) => res.status(400).send({ message: err.message }));
     }
@@ -100,7 +100,7 @@ const addScore = async (req: Request<{}, {}, AddScoreBodyInterface>, res: Respon
     //update expert score using previous score and added score
     const new_score = Number(userPrevData.score) + Number(score_to_add);
 
-    await UserModel.findByIdAndUpdate(currentUser_id, { score: new_score })
+    UserModel.findByIdAndUpdate(currentUser_id, { score: new_score })
         .then((data: any) => res.status(200).send({ message: "Success Score Update" }))
         .catch((err: any) => res.status(400).send("Score isn't updated! Something Went wrong!"))
 };

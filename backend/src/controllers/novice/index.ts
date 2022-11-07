@@ -71,16 +71,16 @@ const addReview = async (req: Request<{}, {}, addReviewBodyInterface>, res: Resp
 
     const _id = new mongoose.Types.ObjectId();
     const new_review = { _id, novice_id: currentUser_id, rating: rating, content: content }
-    await UserModel.updateOne({ _id: expert_id }, { $push: { reviews: new_review } })
+    UserModel.updateOne({ _id: expert_id }, { $push: { reviews: new_review } })
         .then((data: any) => res.status(200).send(new_review))
         .catch((err: any) => res.status(400).send(err.message));
 };
 
-const deleteReview = async (req: Request<{}, {}, deleteReviewBodyInterface>, res: Response) => {
+const deleteReview = (req: Request<{}, {}, deleteReviewBodyInterface>, res: Response) => {
     const { expert_id } = req.body;
     const { currentUser_id } = req;
 
-    await UserModel.updateOne({ _id: expert_id }, { $pull: { reviews: { novice_id: currentUser_id } } })
+    UserModel.updateOne({ _id: expert_id }, { $pull: { reviews: { novice_id: currentUser_id } } })
         .then((data: any) => res.status(200).send({ message: 'Review Removed' }))
         .catch((err: any) => res.status(400).send(err.message));
 };

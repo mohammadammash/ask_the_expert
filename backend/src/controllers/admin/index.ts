@@ -14,7 +14,7 @@ const getAllUsersWithStatistics = async (req: Request, res: Response) => {
     six_months_ago.setMonth(six_months_ago.getMonth() - 6);
     six_months_ago.setDate(1);
 
-    await AppointmentModel.aggregate([
+    AppointmentModel.aggregate([
         {
             $match: { createdAt: { $gte: six_months_ago, $lte: today } }
         },
@@ -23,10 +23,10 @@ const getAllUsersWithStatistics = async (req: Request, res: Response) => {
     ).catch((err: any) => res.status(200).send({ users: allUsers }));
 };
 
-const banOrUnbanUser = async (req: Request<{}, {}, banOrUnbanUserBodyInterface>, res: Response) => {
+const banOrUnbanUser = (req: Request<{}, {}, banOrUnbanUserBodyInterface>, res: Response) => {
     const { user_id, ban } = req.body;
 
-    await UserModel.findByIdAndUpdate(user_id, { isBanned: ban })
+    UserModel.findByIdAndUpdate(user_id, { isBanned: ban })
         .then((data: any) => res.status(200).send({ message: `Success` }))
         .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
 };

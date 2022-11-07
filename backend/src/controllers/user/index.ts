@@ -4,25 +4,25 @@ import { getUsersDataBodyInterface, removeAppointmentBodyInterface, blockOrUnblo
 const UserModel = require('../../database/models/User');
 const AppointmentModel = require('../../database/models/Appointment');
 
-const getCurrentUser = async (req: Request, res: Response) => {
+const getCurrentUser = (req: Request, res: Response) => {
     const { currentUser_id } = req;
 
-    await UserModel.findById(currentUser_id).populate('reviews.novice_id appointments appointments_groups.appointments blocked_users')
+    UserModel.findById(currentUser_id).populate('reviews.novice_id appointments appointments_groups.appointments blocked_users')
         .then((data: any) => res.status(200).send(data))
         .catch((err: any) => res.status(200).send({ message: err.message }))
 }
 
-const getRankedExperts = async (req: Request, res: Response) => {
+const getRankedExperts = (req: Request, res: Response) => {
     //get experts sorted where score more than 0
-    await UserModel.find({ "score": { $gt: 3 } }).sort({ score: -1 })
+    UserModel.find({ "score": { $gt: 3 } }).sort({ score: -1 })
         .then((data: any) => res.status(200).send(data))
         .catch((err: any) => res.status(400).send({ message: 'Experts Cannot be Retrieved' }))
 };
 
-const updateProfile = async (req: Request<{}, {}, updateProfileBodyInterface>, res: Response) => {
+const updateProfile = (req: Request<{}, {}, updateProfileBodyInterface>, res: Response) => {
     const { currentUser_id } = req;
 
-    await UserModel.findByIdAndUpdate(currentUser_id, { ...req.body }, { new: true })
+    UserModel.findByIdAndUpdate(currentUser_id, { ...req.body }, { new: true })
         .then((data: any) => res.status(200).send())
         .catch((err: any) => res.status(400).send({ message: err.message }))
 };
@@ -63,22 +63,22 @@ const blockOrUnblockUser = async (req: Request<{}, {}, blockOrUnblockUserBodyInt
         if (exists) return res.status(400).send({ message: 'User Already blocked' });
 
         const blocked_user = { _id: user_id };
-        await UserModel.findByIdAndUpdate(currentUser_id, { $push: { blocked_users: blocked_user } })
+        UserModel.findByIdAndUpdate(currentUser_id, { $push: { blocked_users: blocked_user } })
             .then((data: any) => res.status(200).send({ message: 'User Blocked' }))
             .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
     }
     //if false unblock user
     else {
-        await UserModel.findByIdAndUpdate(currentUser_id, { $pull: { blocked_users: user_id } })
+        UserModel.findByIdAndUpdate(currentUser_id, { $pull: { blocked_users: user_id } })
             .then((data: any) => res.status(200).send({ message: 'User UnBlocked' }))
             .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
     }
 };
 
-const getUsersData = async (req: Request<{}, {}, getUsersDataBodyInterface>, res: Response) => {
+const getUsersData = (req: Request<{}, {}, getUsersDataBodyInterface>, res: Response) => {
     const { users_ids } = req.body;
 
-    await UserModel.find({ _id: { $in: users_ids } }).populate('reviews.novice_id appointments_groups.appointments').lean()
+    UserModel.find({ _id: { $in: users_ids } }).populate('reviews.novice_id appointments_groups.appointments').lean()
         .then((data: any) => res.status(200).send(data))
         .catch((err: any) => res.status(200).send({ message: err.message }))
 };
