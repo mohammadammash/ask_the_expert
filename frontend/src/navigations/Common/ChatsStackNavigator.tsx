@@ -4,9 +4,8 @@ import { TouchableOpacity } from "react-native";
 //internal imports
 import { ChatsScreen, SingleChatScreen } from "../../screens";
 import { ROUTES } from "../../constants";
-import { menuIcon, stackScreenOptionsStyle } from "../helpers/navigatorsHelpers";
+import { menuIcon, stackScreenOptionsStyle } from "../Helpers/NavigatorsHelpers";
 const Stack = createStackNavigator();
-
 
 const ChatsStackNavigator = () => {
   const navigation = useNavigation<any>();
@@ -18,7 +17,7 @@ const ChatsStackNavigator = () => {
         component={ChatsScreen}
         options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>{menuIcon}</TouchableOpacity> }}
       />
-      <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} options={{title: 'Messages'}} />
+      <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} options={{ title: "Messages" }} />
     </Stack.Navigator>
   );
 };

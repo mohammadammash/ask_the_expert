@@ -4,8 +4,10 @@ import { useContext } from "react";
 //internal imports
 import { ROUTES, USERTYPES } from "../../constants";
 import { LeaderboardScreen } from "../../screens";
-import { ProfileStackNavigator, ChatsStackNavigator, AppointmentsStackNavigator } from "./index";
-import { drawerScreenOptionsStyle, homeIcon, settingsIcon, appointmentsIcon, leaderboardIcon, chatIcon } from "../helpers/navigatorsHelpers";
+import ProfileStackNavigator from "./ProfileStackNavigator";
+import ChatsStackNavigator from "./ChatsStackNavigator";
+import AppointmentsStackNavigator from "./AppointmentsStackNavigator";
+import { drawerScreenOptionsStyle, homeIcon, settingsIcon, appointmentsIcon, leaderboardIcon, chatIcon } from "../Helpers/NavigatorsHelpers";
 import { CustomDrawerComponent } from "../../components";
 import NoviceHomeStackNavigator from "../Novice/NoviceHomeStackNavigator";
 const Drawer = createDrawerNavigator();

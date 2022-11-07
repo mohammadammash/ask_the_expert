@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native";
 //internal imports
 import { AppointmentsScreen, NoviceProfileScreen, ExpertProfileScreen, SingleChatScreen } from "../../screens";
 import { ROUTES } from "../../constants";
-import { menuIcon, stackScreenOptionsStyle } from "../helpers/navigatorsHelpers";
+import { menuIcon, stackScreenOptionsStyle } from "../Helpers/NavigatorsHelpers";
 
 const Stack = createStackNavigator();
 
