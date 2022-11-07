@@ -1,4 +1,4 @@
-import { View, Text, Image, Pressable, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 //internal imports
 import { COLORS, IMAGES } from "../../constants";
 import { AntDesign } from "@expo/vector-icons";
@@ -7,8 +7,8 @@ import UserMoreInfoSectionComponent from "./UserMoreInfoSection";
 
 const UserCard = () => {
   return (
-    <ScrollView>
-      <TouchableOpacity style={[styles.shadow_bg,{ borderColor: COLORS.blue }]} className="rounded-lg border-2 items-center w-96 ml-2 min-h-64 pt-3 mb-5">
+    <ScrollView style={styles.screenWidth}>
+      <TouchableOpacity style={[styles.shadow_bg,{ borderColor: COLORS.blue }]} className="rounded-lg border-2 items-center min-h-64 mx-5 pt-3 mb-5">
         <View style={styles.border_blue} className="avatar aspect-square max-w-28 max-h-28 h-2/5 w-2/5 rounded-full items-center border-4">
           <Image className="max-w-full max-h-full h-full w-full rounded-full" source={IMAGES.dummyProfile} />
         </View>
