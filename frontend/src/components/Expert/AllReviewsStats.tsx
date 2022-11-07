@@ -4,20 +4,17 @@ import { AirbnbRating } from "react-native-ratings";
 import SingleReviewStat from "./SingleReviewStat";
 import styles from "../../../styles";
 import { AllReviewsStatsProps } from "./types";
+import expertStyles from "./expert.styles";
 
-const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({
-  reviews,
-  rating,
-}) => {
-
+const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews, rating }) => {
   return (
     // REVIEWS STATS
     <View className="bg-white">
       <View className="h-40 justify-start">
-        <View className="">
+        <View>
           <Text className="text-center text-3xl font-bold">{rating.average}.0</Text>
         </View>
-        <AirbnbRating defaultRating={rating.average} isDisabled reviews={[""]} starContainerStyle={{ height: 10 }} />
+        <AirbnbRating defaultRating={rating.average} isDisabled reviews={[""]} starContainerStyle={expertStyles.height_10px} />
         <Text className="text-center mt-6">Based on {reviews.length} Reviews</Text>
       </View>
 
@@ -31,8 +28,6 @@ const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({
       <View className="items-center mt-5">
         <TextInput style={[styles.text_input, styles.search_input]} className="placeholder:pl-3" placeholder="Search" />
       </View>
-
-      
     </View>
   );
 };

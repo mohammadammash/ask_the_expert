@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 //internal imports
 import { IMAGES, ROUTES } from "../../constants";
 import styles from "../../../styles";
+import expertStyles from "./expert.styles";
 import { ReviewCardProps } from "./types";
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ navigateToPage, review }) => {
@@ -18,13 +19,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ navigateToPage, review }) => {
           <Text className="text-sm opacity-50 mb-3">Field</Text>
           <Text className="w-full text-[11px]">{review.content}</Text>
           <View className="flex-row h-10 items-center justify-between">
-            <AirbnbRating
-              starContainerStyle={{ display: "flex", alignItems: "center", height: 80 }}
-              size={15}
-              defaultRating={3}
-              isDisabled
-              reviews={[""]}
-            />
+            <AirbnbRating starContainerStyle={expertStyles.starsRatingRow} size={15} defaultRating={3} isDisabled reviews={[""]} />
             <Text className="text-[9px] opacity-75">10-9-2022</Text>
           </View>
         </View>
