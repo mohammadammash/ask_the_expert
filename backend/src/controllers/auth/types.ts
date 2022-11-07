@@ -12,6 +12,7 @@ export interface RegisterBodyInterface extends LoginBodyInterface {
     profile_url: String,
     field: String,
     speciality: String,
+    device_token: String,
 }
 
 export type UserInfoObjectType = {
