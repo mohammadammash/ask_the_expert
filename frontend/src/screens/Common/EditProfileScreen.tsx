@@ -78,6 +78,7 @@ const EditProfileScreen = () => {
     handleAppTheme,
     focusAppTheme,
     handleSubmitForm,
+    user_type,
   };
 
   const userDataProps = {
@@ -89,7 +90,7 @@ const EditProfileScreen = () => {
   return (
     <ScrollView>
       <View className="flex-1 items-center justify-center">
-        {user_type === USERTYPES.ADMIN ? <EditAdminProfileFormComponent {...adminDataProps} /> : <EditProfileFormComponent {...userDataProps} />}
+        {user_type === USERTYPES.ADMIN ? <EditProfileFormComponent {...adminDataProps} /> : <EditProfileFormComponent {...userDataProps} />}
       </View>
     </ScrollView>
   );
