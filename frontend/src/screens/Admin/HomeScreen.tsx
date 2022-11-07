@@ -100,7 +100,7 @@ const appointmentsData = [
 
 const HomeScreen = () => {
   return (
-    <View style={{backgroundColor: COLORS.dark}} className="items-center justify-evenly flex-1 gap-1">
+    <View style={{ backgroundColor: COLORS.dark }} className="items-center justify-evenly flex-1 gap-1">
       <View>
         <ScrollView horizontal={true} className="flex-row">
           {/* START OF ALL USERS CHARTS */}
