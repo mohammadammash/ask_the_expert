@@ -13,6 +13,7 @@ const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface
             $geoNear: {
                 near: { type: "Point", coordinates: [Number(longitude), Number(latitude)] },
                 distanceField: "distance.calculated",
+                query: { field: field },
                 maxDistance: 30000, //30km
                 spherical: true,
             },
@@ -22,10 +23,8 @@ const getCloseExperts = async (req: Request<{}, {}, getCloseExpertsBodyInterface
         else {
             //remove unactive appointment_groups and populate only active experts with at least one unreserved appointment within same field
             let experts = closeExperts.filter((expert: any) => {
-                if (expert.field === field) {
-                    expert.appointments_groups = expert.appointments_groups.find((app: any) => app.isActive)
-                    return field;
-                }
+                expert.appointments_groups = expert.appointments_groups.find((app: any) => app.isActive)
+                return expert;
             })
 
             experts = await UserModel.populate(experts, { path: "appointments_groups.appointments reviews.novice_id" })
