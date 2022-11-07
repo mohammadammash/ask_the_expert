@@ -67,7 +67,7 @@ const ProfileScreen = () => {
         <AboutSectionComponent {...aboutData} />
 
         {/* REVIEWS TITLE */}
-        <View style={styles.bg_grey} className="h-24 justify-center w-full font-bold border mb-5">
+        <View style={styles.bg_grey} className="h-24 justify-center w-full font-bold mb-5">
           {user_type === USERTYPES.EXPERT ? (
             <Text style={styles.blue_text} className="font-bold text-2xl text-center">
               REVIEWS

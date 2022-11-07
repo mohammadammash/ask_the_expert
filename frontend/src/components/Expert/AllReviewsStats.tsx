@@ -9,7 +9,7 @@ import expertStyles from "./expert.styles";
 const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews, rating }) => {
   return (
     // REVIEWS STATS
-    <View className="bg-white">
+    <View className="bg-white w-5/6">
       <View className="h-40 justify-start">
         <View>
           <Text className="text-center text-3xl font-bold">{rating.average}.0</Text>
@@ -25,7 +25,7 @@ const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews, rating }) =>
       <SingleReviewStat key={5} progress={rating.totalOf1 / reviews.length} rating={1} />
 
       {/* SEARCH BAR */}
-      <View className="items-center mt-5">
+      <View className="items-center mt-10">
         <TextInput style={[styles.text_input, styles.search_input]} className="placeholder:pl-3" placeholder="Search" />
       </View>
     </View>

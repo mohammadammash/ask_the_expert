@@ -59,6 +59,17 @@ const commonStyles = StyleSheet.create({
     inputSearchStyle: {
       height: 40,
       fontSize: 16,
+    },
+
+    //LEADERBOARD COLORS
+    gold_card:{
+      borderColor: "#E89923",
+      backgroundColor: "rgba(232, 153, 35, 0.1)",
+      borderBottomWidth: 3,
+      borderBottomColor: "#E89923",
+    },
+    gold_text:{
+      color: "#E89923",
     }
   });
 
