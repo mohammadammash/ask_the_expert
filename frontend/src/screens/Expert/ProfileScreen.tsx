@@ -14,8 +14,8 @@ import {
   ReviewCardComponent,
 } from "../../components";
 import { COLORS, USERTYPES, ROUTES } from "../../constants";
-import CalculateYearsOfExperienceHelper from "../helpers/calculateYearsOfExperienceHelper";
-import { calculateReviewsStatsHelper } from "../helpers/calculateReviewsStatsHelper";
+import CalculateYearsOfExperienceHelper from "../Helpers/CalculateYearsOfExperienceHelper";
+import { calculateReviewsStatsHelper } from "../Helpers/CalculateReviewsStatsHelper";
 
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();

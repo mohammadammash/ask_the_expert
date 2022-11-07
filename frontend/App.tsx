@@ -13,7 +13,7 @@ export default function App() {
     spoken_languages: "Arabic, English",
     speciality: "Software Engineer",
     email: "mohammad31@gmail.com",
-    user_type: "admin",
+    user_type: "expert",
     profile_url: IMAGES.dummyProfile,
     online: true,
     start_date: new Date(1990, 7, 17),

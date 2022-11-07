@@ -4,7 +4,7 @@ import { SelectCountry } from "react-native-element-dropdown";
 //internal imports
 import commonStyles from "../Common/common.styles";
 import styles from "../../../styles";
-import { availabilityIntialValues, validateSetAvailabilityForm } from "./helpers/confirmAvailabilityFormHelper";
+import { availabilityIntialValues, validateSetAvailabilityForm } from "./Helpers/ConfirmAvailabilityFormHelper";
 import { AVAILABILITY_SESSION_OPTIONS, AVAILABILITY_OPTIONS } from "../../constants";
 
 interface AvailabilityformValues {

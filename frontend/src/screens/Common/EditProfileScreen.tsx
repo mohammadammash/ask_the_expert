@@ -4,7 +4,7 @@ import { UserContext } from "../../hooks/UserContext";
 //internal imports
 import { EditProfileFormComponent, EditAdminProfileFormComponent } from "../../components";
 import { USERTYPES } from "../../constants";
-import { pickImage, uploadImageAsync } from "../helpers/imageHandlerHelper";
+import { pickImage, uploadImageAsync } from "../Helpers/ImageHandlerHelper";
 
 const EditProfileScreen = () => {
   const { user, setUser } = useContext(UserContext);

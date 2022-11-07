@@ -13,7 +13,7 @@ import {
   adminEditProfileInitialValues,
   validateAdminEditProfileFormSchema,
   validateUserEditProfileFormSchema,
-} from "./helpers/editProfileFormHelper";
+} from "./Helpers/EditProfileFormHelper";
 import { ALLANGUAGES } from "../../constants";
 import commonStyles from "./common.styles";
 import { EditProfileFormProps } from "./types";

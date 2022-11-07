@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 //internal imports
 import { RegisterFormComponent } from "../../components";
 import { auth } from "../../../firebaseConfig";
-import { uploadImageAsync, pickImage } from "../helpers/imageHandlerHelper";
+import { uploadImageAsync, pickImage } from "../Helpers/ImageHandlerHelper";
 import { RegisterFormValuesTypes } from "../../components/Auth/types";
 
 const RegisterScreen = () => {

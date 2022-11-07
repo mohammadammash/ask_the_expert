@@ -4,7 +4,7 @@ import { UserContext } from "../../hooks/UserContext";
 import { useNavigation } from "@react-navigation/native";
 //internal imports:
 import { ProfilePersonalInfoComponent, ProfileImageCardComponent, AboutSectionComponent, ButtonsComponent } from "../../components";
-import CalculateYearsOfExperience from "../helpers/calculateYearsOfExperienceHelper";
+import CalculateYearsOfExperience from "../Helpers/CalculateYearsOfExperienceHelper";
 
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();
@@ -30,7 +30,7 @@ const ProfileScreen = () => {
   const buttonsData = {
     user_type,
     navigateToPage,
-  }
+  };
 
   return (
     <View className="flex-1 items-center bg-white">
@@ -40,7 +40,7 @@ const ProfileScreen = () => {
 
       <AboutSectionComponent {...aboutData} />
 
-      <ButtonsComponent {...buttonsData}/>
+      <ButtonsComponent {...buttonsData} />
     </View>
   );
 };
