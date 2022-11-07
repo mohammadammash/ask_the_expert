@@ -1,20 +1,20 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
 import { IMAGES } from "../../constants";
-import styles from "../../../styles";
+import commonStyles from "./common.styles";
 //internal imports"
 
 const LeaderboardCard = ({ rank = "notTop" }): JSX.Element => {
   //ALL CARDS DESIGN EXCEPT TOP 1
   if (rank === "Top") {
     return (
-      <View style={styles.shadow_bg} className="w-full border-y-2 relative justify-around items-center h-72 border-[#E89923] pt-3">
+      <View style={commonStyles.gold_card} className="w-full relative justify-around items-center h-72 pt-3">
         <View className="avatar aspect-square max-w-2/5 max-h-2/5 h-2/5 w-2/5 rounded-full items-center border-4 border-[#E89923]">
           <Image className="max-w-full max-h-full h-full w-full rounded-full" source={IMAGES.dummyProfile} />
         </View>
 
         <View className="absolute h-full">
-          <Image className="top-1/3" source={IMAGES.topbadge}/>
+          <Image className="top-1/3" source={IMAGES.topbadge} />
         </View>
 
         <View className="text-center w-full">
@@ -23,7 +23,9 @@ const LeaderboardCard = ({ rank = "notTop" }): JSX.Element => {
         </View>
 
         <View className="h-2/5 items-center justify-end pb-3">
-          <Text className="font-bold text-center text-3xl">#1</Text>
+          <Text style={commonStyles.gold_text} className="font-bold text-center text-4xl">
+            #1
+          </Text>
           <Text className="font-semibold text-lg">1.45k Pts</Text>
         </View>
       </View>
@@ -34,7 +36,7 @@ const LeaderboardCard = ({ rank = "notTop" }): JSX.Element => {
   } else {
     return (
       <View  className="flex-row w-full border-0.5 items-center justify-around h-24">
-        <View className="avatar aspect-square max-w-1/5 max-h-1/5 h-1/5 w-1/5 rounded-full items-center ml-2 border">
+        <View className="avatar aspect-square max-w-1/5 max-h-1/5 h-1/6 w-1/6 rounded-full items-center ml-2 border-2">
           <Image className="max-w-full max-h-full h-full w-full rounded-full" source={IMAGES.dummyProfile} />
         </View>
 

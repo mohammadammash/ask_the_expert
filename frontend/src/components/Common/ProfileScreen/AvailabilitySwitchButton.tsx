@@ -1,4 +1,5 @@
-import { View, Text, Switch } from "react-native";
+import { View, Text, Switch, Platform } from "react-native";
+import styles from "../../../../styles";
 //internal imports
 import { ROUTES, USERTYPES, COLORS } from "../../../constants";
 import { AvailabilitySwitchButtonProps } from "../types";
@@ -8,9 +9,9 @@ const AvailabilitySwitchButton: React.FC<AvailabilitySwitchButtonProps> = ({ use
     <View className="w-full">
       {/* SWITCH AVAILABLE BUTTON */}
       {user_type === USERTYPES.EXPERT && (
-        <View className="h-24 w-full items-center justify-center mt-2" style={{ backgroundColor: COLORS.grey }}>
+        <View className="h-24 w-full items-center justify-center mt-2" style={styles.bg_grey}>
           <Text className="text-md">Go Online</Text>
-          <View className="border rounded-2xl">
+          <View className={`${Platform.OS === "ios" && 'border'} rounded-2xl`}>
             <Switch
               trackColor={{ false: COLORS.white, true: COLORS.white }}
               thumbColor={!online ? COLORS.blue : COLORS.white}
