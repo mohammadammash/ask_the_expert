@@ -8,6 +8,8 @@ const checkIfNovice = async (req: Request, res: Response, next: NextFunction) =>
     const currentUser = await UserModel.findOne({ _id: currentUser_id });
     if (!currentUser) return res.status(401).send({ message: 'Unauthorized' })
     
+    if (currentUser.isBanned) return res.status(401).send({ message: 'userIsBanned' });
+
     if (currentUser.user_type === 'novice') next()
     else res.status(401).send({ message: 'Unauthorized' });
 };

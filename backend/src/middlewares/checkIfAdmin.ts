@@ -8,6 +8,9 @@ const checkIfAdmin = async (req: Request, res: Response, next: NextFunction) => 
     const currentUser = await UserModel.findOne({ _id: currentUser_id });
     if (!currentUser) return res.status(401).send({ message: 'Unauthorized' })
     
+    //so when frontend receive this => logout the user and throw him/her out
+    if (currentUser.isBanned) return res.status(401).send({ message: 'userIsBanned' });
+
     if (currentUser.user_type === 'admin') next()
     else res.status(401).send({ message: 'Unauthorized' });
 };
