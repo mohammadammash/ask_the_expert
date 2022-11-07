@@ -1,24 +1,38 @@
-import { AdminEditProfileFormProps } from "../Admin/types";
 
 export interface ChatAndAppointmentCardProps {
-    NavigateToPage: () => void
+  NavigateToPage: () => void
+
 }
 
-export interface EditProfileFormValuesTypes{
+export interface EditProfileFormProps {
+  user_type: string;
+  image: string;
+  showImage: () => void;
+  isAppLanguageFocus: boolean;
+  appLanguage: any;
+  handleAppLanguage: (language: any) => void;
+  focusAppLanguage: (isFocused: any) => void;
+  appTheme: any;
+  isAppThemeFocus: boolean;
+  handleAppTheme: (theme: any) => void;
+  focusAppTheme: (isFocused: any) => void;
+  selectedLanguages?: string[];
+  handleSelectedLanguages?: (languages: string[]) => void;
+  handleSubmitForm: (values: EditProfileFormValuesTypes) => void;
+}
+
+export interface EditProfileFormValuesTypes {
   firstName: string;
   lastName: string;
-  about: string;
-  speciality: string;
+  about?: string;
+  speciality?: string;
   profile_url: string,
-  languages: string[];
+  languages?: string[];
   language: string,
   theme: string,
 }
 
-export interface UserEditProfileFormProps extends AdminEditProfileFormProps{
-    selectedLanguages: string[],
-  handleSelectedLanguages: (languages: string[]) => void,
-}
+//END OF EDIT PROFILE COMPONENT
 
 export interface sendMessageFormProps {
   message: string;
