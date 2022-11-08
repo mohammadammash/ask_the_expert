@@ -1,5 +1,6 @@
-import { View, Text, Pressable, TextInput, Image, Button } from "react-native";
+import { View, Text, Pressable, TextInput, Image, Button, Platform } from "react-native";
 import { Formik } from "formik";
+import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -12,6 +13,7 @@ import { ALLJOBSFIELDS, ALLJOBSSPECIALTIES } from "../../constants";
 import { validateRegisterFormSchema, registerInitialValues } from "./Helpers/RegisterFormHelper";
 import { ALLANGUAGES } from "../../constants";
 import { RegisterFormProps } from "./types";
+import { date } from "yup";
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
   image,
@@ -20,6 +22,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   handleSelectedLanguages,
   selectedLanguages,
   handleFormSubmit,
+  dateValue,
+  updateDateValue,
+  onDateChange,
 }) => {
   return (
     <Formik
@@ -30,9 +35,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
       validationSchema={validateRegisterFormSchema}
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
-        <View className="w-4/5 justify-center">
-          <View className="items-center mb-3 ">
-            <View className="border-2 rounded-full h-36 w-36">
+        <View className="w-4/5 justify-center gap-3">
+          <View className="items-center">
+            <View className="border-2 rounded-full h-36 w-36 mb-3">
               <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />
             </View>
             <Button title="Pick an image from camera roll" onPress={showImage} />
@@ -51,7 +56,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             {errors.firstName && touched.firstName && <Text className="text-red-600">{errors.firstName}</Text>}
           </View>
 
-          <View className="mt-2">
+          <View>
             <Text className="font-bold">LastName</Text>
             <TextInput
               onChangeText={handleChange("lastName")}
@@ -78,7 +83,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             {emailAlreadyUsed && <Text className="text-red-600">Email Already Used</Text>}
           </View>
 
-          <View className="mt-2">
+          <View>
             <Text className="font-bold">Password</Text>
             <TextInput
               onChangeText={handleChange("password")}
@@ -91,7 +96,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             {errors.password && touched.password && <Text className="text-red-600  ">{errors.password}</Text>}
           </View>
 
-          <View className="mt-2">
+          <View>
             <Text className="font-bold">Confirm Password</Text>
             <TextInput
               onChangeText={handleChange("confirmPassword")}
@@ -104,7 +109,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             {errors.confirmPassword && touched.confirmPassword && <Text className="text-red-600  ">{errors.confirmPassword}</Text>}
           </View>
 
-          <View className="mt-2">
+          <View>
             <Text className="font-bold">About</Text>
             <TextInput
               onChangeText={handleChange("about")}
@@ -119,51 +124,42 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
           </View>
 
           <View>
-            <Text className="mt-3 mb-0 font-bold border-b-2 bold">Field:</Text>
-            <Picker
-              style={styles.select_input}
-              enabled={true}
-              mode="dropdown"
-              placeholder="Select Field"
-              selectedValue={values.field}
-              onValueChange={handleChange("field")}
-            >
-              {ALLJOBSFIELDS.map((job, index) => (
-                <Picker.Item label={job} value={job} key={index} />
-              ))}
-            </Picker>
-          </View>
-
-          <View>
-            <Text className="mb-0 font-bold border-b-2 bold">Speciality:</Text>
-            <Picker
-              style={styles.select_input}
-              enabled={true}
-              mode="dropdown"
-              placeholder="Select Field"
-              selectedValue={values.speciality}
-              onValueChange={handleChange("speciality")}
-            >
-              {ALLJOBSSPECIALTIES.map((job, index) => (
-                <Picker.Item label={job} value={job} key={index} />
-              ))}
-            </Picker>
-          </View>
-
-          <View>
-            <Text className="mb-0 font-bold border-b-2 bold">Start Date:</Text>
-            <View className="border-2 rounded-lg items-center mb-5">
-              <DateTimePicker
-                style={authStyles.date}
-                value={values.start_date}
-                onChange={(event, date) => {
-                  date ? (values.start_date = date) : new Date();
-                }}
-              />
+            <Text className="mb-0 font-bold">Field:</Text>
+            <View className={`${Platform.OS === "android" && "border-2 h-12 rounded-lg"}`}>
+              <Picker
+                style={styles.select_input}
+                enabled={true}
+                mode="dropdown"
+                placeholder="Select Field"
+                selectedValue={values.field}
+                onValueChange={handleChange("field")}
+              >
+                {ALLJOBSFIELDS.map((job, index) => (
+                  <Picker.Item label={job} value={job} key={index} />
+                ))}
+              </Picker>
             </View>
           </View>
 
-          <View className="border-2 rounded-lg mb-5 pl-1">
+          <View className="mb-2">
+            <Text className="mb-0 font-bold">Speciality:</Text>
+            <View className={`${Platform.OS === "android" && "border-2 h-12 rounded-lg"}`}>
+              <Picker
+                style={styles.select_input}
+                enabled={true}
+                mode="dropdown"
+                placeholder="Select Field"
+                selectedValue={values.speciality}
+                onValueChange={handleChange("speciality")}
+              >
+                {ALLJOBSSPECIALTIES.map((job, index) => (
+                  <Picker.Item label={job} value={job} key={index} />
+                ))}
+              </Picker>
+            </View>
+          </View>
+
+          <View className="border-2 rounded-lg pl-1 mb-2">
             <MultiSelect
               style={authStyles.dropdown}
               placeholderStyle={authStyles.placeholderStyle}
@@ -187,7 +183,36 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             {errors.languages && touched.languages && <Text className="text-red-600  ">{errors.languages}</Text>}
           </View>
 
-          <Pressable className="mt-2 mb-7" style={styles.blue_button_xl} onPress={handleSubmit}>
+          <View className="flex-row justify-between items-center">
+            <Text className="mb-0 font-bold bold">
+              Start Date:{"  "}
+              {Platform.OS === "android"
+                ? dateValue.date.getFullYear().toString() +
+                  "/" +
+                  (dateValue.date.getMonth() + 1).toString() +
+                  "/" +
+                  dateValue.date.getDate().toString()
+                : null}
+            </Text>
+            {Platform.OS === "android" ? <Button onPress={() => updateDateValue({ ...dateValue, show: true })} title="Choose Date"></Button> : null}
+          </View>
+          <View className="items-end">
+            {Platform.OS === "ios" || dateValue.show ? (
+              <View className="border-2 rounded-lg items-center  mb-1 w-full">
+                <DateTimePicker
+                  style={authStyles.date}
+                  value={dateValue.date}
+                  display="default"
+                  onChange={(event, date) => {
+                    onDateChange(date);
+                    date ? (values.start_date = date) : new Date();
+                  }}
+                />
+              </View>
+            ) : null}
+          </View>
+
+          <Pressable className="mt-2 mb-7" style={styles.blue_auth_button} onPress={handleSubmit}>
             <Text className="text-xl text-white font-bold">SIGN UP</Text>
           </Pressable>
         </View>

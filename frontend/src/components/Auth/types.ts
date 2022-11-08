@@ -20,8 +20,14 @@ export interface RegisterFormProps {
   handleSelectedLanguages: (languages: string[]) => void;
   selectedLanguages: string[];
   handleFormSubmit: (values: any) => void;
+  dateValue: { date: Date, mode: String, show: boolean },
+  updateDateValue: ({ date, mode, show }: {
+    date: Date;
+    mode: string;
+    show: boolean;
+  }) => void
+  onDateChange: (selectedDate: Date) => void,
 }
-
 export interface LoginFormValuesTypes {
   email: string;
   password: string;
