@@ -48,7 +48,6 @@ export default StyleSheet.create({
   select_input: {
     borderWidth: 2,
     borderRadius: 10,
-    marginBottom: 15,
   },
   send_message_input: {
     backgroundColor: COLORS.white,
@@ -59,6 +58,16 @@ export default StyleSheet.create({
   },
 
   //BUTTONS
+  blue_auth_button: {
+    borderWidth: 2,
+    height: 60,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: COLORS.blue,
+    color: COLORS.white,
+    width: '100%',
+  },
   blue_button_xl: {
     borderWidth: 2,
     height: 60,

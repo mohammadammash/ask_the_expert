@@ -2,7 +2,7 @@ import { View, Text, TextInput, Pressable } from "react-native";
 import styles from "../../../styles";
 import { Formik } from "formik";
 //internal imports
-import { validateLoginFormSchema, loginIntialValues } from "./helpers/loginFormHelper";
+import { validateLoginFormSchema, loginIntialValues } from "./Helpers/LoginFormHelper";
 import { LoginFormProps } from "./types";
 
 const LoginForm: React.FC<LoginFormProps> = ({ handleInvalidCredentials, inValidCredentials, firbaseConfirmLogin }) => {
@@ -43,7 +43,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleInvalidCredentials, inValid
             {errors.password && touched.password && <Text className="text-red-600  ">{errors.password}</Text>}
           </View>
 
-          <Pressable className="mt-2" style={styles.blue_button_xl} onPress={handleSubmit}>
+          <Pressable className="mt-2" style={styles.blue_auth_button} onPress={handleSubmit}>
             <Text className="text-xl text-white font-bold">LOGIN</Text>
           </Pressable>
           {inValidCredentials && <Text className="text-red-600 text-center">InValid Credentials</Text>}
