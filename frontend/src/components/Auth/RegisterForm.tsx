@@ -9,12 +9,11 @@ import styles from "../../../styles";
 import authStyles from "./auth.styles";
 import { IMAGES } from "../../constants";
 import { ALLJOBSFIELDS, ALLJOBSSPECIALTIES } from "../../constants";
-import { validateRegisterFormSchema, registerInitialValues } from "./helpers/registerFormHelper";
+import { validateRegisterFormSchema, registerInitialValues } from "./Helpers/RegisterFormHelper";
 import { ALLANGUAGES } from "../../constants";
 import { RegisterFormProps } from "./types";
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
-  firebaseSubmitSignup,
   image,
   showImage,
   emailAlreadyUsed,
