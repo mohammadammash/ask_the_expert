@@ -52,9 +52,10 @@ export interface AvailabilitySwitchButtonProps {
   navigateToPage: (routeName: string) => any;
 }
 
-export interface ButtonsComponentProps {
-  user_type: string;
-  navigateToPage: (routeName: string) => any;
+export interface ButtonComponentProps {
+  button_style: string;
+  title: string;
+  handlePress: () => void;
 }
 
 export interface ProfileImageCardProps {
