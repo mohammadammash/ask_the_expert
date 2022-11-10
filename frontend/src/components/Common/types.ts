@@ -69,6 +69,7 @@ export interface ProfilePersonalInfoProps {
   field: string;
   yearsOfExperience?: string;
   spoken_languages: string;
+  score?: Number | undefined,
 }
 // END OF PROFILESCREEN
 
