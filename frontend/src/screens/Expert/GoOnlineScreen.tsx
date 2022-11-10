@@ -1,26 +1,30 @@
 import { View, Text } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //internal imports
 import { ConfirmAvailabilityFormCard } from "../../components";
-import { COLORS } from "../../constants";
 import styles from "../../../styles";
-
-interface AvailabilityformValues {
-  meetings_time: string;
-  single_session_time: string;
-}
+import { useGoOnlineExpert } from "../../hooks/useExpert";
+import { AvailabilityformValuesTypes } from "../../components/Expert/types";
 
 const ProfileScreen = () => {
+  const { mutate: mutateGoOnlineExpert, isLoading: mutateGoOnlineExpertIsLoading, data: mutateLoginUserData } = useGoOnlineExpert();
+
   // START OF CONFIRM AVAILBILITY FORM DATA
-  const handleSubmitForm = (values: AvailabilityformValues) => {
+  const handleSubmitForm = (values: AvailabilityformValuesTypes) => {
+    setUnMatchedOptions(false);
+    if (values.meetings_time % values.single_session_time !== 0) {
+      setUnMatchedOptions(true);
+      return;
+    }
     alert(JSON.stringify(values, null, 2));
   };
-  const [selectedMeetingsTime, setSelectedMeetingsTime] = useState("0");
-  const [selectedSingleSessionTime, setSelectedSingleSessionTime] = useState("0");
-  const handleSetSelectedMeetingsTime = (value: string) => setSelectedMeetingsTime(value);
-  const handleSetSelectedSingleSessionTime = (value: string) => setSelectedSingleSessionTime(value);
+  const [unmatchedOptions, setUnMatchedOptions] = useState(false);
+
   //PARAMS
-  const data = { selectedMeetingsTime, selectedSingleSessionTime, handleSetSelectedMeetingsTime, handleSetSelectedSingleSessionTime, handleSubmitForm };
+  const data = {
+    handleSubmitForm,
+    unmatchedOptions,
+  };
   // END OF CONFIRM AVAILBILITY FORM DATA
 
   // MAIN COMPONENT
