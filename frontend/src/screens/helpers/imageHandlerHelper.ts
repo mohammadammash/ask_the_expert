@@ -25,7 +25,7 @@ export async function uploadImageAsync(uri: string, email: string) {
     // We're done with the blob, close and release it
     blob.close();
 
-    return await getDownloadURL(fileRef);
+    return getDownloadURL(fileRef);
     }
 
 
