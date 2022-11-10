@@ -32,7 +32,6 @@
     "react-native-date-picker": "^4.2.5",
     "react-native-datepicker": "^1.7.2",
     "react-native-element-dropdown": "^2.3.1",
-    "react-native-flipper": "^0.173.0",
     "react-native-gesture-handler": "~2.5.0",
     "react-native-gifted-charts": "^1.2.41",
     "react-native-modal-datetime-picker": "^14.0.0",
@@ -47,7 +46,6 @@
     "react-native-web": "~0.18.7",
     "react-navigation": "^4.4.4",
     "react-query": "^3.39.2",
-    "react-query-native-devtools": "^4.0.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
