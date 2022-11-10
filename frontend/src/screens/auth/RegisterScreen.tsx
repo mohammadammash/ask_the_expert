@@ -9,6 +9,7 @@ import { uploadImageAsync, pickImage } from "../Helpers/ImageHandlerHelper";
 import { RegisterFormValuesTypes } from "../../components/Auth/types";
 import { useRegisterUser } from "../../hooks/useAuth";
 import { COLORS } from "../../constants";
+import { setDefaultTokens } from "../../networks";
 
 const RegisterScreen = () => {
   //REACT QUERY POST
@@ -16,8 +17,9 @@ const RegisterScreen = () => {
   const { mutate: mutateRegisterUser, isLoading: mutateRegisterUserIsLoading, data: mutateRegisterUserData } = useRegisterUser();
   useEffect(() => {
     if (mutateRegisterUserData && !mutateRegisterUserIsLoading) {
-      alert(JSON.stringify(mutateRegisterUserData.data, null, 2));
-      setUser(mutateRegisterUserData.data);
+      const { token, ...data } = mutateRegisterUserData.data;
+      setDefaultTokens(token);
+      setUser(data);
     }
   }, [mutateRegisterUserData]);
 
@@ -49,37 +51,37 @@ const RegisterScreen = () => {
     return await createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         const user = userCredential.user;
+        let imageURL = "";
         if (image) {
           setImageUploadingToFirebaseStorage(true);
-          const profileimage_url = await uploadImageAsync(image, email);
-          setImage(profileimage_url);
+          imageURL = await uploadImageAsync(image, email);
         }
-        return user.uid;
+        return [user.uid, imageURL];
       })
 
       .catch((error) => {
         if (error.code == "auth/email-already-in-use") {
           alert("Email already in use");
           setEmailAlreadyUsed(true);
+          return ["", ""];
         }
       });
   };
 
   //SUBMIT FORM
   const handleFormSubmit = async (values: RegisterFormValuesTypes) => {
-    //if image exists update profile_url to firebase storage image url
-    values.profile_url = image ? image : " ";
     //login user to firebase and get uid back
-    const _id = await firebaseSubmitSignup(values.email, values.password);
+    const [_id, imageURL] = await firebaseSubmitSignup(values.email, values.password);
+    //if image exists update profile_url to firebase storage image url
     if (!_id) return;
-    //remove unnecessary data
-    let { confirmPassword, languages, ...data } = values;
+    let { confirmPassword, languages, profile_url, ...data } = values;
+    profile_url = imageURL ? imageURL : " ";
     const spoken_languages = languages.join(" ");
     //Start of get device token
     const device_token = "device_tokenito";
     //End of get device token
     setImageUploadingToFirebaseStorage(false);
-    const user_data = { ...data, _id, spoken_languages, device_token };
+    const user_data = { ...data, _id, spoken_languages, profile_url, device_token };
     alert(JSON.stringify(user_data, null, 2));
     mutateRegisterUser(user_data);
   };

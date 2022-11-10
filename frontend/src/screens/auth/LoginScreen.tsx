@@ -9,6 +9,7 @@ import styles from "../../../styles";
 import { auth } from "../../../firebaseConfig";
 import { useUserContext } from "../../hooks/UserContext";
 import { useLoginUser } from "../../hooks/useAuth";
+import { setDefaultTokens } from "../../networks";
 
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
@@ -18,7 +19,11 @@ const LoginScreen = () => {
   const { mutate: mutateLoginUser, isLoading: mutateLoginUserIsLoading, data: mutateLoginUserData } = useLoginUser();
   //when user data is found update UserContext
   useEffect(() => {
-    if (mutateLoginUserData) setUser(mutateLoginUserData.data);
+    if (mutateLoginUserData && !mutateLoginUserIsLoading) {
+      const { token, ...data } = mutateLoginUserData.data;
+      setDefaultTokens(token);
+      setUser(data);
+    }
   }, [mutateLoginUserData]);
 
   //FORM DATA
@@ -30,7 +35,7 @@ const LoginScreen = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         const user = userCredential.user;
-        let data = { _id: "dsfs3dfddsdsd1122dsd3322s3", email: "mhmd333132abx@gmail.com", password: "1d@aAA" };
+        let data = { _id: user.uid, email, password };
         mutateLoginUser(data);
       })
       .catch((error) => {
