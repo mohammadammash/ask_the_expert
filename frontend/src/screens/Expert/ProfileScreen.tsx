@@ -51,6 +51,7 @@ const ProfileScreen = () => {
   const personalInfoData = { ...user, yearsOfExperience };
   const buttonData = { button_style, title, handlePress };
   const aboutData = { user_type, about };
+  const reviewsStatsData = { reviews_length: reviews?.length || 0, rating };
 
   return (
     <ScrollView>
@@ -84,19 +85,18 @@ const ProfileScreen = () => {
               REVIEWS
             </Text>
           ) : (
-            <>
-              <AddReviewButtonSectionComponent modalRef={modalRef} />
-            </>
+            <AddReviewButtonSectionComponent modalRef={modalRef} />
           )}
         </View>
 
-        {/* <AllReviewsStatsComponent rating={rating} reviews={reviews} /> */}
+        {/* REVIEWS SECTION */}
+        <AllReviewsStatsComponent {...reviewsStatsData} />
 
-        {/* ALL REVIEWS SHOW */}
         {/* <View className="w-full items-center my-5">
           {reviews ? reviews.map((review, index) => <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} />) : null}
         </View>
       */}
+        {/* ):null} */}
       </View>
     </ScrollView>
   );
