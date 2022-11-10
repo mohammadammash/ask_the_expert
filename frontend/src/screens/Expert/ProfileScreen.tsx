@@ -22,10 +22,10 @@ const ProfileScreen = () => {
   const navigation = useNavigation<any>();
   const navigateToPage = (routeName: string) => navigation.navigate(routeName);
   const { user, setUser } = useContext(UserContext);
-  const { profile_url, user_type, online, about } = user;
+  const { profile_url, user_type, isAvailable, about, start_date } = user;
 
   //profile info
-  const yearsOfExperience = CalculateYearsOfExperienceHelper(user.start_date);
+  const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
 
   //REVIEW MODAL
   const modalRef = useRef();
@@ -49,7 +49,7 @@ const ProfileScreen = () => {
 
   //PARAMS
   const personalInfoData = { ...user, yearsOfExperience };
-  const availbilitySwitchData = { user_type, online, navigateToPage };
+  const availbilitySwitchData = { user_type, isAvailable, navigateToPage };
   const buttonsData = { user_type, navigateToPage };
   const aboutData = { user_type, about };
 

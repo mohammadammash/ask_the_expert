@@ -48,7 +48,7 @@ export interface AboutSectionProps {
 
 export interface AvailabilitySwitchButtonProps {
   user_type: string;
-  online: boolean;
+  isAvailable: boolean;
   navigateToPage: (routeName: string) => any;
 }
 

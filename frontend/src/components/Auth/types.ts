@@ -9,7 +9,7 @@ export interface RegisterFormValuesTypes {
   speciality: string;
   languages: string[];
   start_date: Date;
-  about: '',
+  about: string,
 };
 
 export interface RegisterFormProps {
