@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Switch, Platform } from "react-native";
 import { useContext, useState, useRef, useEffect } from "react";
 import { UserContext } from "../../hooks/UserContext";
 //internal imports
@@ -7,7 +7,6 @@ import {
   AllReviewsStatsComponent,
   ProfileImageCardComponent,
   ProfilePersonalInfoComponent,
-  AvailabilitySwitchButtonComponent,
   AboutSectionComponent,
   AddReviewButtonSectionComponent,
   ButtonComponent,
@@ -21,7 +20,7 @@ import styles from "../../../styles";
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();
   const { user, setUser } = useContext(UserContext);
-  const { profile_url, user_type, isAvailable, about, start_date } = user;
+  const { profile_url, user_type, isAvailable, about, start_date, reviews } = user;
 
   //Button Info
   const handlePress = () => {
@@ -41,25 +40,15 @@ const ProfileScreen = () => {
 
   //allReviews Stats
   const handleCardClick = () => navigation.navigate(ROUTES.NOVICE_PROFILE);
-  const reviews = [
-    { rating: 5, content: "Bruhh", created_at: Date.now() },
-    { rating: 1, content: "Good Dude!1", created_at: Date.now() },
-    { rating: 4, content: "Very Good!!", created_at: Date.now() },
-    { rating: 5, content: "Wow!! Enormous info", created_at: Date.now() },
-    { rating: 3, content: "Not Badd :(", created_at: Date.now() },
-    { rating: 3, content: "Normal, can be better", created_at: Date.now() },
-    { rating: 3, content: "Bad For me dude!", created_at: Date.now() },
-  ];
   type ratingContent = { average: number; totalOf5: number; totalOf4: number; totalOf3: number; totalOf2: number; totalOf1: number };
   const [rating, setRating] = useState({ average: 0, totalOf5: 0, totalOf4: 0, totalOf3: 0, totalOf2: 0, totalOf1: 0 });
-  const handleRatingTpe = (rating: ratingContent) => setRating(rating);
+  const handleRatingType = (rating: ratingContent) => setRating(rating);
   useEffect(() => {
-    calculateReviewsStatsHelper(reviews, handleRatingTpe);
-  }, []);
+    if (reviews) calculateReviewsStatsHelper(reviews, handleRatingType);
+  }, [reviews]);
 
   //PARAMS
   const personalInfoData = { ...user, yearsOfExperience };
-  const availbilitySwitchData = { user_type, isAvailable };
   const buttonData = { button_style, title, handlePress };
   const aboutData = { user_type, about };
 
@@ -72,7 +61,19 @@ const ProfileScreen = () => {
 
         <ButtonComponent {...buttonData} />
 
-        {/* <AvailabilitySwitchButtonComponent {...availbilitySwitchData} /> */}
+        <View className="w-full my-3">
+          <View className="h-24 w-full items-center justify-evenly" style={styles.bg_grey}>
+            <Text className="text-md font-bold">GO ONLINE</Text>
+            <View className={`${Platform.OS === "ios" && "border"} rounded-2xl`}>
+              <Switch
+                trackColor={{ false: COLORS.white, true: COLORS.white }}
+                thumbColor={isAvailable ? COLORS.blue : COLORS.white}
+                onValueChange={handleSwitchPress}
+                value={isAvailable}
+              />
+            </View>
+          </View>
+        </View>
 
         <AboutSectionComponent {...aboutData} />
 
@@ -89,14 +90,13 @@ const ProfileScreen = () => {
           )}
         </View>
 
-        <AllReviewsStatsComponent rating={rating} reviews={reviews} />
+        {/* <AllReviewsStatsComponent rating={rating} reviews={reviews} /> */}
 
         {/* ALL REVIEWS SHOW */}
-        <View className="w-full items-center my-5">
-          {reviews.map((review, index) => (
-            <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} />
-          ))}
+        {/* <View className="w-full items-center my-5">
+          {reviews ? reviews.map((review, index) => <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} />) : null}
         </View>
+      */}
       </View>
     </ScrollView>
   );
