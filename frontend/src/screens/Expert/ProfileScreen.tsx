@@ -10,7 +10,7 @@ import {
   AvailabilitySwitchButtonComponent,
   AboutSectionComponent,
   AddReviewButtonSectionComponent,
-  ButtonsComponent,
+  ButtonComponent,
   ReviewCardComponent,
 } from "../../components";
 import { COLORS, USERTYPES, ROUTES } from "../../constants";
@@ -20,9 +20,18 @@ import styles from "../../../styles";
 
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();
-  const navigateToPage = (routeName: string) => navigation.navigate(routeName);
   const { user, setUser } = useContext(UserContext);
   const { profile_url, user_type, isAvailable, about, start_date } = user;
+
+  //Button Info
+  const handlePress = () => {
+    navigation.navigate(ROUTES.USER_EDIT_PROFILE);
+  };
+  const title = "EDIT PROFILE";
+  const button_style = "md";
+
+  //Switch Button Info
+  const handleSwitchPress = () => navigation.navigate(ROUTES.EXPERT_GO_ONLINE);
 
   //profile info
   const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
@@ -31,6 +40,7 @@ const ProfileScreen = () => {
   const modalRef = useRef();
 
   //allReviews Stats
+  const handleCardClick = () => navigation.navigate(ROUTES.NOVICE_PROFILE);
   const reviews = [
     { rating: 5, content: "Bruhh", created_at: Date.now() },
     { rating: 1, content: "Good Dude!1", created_at: Date.now() },
@@ -49,8 +59,8 @@ const ProfileScreen = () => {
 
   //PARAMS
   const personalInfoData = { ...user, yearsOfExperience };
-  const availbilitySwitchData = { user_type, isAvailable, navigateToPage };
-  const buttonsData = { user_type, navigateToPage };
+  const availbilitySwitchData = { user_type, isAvailable };
+  const buttonData = { button_style, title, handlePress };
   const aboutData = { user_type, about };
 
   return (
@@ -60,9 +70,9 @@ const ProfileScreen = () => {
 
         <ProfilePersonalInfoComponent {...personalInfoData} />
 
-        <ButtonsComponent {...buttonsData} />
+        <ButtonComponent {...buttonData} />
 
-        <AvailabilitySwitchButtonComponent {...availbilitySwitchData} />
+        {/* <AvailabilitySwitchButtonComponent {...availbilitySwitchData} /> */}
 
         <AboutSectionComponent {...aboutData} />
 
@@ -84,7 +94,7 @@ const ProfileScreen = () => {
         {/* ALL REVIEWS SHOW */}
         <View className="w-full items-center my-5">
           {reviews.map((review, index) => (
-            <ReviewCardComponent key={index} review={review} navigateToPage={navigateToPage} />
+            <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} />
           ))}
         </View>
       </View>
