@@ -1,25 +1,19 @@
+import { reviewsType as ReviewsType } from "../../hooks/UserContext";
 export interface FormValuesTypes {
   meetings_time: string;
   single_session_time: string;
 }
 
-type ReviewContentType = {
-     rating: number, content: string, created_at: number, 
-}
 type RatingContentType = { average: number; totalOf5: number; totalOf4: number; totalOf3: number; totalOf2: number; totalOf1: number };
 
 export interface AllReviewsStatsProps {
-  reviews: ReviewContentType[],
+  reviews_length: number,
   rating: RatingContentType,
 }
 
 export interface ReviewCardProps {
-  navigateToPage: (routeName: string) => any;
-  review: {
-    rating: number;
-    content: string;
-    created_at: number;
-  };
+  handleCardClick: () => any;
+  review: ReviewsType;
 }
 
 export interface ReviewSingleChatProps {

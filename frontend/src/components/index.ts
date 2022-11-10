@@ -21,13 +21,12 @@ export {default as ChartsUpperLegendComponent} from "./Admin/Charts/ChartsUpperL
 
 //COMMON
 export {default as AllReviewsStatsComponent} from "./Expert/AllReviewsStats";
-export {default as AvailabilitySwitchButtonComponent} from "./Common/ProfileScreen/AvailabilitySwitchButton";
 export {default as AboutSectionComponent} from "./Common/ProfileScreen/AboutSection";
 export {default as EditProfileFormComponent} from "./Common/EditProfileForm";
 export {default as ChatAndAppointmentCardComponent} from "./Common/ChatAndAppointmentCard";
 export {default as SendMessageFormComponent} from "./Common/SendMessageForm";
 export {default as LeaderboardCardComponent} from "./Common/LeaderboardCard";
-export {default as ButtonsComponent} from "./Common/ProfileScreen/Buttons";
+export {default as ButtonComponent} from "./Common/ProfileScreen/Button";
 
 //NAVIGATION
 export {default as CustomDrawerComponent} from "./Navigation/CustomDrawer";
