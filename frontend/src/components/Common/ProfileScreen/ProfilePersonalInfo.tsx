@@ -17,7 +17,8 @@ const ProfilePersonalInfo: React.FC<ProfilePersonalInfoProps> = ({
       <View className="w-full items-center justify-start gap-2">
         {/* PERSONAL INFO */}
         <Text style={styles.orange_text} className="text-[10px] font-bold">
-          <Text className="font-medium">Score: </Text>{score}
+          <Text className="font-medium">Score: </Text>
+          {score}
         </Text>
         <View className="mb-2 items-center">
           <Text style={styles.blue_text} className="font-bold text-2xl mb-1">

@@ -46,11 +46,6 @@ export interface AboutSectionProps {
   about: string;
 }
 
-export interface AvailabilitySwitchButtonProps {
-  user_type: string;
-  isAvailable: boolean;
-  navigateToPage: (routeName: string) => any;
-}
 
 export interface ButtonComponentProps {
   button_style: string;
