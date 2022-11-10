@@ -1,13 +1,26 @@
-import { View, Text } from "react-native";
-import { useState, useEffect } from "react";
+import { View, Text, ActivityIndicator } from "react-native";
+import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 //internal imports
 import { ConfirmAvailabilityFormCard } from "../../components";
 import styles from "../../../styles";
+import { ROUTES } from "../../constants";
 import { useGoOnlineExpert } from "../../hooks/useExpert";
 import { AvailabilityformValuesTypes } from "../../components/Expert/types";
+import { useUserContext } from "../../hooks/UserContext";
 
 const ProfileScreen = () => {
-  const { mutate: mutateGoOnlineExpert, isLoading: mutateGoOnlineExpertIsLoading, data: mutateLoginUserData } = useGoOnlineExpert();
+  const { mutate: mutateGoOnlineExpert, isLoading: mutateGoOnlineExpertIsLoading, isSuccess: mutateGoOnlineExpertIsSuccess } = useGoOnlineExpert();
+  const navigation = useNavigation<any>();
+  const { user, setUser } = useUserContext();
+
+  //if finished loading and success:
+  useEffect(() => {
+    if (mutateGoOnlineExpertIsSuccess) {
+      setUser({ ...user, isAvailable: true });
+      navigation.navigate(ROUTES.EXPERT_PROFILE);
+    }
+  }, [mutateGoOnlineExpertIsSuccess]);
 
   // START OF CONFIRM AVAILBILITY FORM DATA
   const handleSubmitForm = (values: AvailabilityformValuesTypes) => {
@@ -16,7 +29,7 @@ const ProfileScreen = () => {
       setUnMatchedOptions(true);
       return;
     }
-    alert(JSON.stringify(values, null, 2));
+    mutateGoOnlineExpert(values);
   };
   const [unmatchedOptions, setUnMatchedOptions] = useState(false);
 
@@ -28,6 +41,11 @@ const ProfileScreen = () => {
   // END OF CONFIRM AVAILBILITY FORM DATA
 
   // MAIN COMPONENT
+  //if loading submit
+  if (mutateGoOnlineExpertIsLoading) {
+    return <ActivityIndicator size="large" />;
+  }
+
   return (
     <View className="flex-1 w-full h-full items-center justify-evenly bg-white border">
       <View className="w-full px-3 items-center gap-5">
