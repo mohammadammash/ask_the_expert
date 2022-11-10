@@ -6,31 +6,17 @@ import commonStyles from "../Common/common.styles";
 import styles from "../../../styles";
 import { availabilityIntialValues, validateSetAvailabilityForm } from "./Helpers/ConfirmAvailabilityFormHelper";
 import { AVAILABILITY_SESSION_OPTIONS, AVAILABILITY_OPTIONS } from "../../constants";
-
-interface AvailabilityformValues {
-  meetings_time: string;
-  single_session_time: string;
-}
-interface ConfirmAvailabilityFormCardProps {
-  selectedMeetingsTime: string;
-  selectedSingleSessionTime: string;
-  handleSetSelectedMeetingsTime: (value: any) => void;
-  handleSetSelectedSingleSessionTime: (value: any) => void;
-  handleSubmitForm: (values: AvailabilityformValues) => void;
-}
+import { ConfirmAvailabilityFormCardProps } from "./types";
 
 const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = ({
-  selectedMeetingsTime,
-  selectedSingleSessionTime,
-  handleSetSelectedMeetingsTime,
-  handleSetSelectedSingleSessionTime,
+  handleSubmitForm,
+  unmatchedOptions,
 }) => {
   return (
     <Formik
       initialValues={availabilityIntialValues}
-      onSubmit={(values, actions) => {
-        console.log({ values, actions });
-        alert(JSON.stringify(values, null, 2));
+      onSubmit={(values) => {
+        handleSubmitForm(values);
       }}
       validationSchema={validateSetAvailabilityForm}
     >
@@ -45,20 +31,21 @@ const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = 
                 placeholderStyle={commonStyles.placeholderStyle}
                 iconStyle={commonStyles.iconStyle}
                 maxHeight={200}
-                value={selectedMeetingsTime}
+                value={values.meetings_time}
                 data={AVAILABILITY_OPTIONS}
                 valueField="value"
                 labelField="label"
                 imageField=""
-                placeholder="Start Time"
+                placeholder={values.meetings_time ? values.meetings_time : "Meetings Time"}
                 searchPlaceholder="Search..."
                 onChange={(e) => {
-                  handleSetSelectedMeetingsTime(e.value);
                   values.meetings_time = e.value;
                 }}
               />
             </View>
-            {errors.meetings_time && touched.meetings_time && <Text className="text-red-600  text-center">{errors.meetings_time}</Text>}
+            {errors.meetings_time && touched.meetings_time && (
+              <Text className="text-red-600  text-center text-[11px] px-5">{errors.meetings_time}</Text>
+            )}
 
             <View className="flex-row justify-around items-center">
               <Text className="text-xs pl-3 w-1/2">Session/Meeting time:</Text>
@@ -68,27 +55,31 @@ const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = 
                 placeholderStyle={commonStyles.placeholderStyle}
                 iconStyle={commonStyles.iconStyle}
                 maxHeight={200}
-                value={selectedSingleSessionTime}
+                value={values.single_session_time}
                 data={AVAILABILITY_SESSION_OPTIONS}
                 valueField="value"
                 labelField="label"
                 imageField=""
-                placeholder="Session Time"
+                placeholder={values.single_session_time ? values.single_session_time : "Session Time"}
                 searchPlaceholder="Search.."
                 onChange={(e) => {
-                  handleSetSelectedSingleSessionTime(e.value);
                   values.single_session_time = e.value;
                 }}
               />
             </View>
             {errors.single_session_time && touched.single_session_time && (
-              <Text className="text-red-600 text-center">{errors.single_session_time}</Text>
+              <Text className="text-red-600 text-center text-[11px] px-5">{errors.single_session_time}</Text>
             )}
           </View>
 
+          {unmatchedOptions && <Text className="text-red-600 text-center text-[11px] px-5">Choose compatible time options! </Text>}
           <View className="items-center h-1/2 justify-evenly px-3">
             <Text className="text-center text-xs mt-3 color-[#828282]">
-              Confirm your availability from now till the upcoming X hours for Y sessions/appointments
+              Confirm your availability from now till the upcoming {values.meetings_time / 60} hour/s for{" "}
+              {values.meetings_time / values.single_session_time < 1
+                ? Math.ceil(values.meetings_time / values.single_session_time)
+                : Math.floor(values.meetings_time / values.single_session_time)}{" "}
+              sessions/appointments
             </Text>
             <Pressable style={styles.blue_button_lg} onPress={handleSubmit}>
               <Text className="text-xl text-white font-bold">SIGN UP</Text>
