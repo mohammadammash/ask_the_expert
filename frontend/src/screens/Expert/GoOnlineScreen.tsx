@@ -1,6 +1,7 @@
 import { View, Text, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import * as Location from "expo-location";
 //internal imports
 import { ConfirmAvailabilityFormCard } from "../../components";
 import styles from "../../../styles";
@@ -10,10 +11,33 @@ import { AvailabilityformValuesTypes } from "../../components/Expert/types";
 import { useUserContext } from "../../hooks/UserContext";
 
 const ProfileScreen = () => {
-  const { mutate: mutateGoOnlineExpert, isLoading: mutateGoOnlineExpertIsLoading, isSuccess: mutateGoOnlineExpertIsSuccess } = useGoOnlineExpert();
   const navigation = useNavigation<any>();
   const { user, setUser } = useUserContext();
 
+  //-------------------------------------------------------------
+  //START OF GET CURRENT EXPERT LOCATION (longitude and latitude)
+  const [location, setLocation] = useState({ longitude: 0, latitude: 0 });
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        return;
+      }
+
+      setIsLoadingLocation(true);
+      let location = await Location.getCurrentPositionAsync({});
+      setIsLoadingLocation(false);
+      setLocation({ longitude: location.coords.longitude, latitude: location.coords.latitude });
+    })();
+  }, []);
+  //END OF GET CURRENT EXPERT LOCATION (longitude and latitude)
+  //-------------------------------------------------------------
+
+  //----------------------------------------
+  // START OF CONFIRM AVAILBILITY FORM DATA
+  const { mutate: mutateGoOnlineExpert, isLoading: mutateGoOnlineExpertIsLoading, isSuccess: mutateGoOnlineExpertIsSuccess } = useGoOnlineExpert();
   //if finished loading and success:
   useEffect(() => {
     if (mutateGoOnlineExpertIsSuccess) {
@@ -22,14 +46,14 @@ const ProfileScreen = () => {
     }
   }, [mutateGoOnlineExpertIsSuccess]);
 
-  // START OF CONFIRM AVAILBILITY FORM DATA
   const handleSubmitForm = (values: AvailabilityformValuesTypes) => {
     setUnMatchedOptions(false);
     if (values.meetings_time % values.single_session_time !== 0) {
       setUnMatchedOptions(true);
       return;
     }
-    mutateGoOnlineExpert(values);
+    const data = { ...values, ...location };
+    mutateGoOnlineExpert(data);
   };
   const [unmatchedOptions, setUnMatchedOptions] = useState(false);
 
@@ -39,8 +63,20 @@ const ProfileScreen = () => {
     unmatchedOptions,
   };
   // END OF CONFIRM AVAILBILITY FORM DATA
+  //----------------------------------------
 
+  //--------------
   // MAIN COMPONENT
+  //if loading location
+  if (isLoadingLocation) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color={COLORS.dark} />
+        <Text className="text-xs w-3/4 text-center mt-5">Your Current Location is getting loaded, it may take a few seconds</Text>
+      </View>
+    );
+  }
+
   //if loading submit
   if (mutateGoOnlineExpertIsLoading) {
     return (
