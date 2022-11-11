@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, ScrollView, Switch, Platform } from "react-native";
+import { View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator } from "react-native";
 import { useContext, useState, useRef, useEffect } from "react";
 import { UserContext } from "../../hooks/UserContext";
 //internal imports
@@ -16,11 +16,44 @@ import { COLORS, USERTYPES, ROUTES } from "../../constants";
 import CalculateYearsOfExperienceHelper from "../Helpers/CalculateYearsOfExperienceHelper";
 import { calculateReviewsStatsHelper } from "../Helpers/CalculateReviewsStatsHelper";
 import styles from "../../../styles";
+import { useGoOfflineExpert } from "../../hooks/useExpert";
 
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();
   const { user, setUser } = useContext(UserContext);
   const { profile_url, user_type, isAvailable, about, start_date, reviews } = user;
+
+  //START OF GO OFFLINE POST API SUBMIT
+  const {
+    data: mutateGoOfflineExpertData,
+    mutate: mutateGoOfflineExpert,
+    isLoading: mutateGoOfflineExpertIsLoading,
+    isSuccess: mutateGoOfflineExpertIsSuccess,
+  } = useGoOfflineExpert();
+
+  //if finished loading and success:
+  useEffect(() => {
+    if (mutateGoOfflineExpertIsSuccess) {
+      setUser({ ...user, isAvailable: false });
+      //the data is made of novices_devices_token to send notifications to that appointments are canceled with this currentUser
+      alert(JSON.stringify(mutateGoOfflineExpertData, null, 2));
+    }
+  }, [mutateGoOfflineExpertIsSuccess]);
+
+  //Switch Button Info
+  const handleSwitchPress = () => {
+    //if user is offline send him/her to goOnline form page
+    if (!isAvailable) return navigation.navigate(ROUTES.EXPERT_GO_ONLINE);
+    //if user is currently online => show popup to make sure that user want to go offine and remove all remaining appointments if exists
+    Alert.alert("Go Offline", "\nAll appointments reserved will be automatically canceled and this action cannot be changed?\n\n Are you sure?", [
+      {
+        text: "Cancel",
+        style: "destructive",
+      },
+      { text: "Submit", onPress: () => mutateGoOfflineExpert(), style: "default" },
+    ]);
+  };
+  //END OF GO OFFLINE POST API SUBMIT
 
   //Button Info
   const handlePress = () => {
@@ -28,9 +61,6 @@ const ProfileScreen = () => {
   };
   const title = "EDIT PROFILE";
   const button_style = "md";
-
-  //Switch Button Info
-  const handleSwitchPress = () => navigation.navigate(ROUTES.EXPERT_GO_ONLINE);
 
   //profile info
   const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
@@ -53,6 +83,17 @@ const ProfileScreen = () => {
   const aboutData = { user_type, about };
   const reviewsStatsData = { reviews_length: reviews?.length || 0, rating };
 
+  //----------------
+  // MAIN COMPONENT
+  //if loading submit
+  if (mutateGoOfflineExpertIsLoading) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color={COLORS.dark} />
+      </View>
+    );
+  }
+
   return (
     <ScrollView>
       <View className="flex-1 items-center bg-white">
@@ -62,6 +103,7 @@ const ProfileScreen = () => {
 
         <ButtonComponent {...buttonData} />
 
+        {/* SET AVAILBILITY SWITCH SECTION */}
         <View className="w-full my-3">
           <View className="h-24 w-full items-center justify-evenly" style={styles.bg_grey}>
             <Text className="text-md font-bold">GO ONLINE</Text>
@@ -92,11 +134,11 @@ const ProfileScreen = () => {
         {/* REVIEWS SECTION */}
         <AllReviewsStatsComponent {...reviewsStatsData} />
 
-        {/* <View className="w-full items-center my-5">
-          {reviews ? reviews.map((review, index) => <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} />) : null}
+        <View className="w-full items-center my-5">
+          {reviews?.map((review, index) => (
+            <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} />
+          ))}
         </View>
-      */}
-        {/* ):null} */}
       </View>
     </ScrollView>
   );
