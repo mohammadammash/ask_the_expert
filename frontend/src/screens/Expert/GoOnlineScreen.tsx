@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 //internal imports
 import { ConfirmAvailabilityFormCard } from "../../components";
 import styles from "../../../styles";
-import { ROUTES } from "../../constants";
+import { ROUTES, COLORS } from "../../constants";
 import { useGoOnlineExpert } from "../../hooks/useExpert";
 import { AvailabilityformValuesTypes } from "../../components/Expert/types";
 import { useUserContext } from "../../hooks/UserContext";
@@ -43,7 +43,11 @@ const ProfileScreen = () => {
   // MAIN COMPONENT
   //if loading submit
   if (mutateGoOnlineExpertIsLoading) {
-    return <ActivityIndicator size="large" />;
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color={COLORS.dark} />
+      </View>
+    );
   }
 
   return (

@@ -6,9 +6,9 @@ import styles from "../../../styles";
 import expertStyles from "./expert.styles";
 import { ReviewCardProps } from "./types";
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ navigateToPage, review }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review }) => {
   return (
-    <TouchableOpacity onPress={() => navigateToPage(ROUTES.NOVICE_PROFILE)}>
+    <TouchableOpacity onPress={handleCardClick}>
       <View style={styles.bg_grey_opacity30} className="flex-row w-5/6 border-2 rounded-lg border-[#1FA6D1] items-center justify-around h-50 mb-5">
         <View className="avatar aspect-square max-w-1/5 max-h-1/5 h-2/5 w-1/5 rounded-full items-center border-2 border-[#1FA6D1]">
           <Image className="max-w-full max-h-full h-full w-full rounded-full" source={IMAGES.dummyProfile} />
