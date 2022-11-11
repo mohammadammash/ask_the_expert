@@ -13,15 +13,12 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review }) => {
   const showed_date = `${createdAt.getDate()}/${createdAt.getMonth()+1}/${createdAt.getFullYear()}`;
 
   return (
-    <TouchableOpacity onPress={handleCardClick}>
+    <TouchableOpacity onPress={() => handleCardClick(review.novice_id)}>
       <View
         style={[styles.bg_grey_opacity30, styles.border_blue]}
         className="flex-row w-5/6 border-2 rounded-lg items-center justify-around h-50 mb-5"
       >
-        <View
-          style={styles.border_blue}
-          className="avatar aspect-square max-w-1/5 max-h-1/5 h-2/5 w-1/5 rounded-full items-center border-2"
-        >
+        <View style={styles.border_blue} className="avatar aspect-square max-w-1/5 max-h-1/5 h-2/5 w-1/5 rounded-full items-center border-2">
           <Image
             className="max-w-full max-h-full h-full w-full rounded-full"
             source={profile_url.length > 1 ? { uri: profile_url } : IMAGES.dummyProfile}
@@ -30,7 +27,11 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review }) => {
 
         <View className="w-4/6 pt-3">
           <Text className="text-base">
-            {firstName} {lastName}
+            {firstName[0].toUpperCase() +
+              firstName.substring(1, firstName.length).toLowerCase() +
+              " " +
+              lastName[0].toUpperCase() +
+              lastName.substring(1, lastName.length).toLowerCase()}{" "}
           </Text>
           <Text className="text-xs opacity-50 mb-3">{field}</Text>
           <Text className="w-full text-[11px]">{content}</Text>
