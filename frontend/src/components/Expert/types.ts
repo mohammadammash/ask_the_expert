@@ -1,4 +1,4 @@
-import { reviewsType as ReviewsType } from "../../hooks/UserContext";
+import { reviewsType as ReviewsType, userType } from "../../hooks/UserContext";
 export interface FormValuesTypes {
   meetings_time: number;
   single_session_time: number;
@@ -12,7 +12,7 @@ export interface AllReviewsStatsProps {
 }
 
 export interface ReviewCardProps {
-  handleCardClick: () => any;
+  handleCardClick: (novice_user: userType) => any;
   review: ReviewsType;
 }
 

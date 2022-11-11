@@ -13,16 +13,18 @@ const ProfilePersonalInfo: React.FC<ProfilePersonalInfoProps> = ({
   score,
 }) => {
   return (
-    <View className="w-full">
       <View className="w-full items-center justify-start gap-2">
         {/* PERSONAL INFO */}
         <Text style={styles.orange_text} className="text-[10px] font-bold">
-          <Text className="font-medium">Score: </Text>
-          {score}
+          {score && score >= 0 ? "Score: " + score : ""}
         </Text>
         <View className="mb-2 items-center">
           <Text style={styles.blue_text} className="font-bold text-2xl mb-1">
-            {firstName} {lastName}
+            {firstName[0].toUpperCase() +
+              firstName.substring(1, firstName.length).toLowerCase() +
+              " " +
+              lastName[0].toUpperCase() +
+              lastName.substring(1, lastName.length).toLowerCase()}{" "}
           </Text>
           <Text className="opacity-60 text-xs text-center">{field}</Text>
         </View>
@@ -37,7 +39,6 @@ const ProfilePersonalInfo: React.FC<ProfilePersonalInfoProps> = ({
           </Text>
         </View>
       </View>
-    </View>
   );
 };
 
