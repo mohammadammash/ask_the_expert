@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator } from "react-native";
 import { useContext, useState, useRef, useEffect, useCallback } from "react";
-import { UserContext } from "../../hooks/UserContext";
+import { UserContext, userType } from "../../hooks/UserContext";
 //internal imports
 import {
   AllReviewsStatsComponent,
@@ -94,7 +94,7 @@ const ProfileScreen = () => {
   const modalRef = useRef();
 
   //allReviews Stats
-  const handleCardClick = () => navigation.navigate(ROUTES.NOVICE_PROFILE);
+  const handleCardClick = (novice_user: userType) => navigation.navigate(ROUTES.NOVICE_PROFILE, { novice_user });
   type ratingContent = { average: number; totalOf5: number; totalOf4: number; totalOf3: number; totalOf2: number; totalOf1: number };
   const [rating, setRating] = useState({ average: 0, totalOf5: 0, totalOf4: 0, totalOf3: 0, totalOf2: 0, totalOf1: 0 });
   const handleRatingType = (rating: ratingContent) => setRating(rating);
@@ -126,7 +126,9 @@ const ProfileScreen = () => {
 
         <ProfilePersonalInfoComponent {...personalInfoData} />
 
-        <ButtonComponent {...buttonData} />
+        <View className="mt-3">
+          <ButtonComponent {...buttonData} />
+        </View>
 
         {/* SET AVAILBILITY SWITCH SECTION */}
         <View className="w-full my-3">
