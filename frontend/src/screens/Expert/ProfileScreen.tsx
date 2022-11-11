@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator } from "react-native";
-import { useContext, useState, useRef, useEffect } from "react";
+import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator } from "react-native";
+import { useContext, useState, useRef, useEffect, useCallback } from "react";
 import { UserContext } from "../../hooks/UserContext";
 //internal imports
 import {
@@ -17,12 +17,36 @@ import CalculateYearsOfExperienceHelper from "../Helpers/CalculateYearsOfExperie
 import { calculateReviewsStatsHelper } from "../Helpers/CalculateReviewsStatsHelper";
 import styles from "../../../styles";
 import { useGoOfflineExpert } from "../../hooks/useExpert";
+import { useCurrentUser } from "../../hooks/useUser";
 
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();
   const { user, setUser } = useContext(UserContext);
   const { profile_url, user_type, isAvailable, about, start_date, reviews } = user;
 
+  //----------------------------------------------
+  //START OF REFRESH PAGE UPDATE CURRENT USER DATA
+  const [refreshing, setRefreshing] = useState(false);
+  const [enabled, setEnabled] = useState(false);
+  const { data: getCurrentUserData, isLoading: isCurrentUserLoading, isSuccess: isCurrentUserUpdatedSuccess } = useCurrentUser({ enabled });
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setEnabled(true); //call useCurrentUser //update current user
+  }, []);
+
+  useEffect(() => {
+    //userData is reRetrieved and loading stopped => update Current user Data
+    if (isCurrentUserUpdatedSuccess && !isCurrentUserLoading) {
+      setUser({ ...getCurrentUserData });
+      setRefreshing(false);
+      setEnabled(false);
+    }
+  }, [getCurrentUserData]);
+  //END OF REFRESH PAGE UPDATE CURRENT USER DATA
+  //----------------------------------------------
+
+  //-----------------------------------
   //START OF GO OFFLINE POST API SUBMIT
   const {
     data: mutateGoOfflineExpertData,
@@ -54,6 +78,7 @@ const ProfileScreen = () => {
     ]);
   };
   //END OF GO OFFLINE POST API SUBMIT
+  //-----------------------------------
 
   //Button Info
   const handlePress = () => {
@@ -95,7 +120,7 @@ const ProfileScreen = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View className="flex-1 items-center bg-white">
         <ProfileImageCardComponent profile_url={profile_url} />
 
