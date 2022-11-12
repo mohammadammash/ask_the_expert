@@ -1,15 +1,14 @@
 import { ImageBackground, Image, View, TouchableOpacity, Text } from "react-native";
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
-import navigationStyles from "./navigation.styles";
-
+import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { SimpleLineIcons } from "@expo/vector-icons";
 //internal imports
-import { IMAGES, COLORS } from "../../constants";
-import { DrawerContentComponentProps } from "@react-navigation/drawer";
+import navigationStyles from "./navigation.styles";
+import { IMAGES, COLORS, ROUTES } from "../../constants";
 
-const CustomDrawer = (props: DrawerContentComponentProps): JSX.Element => {
+const CustomDrawer = ({ props, handleLogout }: { props: DrawerContentComponentProps; handleLogout: () => void }): JSX.Element => {
   return (
-    // drawer whole content
+    // Drawer whole content
     <DrawerContentScrollView {...props} contentContainerStyle={navigationStyles.mainContainer}>
       <ImageBackground className="h-36" source={IMAGES.fakeMapImage}>
         <Image source={IMAGES.dummyProfile} style={navigationStyles.userImg} />
@@ -21,7 +20,7 @@ const CustomDrawer = (props: DrawerContentComponentProps): JSX.Element => {
         </View>
 
         <View className="justify-center items-center">
-          <TouchableOpacity style={navigationStyles.logoutButton} className="items-center flex-row justify-center" onPress={() => alert("LOGOUT")}>
+          <TouchableOpacity style={navigationStyles.logoutButton} className="items-center flex-row justify-center" onPress={handleLogout}>
             <SimpleLineIcons name="logout" size={20} color={COLORS.blue} />
             <Text style={{ color: COLORS.blue }} className="ml-2 text-sm font-semibold">
               LOGOUT
