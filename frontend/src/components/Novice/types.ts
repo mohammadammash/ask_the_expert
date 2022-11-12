@@ -1,3 +1,5 @@
+import { userType } from "../../hooks/UserContext";
+
 export interface AddReviewButtonSectionProps {
   modalRef: React.MutableRefObject<undefined>; //useRef
 };
@@ -11,7 +13,8 @@ export interface RatingFormValuesTypes {
 }
 
 export interface HomeUserCardProps {
-  navigateToPage: (routeName: string) => any;
+  shown_user: userType,
+  handleShowExpert: () => void,
 }
 
 //START OF BOOK APPOINTMENT
