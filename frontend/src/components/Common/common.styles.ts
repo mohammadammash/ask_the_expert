@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import styles from "../../../styles";
 import { COLORS } from "../..//constants";
 
 const commonStyles = StyleSheet.create({
@@ -62,14 +63,37 @@ const commonStyles = StyleSheet.create({
   },
 
   //LEADERBOARD COLORS
+  leaderboard_card: {
+    borderColor: COLORS.grey,
+    backgroundColor: "rgba(211, 214, 219, 0.1)",
+    borderWidth: 2,
+    borderRadius: 10,
+  },
   gold_card: {
     borderColor: "#E89923",
-    backgroundColor: "rgba(232, 153, 35, 0.1)",
-    borderBottomWidth: 3,
+    backgroundColor: "rgba(232, 153, 35, 0.2)",
     borderBottomColor: "#E89923",
+    borderWidth: 3,
+    borderRadius: 10,
   },
   gold_text: {
     color: "#E89923",
+  },
+  grey_card: {
+    borderColor: "#868686",
+    backgroundColor: "rgba(134, 134, 134, 0.1)",
+    borderWidth: 3,
+  },
+  grey_text: {
+    color: "#868686",
+  },
+  bronze_card: {
+    borderColor: "#AC5E10",
+    backgroundColor: "rgba(172, 94, 16, 0.1)",
+    borderWidth: 3,
+  },
+  bronze_text: {
+    color: "#AC5E10",
   },
 
   //NOVICES PROFILE ABOUT
