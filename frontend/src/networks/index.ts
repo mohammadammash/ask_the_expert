@@ -16,4 +16,7 @@ export const getAuthToken = async () => {
     return token ? token : "";
 };
 
+export const removeAuthToken = async () => {
+    await SecureStore.deleteItemAsync('token');
+}
 export default axios;
