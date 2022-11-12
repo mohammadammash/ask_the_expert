@@ -1,7 +1,7 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { UserContext } from "../../hooks/UserContext";
-import { useContext } from "react";
+import { Alert } from "react-native";
 //internal imports
+import { useUserContext, userInitialData } from "../../hooks/UserContext";
 import { ROUTES, USERTYPES } from "../../constants";
 import { LeaderboardScreen } from "../../screens";
 import ProfileStackNavigator from "./ProfileStackNavigator";
@@ -10,16 +10,33 @@ import AppointmentsStackNavigator from "./AppointmentsStackNavigator";
 import { drawerScreenOptionsStyle, homeIcon, settingsIcon, appointmentsIcon, leaderboardIcon, chatIcon } from "../Helpers/NavigatorsHelpers";
 import { CustomDrawerComponent } from "../../components";
 import NoviceHomeStackNavigator from "../Novice/NoviceHomeStackNavigator";
+import { removeAuthToken } from "../../networks";
+
 const Drawer = createDrawerNavigator();
 
 //NAVIGATION TITLES
 const DrawerNavigator = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useUserContext();
+
+  const handleLogout = () => {
+    const logout = async () => {
+      await removeAuthToken();
+      setUser({ ...userInitialData });
+    };
+
+    Alert.alert("Logout", "\nAre you sure you want to Logout?", [
+      {
+        text: "Cancel",
+        style: "destructive",
+      },
+      { text: "Submit", onPress: () => logout(), style: "default" },
+    ]);
+  };
 
   return (
     <Drawer.Navigator
       useLegacyImplementation={true}
-      drawerContent={(props) => <CustomDrawerComponent {...props} />}
+      drawerContent={(props) => <CustomDrawerComponent props={props} handleLogout={handleLogout} />}
       screenOptions={({ navigation }) => drawerScreenOptionsStyle(navigation)}
     >
       {/* NOVICE HOME_STACK */}
