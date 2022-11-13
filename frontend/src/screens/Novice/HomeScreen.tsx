@@ -3,14 +3,14 @@ import { View, ImageBackground, Text, ActivityIndicator, StyleSheet, Dimensions,
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import MapView, { Marker } from "react-native-maps";
+import { Ionicons, FontAwesome5, SimpleLineIcons } from "@expo/vector-icons";
 //internal imports
-import { userType, useUserContext } from "../../hooks/UserContext";
+import { userInitialData, userType, useUserContext } from "../../hooks/UserContext";
 import { IMAGES, COLORS, ROUTES } from "../../constants";
 import styles from "../../../styles";
 import { getAuthToken } from "../../networks";
 import { useCloseExperts } from "../../hooks/useNovice";
-import { SimpleLineIcons } from "@expo/vector-icons";
-//internal imports
+import CalculateYearsOfExperience from "../Helpers/CalculateYearsOfExperienceHelper";
 
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();
@@ -41,6 +41,10 @@ const ProfileScreen = () => {
 
   //-------------------------------
   //START OF GETTING CLOSE EXPERTS
+  const [shownExpert, setShownExpert] = useState(userInitialData);
+  const handlePointerPress = (expert: userType) => {
+    setShownExpert(expert);
+  };
   const [params, setParams] = useState({});
   const [enabled, setEnabled] = useState(false);
   const { data: closeExpertData, isLoading: isLoadingCloseExpertsData } = useCloseExperts({ enabled, params });
@@ -73,11 +77,11 @@ const ProfileScreen = () => {
   }
 
   //EMPTY STATE
-  if (!closeExpertData.data) {
+  if (closeExpertData?.data.length === 0) {
     return (
       <ImageBackground className="w-full h-full" source={IMAGES.fakeMapImage}>
-        <View className="w-full items-center justify-center h-1/5">
-          <Text className="font-bold">
+        <View className="w-full items-center justify-center h-1/5 px-10">
+          <Text className="font-bold text-xs text-center">
             No Experts found right now! Refresh the page after few minutes, your answer maybe one minute away, Stay Patient!
           </Text>
         </View>
@@ -85,11 +89,10 @@ const ProfileScreen = () => {
     );
   }
 
-  //IF AT LEAST ONE EXPERT FOUND
-  // {
-  // closeExpertData.data?.map((expert: userType) => {
+  // MAIN RENDER
   return (
     <View style={mapStyles.container}>
+      {/* START OF MAP VIEW */}
       <MapView
         style={mapStyles.map}
         initialRegion={{
@@ -99,36 +102,62 @@ const ProfileScreen = () => {
           longitudeDelta: 0.0421,
         }}
       >
-        <Marker coordinate={location} title="My Place" description="Current location" image={{ uri: profile_url }}>
-          <Image source={profile_url.length > 1 ? { uri: profile_url } : IMAGES.dummyProfile} />
+        {/*MY CURRENT POINTER */}
+        <Marker coordinate={location}>
+          <FontAwesome5 name="location-arrow" size={24} color={COLORS.blue} />
         </Marker>
-      </MapView>
-      <View className="flex-1 w-4/5 items-center justify-end absolute bottom-5 h-32">
-        <TouchableOpacity
-          style={styles.shadow_bg}
-          className="flex-row w-full rounded-xl border-0.5 items-center justify-evenly h-full"
-          onPress={navigateToPage}
-        >
-          <View style={styles.border_blue} className="avatar aspect-square max-w-1/4 max-h-1/4 h-1/4 w-1/4 rounded-full items-center border-2">
-            <Image className="max-w-full max-h-full h-full w-full rounded-full" source={IMAGES.dummyProfile} />
-          </View>
 
-          <View className="h-full justify-around">
-            <View className="h-1/2 gap-y-1">
-              <Text className="text-base font-bold">Mohammad Ammash</Text>
-              <Text className="text-sm opacity-80">Technology</Text>
-              <Text className="text-xs opacity-50">Senior Web Developer</Text>
+        {/* RENDER ALL POINTERS */}
+        {closeExpertData.data?.map((expert: userType) => {
+          const expert_cords = { longitude: expert.location.coordinates[0], latitude: expert.location.coordinates[1] };
+          return (
+            <Marker key={expert._id} coordinate={expert_cords} onPress={() => handlePointerPress(expert)}>
+              <Ionicons name="md-location-sharp" size={35} color={COLORS.blue} />
+            </Marker>
+          );
+        })}
+      </MapView>
+      {/* END OF MAP VIEW */}
+
+      {/* START OF SHOWN USER CARD */}
+      {shownExpert._id ? (
+        <View className="flex-1 w-5/6 items-center justify-end absolute bottom-5 h-36">
+          <TouchableOpacity
+            style={styles.shadow_bg}
+            className="flex-row w-full rounded-xl border-0.5 items-center justify-evenly h-full"
+            onPress={navigateToPage}
+          >
+            <View style={styles.border_blue} className="avatar aspect-square max-w-1/4 max-h-1/4 h-1/4 w-1/4 rounded-full items-center border-2">
+              <Image
+                className="max-w-full max-h-full h-full w-full rounded-full"
+                source={profile_url.length > 1 ? { uri: shownExpert.profile_url } : IMAGES.dummyProfile}
+              />
             </View>
-            <View className="flex-row items-center justify-between w-52">
-              <View className="flex-row items-center gap-x-1">
-                <SimpleLineIcons name="location-pin" size={20} color={COLORS.blue} />
-                <Text className="text-[8px] opacity-80">5 km away</Text>
+
+            <View className="h-full justify-around">
+              <View className="h-1/2 gap-y-1">
+                <Text className="text-base font-bold">
+                  {shownExpert.firstName[0].toUpperCase() +
+                    shownExpert.firstName.substring(1, shownExpert.firstName.length).toLowerCase() +
+                    " " +
+                    shownExpert.lastName[0].toUpperCase() +
+                    shownExpert.lastName.substring(1, shownExpert.lastName.length).toLowerCase()}{" "}
+                </Text>
+                <Text className="text-sm opacity-80">{shownExpert.field}</Text>
+                <Text className="text-xs opacity-50">{shownExpert.speciality}</Text>
               </View>
-              <Text className="text-[8px] opacity-50">3 years Experience</Text>
+              <View className="flex-row items-center justify-between w-52">
+                <View className="flex-row items-center gap-x-1">
+                  <SimpleLineIcons name="location-pin" size={20} color={COLORS.blue} />
+                  <Text className="text-[8px] opacity-80">{(shownExpert.distance.calculated / 1000).toFixed(2)} km away</Text>
+                </View>
+                <Text className="text-[8px] opacity-50">{CalculateYearsOfExperience(shownExpert.start_date)} Of Experience</Text>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
-      </View>
+          </TouchableOpacity>
+        </View>
+      ) : null}
+      {/* END OF SHOWN USER CARD */}
     </View>
   );
   // });
