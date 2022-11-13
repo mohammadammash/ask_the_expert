@@ -6,7 +6,6 @@ export {default as RegisterFormComponent} from "./Auth/RegisterForm";
 export {default as AddReviewButtonSectionComponent} from "./Novice/AddReviewButtonSection";
 export {default as AddReviewModalForm} from "./Novice/AddReviewModalForm";
 export {default as BookAppointmentFormCardComponent} from "./Novice/BookAppointmentFormCard";
-export {default as HomeUserCardComponent} from "./Novice/HomeUserCard";
 
 //EXPERT
 export {default as ProfileImageCardComponent} from "./Common/ProfileScreen/ProfileImageCard";
