@@ -3,14 +3,14 @@ import { View, Text, Pressable } from "react-native";
 import styles from "../../../../styles";
 import { ButtonComponentProps } from "../types";
 
-const Button: React.FC<ButtonComponentProps> = ({ button_style, title, handlePress }) => {
+const Button: React.FC<ButtonComponentProps> = ({ button_style, title, handlePress, route_name }) => {
   let current_style;
   if (button_style === "md") current_style = styles.blue_button_md;
-  else if (button_style === "sm") current_style = styles.blue_button_sm;
+  else if (button_style === "sm") current_style = styles.blue_button_xs;
 
   return (
-    <Pressable style={current_style} onPress={handlePress}>
-      <Text className="text-white font-bold text-sm">{title}</Text>
+    <Pressable style={current_style} onPress={() => handlePress(route_name)}>
+      <Text className={`text-white font-bold ${button_style === "sm" ? "text-xs" : "text-sm"}`}>{title}</Text>
     </Pressable>
   );
 };
