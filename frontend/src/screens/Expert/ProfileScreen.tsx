@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator } from "react-native";
-import {useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { userType, useUserContext } from "../../hooks/UserContext";
 //internal imports
 import {
@@ -22,8 +22,10 @@ import { useCurrentUser } from "../../hooks/useUser";
 const ProfileScreen = ({ route }: { route: any }) => {
   const navigation = useNavigation<any>();
   let { user, setUser } = useUserContext();
+  const currentUser_id = user._id;
+  let shown_expert;
   //Expert user is accessed when novice click on close expert to view Profile
-  const { shown_expert } = route.params;
+  if (route.params) shown_expert = route.params.shown_expert;
   //If novice visiting expert_profile show expert data to novice as main user
   if (shown_expert) user = { ...shown_expert };
   const { profile_url, user_type, isAvailable, about, start_date, reviews } = user;
@@ -84,12 +86,14 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //END OF GO OFFLINE POST API SUBMIT
   //-----------------------------------
 
-  //Button Info
-  const handlePress = () => {
-    navigation.navigate(ROUTES.USER_EDIT_PROFILE);
+  //Button Info //For Current User Profile
+  const route_name = ROUTES.USER_EDIT_PROFILE;
+  const handlePress = (route_name: string) => {
+    if (route_name === "block") return alert("BLOCKED");
+    navigation.navigate(route_name);
   };
   const title = "EDIT PROFILE";
-  const button_style = "md";
+  const button_style = `${shown_expert?._id === currentUser_id ? "md" : "sm"}`;
 
   //profile info
   const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
@@ -108,7 +112,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
   //PARAMS
   const personalInfoData = { ...user, yearsOfExperience };
-  const buttonData = { button_style, title, handlePress };
+  const buttonData = { button_style, title, handlePress, route_name }; //current user profile button data
   const aboutData = { user_type, about };
   const reviewsStatsData = { reviews_length: reviews?.length || 0, rating };
 
@@ -130,16 +134,31 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
         <ProfilePersonalInfoComponent {...personalInfoData} />
 
-        <View className="mt-3">
-          <ButtonComponent {...buttonData} />
-        </View>
+        {shown_expert?._id === currentUser_id ? (
+          <View className="mt-3">
+            <ButtonComponent {...buttonData} />
+          </View>
+        ) : (
+          <View className="mt-5 flex-row w-3/4 justify-between">
+            <ButtonComponent title="BOOK" button_style={button_style} handlePress={handlePress} route_name={ROUTES.NOVICE_BOOK_APPOINTMENT} />
+            <ButtonComponent title="MESSAGE" button_style={button_style} handlePress={handlePress} route_name={ROUTES.USER_SINGLE_CHAT} />
+            <ButtonComponent title="BLOCK" button_style={button_style} handlePress={handlePress} route_name="block" />
+          </View>
+        )}
 
         {/* SET AVAILBILITY SWITCH SECTION */}
         <View className="w-full my-3">
           <View className="h-24 w-full items-center justify-evenly" style={styles.bg_grey}>
-            <Text className="text-md font-bold">GO ONLINE</Text>
+            <Text className="text-xs font-bold">
+              {shown_expert?._id !== currentUser_id
+                ? shown_expert?.isAvailable
+                  ? "EXPERT IS CURRENTLY ONLINE!"
+                  : "EXPERT IS CURRENTLY OFFLINE"
+                : "GO ONLINE"}
+            </Text>
             <View className={`${Platform.OS === "ios" && "border"} rounded-2xl`}>
               <Switch
+                disabled={shown_expert?._id === currentUser_id ? false : true}
                 trackColor={{ false: COLORS.white, true: COLORS.white }}
                 thumbColor={isAvailable ? COLORS.blue : COLORS.white}
                 onValueChange={handleSwitchPress}
