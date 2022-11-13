@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator } from "react-native";
-import { useContext, useState, useRef, useEffect, useCallback } from "react";
-import { UserContext, userType } from "../../hooks/UserContext";
+import {useState, useRef, useEffect, useCallback } from "react";
+import { userType, useUserContext } from "../../hooks/UserContext";
 //internal imports
 import {
   AllReviewsStatsComponent,
@@ -19,9 +19,13 @@ import styles from "../../../styles";
 import { useGoOfflineExpert } from "../../hooks/useExpert";
 import { useCurrentUser } from "../../hooks/useUser";
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ route }: { route: any }) => {
   const navigation = useNavigation<any>();
-  const { user, setUser } = useContext(UserContext);
+  let { user, setUser } = useUserContext();
+  //Expert user is accessed when novice click on close expert to view Profile
+  const { shown_expert } = route.params;
+  //If novice visiting expert_profile show expert data to novice as main user
+  if (shown_expert) user = { ...shown_expert };
   const { profile_url, user_type, isAvailable, about, start_date, reviews } = user;
 
   //----------------------------------------------
