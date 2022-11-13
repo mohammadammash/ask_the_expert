@@ -50,7 +50,8 @@ export interface AboutSectionProps {
 export interface ButtonComponentProps {
   button_style: string;
   title: string;
-  handlePress: () => void;
+  route_name: string;
+  handlePress: (route_name: string) => void;
 }
 
 export interface ProfileImageCardProps {
