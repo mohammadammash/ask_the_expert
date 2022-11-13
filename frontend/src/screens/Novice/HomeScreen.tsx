@@ -8,13 +8,11 @@ import { Ionicons, FontAwesome5, SimpleLineIcons } from "@expo/vector-icons";
 import { userInitialData, userType, useUserContext } from "../../hooks/UserContext";
 import { IMAGES, COLORS, ROUTES } from "../../constants";
 import styles from "../../../styles";
-import { getAuthToken } from "../../networks";
 import { useCloseExperts } from "../../hooks/useNovice";
 import CalculateYearsOfExperience from "../Helpers/CalculateYearsOfExperienceHelper";
 
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();
-  const navigateToPage = (routeName: string) => navigation.navigate(routeName);
   const { user } = useUserContext();
   const { field, profile_url } = user;
 
@@ -23,7 +21,6 @@ const ProfileScreen = () => {
   const [location, setLocation] = useState({ longitude: 0, latitude: 0 });
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   useEffect(() => {
-    console.log(getAuthToken);
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -42,6 +39,9 @@ const ProfileScreen = () => {
   //-------------------------------
   //START OF GETTING CLOSE EXPERTS
   const [shownExpert, setShownExpert] = useState(userInitialData);
+  const handleCardPress = (shown_expert: userType) => {
+    navigation.navigate(ROUTES.EXPERT_PROFILE, { shown_expert });
+  };
   const handlePointerPress = (expert: userType) => {
     setShownExpert(expert);
   };
@@ -95,7 +95,7 @@ const ProfileScreen = () => {
       {/* START OF MAP VIEW */}
       <MapView
         style={mapStyles.map}
-        initialRegion={{
+        region={{
           latitude: location.latitude,
           longitude: location.longitude,
           latitudeDelta: 0.0922,
@@ -125,12 +125,12 @@ const ProfileScreen = () => {
           <TouchableOpacity
             style={styles.shadow_bg}
             className="flex-row w-full rounded-xl border-0.5 items-center justify-evenly h-full"
-            onPress={navigateToPage}
+            onPress={()=>handleCardPress(shownExpert)}
           >
             <View style={styles.border_blue} className="avatar aspect-square max-w-1/4 max-h-1/4 h-1/4 w-1/4 rounded-full items-center border-2">
               <Image
                 className="max-w-full max-h-full h-full w-full rounded-full"
-                source={profile_url.length > 1 ? { uri: shownExpert.profile_url } : IMAGES.dummyProfile}
+                source={shownExpert.profile_url.length > 1 ? { uri: shownExpert.profile_url } : IMAGES.dummyProfile}
               />
             </View>
 
