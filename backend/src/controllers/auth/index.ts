@@ -9,7 +9,8 @@ import loginUserHelper from "./helpers/loginUser";
 const registerUser = async (req: Request<{}, {}, RegisterBodyInterface>, res: Response) => {
     try {
         const { start_date } = req.body;
-        const yearsDiff = (getMonthDifferenceHelper(start_date) / 12);
+        const date = new Date(start_date);
+        const yearsDiff = (getMonthDifferenceHelper(date)) / 12;
 
         const password = await bcrypt.hash(req.body.password, 10);
         //common
@@ -17,7 +18,7 @@ const registerUser = async (req: Request<{}, {}, RegisterBodyInterface>, res: Re
         //if novice
         if (yearsDiff < 4) [userData.user_type, userData.appointments] = ['novice', []];
         //if expert
-        else[userData.user_type, userData.appointments_groups, userData.score, userData.isAvailable] = ['expert', [], 0, false];
+        else[userData.user_type, userData.appointments_groups, userData.score, userData.isAvailable] = ['expert', [], 5, false];
 
         const newUser = new UserModel({ ...req.body, ...userData });
 

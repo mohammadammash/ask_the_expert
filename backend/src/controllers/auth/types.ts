@@ -1,18 +1,18 @@
 export interface LoginBodyInterface {
-    email: String,
-    password: String,
-    _id: String,
+    email: string,
+    password: string,
+    _id: string,
 };
 export interface RegisterBodyInterface extends LoginBodyInterface {
-    firstName: String,
-    lastName: String,
-    spoken_languages: String,
-    about: String,
+    firstName: string,
+    lastName: string,
+    spoken_languages: string,
+    about: string,
     start_date: Date,
-    profile_url: String,
-    field: String,
-    speciality: String,
-    device_token: String,
+    profile_url: string,
+    field: string,
+    speciality: string,
+    device_token: string,
 }
 
 export type UserInfoObjectType = {
