@@ -38,10 +38,11 @@ const removeAppointment = async (req: Request<{}, {}, removeAppointmentBodyInter
     const { currentUser_id } = req;
     const { appointment_id } = req.body;
 
-    const appointmentRemoved = await AppointmentModel.findByIdAndDelete(appointment_id);
+    const appointmentRemoved = await AppointmentModel.findByIdAndUpdate(appointment_id, { isReserved: false, novice_id: '' });
 
     //get the second part in the appointment device_token to notify in the frontend
     if (appointmentRemoved.novice_id === currentUser_id) {
+        await UserModel.updateOne({ _id: appointmentRemoved.novice_id }, { $pull: { appointments: appointmentRemoved._id } });
         const expert = await UserModel.findOne({ _id: appointmentRemoved.expert_id }).lean();
         if (!expert) res.status(400).send('Expert to receive Notification not Found');
         else {
@@ -49,9 +50,9 @@ const removeAppointment = async (req: Request<{}, {}, removeAppointmentBodyInter
             res.status(200).send({ user_device_token });
         }
     }
-    //if expert removed the appointment notify the novice
+    //if expert removed the appointment remove the appointment from novice ref appointments 
     else if (appointmentRemoved.expert_id === currentUser_id) {
-        const novice = await UserModel.findOne({ _id: appointmentRemoved.novice_id }).lean();
+        const novice = await UserModel.updateOne({ _id: appointmentRemoved.novice_id }, { $pull: { appointments: appointmentRemoved._id } });
         if (!novice) res.status(400).send('Novice to receive Notification not Found');
         else {
             const user_device_token = novice.device_token;
