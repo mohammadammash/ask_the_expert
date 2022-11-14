@@ -7,7 +7,8 @@ import styles from "../../../styles";
 import { IMAGES } from "../../constants";
 
 const BookAppointmentScreen = ({ route }: { route: any }) => {
-  //ROUTE RECEIVING APPOINTMENTS GROUPS AS PARAMS
+  //-------------------------------------
+  //START OF APPOINTMENTS ADD DATA FORM LOGIC
   const { appointments_groups } = route.params;
   const toLocateTime = (date: Date) => {
     return date.toLocaleTimeString("en-US", {
@@ -16,31 +17,28 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
       minute: "2-digit",
     });
   };
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   useEffect(() => {
-    if (appointments_groups) {
+    if (data.length === 0) {
       const now = new Date();
-      for (let app of appointments_groups.appointments) {
-        const start_timestamp = new Date(app.start_timestamp);
-        if (!app.isReserved && start_timestamp > now) {
-          //add it to radioButtons data
-          const end_timestamp = new Date(app.end_timestamp);
-          const st = toLocateTime(start_timestamp);
-          const end = toLocateTime(end_timestamp);
-          console.log(`${st} ${end}`);
+      for (let grp of appointments_groups) {
+        for (let app of grp.appointments) {
+          const start_timestamp = new Date(app.start_timestamp);
+          if (!app.isReserved && start_timestamp > now) {
+            //add it to radioButtons data
+            const end_timestamp = new Date(app.end_timestamp);
+            const st = toLocateTime(start_timestamp);
+            const end = toLocateTime(end_timestamp);
+            setData((prev: any) => [...prev, { label: `${st} ${end}`, appointment_id: app._id }]);
+          }
         }
       }
     }
   }, [appointments_groups]);
-  //START OF FORM HANDLE DATA
-  // const [data, setData] = useState<any>([]);
-  // const data = [
-  //   {
-  //     label: "12:15pm 12:30pm",
-  //     appointment_id: "1",
-  //   },
-  // ];
+  //-------------------------------------
+  //END OF APPOINTMENTS ADD DATA FORM LOGIC
 
+  //Form handle data
   const [selectedAppointmentId, setSelectedAppointmentId] = useState("");
   const [submitButtonTouched, setSubmitButtonTouched] = useState<boolean>(false);
   const handleSubmitButtonTouched = (value: boolean) => setSubmitButtonTouched(value);
@@ -48,9 +46,8 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
   const handleFormSubmit = (values: BookFormValuesTypes) => {
     alert(JSON.stringify(values, null, 2));
   };
-  //END OF FORM HANDLE DATA
 
-  // params
+  // Params
   const dataParams = {
     selectedAppointmentId,
     handleSubmitButtonTouched,
@@ -60,6 +57,9 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
     handleFormSubmit,
   };
 
+  //--------------
+  //MAIN COMPONENT
+  //EMPTY STATE
   if (data.length === 0) {
     return (
       <View className="flex-1 justify-center items-center">
