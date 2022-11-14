@@ -1,15 +1,18 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 //internal imports
 import { BookAppointmentFormCardComponent } from "../../components";
 import { BookFormValuesTypes } from "../../components/Novice/types";
 import styles from "../../../styles";
-import { IMAGES } from "../../constants";
+import { COLORS, IMAGES, ROUTES } from "../../constants";
+import { useBookAppointment } from "../../hooks/useNovice";
+import { useUserContext } from "../../hooks/UserContext";
+import { useNavigation } from "@react-navigation/native";
 
 const BookAppointmentScreen = ({ route }: { route: any }) => {
   //-------------------------------------
   //START OF APPOINTMENTS ADD DATA FORM LOGIC
-  const { appointments_groups } = route.params;
+  let { appointments_groups } = route.params;
   const toLocateTime = (date: Date) => {
     return date.toLocaleTimeString("en-US", {
       // en-US can be set to 'default' to use user's browser settings
@@ -38,14 +41,45 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
   //-------------------------------------
   //END OF APPOINTMENTS ADD DATA FORM LOGIC
 
-  //Form handle data
+  //-------------------------------------
+  //START OF FORM HANDLE DATA
+  const navigation = useNavigation<any>();
+  const { user, setUser } = useUserContext();
+  const {
+    data: mutateBookAppointmentData,
+    mutate: mutateBookAppointment,
+    isLoading: mutateBookAppointmentIsLoading,
+    isSuccess: mutateBookAppointmentIsSuccess,
+  } = useBookAppointment();
   const [selectedAppointmentId, setSelectedAppointmentId] = useState("");
   const [submitButtonTouched, setSubmitButtonTouched] = useState<boolean>(false);
   const handleSubmitButtonTouched = (value: boolean) => setSubmitButtonTouched(value);
   const handleSubmitAppointmentId = (value: string) => setSelectedAppointmentId(value);
   const handleFormSubmit = (values: BookFormValuesTypes) => {
-    alert(JSON.stringify(values, null, 2));
+    alert(JSON.stringify(values));
+    mutateBookAppointment(values);
   };
+  useEffect(() => {
+    if (mutateBookAppointmentData) {
+      //UPDATE USER APPOINTMENTS INSTANTLY
+      const { expert_device_token, ...data } = mutateBookAppointmentData.data;
+      const appointments = user.appointments;
+      appointments?.push(data);
+      setUser({ ...user, appointments });
+      //Remove app from data shown
+      //remove app from shown_expert
+      for (let grp of appointments_groups) {
+        for (let app of grp.appointments) {
+          if (app._id === data._id) app.isReserved = true;
+        }
+      }
+      setData((prev: any) => prev.filter((app: any) => !(app.appointment_id === data._id)));
+      //Redirect to own user appointments page
+      navigation.navigate(ROUTES.APPOINTMENTS_STACK);
+    }
+  }, [mutateBookAppointmentData]);
+  //END OF FORM HANDLE DATA
+  //-------------------------------------
 
   // Params
   const dataParams = {
@@ -59,6 +93,7 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
 
   //--------------
   //MAIN COMPONENT
+
   //EMPTY STATE
   if (data.length === 0) {
     return (
