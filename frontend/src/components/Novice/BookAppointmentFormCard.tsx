@@ -50,15 +50,14 @@ const BookAppointmentFormCard: React.FC<BookAppointmentFormCardProps> = ({
             onChangeText={handleChange("notes")}
             onBlur={handleBlur("notes")}
             value={values.notes}
-            className=" placeholder:px-2 h-32 border-2 mt-5 w-5/6 rounded-lg"
+            className=" placeholder:px-2 h-32 border-2 mt-8 w-5/6 rounded-lg"
             placeholder="Any notes to prepare for the meeting"
             multiline={true}
             maxLength={100}
             numberOfLines={15}
           />
 
-          <Text className="my-5 font-bold">{}</Text>
-          <Pressable className="mb-5 flex-row" style={styles.blue_button_lg} onPress={handleSubmit}>
+          <Pressable className="my-8 flex-row" style={styles.blue_button_lg} onPress={handleSubmit}>
             <FontAwesome name="calendar-check-o" size={20} color="white" />
             <Text className="font-bold text-base ml-2" style={styles.white_text}>
               BOOK
