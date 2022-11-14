@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //internal imports
 import { COLORS } from "../../constants";
 import { SendMessageFormComponent } from "../../components";
@@ -22,11 +22,11 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
   const [messages, setMessages] = useState([]);
   let user;
   if (route.params.data) user = route.params.data;
-  if (user) {
-    alert(JSON.stringify(user, null, 2));
-    //UPDATE HEADER ADD IMAGE, name at least
-    navigation.setOptions({ title: `${user.firstName} ${user.lastName}` });
-  }
+  useEffect(() => {
+    if (user) {
+      navigation.setOptions({ title: `${user.firstName} ${user.lastName}` });
+    }
+  }, [user]);
   //END OF HANDLING MESSAGES DATA IF DIRECTLY FROM APPOINTMENTS OR PROFILE
   //------------------------------------------------------------------------
 
