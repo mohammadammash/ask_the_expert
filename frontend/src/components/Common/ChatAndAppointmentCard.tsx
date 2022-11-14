@@ -13,7 +13,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleA
   if (currentUser_type === "novice") shown_user = data.expert_id;
   else shown_user = data.novice_id;
   const { profile_url, firstName, lastName, speciality } = shown_user;
-  let { start_timestamp, end_timestamp } = data;
+  let { start_timestamp, end_timestamp, notes } = data;
   //assure stored dates are of type date not string
   start_timestamp = new Date(start_timestamp);
   end_timestamp = new Date(end_timestamp);
@@ -26,7 +26,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleA
     //   onPress={NavigateToSingleChat}
     // >
 
-    <View className="flex-row w-full border-b-0.5 items-center justify-around h-24 ">
+    <View className="flex-row w-full border-b-0.5 items-center justify-around h-28 ">
       <View className="avatar aspect-square max-w-1/5 max-h-1/5 h-1/6 w-1/6 rounded-full items-center border-2 border-[#1FA6D1]">
         <Image
           className="max-w-full max-h-full h-full w-full rounded-full"
@@ -53,6 +53,9 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleA
           </View> */}
 
         {/* APPOINTMENTS CARD: */}
+        <View>
+          <Text>{notes}</Text>
+        </View>
         <View className="flex-row items-center justify-between w-full">
           <View className="opacity-80 flex-row gap-2">
             <MaterialCommunityIcons onPress={() => handleAppointmentClick("remove", data._id)} name="book-cancel" size={24} color="black" />

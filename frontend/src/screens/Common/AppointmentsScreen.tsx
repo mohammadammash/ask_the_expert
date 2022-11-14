@@ -66,8 +66,10 @@ const AppointmentsScreen = () => {
   return (
     <View className="flex-1 items-center bg-white">
       <ScrollView className="w-full" contentContainerStyle={styles.alignCenter}>
-        {myAppointments?.map((app: any) => {
-          return <ChatAndAppointmentCardComponent data={app} currentUser_type={user_type} handleAppointmentClick={handleAppointmentClick} />;
+        {myAppointments?.map((app: any, index: number) => {
+          return (
+            <ChatAndAppointmentCardComponent key={index} data={app} currentUser_type={user_type} handleAppointmentClick={handleAppointmentClick} />
+          );
         })}
       </ScrollView>
     </View>
