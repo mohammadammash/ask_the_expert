@@ -96,10 +96,13 @@ const ProfileScreen = ({ route }: { route: any }) => {
       //Send the shown expert appointment groups to book appointment page and do the validation there
       const appointments_groups = user.appointments_groups;
       navigation.navigate(ROUTES.NOVICE_BOOK_APPOINTMENT, { appointments_groups });
-    } else navigation.navigate(route_name);
+      //Send the user data to
+    } else {
+      navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data: user });
+    }
   };
   const title = "EDIT PROFILE";
-  const button_style = `${shown_expert?._id === currentUser_id ? "md" : "sm"}`;
+  const button_style = `${user._id === currentUser_id ? "md" : "sm"}`;
 
   //profile info
   const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
@@ -109,7 +112,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
   //allReviews Stats
   const handleCardClick = (novice_user: userType) => {
-    if (shown_expert?._id === currentUser_id) navigation.navigate(ROUTES.NOVICE_PROFILE, { novice_user });
+    if (user._id === currentUser_id) navigation.navigate(ROUTES.NOVICE_PROFILE, { novice_user });
   };
   type ratingContent = { average: number; totalOf5: number; totalOf4: number; totalOf3: number; totalOf2: number; totalOf1: number };
   const [rating, setRating] = useState({ average: 0, totalOf5: 0, totalOf4: 0, totalOf3: 0, totalOf2: 0, totalOf1: 0 });
@@ -142,9 +145,9 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
         <ProfilePersonalInfoComponent {...personalInfoData} />
 
-        {shown_expert?._id === currentUser_id ? (
+        {user._id === currentUser_id ? (
           <View className="mt-3">
-            <ButtonComponent {...buttonData} />
+            <ButtonComponent {...buttonData} disabled={false} />
           </View>
         ) : (
           <View className="mt-5 flex-row w-3/4 justify-between">
@@ -170,15 +173,11 @@ const ProfileScreen = ({ route }: { route: any }) => {
         <View className="w-full my-3">
           <View className="h-24 w-full items-center justify-evenly" style={styles.bg_grey}>
             <Text className="text-xs font-bold">
-              {shown_expert?._id !== currentUser_id
-                ? shown_expert?.isAvailable
-                  ? "EXPERT IS CURRENTLY ONLINE!"
-                  : "EXPERT IS CURRENTLY OFFLINE"
-                : "GO ONLINE"}
+              {user._id !== currentUser_id ? (user.isAvailable ? "EXPERT IS CURRENTLY ONLINE!" : "EXPERT IS CURRENTLY OFFLINE") : "GO ONLINE"}
             </Text>
             <View className={`${Platform.OS === "ios" && "border"} rounded-2xl`}>
               <Switch
-                disabled={shown_expert?._id === currentUser_id ? false : true}
+                disabled={user._id === currentUser_id ? false : true}
                 trackColor={{ false: COLORS.white, true: COLORS.white }}
                 thumbColor={isAvailable ? COLORS.blue : COLORS.white}
                 onValueChange={handleSwitchPress}
