@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, ActivityIndicator, Text, Image } from "react-native";
+import { View, ActivityIndicator, ScrollView } from "react-native";
 //internal imports
 import { LeaderboardCardComponent } from "../../components";
 import { useLeaderboardExperts } from "../../hooks/useUser";
@@ -10,7 +10,6 @@ import { userType } from "../../hooks/UserContext";
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
   const {
-    isSuccess: isLeaderBoardExpertsDataSuccess,
     data: leaderboardExpertsData,
     isLoading: isLeaderboardExpertsDataLoading,
     refetch: refetchLeaderboardExpertData,
@@ -34,11 +33,11 @@ const LeaderboardScreen = () => {
 
   return (
     <View className="flex-1 items-center bg-white">
-      <View className="h-full items-center w-full">
+      <ScrollView contentContainerStyle={{ alignItems: "center" }} className="h-full w-full">
         {leaderboardExpertsData.data?.map((expert: userType, index: number) => (
           <LeaderboardCardComponent key={index} rank={index} expert={expert} />
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 };
