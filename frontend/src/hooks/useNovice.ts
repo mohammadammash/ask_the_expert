@@ -4,7 +4,7 @@ import { queryClient } from "../../App";
 import Novice_Apis from "../networks/novice";
 
 export const CLOSE_EXPERTS_KEYS = ["CLOSE_EXPERTS_KEYS"];
-
+export const BOOKED_APPOINTMENT_KEY = (id: string) => [`BOOKED_APPOINTMENT_KEY_${id}`];
 
 export const useCloseExperts = ({ enabled, params }: { enabled: boolean, params: any }) => {
     return useQuery({
@@ -17,3 +17,10 @@ export const useCloseExperts = ({ enabled, params }: { enabled: boolean, params:
         }
     })
 };
+
+export const useBookAppointment = () => useMutation({
+    mutationFn: (data: any) => Novice_Apis.bookAppointment_post(data),
+    onSuccess: (data: any) => {
+        queryClient.setQueryData(BOOKED_APPOINTMENT_KEY(data.data._id), { ...data.data })
+    }
+});
