@@ -5,10 +5,11 @@ import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { IMAGES } from "../../constants";
 import { ChatAndAppointmentCardProps } from "./types";
 import TurnUTCToLocateTimeHelper from "../../screens/Helpers/TurnUTCToLocalTimeHelper";
+import { userType } from "../../hooks/UserContext";
 
 const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleAppointmentClick, data, currentUser_type }) => {
   //If current user is novice populated data is for expert and vice versa
-  let shown_user;
+  let shown_user: userType;
   if (currentUser_type === "novice") shown_user = data.expert_id;
   else shown_user = data.novice_id;
   const { profile_url, firstName, lastName, speciality } = shown_user;
@@ -54,8 +55,8 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleA
         {/* APPOINTMENTS CARD: */}
         <View className="flex-row items-center justify-between w-full">
           <View className="opacity-80 flex-row gap-2">
-            <MaterialCommunityIcons onPress={() => alert("Removed")} name="book-cancel" size={24} color="black" />
-            <Entypo name="new-message" size={24} color="black" onPress={() => handleAppointmentClick("remove", "ok")} />
+            <MaterialCommunityIcons onPress={() => handleAppointmentClick("remove", data._id)} name="book-cancel" size={24} color="black" />
+            <Entypo name="new-message" size={24} color="black" onPress={() => handleAppointmentClick("chat", shown_user)} />
           </View>
           <View className="gap-1">
             <Text className="text-[9px] opacity-80">{TurnUTCToLocateTimeHelper(start_timestamp)}</Text>
