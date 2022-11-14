@@ -3,7 +3,9 @@ import { useState } from "react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 //internal imports
 import { userInitialData, UserContext } from "./src/hooks/UserContext";
-import { AuthStackNavigator, DrawerNavigator, AdminTabNavigator } from "./src/navigations";
+import AuthStackNavigator from "./src/navigations/Common/AuthStackNavigator";
+import DrawerNavigator from "./src/navigations/Common/DrawerNavigator";
+import AdminTabNavigator from "./src/navigations/Admin/AdminTabNavigator";
 import { USERTYPES } from "./src/constants";
 
 export const queryClient = new QueryClient();

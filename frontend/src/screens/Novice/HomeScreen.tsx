@@ -151,7 +151,7 @@ const ProfileScreen = () => {
                   <SimpleLineIcons name="location-pin" size={20} color={COLORS.blue} />
                   <Text className="text-[8px] opacity-80">{(shownExpert.distance.calculated / 1000).toFixed(2)} km away</Text>
                 </View>
-                <Text className="text-[8px] opacity-50">{CalculateYearsOfExperience(shownExpert.start_date).slice(0,8)}... Of Experience</Text>
+                <Text className="text-[8px] opacity-50">{CalculateYearsOfExperience(shownExpert.start_date).slice(0, 8)}... Of Experience</Text>
               </View>
             </View>
           </TouchableOpacity>

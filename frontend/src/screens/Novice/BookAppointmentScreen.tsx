@@ -65,6 +65,7 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
       setData((prev: any) => prev.filter((app: any) => !(app.appointment_id === data._id)));
       //Redirect to own user appointments page
       navigation.navigate(ROUTES.APPOINTMENTS_STACK);
+      navigation.popToTop(); //get stack back to home page
     }
   }, [mutateBookAppointmentData]);
   //END OF FORM HANDLE DATA

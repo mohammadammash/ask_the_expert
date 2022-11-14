@@ -173,7 +173,13 @@ const ProfileScreen = ({ route }: { route: any }) => {
         <View className="w-full my-3">
           <View className="h-24 w-full items-center justify-evenly" style={styles.bg_grey}>
             <Text className="text-xs font-bold">
-              {user._id !== currentUser_id ? (user.isAvailable ? "EXPERT IS CURRENTLY ONLINE!" : "EXPERT IS CURRENTLY OFFLINE") : "GO ONLINE"}
+              {user._id !== currentUser_id
+                ? user.isAvailable
+                  ? "EXPERT IS CURRENTLY ONLINE!"
+                  : "EXPERT IS CURRENTLY OFFLINE"
+                : user.isAvailable
+                ? "GO OFFLINE"
+                : "GO ONLINE"}
             </Text>
             <View className={`${Platform.OS === "ios" && "border"} rounded-2xl`}>
               <Switch
