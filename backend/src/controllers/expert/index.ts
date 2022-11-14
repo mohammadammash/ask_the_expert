@@ -4,13 +4,13 @@ const mongoose = require('mongoose');
 import { GoOnlineBodyInterface, AddScoreBodyInterface, } from "./types";
 import createArrayOfAppointmentsObjectsHelper from "./helpers/createArrayOfAppointmentsObjects";
 import autoTurnUserToOfflineAtEndHelper from "./helpers/autoTurnUserToOfflineAtEnd";
-const AppointmentModel = require("../../database/models/Appointment");
+const AppointmentModel = require("../../database/models/Appointment.ts");
 const UserModel = require("../../database/models/User");
 
 //When Expert Chooses to Be Available for appointments
 const goOnline = async (req: Request<{}, {}, GoOnlineBodyInterface>, res: Response) => {
     const { currentUser_id } = req;
-    const { meetings_time, single_session_time } = req.body;
+    const { meetings_time, single_session_time, longitude, latitude } = req.body;
 
     //after start of last session turn user auto to unavailable
     autoTurnUserToOfflineAtEndHelper(Number(meetings_time), Number(single_session_time), currentUser_id);
@@ -27,8 +27,9 @@ const goOnline = async (req: Request<{}, {}, GoOnlineBodyInterface>, res: Respon
         const _id = new mongoose.Types.ObjectId();
         const appointment_group = { _id: _id, start_timestamp: added_appointments[0].start_timestamp, isActive: true, end_timestamp: added_appointments[added_appointments.length - 1].end_timestamp, appointments: [...appointments_ids] };
 
+        const new_location = { type: "Point", coordinates: [longitude, latitude] };
         const update = {
-            $set: { isAvailable: true },
+            $set: { isAvailable: true, location: new_location },
             $push: { appointments_groups: appointment_group }
         };
 
@@ -47,8 +48,15 @@ const goOffline = async (req: Request, res: Response) => {
 
     try {
         const user = await UserModel.findByIdAndUpdate(currentUser_id, { isAvailable: false }).populate('appointments_groups.appointments');
-        const active_appointment = user.appointments_groups.find((app: any) => app.isActive);
         const now = new Date();
+        const active_appointment = user.appointments_groups.find((app: any) => app.end_timestamp > now);
+
+        //turn group into isActive: false even end_timestamp is not passed yet
+        user.appointments_groups.map((grp: any) => {
+            if (grp._id === active_appointment._id) grp.isActive = false;
+            return grp;
+        })
+        await user.save();
 
         const novices_ids = [];
         const appointments_ids = [];
