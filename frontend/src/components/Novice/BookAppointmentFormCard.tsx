@@ -6,24 +6,22 @@ import { Formik } from "formik";
 //internal
 import { COLORS } from "../../constants";
 import styles from "../../../styles";
-import {BookFormValuesTypes, BookAppointmentFormCardProps} from "./types";
+import { BookFormValuesTypes, BookAppointmentFormCardProps } from "./types";
 import noviceStyles from "./novice.styles";
-
 
 //FORMIK
 const appointmentIntialValues: BookFormValuesTypes = {
   notes: "",
-  start_timestamp: "",
-  end_timestamp: "",
+  appointment_id: "",
 };
 
 //MAIN COMPONENT
 const BookAppointmentFormCard: React.FC<BookAppointmentFormCardProps> = ({
-  selectedTimeStamps,
+  selectedAppointmentId,
   handleSubmitButtonTouched,
   submitButtonTouched,
   data,
-  handleSubmitTimeStamps,
+  handleSubmitAppointmentId,
   handleFormSubmit,
 }) => {
   return (
@@ -31,8 +29,8 @@ const BookAppointmentFormCard: React.FC<BookAppointmentFormCardProps> = ({
       initialValues={appointmentIntialValues}
       onSubmit={(values) => {
         handleSubmitButtonTouched(true);
-        if (!selectedTimeStamps.start_timestamp) return;
-        [values.start_timestamp, values.end_timestamp] = [selectedTimeStamps.start_timestamp, selectedTimeStamps.end_timestamp];
+        if (!selectedAppointmentId) return;
+        values.appointment_id = selectedAppointmentId;
         handleFormSubmit(values);
       }}
     >
@@ -43,19 +41,20 @@ const BookAppointmentFormCard: React.FC<BookAppointmentFormCardProps> = ({
             style={noviceStyles.radioButton}
             boxStyle={noviceStyles.radioButtonBox}
             textStyle={noviceStyles.radioButtonText}
-            selectedBtn={(e) => handleSubmitTimeStamps({ start_timestamp: e.start_timestamp, end_timestamp: e.end_timestamp })}
+            selectedBtn={(e) => handleSubmitAppointmentId(e.appointment_id)}
             icon={<Icon name="check-circle" size={25} color={COLORS.blue} />}
           />
-          {submitButtonTouched && !selectedTimeStamps.start_timestamp && <Text className="text-red-600 mt-2">Time Should be Specified</Text>}
+          {submitButtonTouched && !selectedAppointmentId && <Text className="text-red-600 mt-2">Time Should be Specified</Text>}
 
           <TextInput
             onChangeText={handleChange("notes")}
             onBlur={handleBlur("notes")}
             value={values.notes}
-            className=" placeholder:pl-3 h-20 border-2 mt-5 w-5/6 rounded-lg"
-            placeholder="Clearify what "
+            className=" placeholder:px-2 h-32 border-2 mt-5 w-5/6 rounded-lg"
+            placeholder="Any notes to prepare for the meeting"
             multiline={true}
-            numberOfLines={10}
+            maxLength={100}
+            numberOfLines={15}
           />
 
           <Text className="my-5 font-bold">10/11/2022 12:15 pm</Text>
