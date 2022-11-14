@@ -1,7 +1,9 @@
+import { userType } from "../../hooks/UserContext";
 
 export interface ChatAndAppointmentCardProps {
-  NavigateToPage: () => void
-
+  handleAppointmentClick: (type: string, user_id: string) => void,
+  data?: any,
+  currentUser_type: string,
 }
 
 export interface EditProfileFormProps {
