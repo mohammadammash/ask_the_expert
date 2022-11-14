@@ -87,10 +87,15 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //-----------------------------------
 
   //Button Info //For Current User Profile
+  const disabled = shown_expert?.isAvailable ? false : true;
   const route_name = ROUTES.USER_EDIT_PROFILE;
   const handlePress = (route_name: string) => {
     if (route_name === "block") return alert("BLOCKED");
-    navigation.navigate(route_name);
+    else if (route_name === ROUTES.NOVICE_BOOK_APPOINTMENT) {
+      //Send the shown expert appointment groups to book appointment page and do the validation there
+      const appointments_groups = user.appointments_groups;
+      navigation.navigate(ROUTES.NOVICE_BOOK_APPOINTMENT, { appointments_groups });
+    } else navigation.navigate(route_name);
   };
   const title = "EDIT PROFILE";
   const button_style = `${shown_expert?._id === currentUser_id ? "md" : "sm"}`;
@@ -102,7 +107,9 @@ const ProfileScreen = ({ route }: { route: any }) => {
   const modalRef = useRef();
 
   //allReviews Stats
-  const handleCardClick = (novice_user: userType) => navigation.navigate(ROUTES.NOVICE_PROFILE, { novice_user });
+  const handleCardClick = (novice_user: userType) => {
+    if (shown_expert?._id === currentUser_id) navigation.navigate(ROUTES.NOVICE_PROFILE, { novice_user });
+  };
   type ratingContent = { average: number; totalOf5: number; totalOf4: number; totalOf3: number; totalOf2: number; totalOf1: number };
   const [rating, setRating] = useState({ average: 0, totalOf5: 0, totalOf4: 0, totalOf3: 0, totalOf2: 0, totalOf1: 0 });
   const handleRatingType = (rating: ratingContent) => setRating(rating);
@@ -112,7 +119,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
   //PARAMS
   const personalInfoData = { ...user, yearsOfExperience };
-  const buttonData = { button_style, title, handlePress, route_name }; //current user profile button data
+  const buttonData = { button_style, title, handlePress, route_name, disabled }; //current user profile button data
   const aboutData = { user_type, about };
   const reviewsStatsData = { reviews_length: reviews?.length || 0, rating };
 
@@ -140,9 +147,21 @@ const ProfileScreen = ({ route }: { route: any }) => {
           </View>
         ) : (
           <View className="mt-5 flex-row w-3/4 justify-between">
-            <ButtonComponent title="BOOK" button_style={button_style} handlePress={handlePress} route_name={ROUTES.NOVICE_BOOK_APPOINTMENT} />
-            <ButtonComponent title="MESSAGE" button_style={button_style} handlePress={handlePress} route_name={ROUTES.USER_SINGLE_CHAT} />
-            <ButtonComponent title="BLOCK" button_style={button_style} handlePress={handlePress} route_name="block" />
+            <ButtonComponent
+              title="BOOK"
+              button_style={button_style}
+              handlePress={handlePress}
+              route_name={ROUTES.NOVICE_BOOK_APPOINTMENT}
+              disabled={disabled}
+            />
+            <ButtonComponent
+              title="MESSAGE"
+              button_style={button_style}
+              handlePress={handlePress}
+              route_name={ROUTES.USER_SINGLE_CHAT}
+              disabled={false}
+            />
+            <ButtonComponent title="BLOCK" button_style={button_style} handlePress={handlePress} route_name="block" disabled={false} />
           </View>
         )}
 
