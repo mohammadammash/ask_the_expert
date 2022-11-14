@@ -1,10 +1,10 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 
 const getCloseExpertsValidationRules = () => {
     return [
-        body('latitude').isNumeric().withMessage('should be number'),
-        body('longitude').isNumeric().withMessage('should be number'),
-        body('field').not().isEmpty().withMessage('cannot be empty')
+        param('latitude').isNumeric().withMessage('should be number'),
+        param('longitude').isNumeric().withMessage('should be number'),
+        param('field').not().isEmpty().withMessage('cannot be empty')
     ]
 }
 
