@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native";
 import { ExpertProfileScreen, NoviceBookAppointmentScreen, NoviceHomeScreen, SingleChatScreen } from "../../screens";
 import { ROUTES, COLORS } from "../../constants";
 import { menuIcon, stackScreenOptionsStyle } from "../Helpers/NavigatorsHelpers";
+import AppointmentsStackNavigator from "../Common/AppointmentsStackNavigator";
 const Stack = createStackNavigator();
 
 const NoviceHomeStackNavigator = () => {
@@ -20,6 +21,7 @@ const NoviceHomeStackNavigator = () => {
       <Stack.Screen name={ROUTES.EXPERT_PROFILE} component={ExpertProfileScreen} options={{ title: "Profile" }} />
       <Stack.Screen name={ROUTES.NOVICE_BOOK_APPOINTMENT} component={NoviceBookAppointmentScreen} options={{ title: "Book" }} />
       <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} options={{ title: "Messages" }} />
+      <Stack.Screen name={ROUTES.APPOINTMENTS_STACK} component={AppointmentsStackNavigator} options={{ headerShown: false, gestureEnabled: false }} />
     </Stack.Navigator>
   );
 };
