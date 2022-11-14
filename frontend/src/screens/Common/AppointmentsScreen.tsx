@@ -36,12 +36,14 @@ const AppointmentsScreen = () => {
       }
       //Get expert appointments
     } else if (user.user_type === USERTYPES.EXPERT) {
-      const { appointments_groups = [] } = user;
-      const appointments = [];
+      const { appointments_groups } = user;
       for (let grp of appointments_groups) {
         if (!grp.isActive) continue; //user chosen to go unactive before it finished => so I ignore end_timestamp
         for (let app of grp.appointments) {
-          if (app.end_timestamp > now && app.isReserved) appointments.push(app);
+          const end_timestamp = new Date(app.end_timestamp);
+          if (end_timestamp > now && app.isReserved) {
+            appointments.push(app);
+          }
         }
       }
     }
