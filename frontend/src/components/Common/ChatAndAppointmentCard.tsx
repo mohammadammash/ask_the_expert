@@ -54,7 +54,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleA
 
         {/* APPOINTMENTS CARD: */}
         <View>
-          <Text>{notes}</Text>
+          <Text className="text-[10px]">{notes}</Text>
         </View>
         <View className="flex-row items-center justify-between w-full">
           <View className="opacity-80 flex-row gap-2">
