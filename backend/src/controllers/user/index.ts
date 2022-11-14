@@ -5,21 +5,22 @@ const UserModel = require('../../database/models/User');
 const AppointmentModel = require('../../database/models/Appointment');
 
 //Update User Data (reviews, appointments, appointments_groups) => Can be for currentUser or if param provided for another user page to refresh if there is any changes
-const getSingleUserData = (req: Request<getSingleUserDataParamsInterface>, res: Response) => {
+const getSingleUserData = async (req: Request<getSingleUserDataParamsInterface>, res: Response) => {
     let { user_id } = req.params;
     //if no user id param given => get the data of current user
     if (!user_id) user_id = req.currentUser_id;
 
-    UserModel.findById(user_id).populate('reviews.novice_id appointments appointments_groups.appointments blocked_users')
-        .then((data: any) => res.status(200).send(data))
-        .catch((err: any) => res.status(200).send({ message: err.message }))
+    let user = await UserModel.findById(user_id).populate('reviews.novice_id appointments appointments_groups.appointments blocked_users');
+    if (user && user.user_type === 'novice') user = await UserModel.populate(user, { path: 'appointments.expert_id' });
+    else if (user && user.user_type === 'expert') user = await UserModel.populate(user, { path: 'appointments_groups.appointments.novice_id' });
+    res.status(200).send(user);
 }
 
 //For Leaderboard Results
 const getRankedExperts = (req: Request, res: Response) => {
     //get experts sorted where score more than 0
     UserModel.find({ "score": { $gt: 3 } }).sort({ score: -1 })
-        .then((data: any) => res.status(200).send(data))
+        .then((data: any) => res.status(200).send({ data }))
         .catch((err: any) => res.status(400).send({ message: 'Experts Cannot be Retrieved' }))
 };
 
@@ -28,7 +29,7 @@ const updateProfile = (req: Request<{}, {}, updateProfileBodyInterface>, res: Re
     const { currentUser_id } = req;
 
     UserModel.findByIdAndUpdate(currentUser_id, { ...req.body }, { new: true })
-        .then((data: any) => res.status(200).send())
+        .then((data: any) => res.status(200).send({ message: 'Successfully Updated' }))
         .catch((err: any) => res.status(400).send({ message: err.message }))
 };
 
