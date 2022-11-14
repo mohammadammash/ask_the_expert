@@ -18,6 +18,7 @@ import { calculateReviewsStatsHelper } from "../Helpers/CalculateReviewsStatsHel
 import styles from "../../../styles";
 import { useGoOfflineExpert } from "../../hooks/useExpert";
 import { useCurrentUser } from "../../hooks/useUser";
+import { getAuthToken } from "../../networks";
 
 const ProfileScreen = ({ route }: { route: any }) => {
   const navigation = useNavigation<any>();

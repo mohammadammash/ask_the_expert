@@ -39,10 +39,7 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
   //START OF FORM HANDLE DATA
   const navigation = useNavigation<any>();
   const { user, setUser } = useUserContext();
-  const {
-    data: mutateBookAppointmentData,
-    mutate: mutateBookAppointment,
-  } = useBookAppointment();
+  const { data: mutateBookAppointmentData, mutate: mutateBookAppointment } = useBookAppointment();
   const [selectedAppointmentId, setSelectedAppointmentId] = useState("");
   const [submitButtonTouched, setSubmitButtonTouched] = useState<boolean>(false);
   const handleSubmitButtonTouched = (value: boolean) => setSubmitButtonTouched(value);
@@ -53,7 +50,8 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
   useEffect(() => {
     if (mutateBookAppointmentData) {
       //UPDATE USER APPOINTMENTS INSTANTLY
-      const { expert_device_token, ...data } = mutateBookAppointmentData.data;
+      const { expert_device_token, expert, ...data } = mutateBookAppointmentData.data;
+      data.expert_id = { ...expert };
       const appointments = user.appointments;
       appointments?.push(data);
       setUser({ ...user, appointments });
