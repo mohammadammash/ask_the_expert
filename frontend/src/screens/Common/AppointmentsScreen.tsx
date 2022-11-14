@@ -9,20 +9,23 @@ import { useUserContext } from "../../hooks/UserContext";
 
 const AppointmentsScreen = () => {
   const navigation = useNavigation<any>();
-  
-  const handleAppointmentClick = (type: string) => {
-    if(type === 'chat') navigation.navigate(ROUTES.USER_SINGLE_CHAT);
-    else if(type === 'remove') alert('remove Appointment');
-  };
 
+  //Handle appointment card buttons interaction
+  const handleAppointmentClick = (type: string, user_id: string) => {
+    if (type === "chat") alert(JSON.stringify({ chat: "chat", id: user_id }, null, 2));
+    else if (type === "remove") alert(JSON.stringify({ remove: "removeieto", id: user_id }, null, 2));
+  };
 
   //---------------------------------------
   //START OF SHOW CURRENT USER APPOINTMENTS
   const { user, setUser } = useUserContext();
+  const { user_type } = user;
   const [myAppointments, setMyAppointments] = useState<any>([]);
   useEffect(() => {
     const now = new Date();
+    setMyAppointments([]);
     const appointments = [];
+    //Get novice appointments
     if (user.user_type === USERTYPES.NOVICE && user.appointments) {
       for (let app of user.appointments) {
         const end_timestamp = new Date(app.end_timestamp);
@@ -30,6 +33,7 @@ const AppointmentsScreen = () => {
           appointments.push(app);
         }
       }
+      //Get expert appointments
     } else if (user.user_type === USERTYPES.EXPERT) {
       const { appointments_groups = [] } = user;
       const appointments = [];
@@ -56,17 +60,11 @@ const AppointmentsScreen = () => {
     );
   }
 
-  // PARAMS
-  const data = {
-    NavigateToPage,
-  };
-
   return (
     <View className="flex-1 items-center bg-white">
       <ScrollView className="w-full" contentContainerStyle={styles.alignCenter}>
         {myAppointments?.map((app: any) => {
-          {const data = }
-          return <ChatAndAppointmentCardComponent {...data} />;
+          return <ChatAndAppointmentCardComponent data={app} currentUser_type={user_type} handleAppointmentClick={handleAppointmentClick} />;
         })}
       </ScrollView>
     </View>
