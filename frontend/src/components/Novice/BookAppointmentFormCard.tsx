@@ -57,7 +57,7 @@ const BookAppointmentFormCard: React.FC<BookAppointmentFormCardProps> = ({
             numberOfLines={15}
           />
 
-          <Text className="my-5 font-bold">10/11/2022 12:15 pm</Text>
+          <Text className="my-5 font-bold">{}</Text>
           <Pressable className="mb-5 flex-row" style={styles.blue_button_lg} onPress={handleSubmit}>
             <FontAwesome name="calendar-check-o" size={20} color="white" />
             <Text className="font-bold text-base ml-2" style={styles.white_text}>
