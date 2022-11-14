@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { View, ScrollView, Text, Image, ActivityIndicator, Alert } from "react-native";
 import { useState, useEffect } from "react";
 //internal imports
@@ -14,6 +14,7 @@ const AppointmentsScreen = () => {
   const { user, setUser } = useUserContext();
   const { user_type } = user;
   const [myAppointments, setMyAppointments] = useState<any>([]);
+  const isFocused = useIsFocused();
 
   //----------------------------------
   //START OF HANDLE REMOVE APPOINTMENT
@@ -80,7 +81,7 @@ const AppointmentsScreen = () => {
 
   //---------------------------------------
   //START OF SHOW CURRENT USER APPOINTMENTS
-  useEffect(() => {
+  const updateShownAppointments = () => {
     const now = new Date();
     const appointments = [];
     //Get novice appointments
@@ -105,7 +106,11 @@ const AppointmentsScreen = () => {
       }
     }
     setMyAppointments([...appointments]);
-  }, []);
+  };
+  useEffect(() => {
+    //updateShown appointments everytime page is focused not only on render
+    isFocused && updateShownAppointments();
+  }, [isFocused]);
   //END OF SHOW CURRENT USER APPOINTMENTS
   //---------------------------------------
 
