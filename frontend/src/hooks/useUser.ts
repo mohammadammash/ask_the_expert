@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../App";
 //internal imports
 import User_Apis from "../networks/user";
@@ -28,3 +28,7 @@ export const useLeaderboardExperts = () =>
             queryClient.setQueryData(LEADERBOARD_EXPERTS_KEY, { ...data.data })
         }
     });
+
+export const useDeleteAppointment = () => useMutation({
+    mutationFn: (data: any) => User_Apis.appointment_delete(data),
+});;
