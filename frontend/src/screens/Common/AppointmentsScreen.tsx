@@ -11,9 +11,10 @@ const AppointmentsScreen = () => {
   const navigation = useNavigation<any>();
 
   //Handle appointment card buttons interaction
-  const handleAppointmentClick = (type: string, user_id: string) => {
-    if (type === "chat") alert(JSON.stringify({ chat: "chat", id: user_id }, null, 2));
-    else if (type === "remove") alert(JSON.stringify({ remove: "removeieto", id: user_id }, null, 2));
+  //if type === 'chat' send the user in data,if remove => send appointment_id in data
+  const handleAppointmentClick = (type: string, data: any) => {
+    if (type === "chat") navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data });
+    else if (type === "remove") alert(JSON.stringify({ remove: "removeieto", appointment_id: data }, null, 2));
   };
 
   //---------------------------------------
