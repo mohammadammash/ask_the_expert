@@ -20,25 +20,19 @@ export interface HomeUserCardProps {
 //START OF BOOK APPOINTMENT
 type AppointmentValuesType = {
   label: string;
-  start_timestamp: string;
-  end_timestamp: string;
-};
-type SelectedTimeStateType = {
-  start_timestamp: string;
-  end_timestamp: string;
+  appointment_id: string,
 };
 
 export interface BookFormValuesTypes {
   notes: string;
-  start_timestamp: string;
-  end_timestamp: string;
+  appointment_id: string,
 }
 
 export interface BookAppointmentFormCardProps {
-  selectedTimeStamps: SelectedTimeStateType;
+  selectedAppointmentId: string;
   handleSubmitButtonTouched: (value: boolean) => void;
   data: AppointmentValuesType[];
-  handleSubmitTimeStamps: (value: SelectedTimeStateType) => void;
+  handleSubmitAppointmentId: (value: string) => void;
   submitButtonTouched: boolean;
   handleFormSubmit: (values: BookFormValuesTypes) => void;
 }

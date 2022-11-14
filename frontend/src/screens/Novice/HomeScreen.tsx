@@ -125,7 +125,7 @@ const ProfileScreen = () => {
           <TouchableOpacity
             style={styles.shadow_bg}
             className="flex-row w-full rounded-xl border-0.5 items-center justify-evenly h-full"
-            onPress={()=>handleCardPress(shownExpert)}
+            onPress={() => handleCardPress(shownExpert)}
           >
             <View style={styles.border_blue} className="avatar aspect-square max-w-1/4 max-h-1/4 h-1/4 w-1/4 rounded-full items-center border-2">
               <Image

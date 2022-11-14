@@ -6,6 +6,7 @@ export type reviewsType = {
   novice_id: userType,
   rating: number,
   content: string,
+  createdAt: Date,
 }
 
 type appointmentsGroupsTypes = {
@@ -17,7 +18,7 @@ type appointmentsGroupsTypes = {
 
 type locationType = {
   type: string,
-  coordinates: Number[],
+  coordinates: number[],
 }
 
 export type userType = {

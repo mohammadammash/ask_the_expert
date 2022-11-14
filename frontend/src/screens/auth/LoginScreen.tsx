@@ -9,11 +9,33 @@ import styles from "../../../styles";
 import { auth } from "../../../firebaseConfig";
 import { useUserContext } from "../../hooks/UserContext";
 import { useLoginUser } from "../../hooks/useAuth";
-import { setDefaultTokens } from "../../networks";
+import { getAuthToken, setDefaultTokens } from "../../networks";
+import { useCurrentUser } from "../../hooks/useUser";
 
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
   const { setUser } = useUserContext();
+
+  //get auth token if exists, to redirect user instantly
+  const [token, setToken] = useState("");
+  const getTokenIfExists = async () => {
+    const token = await getAuthToken();
+    setToken(token);
+  };
+
+  useEffect(() => {
+    getTokenIfExists();
+  }, []);
+
+  //on page loads if there is a token get the user and redirect him/her
+  const [enabled, setEnabled] = useState(false);
+  const { data: getCurrentUserData, isLoading: isCurrentUserLoading } = useCurrentUser({ enabled });
+  useEffect(() => {
+    if (token) {
+      setDefaultTokens(token);
+      setEnabled(true); //fetch current user if token exists
+    }
+  }, [token]);
 
   //React Query Post:
   const { mutate: mutateLoginUser, isLoading: mutateLoginUserIsLoading, data: mutateLoginUserData } = useLoginUser();
@@ -24,7 +46,10 @@ const LoginScreen = () => {
       setDefaultTokens(token);
       setUser(data);
     }
-  }, [mutateLoginUserData]);
+
+    //app is closed but token already exists
+    if (token && getCurrentUserData && !isCurrentUserLoading) setUser(getCurrentUserData);
+  }, [mutateLoginUserData, getCurrentUserData]);
 
   //FORM DATA
   const [inValidCredentials, setInValidCredentials] = useState(false);
@@ -39,8 +64,6 @@ const LoginScreen = () => {
         mutateLoginUser(data);
       })
       .catch((error) => {
-        alert(error.code);
-        alert("Invalid Credentials");
         handleInvalidCredentials(true);
       });
   };
@@ -54,7 +77,7 @@ const LoginScreen = () => {
 
   //MAIN COMPONENT
   //If Login isLoading //show loading indicator in middle of screen until user is redirected
-  if (mutateLoginUserIsLoading) {
+  if (mutateLoginUserIsLoading || isCurrentUserLoading) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color={COLORS.dark} />

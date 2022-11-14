@@ -107,6 +107,16 @@ export default StyleSheet.create({
     justifyContent: "center",
     backgroundColor: COLORS.blue,
   },
+  blue_button_xs: {
+    borderWidth: 2,
+    height: 40,
+    width: 80,
+    textTransform: "uppercase",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: COLORS.blue,
+  },
 
   //CARDS:
   bg_grey_opacity30: {

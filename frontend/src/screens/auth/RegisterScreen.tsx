@@ -61,7 +61,6 @@ const RegisterScreen = () => {
 
       .catch((error) => {
         if (error.code == "auth/email-already-in-use") {
-          alert("Email already in use");
           setEmailAlreadyUsed(true);
           return ["", ""];
         }
@@ -82,7 +81,6 @@ const RegisterScreen = () => {
     //End of get device token
     setImageUploadingToFirebaseStorage(false);
     const user_data = { ...data, _id, spoken_languages, profile_url, device_token };
-    alert(JSON.stringify(user_data, null, 2));
     mutateRegisterUser(user_data);
   };
 
