@@ -7,7 +7,7 @@ const appointmentSchema = new mongoose.Schema({
     },
     expert_id: {
         type: String,
-        ref: 'Expert'
+        ref: 'User'
     },
     isReserved: {
         type: Boolean,

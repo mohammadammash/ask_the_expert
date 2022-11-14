@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     required: "spoken languages is required",
   },
   start_date: {
-    type: String,
+    type: Date,
     required: 'Start Date is required',
   },
   about: {
@@ -84,6 +84,7 @@ const userSchema = new mongoose.Schema({
       content: {
         type: String,
       },
+      createdAt: Date,
     },
   ],
 
