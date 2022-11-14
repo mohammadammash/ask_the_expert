@@ -1,6 +1,6 @@
 import { Number, ObjectId } from "mongoose";
 
-export interface getCloseExpertsBodyInterface {
+export interface getCloseExpertsParamsInterface {
     latitude: Number,
     longitude: Number,
     field: String,
@@ -8,6 +8,7 @@ export interface getCloseExpertsBodyInterface {
 
 export interface bookAppointmentBodyInterface {
     appointment_id: ObjectId,
+    notes: string,
 };
 
 export interface addReviewBodyInterface {
