@@ -4,4 +4,5 @@ export default {
   topbadge: require('../assets/icons/leaderboard_topbadge.png'),
   fakeMapImage: require('../assets/images/pexels-anna-shvets-5217882.jpg'),
   emptyAppointments: require('../assets/images/Empty-amico.png'),
+  emptyMyAppointmentsPage: require('../assets/images/Empty-rafiki.png'),
 };
