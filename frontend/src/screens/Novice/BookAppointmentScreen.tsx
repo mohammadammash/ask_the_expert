@@ -1,100 +1,92 @@
-import { View, Text, ScrollView } from "react-native";
-import { useState } from "react";
+import { View, Text, ScrollView, Image } from "react-native";
+import { useEffect, useState } from "react";
 //internal imports
 import { BookAppointmentFormCardComponent } from "../../components";
-import { COLORS } from "../../constants";
+import { BookFormValuesTypes } from "../../components/Novice/types";
 import styles from "../../../styles";
+import { IMAGES } from "../../constants";
 
-const BookAppointmentScreen = () => {
+const BookAppointmentScreen = ({ route }: { route: any }) => {
+  //ROUTE RECEIVING APPOINTMENTS GROUPS AS PARAMS
+  const { appointments_groups } = route.params;
+  const toLocateTime = (date: Date) => {
+    return date.toLocaleTimeString("en-US", {
+      // en-US can be set to 'default' to use user's browser settings
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    if (appointments_groups) {
+      const now = new Date();
+      for (let app of appointments_groups.appointments) {
+        const start_timestamp = new Date(app.start_timestamp);
+        if (!app.isReserved && start_timestamp > now) {
+          //add it to radioButtons data
+          const end_timestamp = new Date(app.end_timestamp);
+          const st = toLocateTime(start_timestamp);
+          const end = toLocateTime(end_timestamp);
+          console.log(`${st} ${end}`);
+        }
+      }
+    }
+  }, [appointments_groups]);
   //START OF FORM HANDLE DATA
-  const data = [
-    {
-      label: "12:15pm 12:30pm",
-      start_timestamp: "1",
-      end_timestamp: "2",
-    },
-    {
-      label: "12:15pm 12:30pm",
-      start_timestamp: "1",
-      end_timestamp: "2",
-    },
-    {
-      label: "12:15pm 12:30pm",
-      start_timestamp: "1",
-      end_timestamp: "2",
-    },
-    {
-      label: "12:15pm 12:30pm",
-      start_timestamp: "1",
-      end_timestamp: "2",
-    },
-    {
-      label: "12:15pm 12:30pm",
-      start_timestamp: "1",
-      end_timestamp: "2",
-    },
-    {
-      label: "12:15pm 12:30pm",
-      start_timestamp: "1",
-      end_timestamp: "2",
-    },
-    {
-      label: "12:15pm 12:30pm",
-      start_timestamp: "1",
-      end_timestamp: "2",
-    },
-  ];
-  type selectedTimeStateType = {
-    start_timestamp: string;
-    end_timestamp: string;
-  };
-  const selectedTimeStateInitialValues: selectedTimeStateType = {
-    start_timestamp: "",
-    end_timestamp: "",
-  };
-  const [selectedTimeStamps, setSelectedTimeStamp] = useState<selectedTimeStateType>(selectedTimeStateInitialValues);
+  // const [data, setData] = useState<any>([]);
+  // const data = [
+  //   {
+  //     label: "12:15pm 12:30pm",
+  //     appointment_id: "1",
+  //   },
+  // ];
+
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState("");
   const [submitButtonTouched, setSubmitButtonTouched] = useState<boolean>(false);
   const handleSubmitButtonTouched = (value: boolean) => setSubmitButtonTouched(value);
-  const handleSubmitTimeStamps = (value: selectedTimeStateType) => setSelectedTimeStamp(value);
-
-  interface formValues {
-    notes: string;
-    start_timestamp: string;
-    end_timestamp: string;
-  }
-  const handleFormSubmit = (values: formValues) => {
+  const handleSubmitAppointmentId = (value: string) => setSelectedAppointmentId(value);
+  const handleFormSubmit = (values: BookFormValuesTypes) => {
     alert(JSON.stringify(values, null, 2));
   };
   //END OF FORM HANDLE DATA
 
   // params
   const dataParams = {
-    selectedTimeStamps,
+    selectedAppointmentId,
     handleSubmitButtonTouched,
     submitButtonTouched,
     data,
-    handleSubmitTimeStamps,
+    handleSubmitAppointmentId,
     handleFormSubmit,
   };
 
+  if (data.length === 0) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-center w-3/4 text-xs mt-5 bold">All Appointments got reserved ;(</Text>
+        <Image className="w-64 h-64" source={IMAGES.emptyAppointments} />
+      </View>
+    );
+  }
+
   return (
-    <View className="flex-1 w-full items-center justify-evenly bg-white border">
-      <View className="w-full items-center h-1/6 gap-5">
+    <ScrollView contentContainerStyle={{ alignContent: "center", justifyContent: "space-evenly" }} className="flex-1 w-full bg-white border">
+      <View className="w-full items-center my-10">
         <Text style={styles.blue_text} className="text-slate-800 font-bold text-lg text-center">
           Your Career Advice Is One Click Away
         </Text>
-        <Text style={styles.grey_text} className="text-center w-3/4 text-xs">
+        <Text className="text-center w-3/4 text-xs mt-5 opacity-40">
           Choose the available appointment time, and make sure to be there on time. A short timespan for a huge boost.
         </Text>
       </View>
 
       {/* CONFIRM AVAILBILITY FORM */}
-      <View className="w-full h-4/6 min-h-3/5 items-center">
-        <ScrollView className="w-5/6 border-2 rounded-xl">
+      <View className="w-full min-h-3/4 items-center">
+        <View className="w-5/6 border-2 rounded-xl mb-10">
           <BookAppointmentFormCardComponent {...dataParams} />
-        </ScrollView>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
