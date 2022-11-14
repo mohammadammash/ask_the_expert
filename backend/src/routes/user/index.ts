@@ -5,8 +5,8 @@ const { getSingleUserData, getRankedExperts, updateProfile, removeAppointment, b
 const { getUsersDataValidationRules, updateProfileValidationRules, blockOrUnblockUserValidationRules, removeAppointmentValidationRules } = require('./validator');
 const validateRequestMiddleware = require('../../middlewares/validateRequest')
 
-router.get('/:user_id?', getSingleUserData);
 router.get("/leaderboard", getRankedExperts);
+router.get('/:user_id?', getSingleUserData);
 router.post('/users', getUsersDataValidationRules(), validateRequestMiddleware, getUsersData); //firebase chats users //used post to send array of ids
 router.put("/", updateProfileValidationRules(), validateRequestMiddleware, updateProfile);
 router.put('/block', blockOrUnblockUserValidationRules(), validateRequestMiddleware, blockOrUnblockUser);

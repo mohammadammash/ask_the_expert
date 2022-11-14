@@ -19,6 +19,8 @@ const createArrayOfAppointmentsObjects = (
         currentTs = end_timestamp;
         appointments.push(tempAppointment);
     }
+
+    return appointments;
 };
 
 export default createArrayOfAppointmentsObjects;
