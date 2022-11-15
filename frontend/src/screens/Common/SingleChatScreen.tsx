@@ -5,7 +5,7 @@ import { GiftedChat } from "react-native-gifted-chat";
 import { COLORS, IMAGES } from "../../constants";
 import styles from "../../../styles";
 import { userInitialData, useUserContext } from "../../hooks/UserContext";
-import { collection, addDoc, doc, getDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { firebase_db } from "../../../firebaseConfig";
 
 const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }) => {
@@ -53,6 +53,7 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
   //-------------------------------
   //START OF HANDLING MESSAGES
   const [messages, setMessages] = useState<any>([]);
+
   const checkIfChatExists = async (chat_id: string) => {
     try {
       const chatsDocRef = doc(firebase_db, "chats", chat_id);
@@ -66,25 +67,55 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
 
   const getMessages = async () => {
     const combined_id = user._id > shown_user._id ? user._id + shown_user._id : shown_user._id + user._id; //constant way to store key
-    const exists = checkIfChatExists(combined_id);
+    const exists = await checkIfChatExists(combined_id);
+    try {
+      if (!exists) {
+        //if chat not already created => create one
+        const chatsDocRef = doc(firebase_db, "chats", combined_id);
+        await setDoc(chatsDocRef, { messages: [] });
+
+        //create user chats
+        const shownUserChatsRef = doc(firebase_db, "userChats", shown_user._id);
+        await setDoc(
+          shownUserChatsRef,
+          {
+            [combined_id + ".userInfo"]: {
+              _id: user._id,
+              firstName: `${user.firstName}`,
+              lastName: `${user.lastName}`,
+              speciality: user.speciality,
+              profile_url: user.profile_url,
+              date: serverTimestamp(),
+            },
+          },
+          { merge: true }
+        );
+
+        const currentUserChatsRef = doc(firebase_db, "userChats", user._id);
+        await setDoc(
+          currentUserChatsRef,
+          {
+            [combined_id]: {
+              _id: shown_user._id,
+              firstName: shown_user.firstName,
+              lastName: shown_user.lastName,
+              speciality: shown_user.speciality,
+              profile_url: shown_user.profile_url,
+              date: serverTimestamp(),
+            },
+          },
+          { merge: true }
+        );
+      }
+    } catch (err) {
+      alert(err);
+    }
   };
 
-  //On page load getAllMessges between two users
   useEffect(() => {
     getMessages();
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: _id,
-          name: `${firstName} ${lastName}`,
-          avatar: profile_url,
-        },
-      },
-    ]);
   }, []);
+  //End of creating chat if first time messaging between two users
 
   const onSend = useCallback(async (messages = []) => {
     setMessages((previousMessages: any) => GiftedChat.append(previousMessages, messages));
