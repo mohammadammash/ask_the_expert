@@ -3,15 +3,18 @@ import { useEffect, useCallback, useLayoutEffect, useState } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 //internal imports
 import { COLORS, IMAGES } from "../../constants";
-import { SendMessageFormComponent } from "../../components";
 import styles from "../../../styles";
-import { userType } from "../../hooks/UserContext";
+import { userInitialData, useUserContext } from "../../hooks/UserContext";
+import { collection, addDoc, doc, getDoc } from "firebase/firestore";
+import { firebase_db } from "../../../firebaseConfig";
 
 const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }) => {
   //ALWAYS THIS PAGE SHOULD BE AS PART FROM ANOTHER SCREEN STACK
-  let user;
-  if (route.params.data) user = route.params.data;
-  const { firstName, lastName, profile_url, speciality } = user;
+  let shown_user = { ...userInitialData };
+  if (route.params.data) shown_user = route.params.data;
+  const { _id, firstName, lastName, profile_url, speciality } = shown_user;
+  //CURRENT USER
+  const { user } = useUserContext();
 
   //HANDLING SEND MESSAGES SUBMIT
   const [message, setMessage] = useState("");
@@ -21,7 +24,8 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
     else alert(message);
   };
 
-  //HANDLING LAYOUT HEADER
+  //-------------------------------
+  //START OF HANDLING LAYOUT HEADER
   useLayoutEffect(() => {
     navigation.setOptions({
       title: (
@@ -38,44 +42,60 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
                 lastName[0].toUpperCase() +
                 lastName.substring(1, lastName.length).toLowerCase()}{" "}
             </Text>
-            <Text style={styles.white_text} className="text-[10px] opacity-80">
-              {speciality}
-            </Text>
           </View>
         </View>
       ),
     });
-  }, [user]);
+  }, [shown_user]);
+  //END OF HANDLING LAYOUT HEADER
+  //-------------------------------
 
   //-------------------------------
   //START OF HANDLING MESSAGES
   const [messages, setMessages] = useState<any>([]);
+  const checkIfChatExists = async (chat_id: string) => {
+    try {
+      const chatsDocRef = doc(firebase_db, "chats", chat_id);
+      const chatDocSnap = await getDoc(chatsDocRef);
+      if (chatDocSnap.exists()) return true;
+      return false;
+    } catch (err) {
+      alert(`ERROR` + err);
+    }
+  };
+
+  const getMessages = async () => {
+    const combined_id = user._id > shown_user._id ? user._id + shown_user._id : shown_user._id + user._id; //constant way to store key
+    const exists = checkIfChatExists(combined_id);
+  };
+
+  //On page load getAllMessges between two users
   useEffect(() => {
+    getMessages();
     setMessages([
       {
         _id: 1,
         text: "Hello developer",
         createdAt: new Date(),
         user: {
-          _id: 2,
-          name: "React Native",
-        },
-      },
-      {
-        _id: 2,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: "React Native",
+          _id: _id,
+          name: `${firstName} ${lastName}`,
+          avatar: profile_url,
         },
       },
     ]);
-
   }, []);
 
-  const onSend = useCallback((messages = []) => {
+  const onSend = useCallback(async (messages = []) => {
     setMessages((previousMessages: any) => GiftedChat.append(previousMessages, messages));
+    const { _id, createdAt, text, user } = messages[0];
+    alert(JSON.stringify({ _id, createdAt, text, user }));
+    try {
+      const docRef = await addDoc(collection(firebase_db, "chats"), { _id, createdAt, text, user });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }, []);
 
   //END OF HANDLING MESSAGES
@@ -101,7 +121,9 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
                 renderAvatar={() => null}
                 onSend={(messages: any) => onSend(messages)}
                 user={{
-                  _id: 1,
+                  _id: user._id,
+                  name: `${user.firstName} ${user.lastName}`,
+                  avatar: user.profile_url,
                 }}
               />
             </View>
