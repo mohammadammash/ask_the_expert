@@ -20,6 +20,7 @@ import styles from "../../../styles";
 import { useGoOfflineExpert } from "../../hooks/useExpert";
 import { useCurrentUser } from "../../hooks/useUser";
 import { getAuthToken } from "../../networks";
+import { useField } from "formik";
 
 const ProfileScreen = ({ route }: { route: any }) => {
   const navigation = useNavigation<any>();
@@ -88,7 +89,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //END OF GO OFFLINE POST API SUBMIT
   //-----------------------------------
 
-  //Button Info //For Current User Profile
+  //Handling buttons clicked conditionally //For Current User Profile
   const disabled = shown_expert?.isAvailable ? false : true;
   const route_name = ROUTES.USER_EDIT_PROFILE;
   const handlePress = (route_name: string) => {
@@ -98,9 +99,8 @@ const ProfileScreen = ({ route }: { route: any }) => {
       const appointments_groups = user.appointments_groups;
       navigation.navigate(ROUTES.NOVICE_BOOK_APPOINTMENT, { appointments_groups });
       //Send the user data to
-    } else {
-      navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data: user });
-    }
+    } else if (route_name === "review") modalRef.current?.open();
+    else navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data: user });
   };
   const title = "EDIT PROFILE";
   const button_style = `${user._id === currentUser_id ? "md" : "sm"}`;
@@ -196,7 +196,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
         <AboutSectionComponent {...aboutData} />
 
-        {/* REVIEWS TITLE */}
+        {/* REVIEWS TITLE FOR EXPERT || ADD REVIEW BUTTON FOR NOVICE */}
         <View style={styles.bg_grey} className="h-24 justify-center w-full font-bold mb-5">
           {user._id === currentUser_id ? (
             <Text style={styles.blue_text} className="font-bold text-2xl text-center">
@@ -204,25 +204,11 @@ const ProfileScreen = ({ route }: { route: any }) => {
             </Text>
           ) : (
             <View className="items-center">
-              <Pressable style={styles.blue_button_lg} onPress={() => modalRef.current?.open()}>
-                <Text className="font-bold text-lg" style={styles.white_text}>
-                  ADD REVIEW
-                </Text>
-              </Pressable>
+              <ButtonComponent {...buttonData} button_style="lg" title="ADD REVIEW" route_name="review" />
 
               {/* REVIEW BOTTOM SHEET/MODAL CONTENT */}
-              <RBSheet
-                ref={modalRef}
-                closeOnDragDown={true}
-                closeOnPressMask={true}
-                animationType={"fade"}
-                customStyles={{
-                  wrapper: noviceStyles.bottomSheetModalWrapper,
-                  draggableIcon: styles.bg_dark,
-                  container: noviceStyles.bottomSheetModalContainer,
-                }}
-              >
-                <Text>How was Your Experience with Ahmad?</Text>
+              <RBSheet ref={modalRef} closeOnDragDown={true} closeOnPressMask={true} animationType={"fade"} customStyles={expertStyles}>
+                <Text>How was Your Experience with {user.firstName}?</Text>
                 <AddReviewModalFormComponent modalRef={modalRef} />
               </RBSheet>
             </View>
@@ -243,10 +229,10 @@ const ProfileScreen = ({ route }: { route: any }) => {
 };
 
 // STYLES
-const noviceStyles = StyleSheet.create({
-  bottomSheetModalWrapper: { backgroundColor: "rgba(255,255,255,0.9)" },
-
-  bottomSheetModalContainer: { borderTopWidth: 2, borderColor: COLORS.dark, alignItems: "center", height: "40%" },
+const expertStyles = StyleSheet.create({
+  wrapper: { backgroundColor: "rgba(255,255,255,0.9)" },
+  draggableIcon: styles.bg_dark,
+  container: { borderTopWidth: 2, borderColor: COLORS.dark, alignItems: "center", height: "40%" },
 });
 
 export default ProfileScreen;
