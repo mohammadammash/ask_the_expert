@@ -1,34 +1,85 @@
-import { View, Text } from "react-native";
-import { useEffect, useState } from "react";
+import { View, Text, Image, ScrollView } from "react-native";
+import { useEffect, useCallback, useLayoutEffect, useState } from "react";
+import { GiftedChat } from "react-native-gifted-chat";
 //internal imports
-import { COLORS } from "../../constants";
+import { COLORS, IMAGES } from "../../constants";
 import { SendMessageFormComponent } from "../../components";
 import styles from "../../../styles";
+import { userType } from "../../hooks/UserContext";
 
 const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }) => {
-  //--------------------------
-  //START OF SEND MESSAGE FORM
+  //ALWAYS THIS PAGE SHOULD BE AS PART FROM ANOTHER SCREEN STACK
+  let user;
+  if (route.params.data) user = route.params.data;
+  const { firstName, lastName, profile_url, speciality } = user;
+
+  //HANDLING SEND MESSAGES SUBMIT
   const [message, setMessage] = useState("");
   const handleMessageChange = (message: string) => setMessage(message);
   const submitMessage = () => {
     if (!message) alert("Cannot be empty!");
     else alert(message);
   };
-  //END OF SEND MESSAGE FORM
-  //------------------------
 
-  //------------------------------------------------------------------------
-  //START OF HANDLING MESSAGES DATA IF DIRECTLY FROM APPOINTMENTS OR PROFILE
-  const [messages, setMessages] = useState([]);
-  let user;
-  if (route.params.data) user = route.params.data;
-  useEffect(() => {
-    if (user) {
-      navigation.setOptions({ title: `${user.firstName} ${user.lastName}` });
-    }
+  //HANDLING LAYOUT HEADER
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: (
+        <View className="h-full w-72 flex-row">
+          <Image
+            className="object-cover h-11 w-11 rounded-full border-2 border-white"
+            source={profile_url.length > 1 ? { uri: profile_url } : IMAGES.dummyProfile}
+          />
+          <View className="justify-center ml-3">
+            <Text className="font-bold text-base" style={styles.white_text}>
+              {firstName[0].toUpperCase() +
+                firstName.substring(1, firstName.length).toLowerCase() +
+                " " +
+                lastName[0].toUpperCase() +
+                lastName.substring(1, lastName.length).toLowerCase()}{" "}
+            </Text>
+            <Text style={styles.white_text} className="text-[10px] opacity-80">
+              {speciality}
+            </Text>
+          </View>
+        </View>
+      ),
+    });
   }, [user]);
-  //END OF HANDLING MESSAGES DATA IF DIRECTLY FROM APPOINTMENTS OR PROFILE
-  //------------------------------------------------------------------------
+
+  //-------------------------------
+  //START OF HANDLING MESSAGES
+  const [messages, setMessages] = useState<any>([]);
+  useEffect(() => {
+    setMessages([
+      {
+        _id: 1,
+        text: "Hello developer",
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: "React Native",
+        },
+      },
+      {
+        _id: 2,
+        text: "Hello developer",
+        createdAt: new Date(),
+        user: {
+          _id: 1,
+          name: "React Native",
+        },
+      },
+    ]);
+
+  }, []);
+
+  const onSend = useCallback((messages = []) => {
+    setMessages((previousMessages: any) => GiftedChat.append(previousMessages, messages));
+  }, []);
+
+  //END OF HANDLING MESSAGES
+  //-------------------------------
 
   //FORM PARAM
   const data = {
@@ -44,26 +95,20 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
           {messages.length === 0 ? (
             <Text className="text-center mt-10">Say Hello! &#128075;</Text>
           ) : (
-            <>
-              <View style={styles.bg_blue} className="ml-2 min-w-1/2 w-3/5 max-w-3/4 min-h-8 p-2 rounded-2xl rounded-tl-none mb-2 flex-row">
-                <Text className="w-5/6 text-white">
-                  Lorem psum dolor sit amet consectetur adipisicing elit. Earum iusto perspiciatis nisi placeat dignissimos temporibus saepe vero.
-                  Rerum, recusandae harum.
-                </Text>
-                <Text className="w-1/6 text-center text-[10px] opacity-75 text-white">11:59</Text>
-              </View>
-
-              <View className="items-end">
-                <View style={styles.bg_grey} className="mr-2 mb-2 w-3/5 min-w-1/2 max-w-3/4 min-h-8 p-2 rounded-2xl rounded-tr-none flex-row ">
-                  <Text className="w-5/6 ">Lorem psum dolor? Lorem psum dolor?</Text>
-                  <Text className="w-1/6 text-center text-[10px] opacity-75">11:59</Text>
-                </View>
-              </View>
-            </>
+            <View className="h-full">
+              <GiftedChat
+                messages={messages}
+                renderAvatar={() => null}
+                onSend={(messages: any) => onSend(messages)}
+                user={{
+                  _id: 1,
+                }}
+              />
+            </View>
           )}
         </View>
 
-        <SendMessageFormComponent {...data} />
+        {/* <SendMessageFormComponent {...data} /> */}
       </View>
     </View>
   );
