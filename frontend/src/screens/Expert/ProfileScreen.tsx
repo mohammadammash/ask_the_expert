@@ -26,6 +26,8 @@ const ProfileScreen = ({ route }: { route: any }) => {
   const navigation = useNavigation<any>();
   let { user, setUser } = useUserContext();
   const currentUser_id = user._id;
+  const currentUser = { ...user };
+
   let shown_expert;
   //Expert user is accessed when novice click on close expert to view Profile
   if (route.params) shown_expert = route.params.shown_expert;
@@ -144,10 +146,11 @@ const ProfileScreen = ({ route }: { route: any }) => {
   };
 
   useEffect(() => {
-    if (mutateAddReviewData) {
+    if (mutateAddReviewData && !alreadyAddedReview) {
       const new_review = mutateAddReviewData.data;
-      new_review.novice_id = { ...user }; //manual populate
-      setShownReviews((prev) => [...prev, new_review]);
+      new_review.novice_id = { ...currentUser }; //manual populate
+      setShownReviews((prev) => [new_review, ...prev]);
+      setAlreadyAddedReview(true);
     }
   }, [mutateAddReviewData]);
   //END OF REVIEWS SECTION HANDLING
