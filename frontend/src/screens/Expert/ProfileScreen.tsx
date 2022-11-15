@@ -13,13 +13,13 @@ import {
   ButtonComponent,
   ReviewCardComponent,
 } from "../../components";
-import { COLORS, USERTYPES, ROUTES } from "../../constants";
+import { COLORS, ROUTES } from "../../constants";
 import CalculateYearsOfExperienceHelper from "../Helpers/CalculateYearsOfExperienceHelper";
 import { calculateReviewsStatsHelper } from "../Helpers/CalculateReviewsStatsHelper";
 import styles from "../../../styles";
 import { useGoOfflineExpert } from "../../hooks/useExpert";
 import { useCurrentUser } from "../../hooks/useUser";
-import { useAddReview } from "../../hooks/useNovice";
+import { useAddReview, useDeleteReview } from "../../hooks/useNovice";
 
 //
 const ProfileScreen = ({ route }: { route: any }) => {
@@ -36,6 +36,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
   const { profile_url, user_type, isAvailable, about, start_date, reviews } = user;
   const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
   const { mutate: mutateAddReview, data: mutateAddReviewData, isLoading: isLoadingMutateAddReviewData } = useAddReview();
+  const { mutate: mutateDeleteReview, data: mutateDeleteReviewData, isLoading: isLoadingMutateDeleteReviewData } = useDeleteReview();
   const { data: getCurrentUserData, isLoading: isCurrentUserLoading, isSuccess: isCurrentUserUpdatedSuccess } = useCurrentUser({ enabled });
   const {
     data: mutateGoOfflineExpertData,
@@ -115,10 +116,12 @@ const ProfileScreen = ({ route }: { route: any }) => {
   const modalRef = useRef();
   const [shownReviews, setShownReviews] = useState<reviewsType[]>([]);
   const [alreadyAddedReview, setAlreadyAddedReview] = useState(false); //to check if visiting user placed a review on shown expert profile or not
+  const [removedReviewId, setRemovedReviewId] = useState("");
   type ratingContent = { average: number; totalOf5: number; totalOf4: number; totalOf3: number; totalOf2: number; totalOf1: number }; //reviews stats
   const [rating, setRating] = useState({ average: 0, totalOf5: 0, totalOf4: 0, totalOf3: 0, totalOf2: 0, totalOf1: 0 });
 
   const handleCardClick = (novice_user: userType) => {
+    //if current expert profile allow him/her to view reviwers profiles
     if (user._id === currentUser_id) navigation.navigate(ROUTES.NOVICE_PROFILE, { novice_user });
   };
 
@@ -127,6 +130,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
   }, []);
 
   const handleRatingType = (rating: ratingContent) => setRating(rating);
+
   useEffect(() => {
     if (shownReviews.length !== 0) calculateReviewsStatsHelper(shownReviews, handleRatingType);
   }, [shownReviews]);
@@ -145,6 +149,20 @@ const ProfileScreen = ({ route }: { route: any }) => {
     ]);
   };
 
+  const handleDeleteOwnReview = (review_id: string) => {
+    setRemovedReviewId(review_id);
+    mutateDeleteReview(review_id);
+  };
+
+  useEffect(() => {
+    if (mutateDeleteReviewData && alreadyAddedReview && removedReviewId) {
+      const new_reviews = shownReviews.filter((rev) =>rev._id !== removedReviewId);
+      setShownReviews([...new_reviews]);
+      setAlreadyAddedReview(false);
+      setRemovedReviewId("");
+    }
+  }, [mutateDeleteReviewData]);
+
   useEffect(() => {
     if (mutateAddReviewData && !alreadyAddedReview) {
       const new_review = mutateAddReviewData.data;
@@ -160,12 +178,13 @@ const ProfileScreen = ({ route }: { route: any }) => {
   const personalInfoData = { ...user, yearsOfExperience };
   const buttonData = { button_style, title, handlePress, route_name, disabled }; //current user profile button data
   const aboutData = { user_type, about };
-  const reviewsStatsData = { reviews_length: reviews?.length || 0, rating };
+  const reviewsStatsData = { reviews_length: shownReviews?.length || 0, rating };
+
   //----------------
   //----------------
   // MAIN COMPONENT
   //if loading submit
-  if (isLoadingMutateGoOfflineExpert || isLoadingMutateAddReviewData) {
+  if (isLoadingMutateGoOfflineExpert || isLoadingMutateAddReviewData || isLoadingMutateDeleteReviewData) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color={COLORS.dark} />
@@ -257,9 +276,25 @@ const ProfileScreen = ({ route }: { route: any }) => {
             if (review.novice_id._id === currentUser_id) {
               // not mark is to prevent reRendering infinite loop
               if (!alreadyAddedReview) setAlreadyAddedReview(true);
-              return <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} currentOwner={true} />;
+              return (
+                <ReviewCardComponent
+                  key={index}
+                  review={review}
+                  handleCardClick={handleCardClick}
+                  currentOwner={true}
+                  handleDeleteOwnReview={handleDeleteOwnReview}
+                />
+              );
             } else {
-              return <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} currentOwner={false} />;
+              return (
+                <ReviewCardComponent
+                  key={index}
+                  review={review}
+                  handleCardClick={handleCardClick}
+                  currentOwner={false}
+                  handleDeleteOwnReview={handleDeleteOwnReview}
+                />
+              );
             }
           })}
         </View>
