@@ -14,6 +14,7 @@ export interface AllReviewsStatsProps {
 export interface ReviewCardProps {
   handleCardClick: (novice_user: userType) => any;
   review: ReviewsType;
+  currentOwner: boolean,
 }
 
 export interface ReviewSingleChatProps {

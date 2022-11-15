@@ -6,7 +6,7 @@ import styles from "../../../styles";
 import expertStyles from "./expert.styles";
 import { ReviewCardProps } from "./types";
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review, currentOwner }) => {
   const { firstName, lastName, profile_url, field } = review.novice_id;
   let { rating, content, createdAt } = review;
   createdAt = new Date(createdAt);
@@ -33,7 +33,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review }) => {
               lastName[0].toUpperCase() +
               lastName.substring(1, lastName.length).toLowerCase()}{" "}
           </Text>
-          <Text className="text-xs opacity-50 mb-3">{field}</Text>
+          <Text className="text-xs opacity-50 mb-3">{currentOwner ? '//DELETE REVIEW' : field}</Text>
           <Text className="w-full text-[11px]">{content}</Text>
           <View className="flex-row h-10 items-center justify-between">
             <AirbnbRating starContainerStyle={expertStyles.starsRatingRow} size={15} defaultRating={rating} isDisabled reviews={[""]} />
