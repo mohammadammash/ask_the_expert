@@ -3,8 +3,7 @@ export {default as LoginFormComponent} from "./Auth/LoginForm";
 export {default as RegisterFormComponent} from "./Auth/RegisterForm";
 
 //NOVICE
-export {default as AddReviewButtonSectionComponent} from "./Novice/AddReviewButtonSection";
-export {default as AddReviewModalForm} from "./Novice/AddReviewModalForm";
+export {default as AddReviewModalFormComponent} from "./Novice/AddReviewModalForm";
 export {default as BookAppointmentFormCardComponent} from "./Novice/BookAppointmentFormCard";
 
 //EXPERT
