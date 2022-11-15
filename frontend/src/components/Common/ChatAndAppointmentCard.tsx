@@ -7,11 +7,7 @@ import { ChatAndAppointmentCardProps } from "./types";
 import TurnUTCToLocateTimeHelper from "../../screens/Helpers/TurnUTCToLocalTimeHelper";
 import { userType } from "../../hooks/UserContext";
 
-const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleAppointmentClick, data, currentUser_type }) => {
-  //If current user is novice populated data is for expert and vice versa
-  let shown_user: userType;
-  if (currentUser_type === "novice") shown_user = data.expert_id;
-  else shown_user = data.novice_id;
+const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleAppointmentClick, data, shown_user }) => {
   const { profile_url, firstName, lastName, speciality } = shown_user;
   let { start_timestamp, end_timestamp, notes } = data;
   //assure stored dates are of type date not string
