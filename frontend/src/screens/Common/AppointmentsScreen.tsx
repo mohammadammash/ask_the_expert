@@ -142,7 +142,7 @@ const AppointmentsScreen = () => {
           let shown_user;
           if (user_type === "novice") shown_user = app.expert_id;
           else shown_user = app.novice_id;
-          return <ChatAndAppointmentCardComponent key={index} shown_user={shown_user} data={app} handleAppointmentClick={handleAppointmentClick} />;
+          return <ChatAndAppointmentCardComponent key={index} shown_user={shown_user} data={app} handleCardClick={handleAppointmentClick} />;
         })}
       </ScrollView>
     </View>

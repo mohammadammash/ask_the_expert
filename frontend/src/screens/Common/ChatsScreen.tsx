@@ -33,7 +33,8 @@ const ChatsScreen = () => {
 
   const handleChatClick = (type: string, data: any) => {
     // CHATS PAGE NAVIGATION
-    if (type === "chat") navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data });
+    if (type === "navigate_chat") alert("NAVIGATO");
+    //  navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data });
   };
 
   if (myChats.length === 0) {
