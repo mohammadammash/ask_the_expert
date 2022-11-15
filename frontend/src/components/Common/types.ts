@@ -1,7 +1,7 @@
 import { userType } from "../../hooks/UserContext";
 
 export interface ChatAndAppointmentCardProps {
-  handleAppointmentClick: (type: string, user: userType) => void,
+  handleCardClick: (type: string, user: userType) => void,
   data?: any,
   shown_user: userType,
 }
