@@ -32,6 +32,7 @@ const AddReviewModalForm: React.FC<AddReviewModalFormProps> = ({ modalRef }) => 
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
         <View className="w-full items-center">
           <AirbnbRating
+            defaultRating={values.rating}
             onFinishRating={(v) => (values.rating = v)}
             starContainerStyle={noviceStyles.starRowRating}
             size={20}
