@@ -128,8 +128,8 @@ const AppointmentsScreen = () => {
   if (myAppointments.length === 0) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text className="text-center w-3/4 text-xs mt-5 bold">You have no appointments 😴</Text>
-        <Image className="w-64 h-64" source={IMAGES.emptyMyAppointmentsPage} />
+        <Text className="text-center w-3/4 text-xs font-bold">You Have No Appointments 😴</Text>
+        <Image className="w-64 h-64" source={IMAGES.emptyMyAppointments} />
       </View>
     );
   }
@@ -138,9 +138,11 @@ const AppointmentsScreen = () => {
     <View className="flex-1 items-center bg-white">
       <ScrollView className="w-full" contentContainerStyle={styles.alignCenter}>
         {myAppointments?.map((app: any, index: number) => {
-          return (
-            <ChatAndAppointmentCardComponent key={index} data={app} currentUser_type={user_type} handleAppointmentClick={handleAppointmentClick} />
-          );
+          //conditionally set populated shown user data
+          let shown_user;
+          if (user_type === "novice") shown_user = app.expert_id;
+          else shown_user = app.novice_id;
+          return <ChatAndAppointmentCardComponent key={index} shown_user={shown_user} data={app} handleAppointmentClick={handleAppointmentClick} />;
         })}
       </ScrollView>
     </View>

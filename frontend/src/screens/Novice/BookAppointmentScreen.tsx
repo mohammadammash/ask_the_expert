@@ -88,7 +88,7 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
   if (data.length === 0) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text className="text-center w-3/4 text-xs mt-5 bold">All Appointments got reserved ;(</Text>
+        <Text className="text-center w-3/4 text-xs mt-5 font-bold">All Appointments Got Reserved &#9785;</Text>
         <Image className="w-64 h-64" source={IMAGES.emptyAppointments} />
       </View>
     );
