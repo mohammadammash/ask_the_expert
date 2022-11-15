@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator, StyleSheet, Pressable } from "react-native";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { userType, useUserContext } from "../../hooks/UserContext";
+import { reviewsType, userType, useUserContext } from "../../hooks/UserContext";
 import RBSheet from "react-native-raw-bottom-sheet";
 //internal imports
 import {
@@ -19,9 +19,9 @@ import { calculateReviewsStatsHelper } from "../Helpers/CalculateReviewsStatsHel
 import styles from "../../../styles";
 import { useGoOfflineExpert } from "../../hooks/useExpert";
 import { useCurrentUser } from "../../hooks/useUser";
-import { getAuthToken } from "../../networks";
-import { useField } from "formik";
+import { useAddReview } from "../../hooks/useNovice";
 
+//
 const ProfileScreen = ({ route }: { route: any }) => {
   const navigation = useNavigation<any>();
   let { user, setUser } = useUserContext();
@@ -32,12 +32,20 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //If novice visiting expert_profile show expert data to novice as main user
   if (shown_expert) user = { ...shown_expert };
   const { profile_url, user_type, isAvailable, about, start_date, reviews } = user;
+  const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
+  const { mutate: mutateAddReview, data: mutateAddReviewData, isLoading: isLoadingMutateAddReviewData } = useAddReview();
+  const { data: getCurrentUserData, isLoading: isCurrentUserLoading, isSuccess: isCurrentUserUpdatedSuccess } = useCurrentUser({ enabled });
+  const {
+    data: mutateGoOfflineExpertData,
+    mutate: mutateGoOfflineExpert,
+    isLoading: isLoadingMutateGoOfflineExpert,
+    isSuccess: mutateGoOfflineExpertIsSuccess,
+  } = useGoOfflineExpert();
 
   //----------------------------------------------
   //START OF REFRESH PAGE UPDATE CURRENT USER DATA
   const [refreshing, setRefreshing] = useState(false);
   const [enabled, setEnabled] = useState(false);
-  const { data: getCurrentUserData, isLoading: isCurrentUserLoading, isSuccess: isCurrentUserUpdatedSuccess } = useCurrentUser({ enabled });
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -57,18 +65,11 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
   //-----------------------------------
   //START OF GO OFFLINE POST API SUBMIT
-  const {
-    data: mutateGoOfflineExpertData,
-    mutate: mutateGoOfflineExpert,
-    isLoading: mutateGoOfflineExpertIsLoading,
-    isSuccess: mutateGoOfflineExpertIsSuccess,
-  } = useGoOfflineExpert();
-
   //if finished loading and success:
   useEffect(() => {
     if (mutateGoOfflineExpertIsSuccess) {
       setUser({ ...user, isAvailable: false });
-      //the data is made of novices_devices_token to send notifications to that appointments are canceled with this currentUser
+      //!!!!!!!!!!DATA IS MADE OF NOVICE_DEVICE_TOKENS TO SEND NOTIFICATIONS TO!!!!!!!!!!!!
       alert(JSON.stringify(mutateGoOfflineExpertData, null, 2));
     }
   }, [mutateGoOfflineExpertIsSuccess]);
@@ -89,49 +90,79 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //END OF GO OFFLINE POST API SUBMIT
   //-----------------------------------
 
-  //Handling buttons clicked conditionally //For Current User Profile
+  //-----------------------------------------------------------------
+  //START OF HANDLING BUTTONS CLICKED //For Current User Profile
   const disabled = shown_expert?.isAvailable ? false : true;
   const route_name = ROUTES.USER_EDIT_PROFILE;
-  const handlePress = (route_name: string) => {
-    if (route_name === "block") return alert("BLOCKED");
-    else if (route_name === ROUTES.NOVICE_BOOK_APPOINTMENT) {
-      //Send the shown expert appointment groups to book appointment page and do the validation there
-      const appointments_groups = user.appointments_groups;
-      navigation.navigate(ROUTES.NOVICE_BOOK_APPOINTMENT, { appointments_groups });
-      //Send the user data to
-    } else if (route_name === "review") modalRef.current?.open();
-    else navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data: user });
-  };
   const title = "EDIT PROFILE";
   const button_style = `${user._id === currentUser_id ? "md" : "sm"}`;
 
-  //profile info
-  const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
+  const handlePress = (route_name: string) => {
+    if (route_name === "block") return alert("BLOCKED");
+    else if (route_name === ROUTES.NOVICE_BOOK_APPOINTMENT) {
+      const appointments_groups = user.appointments_groups;
+      navigation.navigate(ROUTES.NOVICE_BOOK_APPOINTMENT, { appointments_groups });
+    } else if (route_name === "review") modalRef.current?.open();
+    else navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data: user });
+  };
+  //END OF HANDLING BUTTONS CLICKED //For Current User Profile
+  //-----------------------------------------------------------------
 
-  //REVIEW MODAL
+  //---------------------------------
+  //START OF REVIEWS SECTION HANDLING
   const modalRef = useRef();
+  const [shownReviews, setShownReviews] = useState<reviewsType[]>([]);
+  const [alreadyAddedReview, setAlreadyAddedReview] = useState(false); //to check if visiting user placed a review on shown expert profile or not
+  type ratingContent = { average: number; totalOf5: number; totalOf4: number; totalOf3: number; totalOf2: number; totalOf1: number }; //reviews stats
+  const [rating, setRating] = useState({ average: 0, totalOf5: 0, totalOf4: 0, totalOf3: 0, totalOf2: 0, totalOf1: 0 });
 
-  //allReviews Stats
   const handleCardClick = (novice_user: userType) => {
     if (user._id === currentUser_id) navigation.navigate(ROUTES.NOVICE_PROFILE, { novice_user });
   };
-  type ratingContent = { average: number; totalOf5: number; totalOf4: number; totalOf3: number; totalOf2: number; totalOf1: number };
-  const [rating, setRating] = useState({ average: 0, totalOf5: 0, totalOf4: 0, totalOf3: 0, totalOf2: 0, totalOf1: 0 });
+
+  useEffect(() => {
+    if (shownReviews.length === 0 && reviews) setShownReviews([...reviews]);
+  }, []);
+
   const handleRatingType = (rating: ratingContent) => setRating(rating);
   useEffect(() => {
-    if (reviews) calculateReviewsStatsHelper(reviews, handleRatingType);
-  }, [reviews]);
+    if (shownReviews.length !== 0) calculateReviewsStatsHelper(shownReviews, handleRatingType);
+  }, [shownReviews]);
+
+  const handleRatingSubmit = (values: { rating: number; content: string }) => {
+    const submitReview = () => {
+      const data = { ...values, expert_id: user._id };
+      mutateAddReview(data);
+    };
+    Alert.alert("Submit Review", "\nAre you sure you want submit your review?", [
+      {
+        text: "Cancel",
+        style: "destructive",
+      },
+      { text: "Submit", onPress: submitReview, style: "default" },
+    ]);
+  };
+
+  useEffect(() => {
+    if (mutateAddReviewData) {
+      const new_review = mutateAddReviewData.data;
+      new_review.novice_id = { ...user }; //manual populate
+      setShownReviews((prev) => [...prev, new_review]);
+    }
+  }, [mutateAddReviewData]);
+  //END OF REVIEWS SECTION HANDLING
+  //---------------------------------
 
   //PARAMS
   const personalInfoData = { ...user, yearsOfExperience };
   const buttonData = { button_style, title, handlePress, route_name, disabled }; //current user profile button data
   const aboutData = { user_type, about };
   const reviewsStatsData = { reviews_length: reviews?.length || 0, rating };
-
+  //----------------
   //----------------
   // MAIN COMPONENT
   //if loading submit
-  if (mutateGoOfflineExpertIsLoading) {
+  if (isLoadingMutateGoOfflineExpert || isLoadingMutateAddReviewData) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color={COLORS.dark} />
@@ -204,12 +235,12 @@ const ProfileScreen = ({ route }: { route: any }) => {
             </Text>
           ) : (
             <View className="items-center">
-              <ButtonComponent {...buttonData} button_style="lg" title="ADD REVIEW" route_name="review" />
+              <ButtonComponent {...buttonData} button_style="lg" title="ADD REVIEW" route_name="review" disabled={alreadyAddedReview} />
 
               {/* REVIEW BOTTOM SHEET/MODAL CONTENT */}
               <RBSheet ref={modalRef} closeOnDragDown={true} closeOnPressMask={true} animationType={"fade"} customStyles={expertStyles}>
                 <Text>How was Your Experience with {user.firstName}?</Text>
-                <AddReviewModalFormComponent modalRef={modalRef} />
+                <AddReviewModalFormComponent modalRef={modalRef} handleRatingSubmit={handleRatingSubmit} />
               </RBSheet>
             </View>
           )}
@@ -219,9 +250,15 @@ const ProfileScreen = ({ route }: { route: any }) => {
         <AllReviewsStatsComponent {...reviewsStatsData} />
 
         <View className="w-full items-center my-5">
-          {reviews?.map((review, index) => (
-            <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} />
-          ))}
+          {shownReviews?.map((review, index) => {
+            if (review.novice_id._id === currentUser_id) {
+              // not mark is to prevent reRendering infinite loop
+              if (!alreadyAddedReview) setAlreadyAddedReview(true);
+              return <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} currentOwner={true} />;
+            } else {
+              return <ReviewCardComponent key={index} review={review} handleCardClick={handleCardClick} currentOwner={false} />;
+            }
+          })}
         </View>
       </View>
     </ScrollView>
