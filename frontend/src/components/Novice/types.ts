@@ -6,6 +6,7 @@ export interface AddReviewButtonSectionProps {
 
 export interface AddReviewModalFormProps {
   modalRef: React.MutableRefObject<undefined>;
+  handleRatingSubmit: (values: { rating: number, content: string }) => void
 }
 export interface RatingFormValuesTypes {
   content: string;

@@ -18,14 +18,13 @@ const validateReviewIntialValues = Yup.object().shape({
 });
 
 // MAIN COMPONENT
-const AddReviewModalForm: React.FC<AddReviewModalFormProps> = ({ modalRef }) => {
+const AddReviewModalForm: React.FC<AddReviewModalFormProps> = ({ modalRef, handleRatingSubmit }) => {
   return (
     <Formik
       initialValues={reviewIntialValues}
-      onSubmit={(values, actions) => {
-        console.log({ values, actions });
-        alert(JSON.stringify(values, null, 2));
+      onSubmit={(values) => {
         modalRef.current?.close();
+        handleRatingSubmit(values);
       }}
       validationSchema={validateReviewIntialValues}
     >
