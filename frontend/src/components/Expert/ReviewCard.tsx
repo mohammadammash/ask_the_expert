@@ -1,16 +1,17 @@
 import { AirbnbRating } from "react-native-ratings";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 //internal imports
-import { IMAGES, ROUTES } from "../../constants";
+import { IMAGES } from "../../constants";
 import styles from "../../../styles";
 import expertStyles from "./expert.styles";
 import { ReviewCardProps } from "./types";
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review, currentOwner }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review, currentOwner, handleDeleteOwnReview }) => {
   const { firstName, lastName, profile_url, field } = review.novice_id;
   let { rating, content, createdAt } = review;
   createdAt = new Date(createdAt);
-  const showed_date = `${createdAt.getDate()}/${createdAt.getMonth()+1}/${createdAt.getFullYear()}`;
+  const showed_date = `${createdAt.getDate()}/${createdAt.getMonth() + 1}/${createdAt.getFullYear()}`;
 
   return (
     <TouchableOpacity onPress={() => handleCardClick(review.novice_id)}>
@@ -26,14 +27,21 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review, curren
         </View>
 
         <View className="w-4/6 pt-3">
-          <Text className="text-base">
-            {firstName[0].toUpperCase() +
-              firstName.substring(1, firstName.length).toLowerCase() +
-              " " +
-              lastName[0].toUpperCase() +
-              lastName.substring(1, lastName.length).toLowerCase()}{" "}
-          </Text>
-          <Text className="text-xs opacity-50 mb-3">{currentOwner ? '//DELETE REVIEW' : field}</Text>
+          <View className="w-full flex-row justify-between">
+            <Text className="text-base">
+              {firstName[0].toUpperCase() +
+                firstName.substring(1, firstName.length).toLowerCase() +
+                " " +
+                lastName[0].toUpperCase() +
+                lastName.substring(1, lastName.length).toLowerCase()}{" "}
+            </Text>
+            {currentOwner ? (
+              <Pressable onPress={() => handleDeleteOwnReview(review._id)}>
+                <MaterialIcons name="delete-forever" size={22} color="red" />
+              </Pressable>
+            ) : null}
+          </View>
+          <Text className="text-xs opacity-50 mb-3">{field}</Text>
           <Text className="w-full text-[11px]">{content}</Text>
           <View className="flex-row h-10 items-center justify-between">
             <AirbnbRating starContainerStyle={expertStyles.starsRatingRow} size={15} defaultRating={rating} isDisabled reviews={[""]} />

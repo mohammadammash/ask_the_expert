@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 import { IMAGES } from "../constants/index";
 
 export type reviewsType = {
+  _id: string,
   novice_id: userType,
   rating: number,
   content: string,

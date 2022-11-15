@@ -15,6 +15,7 @@ export interface ReviewCardProps {
   handleCardClick: (novice_user: userType) => any;
   review: ReviewsType;
   currentOwner: boolean,
+  handleDeleteOwnReview: (review_id: string) => void,
 }
 
 export interface ReviewSingleChatProps {
