@@ -1,14 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
-import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator } from "react-native";
+import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator, StyleSheet, Pressable } from "react-native";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { userType, useUserContext } from "../../hooks/UserContext";
+import RBSheet from "react-native-raw-bottom-sheet";
 //internal imports
 import {
   AllReviewsStatsComponent,
   ProfileImageCardComponent,
   ProfilePersonalInfoComponent,
   AboutSectionComponent,
-  AddReviewButtonSectionComponent,
+  AddReviewModalFormComponent,
   ButtonComponent,
   ReviewCardComponent,
 } from "../../components";
@@ -197,12 +198,34 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
         {/* REVIEWS TITLE */}
         <View style={styles.bg_grey} className="h-24 justify-center w-full font-bold mb-5">
-          {user_type === USERTYPES.EXPERT ? (
+          {user._id === currentUser_id ? (
             <Text style={styles.blue_text} className="font-bold text-2xl text-center">
               REVIEWS
             </Text>
           ) : (
-            <AddReviewButtonSectionComponent modalRef={modalRef} />
+            <View className="items-center">
+              <Pressable style={styles.blue_button_lg} onPress={() => modalRef.current?.open()}>
+                <Text className="font-bold text-lg" style={styles.white_text}>
+                  ADD REVIEW
+                </Text>
+              </Pressable>
+
+              {/* REVIEW BOTTOM SHEET/MODAL CONTENT */}
+              <RBSheet
+                ref={modalRef}
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                animationType={"fade"}
+                customStyles={{
+                  wrapper: noviceStyles.bottomSheetModalWrapper,
+                  draggableIcon: styles.bg_dark,
+                  container: noviceStyles.bottomSheetModalContainer,
+                }}
+              >
+                <Text>How was Your Experience with Ahmad?</Text>
+                <AddReviewModalFormComponent modalRef={modalRef} />
+              </RBSheet>
+            </View>
           )}
         </View>
 
@@ -218,5 +241,12 @@ const ProfileScreen = ({ route }: { route: any }) => {
     </ScrollView>
   );
 };
+
+// STYLES
+const noviceStyles = StyleSheet.create({
+  bottomSheetModalWrapper: { backgroundColor: "rgba(255,255,255,0.9)" },
+
+  bottomSheetModalContainer: { borderTopWidth: 2, borderColor: COLORS.dark, alignItems: "center", height: "40%" },
+});
 
 export default ProfileScreen;
