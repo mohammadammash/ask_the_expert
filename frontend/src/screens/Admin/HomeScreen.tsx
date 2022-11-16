@@ -5,6 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { ChartsLowerLegendComponent, ChartsUpperLegendComponent } from "../../components";
 import { COLORS } from "../../constants";
 import styles from "../../../styles";
+import { t } from "i18next";
 
 //HARD CODED DATA
 const pieData = [
@@ -100,6 +101,13 @@ const appointmentsData = [
 ];
 
 const HomeScreen = () => {
+  //translation
+  const experts_string = t("experts");
+  const newusers_string = t("new users");
+  const novice_string = t("Novice");
+  const fieldsusers_string = t("Fields Users");
+  const chats_string = t("Chats");
+  const appointments_string = t("Appointments");
 
   return (
     <View style={styles.bg_dark} className="items-center justify-evenly flex-1 gap-1">
@@ -120,7 +128,7 @@ const HomeScreen = () => {
                 centerLabelComponent={() => (
                   <View className="justify-center items-center">
                     <Text className="text-xl text-white font-bold">67%</Text>
-                    <Text className="text-base text-white">Experts</Text>
+                    <Text className="text-base text-white capitalize">{experts_string}</Text>
                   </View>
                 )}
               />
@@ -136,7 +144,7 @@ const HomeScreen = () => {
         {/* START OF NEW USERS CHART */}
         <View style={[styles.bg_dark, styles.screenWidth]} className="items-center justify-center">
           <View>
-            <ChartsUpperLegendComponent chart_type="newUsers" dot1_title={"118 Expert"} dot2_title={"1000 Novice"} />
+            <ChartsUpperLegendComponent chart_type="newUsers" dot1_title={"118 Expert"} dot2_title={`1000 ${novice_string}`} />
             <BarChart
               data={barData}
               barWidth={8}
@@ -152,7 +160,7 @@ const HomeScreen = () => {
               maxValue={150}
             />
             <View className="h-1/4 justify-center">
-              <Text className="text-white text-md font-semibold text-center">1118 New Users</Text>
+              <Text className="text-white text-md font-semibold text-center capitalize">1118 {newusers_string}</Text>
             </View>
             <View className="absolute right-0 h-full justify-center mr-1">
               <AntDesign name="rightcircle" size={24} color={COLORS.white} />
@@ -164,7 +172,7 @@ const HomeScreen = () => {
         {/* START OF FIELDS STATISTICS CHART */}
         <View style={styles.screenWidth} className="bg-[#34448B] flex-1 items-center justify-center">
           <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
-            <Text className="text-white text-base font-bold ml-2">Fields Users</Text>
+            <Text className="text-white text-base font-bold ml-2">{fieldsusers_string}</Text>
             <BarChart
               data={fields_Data}
               barWidth={12}
@@ -198,7 +206,11 @@ const HomeScreen = () => {
         {/* START OF APPOINTMENTS AND NEW STATISTICS CHART */}
         <View style={[styles.bg_dark, styles.screenWidth]} className="w-1/4 items-center justify-center">
           <View>
-            <ChartsUpperLegendComponent chart_type="AppointmentsAndChats" dot1_title={"116 Chat"} dot2_title={"432 Appointment"} />
+            <ChartsUpperLegendComponent
+              chart_type="AppointmentsAndChats"
+              dot1_title={`116 ${chats_string}`}
+              dot2_title={`432 ${appointments_string}`}
+            />
             <LineChart
               data={chatsData}
               data2={appointmentsData}

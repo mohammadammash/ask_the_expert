@@ -5,19 +5,27 @@ import { useContext } from "react";
 import { Entypo } from "@expo/vector-icons";
 //internal imports:
 import styles from "../../../styles";
-import { ProfileImageCardComponent, ButtonsComponent } from "../../components";
+import { ProfileImageCardComponent, ButtonComponent } from "../../components";
+import { t } from "i18next";
 
 const ProfileScreen = () => {
+  //translation
+  const adminstrator_string = t("adminstrator");
+  
   const { user, setUser } = useContext(UserContext);
   const { firstName, lastName, email, profile_url, user_type } = user;
 
   const navigation = useNavigation<any>();
-  const navigateToPage = (routeName: string) => navigation.navigate(routeName);
+  const handlePress = (routeName: string) => navigation.navigate(routeName);
 
   //Buttons comp params
   const data = {
     user_type,
-    navigateToPage,
+    handlePress,
+    button_style: "xl",
+    route_name: "",
+    disabled: false,
+    title: "View Banned Users",
   };
 
   return (
@@ -34,13 +42,13 @@ const ProfileScreen = () => {
 
         <View className="items-center gap-2">
           <Entypo name="shield" size={50} color="black" />
-          <Text style={styles.dark_text} className="text-base font-bold">
-            ADMINSTRATOR
+          <Text style={styles.dark_text} className="text-base font-bold uppercase">
+            {adminstrator_string}
           </Text>
         </View>
 
         <View className="items-center w-full">
-          <ButtonsComponent {...data} />
+          <ButtonComponent {...data} />
         </View>
       </View>
     </View>
