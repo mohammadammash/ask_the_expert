@@ -1,11 +1,12 @@
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 import { useEffect, useCallback, useLayoutEffect, useState } from "react";
-import { GiftedChat } from "react-native-gifted-chat";
+import { GiftedChat, Send } from "react-native-gifted-chat";
+import { FontAwesome } from "@expo/vector-icons";
 //internal imports
 import { COLORS, IMAGES } from "../../constants";
 import styles from "../../../styles";
 import { userInitialData, useUserContext } from "../../hooks/UserContext";
-import { collection, addDoc, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { updateDoc, doc, getDoc, setDoc, serverTimestamp, onSnapshot, arrayUnion } from "firebase/firestore";
 import { firebase_db } from "../../../firebaseConfig";
 
 const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }) => {
@@ -15,14 +16,7 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
   const { _id, firstName, lastName, profile_url, speciality } = shown_user;
   //CURRENT USER
   const { user } = useUserContext();
-
-  //HANDLING SEND MESSAGES SUBMIT
-  const [message, setMessage] = useState("");
-  const handleMessageChange = (message: string) => setMessage(message);
-  const submitMessage = () => {
-    if (!message) alert("Cannot be empty!");
-    else alert(message);
-  };
+  const currentUser = { ...user };
 
   //-------------------------------
   //START OF HANDLING LAYOUT HEADER
@@ -42,6 +36,9 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
                 lastName[0].toUpperCase() +
                 lastName.substring(1, lastName.length).toLowerCase()}{" "}
             </Text>
+            <Text style={styles.white_text} className="text-[10px]">
+              {speciality}
+            </Text>
           </View>
         </View>
       ),
@@ -50,8 +47,7 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
   //END OF HANDLING LAYOUT HEADER
   //-------------------------------
 
-  //-------------------------------
-  //START OF HANDLING MESSAGES
+  //Start of handling check if chat exists
   const [messages, setMessages] = useState<any>([]);
 
   const checkIfChatExists = async (chat_id: string) => {
@@ -65,8 +61,8 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
     }
   };
 
-  const getMessages = async () => {
-    const combined_id = user._id > shown_user._id ? user._id + shown_user._id : shown_user._id + user._id; //constant way to store key
+  const createChatIfFirstTime = async () => {
+    const combined_id = currentUser._id > shown_user._id ? currentUser._id + shown_user._id : shown_user._id + currentUser._id; //constant way to store key
     const exists = await checkIfChatExists(combined_id);
     try {
       if (!exists) {
@@ -79,19 +75,19 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
         await setDoc(
           shownUserChatsRef,
           {
-            [combined_id + ".userInfo"]: {
-              _id: user._id,
-              firstName: `${user.firstName}`,
-              lastName: `${user.lastName}`,
-              speciality: user.speciality,
-              profile_url: user.profile_url,
+            [combined_id]: {
+              _id: currentUser._id,
+              firstName: currentUser.firstName,
+              lastName: currentUser.lastName,
+              speciality: currentUser.speciality,
+              profile_url: currentUser.profile_url,
               date: serverTimestamp(),
             },
           },
           { merge: true }
         );
 
-        const currentUserChatsRef = doc(firebase_db, "userChats", user._id);
+        const currentUserChatsRef = doc(firebase_db, "userChats", currentUser._id);
         await setDoc(
           currentUserChatsRef,
           {
@@ -113,58 +109,111 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
   };
 
   useEffect(() => {
-    getMessages();
+    createChatIfFirstTime();
   }, []);
-  //End of creating chat if first time messaging between two users
+  //End of hanlding check if chat exists
 
+  //Start of loading messages in realtime
+  useEffect(() => {
+    const combined_id = currentUser._id > shown_user._id ? currentUser._id + shown_user._id : shown_user._id + currentUser._id;
+    const messagesChatRef = doc(firebase_db, "chats", combined_id);
+    const unsub = onSnapshot(messagesChatRef, (doc) => {
+      if (doc.exists()) {
+        setMessages([
+          ...doc
+            .data()
+            ?.messages.reverse()
+            .map((msg) => {
+              return { ...msg, createdAt: msg.createdAt.toDate() };
+            }),
+        ]);
+      }
+    });
+
+    return () => {
+      unsub();
+    };
+  }, [shown_user._id]);
+  //End of loading messages in realtime
+
+  //Start of Send Message
   const onSend = useCallback(async (messages = []) => {
-    setMessages((previousMessages: any) => GiftedChat.append(previousMessages, messages));
-    const { _id, createdAt, text, user } = messages[0];
-    alert(JSON.stringify({ _id, createdAt, text, user }));
+    setMessages((previousMessages: any) => GiftedChat.append(previousMessages, messages)); //add my message to screen
+    //Get message sent needed data
+    let { _id, text, user, createdAt } = messages[0];
+    const user_id = user._id;
+    const combined_id = user_id > shown_user._id ? user_id + shown_user._id : shown_user._id + user_id;
+
     try {
-      const docRef = await addDoc(collection(firebase_db, "chats"), { _id, createdAt, text, user });
-      console.log("Document written with ID: ", docRef.id);
+      //Upload message to chat messages between current and shown user
+      const messagesChatRef = doc(firebase_db, "chats", combined_id);
+      await updateDoc(messagesChatRef, { messages: arrayUnion({ _id, createdAt, text, user }) });
+      //Upload latest message to userChats for current user
+      const currentUserChatsRef = doc(firebase_db, "userChats", user_id);
+      await updateDoc(currentUserChatsRef, {
+        [combined_id]: {
+          _id: shown_user._id,
+          firstName: shown_user.firstName,
+          lastName: shown_user.lastName,
+          speciality: shown_user.speciality,
+          profile_url: shown_user.profile_url,
+          date: serverTimestamp(),
+          lastMessage: text,
+        },
+      });
+      //Upload latest message to userChats for shown user
+      const shownUserChatsRef = doc(firebase_db, "userChats", shown_user._id);
+      await updateDoc(shownUserChatsRef, {
+        [combined_id]: {
+          _id: currentUser._id,
+          firstName: currentUser.firstName,
+          lastName: currentUser.lastName,
+          speciality: currentUser.speciality,
+          profile_url: currentUser.profile_url,
+          date: serverTimestamp(),
+          lastMessage: text,
+        },
+      });
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }, []);
+  //End of Send Message
 
   //END OF HANDLING MESSAGES
   //-------------------------------
-
-  //FORM PARAM
-  const data = {
-    message,
-    handleMessageChange,
-    submitMessage,
-  };
 
   return (
     <View className="flex-1 items-center bg-white">
       <View className="w-full flex-1 justify-between pt-3">
         <View className="w-full">
-          {messages.length === 0 ? (
-            <Text className="text-center mt-10">Say Hello! &#128075;</Text>
-          ) : (
-            <View className="h-full">
-              <GiftedChat
-                messages={messages}
-                renderAvatar={() => null}
-                onSend={(messages: any) => onSend(messages)}
-                user={{
-                  _id: user._id,
-                  name: `${user.firstName} ${user.lastName}`,
-                  avatar: user.profile_url,
-                }}
-              />
-            </View>
-          )}
+          <View className="h-full">
+            {messages.length === 0 ? <Text className="text-center mt-10">Say Hello! &#128075;</Text> : null}
+            <GiftedChat
+              messages={messages}
+              renderAvatar={() => null}
+              onSend={(messages: any) => onSend(messages)}
+              user={{
+                _id: user._id,
+              }}
+              renderSend={(props) => (
+                <Send {...props} containerStyle={commonStyles.sendMessageInput}>
+                  <FontAwesome name="send" size={24} color={COLORS.blue} />
+                </Send>
+              )}
+            />
+          </View>
         </View>
-
-        {/* <SendMessageFormComponent {...data} /> */}
       </View>
     </View>
   );
 };
+
+const commonStyles = StyleSheet.create({
+  sendMessageInput: {
+    paddingHorizontal: 20,
+    paddingBottom: 5,
+  },
+});
 
 export default SingleChatScreen;
