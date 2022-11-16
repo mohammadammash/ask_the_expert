@@ -10,12 +10,21 @@ import { IMAGES, COLORS, ROUTES } from "../../constants";
 import styles from "../../../styles";
 import { useCloseExperts } from "../../hooks/useNovice";
 import CalculateYearsOfExperience from "../Helpers/CalculateYearsOfExperienceHelper";
-import { getAuthToken } from "../../networks";
+import { t } from "i18next";
+
 
 const ProfileScreen = () => {
+  //translation
+  const noexperts_title = t("No Online Experts found right now!");
+  const location_string = t("Your Current Location is");
+  const closeexperts_string = t("Close Experts are");
+  const loading_string = t("getting loaded, it may take a few seconds");
+  const away_string = t("away");
+  const ofExperience_string = t("Of Experience");
+  
   const navigation = useNavigation<any>();
   const { user } = useUserContext();
-  const { field, profile_url } = user;
+  const { field } = user;
 
   //-------------------------------------------------------------
   //START OF GET CURRENT NOVICE LOCATION (longitude and latitude)
@@ -69,7 +78,7 @@ const ProfileScreen = () => {
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color={COLORS.dark} />
         <Text className="text-xs w-3/4 text-center mt-5">
-          {isLoadingLocation ? "Your Current Location is" : "Close Experts are"} getting loaded, it may take a few seconds
+          {isLoadingLocation ? location_string : closeexperts_string} {loading_string}
         </Text>
       </View>
     );
@@ -80,9 +89,7 @@ const ProfileScreen = () => {
     return (
       <ImageBackground className="w-full h-full" source={IMAGES.fakeMapImage}>
         <View className="w-full items-center justify-center h-1/5 px-10">
-          <Text className="font-bold text-xs text-center">
-            No Experts found right now! Refresh the page after few minutes, your answer maybe one minute away, Stay Patient!
-          </Text>
+          <Text className="font-bold text-xs text-center">{noexperts_title}</Text>
         </View>
       </ImageBackground>
     );
@@ -149,9 +156,13 @@ const ProfileScreen = () => {
               <View className="flex-row items-center justify-between w-52">
                 <View className="flex-row items-center gap-x-1">
                   <SimpleLineIcons name="location-pin" size={20} color={COLORS.blue} />
-                  <Text className="text-[8px] opacity-80">{(shownExpert.distance.calculated / 1000).toFixed(2)} km away</Text>
+                  <Text className="text-[8px] opacity-80">
+                    {(shownExpert.distance.calculated / 1000).toFixed(2)} km {away_string}
+                  </Text>
                 </View>
-                <Text className="text-[8px] opacity-50">{CalculateYearsOfExperience(shownExpert.start_date).slice(0, 8)}... Of Experience</Text>
+                <Text className="text-[8px] opacity-50">
+                  {CalculateYearsOfExperience(shownExpert.start_date).slice(0, 8)}... {ofExperience_string}
+                </Text>
               </View>
             </View>
           </TouchableOpacity>

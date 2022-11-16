@@ -9,8 +9,14 @@ import { useBookAppointment } from "../../hooks/useNovice";
 import { useUserContext } from "../../hooks/UserContext";
 import { useNavigation } from "@react-navigation/native";
 import TurnUTCToLocateTimeHelper from "../Helpers/TurnUTCToLocalTimeHelper";
+import { t } from "i18next";
 
 const BookAppointmentScreen = ({ route }: { route: any }) => {
+  //translation
+  const noappointments_string = t("All Appointments Got Reserved");
+  const bookapp_maintitle = t("Your Career Advice Is One Click Away");
+  const bookapp_title = t("Choose the available appointment time, and make sure to be there on time. A short timespan for a huge boost.");
+  
   //-------------------------------------
   //START OF APPOINTMENTS ADD DATA FORM LOGIC
   let { appointments_groups } = route.params;
@@ -88,7 +94,7 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
   if (data.length === 0) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text className="text-center w-3/4 text-xs mt-5 font-bold">All Appointments Got Reserved &#9785;</Text>
+        <Text className="text-center w-3/4 text-xs mt-5 font-bold">{noappointments_string} &#9785;</Text>
         <Image className="w-64 h-64" source={IMAGES.emptyAppointments} />
       </View>
     );
@@ -98,11 +104,9 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
     <ScrollView contentContainerStyle={{ alignContent: "center", justifyContent: "space-evenly" }} className="flex-1 w-full bg-white border">
       <View className="w-full items-center my-10">
         <Text style={styles.blue_text} className="text-slate-800 font-bold text-lg text-center">
-          Your Career Advice Is One Click Away
+          {bookapp_maintitle}
         </Text>
-        <Text className="text-center w-3/4 text-xs mt-5 opacity-40">
-          Choose the available appointment time, and make sure to be there on time. A short timespan for a huge boost.
-        </Text>
+        <Text className="text-center w-3/4 text-xs mt-5 opacity-40">{bookapp_title}</Text>
       </View>
 
       {/* CONFIRM AVAILBILITY FORM */}
