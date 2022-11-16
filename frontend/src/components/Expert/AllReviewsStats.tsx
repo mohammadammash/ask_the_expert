@@ -5,8 +5,13 @@ import SingleReviewStat from "./SingleReviewStat";
 import styles from "../../../styles";
 import { AllReviewsStatsProps } from "./types";
 import expertStyles from "./expert.styles";
+import { t } from "i18next";
 
 const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews_length, rating }) => {
+  //translation
+  const basedon_string = t("Based on");
+  const reviews_string = t("Reviews");
+  
   const five_avg = rating.totalOf5 > 0 ? rating.totalOf5 / reviews_length : 0;
   const four_avg = rating.totalOf4 > 0 ? rating.totalOf4 / reviews_length : 0;
   const three_avg = rating.totalOf3 > 0 ? rating.totalOf3 / reviews_length : 0;
@@ -22,7 +27,9 @@ const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews_length, ratin
           <Text className="text-center text-3xl font-bold">{rating_avg}.0</Text>
         </View>
         <AirbnbRating defaultRating={rating.average} isDisabled reviews={[""]} starContainerStyle={expertStyles.height_10px} />
-        <Text className="text-center mt-6">Based on {reviews_length} Reviews</Text>
+        <Text className="text-center mt-6">
+          {basedon_string} {reviews_length} {reviews_string}
+        </Text>
       </View>
 
       <SingleReviewStat key={1} progress={five_avg} rating={5} />
