@@ -5,19 +5,25 @@ import { TouchableOpacity } from "react-native";
 import { ChatsScreen, SingleChatScreen } from "../../screens";
 import { ROUTES } from "../../constants";
 import { menuIcon, stackScreenOptionsStyle } from "../Helpers/NavigatorsHelpers";
+import { t } from "i18next";
 const Stack = createStackNavigator();
+
+
 
 const ChatsStackNavigator = () => {
   const navigation = useNavigation<any>();
+  //translation
+  const messages_title = t("Messages");
+  const chat_title = t("My Chats")
 
   return (
     <Stack.Navigator screenOptions={stackScreenOptionsStyle}>
       <Stack.Screen
         name={ROUTES.USER_CHATS}
         component={ChatsScreen}
-        options={{ headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>{menuIcon}</TouchableOpacity> }}
+        options={{ title: chat_title, headerLeft: () => <TouchableOpacity onPress={() => navigation.openDrawer()}>{menuIcon}</TouchableOpacity> }}
       />
-      <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} options={{ title: "Messages" }} />
+      <Stack.Screen name={ROUTES.USER_SINGLE_CHAT} component={SingleChatScreen} options={{ title: messages_title }} />
     </Stack.Navigator>
   );
 };
