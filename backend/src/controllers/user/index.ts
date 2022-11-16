@@ -85,7 +85,7 @@ const blockOrUnblockUser = async (req: Request<{}, {}, blockOrUnblockUserBodyInt
 };
 
 //Get users data for Chats collection saved in firestore with users_ids only
-const getUsersData = (req: Request<{}, {}, getUsersDataBodyInterface>, res: Response) => {
+export const getUsersData = (req: Request<{}, {}, getUsersDataBodyInterface>, res: Response) => {
     const { users_ids } = req.body;
 
     UserModel.find({ _id: { $in: users_ids } }).populate('reviews.novice_id appointments_groups.appointments').lean()

@@ -73,14 +73,18 @@ const addReview = async (req: Request<{}, {}, addReviewBodyInterface>, res: Resp
     const { expert_id, content, rating } = req.body;
     const { currentUser_id } = req;
 
-    const exists = await UserModel.findOne({ "reviews.novice_id": currentUser_id });
-    if (exists) return res.status(400).send({ message: 'User Cannot have more than one review for one expert' });
+    const exists = await UserModel.findOne({
+        _id: expert_id,
+        "reviews": { $elemMatch: { novice_id: currentUser_id } }//must be ObjectId
+    })
+
+    if (exists) return res.status(400).send({message: 'Review Already exsits or this user'});
 
     const _id = new mongoose.Types.ObjectId();
     const now = new Date();
     const new_review = { _id, novice_id: currentUser_id, rating: rating, content: content, createdAt: now };
     UserModel.updateOne({ _id: expert_id }, { $push: { reviews: new_review } })
-        .then((data: any) => res.status(200).send(new_review))
+        .then((data: any) => res.status(200).send({ ...new_review }))
         .catch((err: any) => res.status(400).send(err.message));
 };
 
