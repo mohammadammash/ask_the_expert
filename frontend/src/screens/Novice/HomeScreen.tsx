@@ -10,6 +10,7 @@ import { IMAGES, COLORS, ROUTES } from "../../constants";
 import styles from "../../../styles";
 import { useCloseExperts } from "../../hooks/useNovice";
 import CalculateYearsOfExperience from "../Helpers/CalculateYearsOfExperienceHelper";
+import { getAuthToken } from "../../networks";
 
 const ProfileScreen = () => {
   const navigation = useNavigation<any>();
@@ -22,15 +23,17 @@ const ProfileScreen = () => {
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   useEffect(() => {
     (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        return;
-      }
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          return;
+        }
 
-      setIsLoadingLocation(true);
-      const location = await Location.getCurrentPositionAsync({});
-      setIsLoadingLocation(false);
-      setLocation({ longitude: location.coords.longitude, latitude: location.coords.latitude });
+        setIsLoadingLocation(true);
+        const location = await Location.getCurrentPositionAsync({});
+        setIsLoadingLocation(false);
+        setLocation({ longitude: location.coords.longitude, latitude: location.coords.latitude });
+      } catch (err) {}
     })();
   }, []);
   //END OF GET CURRENT EXPERT LOCATION (longitude and latitude)
@@ -55,10 +58,6 @@ const ProfileScreen = () => {
       setEnabled(true);
     }
   }, [location]);
-
-  useEffect(() => {
-    // if (closeExpertData) alert(JSON.stringify(closeExpertData, null, 2));
-  }, [closeExpertData]);
   //END OF GETTING CLOSE EXPERTS
   //-------------------------------
 
@@ -112,7 +111,7 @@ const ProfileScreen = () => {
           const expert_cords = { longitude: expert.location.coordinates[0], latitude: expert.location.coordinates[1] };
           return (
             <Marker key={expert._id} coordinate={expert_cords} onPress={() => handlePointerPress(expert)}>
-              <Ionicons name="md-location-sharp" size={35} color={COLORS.blue} />
+              <Ionicons name="md-location-sharp" size={45} color={COLORS.blue} />
             </Marker>
           );
         })}
@@ -120,6 +119,7 @@ const ProfileScreen = () => {
       {/* END OF MAP VIEW */}
 
       {/* START OF SHOWN USER CARD */}
+      <Text>Hey</Text>
       {shownExpert._id ? (
         <View className="flex-1 w-5/6 items-center justify-end absolute bottom-5 h-36">
           <TouchableOpacity

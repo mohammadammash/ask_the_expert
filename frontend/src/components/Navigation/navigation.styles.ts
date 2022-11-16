@@ -9,7 +9,7 @@ const navigationStyles = StyleSheet.create({
     height: 110,
     borderRadius: 110 / 2,
     position: "absolute",
-    left: width / 6,
+    left: width / 5,
     bottom: -110 / 2,
     borderColor: COLORS.blue,
     borderWidth: 4,
