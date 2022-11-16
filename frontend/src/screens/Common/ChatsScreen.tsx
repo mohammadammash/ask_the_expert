@@ -5,10 +5,9 @@ import { doc, onSnapshot } from "firebase/firestore";
 //internal imports
 import { ChatAndAppointmentCardComponent } from "../../components";
 import { ROUTES, IMAGES } from "../../constants";
-import { useUserContext } from "../../hooks/UserContext";
+import { userType, useUserContext } from "../../hooks/UserContext";
 import { firebase_db } from "../../../firebaseConfig";
 import styles from "../../../styles";
-import { deepCopy } from "@firebase/util";
 
 const ChatsScreen = () => {
   const navigation = useNavigation<any>();
@@ -27,14 +26,12 @@ const ChatsScreen = () => {
       unsub();
     };
   }, []);
-  console.log(myChats);
   //END OF HANDLING GETTING ALL CHATS IMMEDIATELY
   //-----------------------------------------------
 
-  const handleChatClick = (type: string, data: any) => {
+  const handleChatClick = (type: string, shown_user: userType) => {
     // CHATS PAGE NAVIGATION
-    if (type === "navigate_chat") alert("NAVIGATO");
-    //  navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data });
+    navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data: shown_user });
   };
 
   if (myChats.length === 0) {
@@ -49,9 +46,11 @@ const ChatsScreen = () => {
   return (
     <View className="flex-1 items-center bg-white">
       <ScrollView className="w-full" contentContainerStyle={styles.alignCenter}>
-        {myChats?.map((chat: any, index: number) => {
-          return <ChatAndAppointmentCardComponent key={index} shown_user={chat[1]} data={""} handleCardClick={handleChatClick} />;
-        })}
+        {myChats
+          ?.sort((a, b) => b[1].date - a[1].date)
+          .map((chat: any) => {
+            return <ChatAndAppointmentCardComponent key={chat[0]} shown_user={chat[1]} data={""} handleCardClick={handleChatClick} />;
+          })}
       </ScrollView>
     </View>
   );
