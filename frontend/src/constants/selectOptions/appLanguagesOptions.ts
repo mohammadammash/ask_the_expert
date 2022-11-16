@@ -1,8 +1,6 @@
 const app_languages = [
-    { label: "English", value: "english" },
-    { label: "Mandarin", value: "mandarin" },
-    { label: "Hindi", value: "hindi" },
-    { label: "Spanish", value: "spanish" },
-  ];
+  { label: "English", value: "english" },
+  { label: "French", value: "french" },
+];
 
 export default app_languages;

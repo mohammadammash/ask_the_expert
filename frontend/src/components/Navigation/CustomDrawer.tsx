@@ -5,8 +5,12 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 //internal imports
 import navigationStyles from "./navigation.styles";
 import { IMAGES, COLORS, ROUTES } from "../../constants";
+import { t } from "i18next";
 
 const CustomDrawer = ({ props, handleLogout }: { props: DrawerContentComponentProps; handleLogout: () => void }): JSX.Element => {
+  //translation
+  const logout_string = t("Logout");
+
   return (
     // Drawer whole content
     <DrawerContentScrollView {...props} contentContainerStyle={navigationStyles.mainContainer}>
@@ -23,7 +27,7 @@ const CustomDrawer = ({ props, handleLogout }: { props: DrawerContentComponentPr
           <TouchableOpacity style={navigationStyles.logoutButton} className="items-center flex-row justify-center" onPress={handleLogout}>
             <SimpleLineIcons name="logout" size={20} color={COLORS.blue} />
             <Text style={{ color: COLORS.blue }} className="ml-2 text-sm font-semibold">
-              LOGOUT
+              {logout_string}
             </Text>
           </TouchableOpacity>
         </View>

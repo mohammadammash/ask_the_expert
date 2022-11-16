@@ -22,7 +22,6 @@ export { default as AllReviewsStatsComponent } from "./Expert/AllReviewsStats";
 export { default as AboutSectionComponent } from "./Common/ProfileScreen/AboutSection";
 export { default as EditProfileFormComponent } from "./Common/EditProfileForm";
 export { default as ChatAndAppointmentCardComponent } from "./Common/ChatAndAppointmentCard";
-export { default as SendMessageFormComponent } from "./Common/SendMessageForm";
 export { default as LeaderboardCardComponent } from "./Common/LeaderboardCard";
 export { default as ButtonComponent } from "./Common/Button";
 
