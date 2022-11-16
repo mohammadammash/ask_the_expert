@@ -4,11 +4,15 @@ import { COLORS, IMAGES } from "../../constants";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "../../../styles";
 import UserMoreInfoSectionComponent from "./UserMoreInfoSection";
+import { t } from "i18next";
 
 const UserCard = () => {
+  //translation
+  const more_info_string = t("Press On The Card To View All Info");
+
   return (
     <ScrollView style={styles.screenWidth}>
-      <TouchableOpacity style={[styles.shadow_bg,{ borderColor: COLORS.blue }]} className="rounded-lg border-2 items-center min-h-64 mx-5 pt-3 mb-5">
+      <TouchableOpacity style={[styles.shadow_bg, { borderColor: COLORS.blue }]} className="rounded-lg border-2 items-center min-h-64 mx-5 pt-3 mb-5">
         <View style={styles.border_blue} className="avatar aspect-square max-w-28 max-h-28 h-2/5 w-2/5 rounded-full items-center border-4">
           <Image className="max-w-full max-h-full h-full w-full rounded-full" source={IMAGES.dummyProfile} />
         </View>
@@ -23,7 +27,7 @@ const UserCard = () => {
         </View>
 
         <View className="h-1/3 justify-end pb-5">
-          <Text className="opacity-40 italic text-sm">Press On The Card To View All Info</Text>
+          <Text className="opacity-40 italic text-sm">{more_info_string}</Text>
         </View>
 
         {/* IF NOVICE CARD - send user maybe and data or whatever - when card is clicked */}
@@ -31,7 +35,6 @@ const UserCard = () => {
 
         {/* IF EXPERT CARD - send user type or data and check there */}
         {/* <UserMoreInfoSectionComponent/> */}
-
       </TouchableOpacity>
     </ScrollView>
   );
