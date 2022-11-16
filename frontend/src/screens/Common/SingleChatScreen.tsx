@@ -8,8 +8,12 @@ import styles from "../../../styles";
 import { userInitialData, useUserContext } from "../../hooks/UserContext";
 import { updateDoc, doc, getDoc, setDoc, serverTimestamp, onSnapshot, arrayUnion } from "firebase/firestore";
 import { firebase_db } from "../../../firebaseConfig";
+import { t } from "i18next";
 
 const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }) => {
+  //translation
+  const typemessage_placeholder = t('Type message...')
+
   //ALWAYS THIS PAGE SHOULD BE AS PART FROM ANOTHER SCREEN STACK
   let shown_user = { ...userInitialData };
   if (route.params.data) shown_user = route.params.data;
@@ -190,6 +194,7 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
           <View className="h-full">
             {messages.length === 0 ? <Text className="text-center mt-10">Say Hello! &#128075;</Text> : null}
             <GiftedChat
+            placeholder={typemessage_placeholder}
               messages={messages}
               renderAvatar={() => null}
               onSend={(messages: any) => onSend(messages)}

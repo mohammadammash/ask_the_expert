@@ -7,8 +7,13 @@ import { ROUTES, USERTYPES, IMAGES } from "../../constants";
 import styles from "../../../styles";
 import { useUserContext } from "../../hooks/UserContext";
 import { useDeleteAppointment } from "../../hooks/useUser";
+import { t } from "i18next";
 
 const AppointmentsScreen = () => {
+  //translation
+  const appointmentremoved_string = t("Appointment is getting Removed");
+  const noappointments_string = t("You Have No Appointments");
+  
   const navigation = useNavigation<any>();
   const [removedAppointmentId, setRemovedAppointmentId] = useState("");
   const { user, setUser } = useUserContext();
@@ -120,7 +125,7 @@ const AppointmentsScreen = () => {
     return (
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" />
-        <Text className="text-center w-3/4 text-xs mt-5 bold">Appointment is getting Removed &#10006</Text>
+        <Text className="text-center w-3/4 text-xs mt-5 bold">{appointmentremoved_string} &#10006</Text>
       </View>
     );
   }
@@ -128,7 +133,7 @@ const AppointmentsScreen = () => {
   if (myAppointments.length === 0) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text className="text-center w-3/4 text-xs font-bold">You Have No Appointments 😴</Text>
+        <Text className="text-center w-3/4 text-xs font-bold">{noappointments_string} 😴</Text>
         <Image className="w-64 h-64" source={IMAGES.emptyMyAppointments} />
       </View>
     );

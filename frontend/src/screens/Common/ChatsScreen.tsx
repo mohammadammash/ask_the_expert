@@ -8,8 +8,12 @@ import { ROUTES, IMAGES } from "../../constants";
 import { userType, useUserContext } from "../../hooks/UserContext";
 import { firebase_db } from "../../../firebaseConfig";
 import styles from "../../../styles";
+import { t } from "i18next";
 
 const ChatsScreen = () => {
+  //translation
+  const nochats_string = t("You Have No Chats");
+  
   const navigation = useNavigation<any>();
   const [myChats, setMyChats] = useState<any>([]);
   const { user } = useUserContext();
@@ -37,7 +41,7 @@ const ChatsScreen = () => {
   if (myChats.length === 0) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text className="text-center w-3/4 text-xs font-bold">You Have No Chats &#10006;</Text>
+        <Text className="text-center w-3/4 text-xs font-bold">{nochats_string} &#10006;</Text>
         <Image className="w-64 h-64" source={IMAGES.emptyMyChatsScreen} />
       </View>
     );
