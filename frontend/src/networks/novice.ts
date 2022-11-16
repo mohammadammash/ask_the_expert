@@ -5,9 +5,13 @@ class Novice_Apis {
 
     bookAppointment_post(data: any) { return axios.post('/novice/book', data).then(data => data).catch(err => err) }
 
-    addReview_post(data: any) { return axios.post('/novice/review', data).then(data => data).catch(err => err) }
+    addReview_post(data: any) {
+        return axios.post('/novice/review', data).then(data => data).catch(error => error)
+    }
 
-    removeReview_delete(data: any) { return axios.delete('/user/appointment', { data: { expert_id: data } }).then(data => data).catch(err => err) }
+    removeReview_delete(data: any) {
+        return axios.delete('/novice/review', { data: { expert_id: data } }).then(data => data).catch(error => error)
+    }
 }
 
 export default new Novice_Apis();

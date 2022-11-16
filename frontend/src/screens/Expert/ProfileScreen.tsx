@@ -18,7 +18,7 @@ import CalculateYearsOfExperienceHelper from "../Helpers/CalculateYearsOfExperie
 import { calculateReviewsStatsHelper } from "../Helpers/CalculateReviewsStatsHelper";
 import styles from "../../../styles";
 import { useGoOfflineExpert } from "../../hooks/useExpert";
-import { useCurrentUser } from "../../hooks/useUser";
+import { LEADERBOARD_EXPERTS_KEY, useCurrentUser } from "../../hooks/useUser";
 import { useAddReview, useDeleteReview } from "../../hooks/useNovice";
 
 //
@@ -151,12 +151,12 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
   const handleDeleteOwnReview = (review_id: string) => {
     setRemovedReviewId(review_id);
-    mutateDeleteReview(review_id);
+    mutateDeleteReview(user._id);
   };
 
   useEffect(() => {
     if (mutateDeleteReviewData && alreadyAddedReview && removedReviewId) {
-      const new_reviews = shownReviews.filter((rev) =>rev._id !== removedReviewId);
+      const new_reviews = shownReviews.filter((rev) => rev._id !== removedReviewId);
       setShownReviews([...new_reviews]);
       setAlreadyAddedReview(false);
       setRemovedReviewId("");
@@ -166,6 +166,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
   useEffect(() => {
     if (mutateAddReviewData && !alreadyAddedReview) {
       const new_review = mutateAddReviewData.data;
+      alert(JSON.stringify(mutateAddReviewData, null, 2));
       new_review.novice_id = { ...currentUser }; //manual populate
       setShownReviews((prev) => [new_review, ...prev]);
       setAlreadyAddedReview(true);
