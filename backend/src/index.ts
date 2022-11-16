@@ -3,6 +3,8 @@ const app: Express = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
+//node scheduler function
+require('./utils/updateExpertsScoreScheduler')();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
