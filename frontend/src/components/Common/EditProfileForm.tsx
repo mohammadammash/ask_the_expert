@@ -17,6 +17,7 @@ import {
 import { ALLANGUAGES } from "../../constants";
 import commonStyles from "./common.styles";
 import { EditProfileFormProps } from "./types";
+import { t } from "i18next";
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({
   user_type,
@@ -34,6 +35,18 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
   selectedLanguages,
   handleSelectedLanguages,
 }) => {
+  //translation
+  const firstname_string = t("firstname");
+  const lastname_string = t("lastname");
+  const about_string = t("about");
+  const speciality_string = t("speciality");
+  const spokenlanguages_string = t("spoken languages");
+  const applanguage_string = t("app language");
+  const apptheme_string = t("app theme");
+  const submit_string = t("submit");
+  const selectspokenlanguages_string = t("Select Spoken Languages");
+  const pickimage_string = t("Pick an image from camera roll");
+
   return (
     <Formik
       initialValues={user_type === USERTYPES.ADMIN ? adminEditProfileInitialValues : userEditProfileInitialValues}
@@ -48,11 +61,11 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             <View className="border-2 rounded-full h-36 w-36">
               <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />
             </View>
-            <Button title="Pick an image from camera roll" onPress={showImage} />
+            <Button title={pickimage_string} onPress={showImage} />
           </View>
 
           <View>
-            <Text className="font-bold">Firstname</Text>
+            <Text className="font-bold capitalize">{firstname_string}</Text>
             <TextInput
               onChangeText={handleChange("firstName")}
               onBlur={handleBlur("firstName")}
@@ -65,7 +78,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           </View>
 
           <View className="mt-2 w-full">
-            <Text className="font-bold">LastName</Text>
+            <Text className="font-bold capitalize">{lastname_string}</Text>
             <TextInput
               onChangeText={handleChange("lastName")}
               onBlur={handleBlur("lastName")}
@@ -81,7 +94,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           {user_type !== USERTYPES.ADMIN ? (
             <>
               <View className="mt-2">
-                <Text className="font-bold">About</Text>
+                <Text className="font-bold capitalize">{about_string}</Text>
                 <TextInput
                   onChangeText={handleChange("about")}
                   onBlur={handleBlur("about")}
@@ -95,7 +108,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               </View>
 
               <View>
-                <Text className="mt-2 font-bold border-b-2 bold">Speciality</Text>
+                <Text className="mt-2 font-bold border-b-2 bold capitalize">{speciality_string}</Text>
                 <Picker
                   style={styles.select_input}
                   enabled={true}
@@ -110,7 +123,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
                 </Picker>
               </View>
 
-              <Text className="font-bold">Spoken Languages</Text>
+              <Text className="font-bold capitalize">{spokenlanguages_string}</Text>
               <View className="border-2 rounded-lg pl-1">
                 <MultiSelect
                   style={authStyles.dropdown}
@@ -122,7 +135,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
                   data={ALLANGUAGES}
                   labelField="label"
                   valueField="value"
-                  placeholder="Select Spoken Languages"
+                  placeholder={selectspokenlanguages_string}
                   searchPlaceholder="Search..."
                   value={selectedLanguages}
                   onChange={(item) => {
@@ -139,7 +152,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           {/* END OF NOVICES && EXPERTS ONLY */}
 
           <View className="mt-2">
-            <Text className="font-bold">App Language</Text>
+            <Text className="font-bold capitalize">{applanguage_string}</Text>
             <Dropdown
               style={commonStyles.edit_dropdown}
               placeholderStyle={commonStyles.edit_placeholderStyle}
@@ -168,7 +181,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           </View>
 
           <View className="mt-2">
-            <Text className="font-bold">App Theme</Text>
+            <Text className="font-bold capitalize">{apptheme_string}</Text>
             <Dropdown
               style={commonStyles.edit_dropdown}
               placeholderStyle={commonStyles.edit_placeholderStyle}
@@ -197,7 +210,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           </View>
 
           <Pressable className="my-7" style={styles.blue_button_xl} onPress={handleSubmit}>
-            <Text className="text-xl text-white font-bold">SUBMIT</Text>
+            <Text className="text-xl text-white font-bold uppercase">{submit_string}</Text>
           </Pressable>
         </View>
       )}

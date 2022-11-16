@@ -6,15 +6,19 @@ import { Timestamp } from "firebase/firestore";
 import { IMAGES } from "../../constants";
 import { ChatAndAppointmentCardProps } from "./types";
 import TurnUTCToLocateTimeHelper from "../../screens/Helpers/TurnUTCToLocalTimeHelper";
+import { t } from "i18next";
 
 const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleCardClick, data, shown_user }) => {
+  //translation
+  const start_conv_string = t("Tap to start the conversation");
+
   const { profile_url, firstName, lastName, speciality, lastMessage, date } = shown_user;
   let shown_date;
 
   //ONLY CHAT
   if (date) {
     shown_date = new Timestamp(date.seconds, date.nanoseconds).toDate();
-    shown_date = shown_date.toLocaleDateString()+ ' ' + shown_date.toLocaleTimeString();
+    shown_date = shown_date.toLocaleDateString() + " " + shown_date.toLocaleTimeString();
   }
   //ONLY APPOINTMENT
   if (data) {
@@ -66,7 +70,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
           ) : (
             // CHAT CARD
             <View className="flex-row items-end justify-between w-full">
-              {lastMessage ? <Text>{lastMessage}</Text> : <Text className="opacity-50 italic text-xs">Tap to start the conversation</Text>}
+              {lastMessage ? <Text>{lastMessage}</Text> : <Text className="opacity-50 italic text-xs">{start_conv_string}</Text>}
               <Text className="text-[8px] opacity-50">{shown_date}</Text>
             </View>
           )}

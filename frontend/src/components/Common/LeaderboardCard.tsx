@@ -50,7 +50,6 @@ const LeaderboardCard = ({ rank = 3, expert }: { rank: number; expert: userType 
       </View>
     );
 
-    
     //CARD RANK 2,3, and else DESIGN
   } else {
     return (
