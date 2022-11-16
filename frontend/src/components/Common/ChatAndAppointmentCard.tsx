@@ -1,20 +1,20 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import { Timestamp } from "firebase/firestore";
 //internal imports
 import { IMAGES } from "../../constants";
 import { ChatAndAppointmentCardProps } from "./types";
 import TurnUTCToLocateTimeHelper from "../../screens/Helpers/TurnUTCToLocalTimeHelper";
-import { userType } from "../../hooks/UserContext";
-import styles from "../../../styles";
 
 const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleCardClick, data, shown_user }) => {
-  const { profile_url, firstName, lastName, speciality, lastmessage, date } = shown_user;
+  const { profile_url, firstName, lastName, speciality, lastMessage, date } = shown_user;
   let shown_date;
+
   //ONLY CHAT
   if (date) {
-    shown_date = new Date(date.seconds / 1000);
-    shown_date = shown_date.toLocaleDateString() + " " + shown_date.toLocaleTimeString();
+    shown_date = new Timestamp(date.seconds, date.nanoseconds).toDate();
+    shown_date = shown_date.toLocaleDateString()+ ' ' + shown_date.toLocaleTimeString();
   }
   //ONLY APPOINTMENT
   if (data) {
@@ -66,7 +66,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
           ) : (
             // CHAT CARD
             <View className="flex-row items-end justify-between w-full">
-              <Text>{lastmessage ? lastmessage : null}</Text>
+              {lastMessage ? <Text>{lastMessage}</Text> : <Text className="opacity-50 italic text-xs">Tap to start the conversation</Text>}
               <Text className="text-[8px] opacity-50">{shown_date}</Text>
             </View>
           )}
