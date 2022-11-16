@@ -9,8 +9,14 @@ import { ROUTES, COLORS } from "../../constants";
 import { useGoOnlineExpert } from "../../hooks/useExpert";
 import { AvailabilityformValuesTypes } from "../../components/Expert/types";
 import { useUserContext } from "../../hooks/UserContext";
+import { t } from "i18next";
 
 const ProfileScreen = () => {
+  //translation
+  const locationloading_string = t("Your Current Location is getting loaded, it may take a few seconds");
+  const goonline_maintitle = t("The World is waiting for your Touch Go Online");
+  const goonline_title = t("Choose the time you will be available by, and the time of each meeting");
+  
   const navigation = useNavigation<any>();
   const { user, setUser } = useUserContext();
 
@@ -72,7 +78,7 @@ const ProfileScreen = () => {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color={COLORS.dark} />
-        <Text className="text-xs w-3/4 text-center mt-5">Your Current Location is getting loaded, it may take a few seconds</Text>
+        <Text className="text-xs w-3/4 text-center mt-5">{locationloading_string}</Text>
       </View>
     );
   }
@@ -90,9 +96,9 @@ const ProfileScreen = () => {
     <View className="flex-1 w-full h-full items-center justify-evenly bg-white border">
       <View className="w-full px-3 items-center gap-5">
         <Text style={styles.blue_text} className="text-slate-800 font-bold text-lg text-center">
-          The World is waiting for your Touch Go Online?
+          {goonline_maintitle}
         </Text>
-        <Text className="text-center w-3/4 text-xs color-[#828282]">Choose the time you will be available by, and the time of each meeting</Text>
+        <Text className="text-center w-3/4 text-xs color-[#828282]">{goonline_title}</Text>
       </View>
 
       {/* CONFIRM AVAILBILITY FORM */}

@@ -20,9 +20,28 @@ import styles from "../../../styles";
 import { useGoOfflineExpert } from "../../hooks/useExpert";
 import { LEADERBOARD_EXPERTS_KEY, useCurrentUser } from "../../hooks/useUser";
 import { useAddReview, useDeleteReview } from "../../hooks/useNovice";
+import { t } from "i18next";
 
-//
 const ProfileScreen = ({ route }: { route: any }) => {
+  //translation
+  const reviews_string = t("REVIEWS");
+  const rating_title = t("Choose the time you will be available by, and the time of each meeting");
+  const expertisnowoffline_string = t("EXPERT IS CURRENTLY OFFLINE!");
+  const expertisnowonline_string = t("EXPERT IS CURRENTLY ONLINE");
+  const gooffline_string = t("GO OFFLINE");
+  const goonline_string = t("GO ONLINE");
+  const submit_string = t("Submit");
+  const cancel_string = t("Cancel");
+  const review_string = t("Review");
+  const assure_string = t("Are you sure");
+  const allappointments_string = t("All appointments reserved will be automatically canceled and this action cannot be changed");
+  const editprofile_string = t("EDIT PROFILE");
+  const assuresubmitreview_string = t("Are you sure you want submit your review");
+  const book_string = t("BOOK");
+  const message_string = t("MESSAGE");
+  const block_string = t("BLOCK");
+  const addreview_string = t("ADD REVIEW");
+
   const navigation = useNavigation<any>();
   let { user, setUser } = useUserContext();
   const currentUser_id = user._id;
@@ -82,12 +101,12 @@ const ProfileScreen = ({ route }: { route: any }) => {
     //if user is offline send him/her to goOnline form page
     if (!isAvailable) return navigation.navigate(ROUTES.EXPERT_GO_ONLINE);
     //if user is currently online => show popup to make sure that user want to go offine and remove all remaining appointments if exists
-    Alert.alert("Go Offline", "\nAll appointments reserved will be automatically canceled and this action cannot be changed?\n\n Are you sure?", [
+    Alert.alert(gooffline_string, `\n ${allappointments_string}?\n\n ${assure_string}?`, [
       {
-        text: "Cancel",
+        text: cancel_string,
         style: "destructive",
       },
-      { text: "Submit", onPress: () => mutateGoOfflineExpert(), style: "default" },
+      { text: submit_string, onPress: () => mutateGoOfflineExpert(), style: "default" },
     ]);
   };
   //END OF GO OFFLINE POST API SUBMIT
@@ -97,7 +116,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //START OF HANDLING BUTTONS CLICKED //For Current User Profile
   const disabled = shown_expert?.isAvailable ? false : true;
   const route_name = ROUTES.USER_EDIT_PROFILE;
-  const title = "EDIT PROFILE";
+  const title = editprofile_string.toUpperCase();
   const button_style = `${user._id === currentUser_id ? "md" : "sm"}`;
 
   const handlePress = (route_name: string) => {
@@ -140,12 +159,12 @@ const ProfileScreen = ({ route }: { route: any }) => {
       const data = { ...values, expert_id: user._id };
       mutateAddReview(data);
     };
-    Alert.alert("Submit Review", "\nAre you sure you want submit your review?", [
+    Alert.alert(submit_string + review_string, `\n${assuresubmitreview_string}?`, [
       {
-        text: "Cancel",
+        text: cancel_string,
         style: "destructive",
       },
-      { text: "Submit", onPress: submitReview, style: "default" },
+      { text: submit_string, onPress: submitReview, style: "default" },
     ]);
   };
 
@@ -207,20 +226,20 @@ const ProfileScreen = ({ route }: { route: any }) => {
         ) : (
           <View className="mt-5 flex-row w-3/4 justify-between">
             <ButtonComponent
-              title="BOOK"
+              title={book_string}
               button_style={button_style}
               handlePress={handlePress}
               route_name={ROUTES.NOVICE_BOOK_APPOINTMENT}
               disabled={disabled}
             />
             <ButtonComponent
-              title="MESSAGE"
+              title={message_string}
               button_style={button_style}
               handlePress={handlePress}
               route_name={ROUTES.USER_SINGLE_CHAT}
               disabled={false}
             />
-            <ButtonComponent title="BLOCK" button_style={button_style} handlePress={handlePress} route_name="block" disabled={false} />
+            <ButtonComponent title={block_string} button_style={button_style} handlePress={handlePress} route_name="block" disabled={false} />
           </View>
         )}
 
@@ -230,11 +249,11 @@ const ProfileScreen = ({ route }: { route: any }) => {
             <Text className="text-xs font-bold">
               {user._id !== currentUser_id
                 ? user.isAvailable
-                  ? "EXPERT IS CURRENTLY ONLINE!"
-                  : "EXPERT IS CURRENTLY OFFLINE"
+                  ? expertisnowonline_string
+                  : expertisnowoffline_string
                 : user.isAvailable
-                ? "GO OFFLINE"
-                : "GO ONLINE"}
+                ? gooffline_string
+                : goonline_string}
             </Text>
             <View className={`${Platform.OS === "ios" && "border"} rounded-2xl`}>
               <Switch
@@ -253,16 +272,18 @@ const ProfileScreen = ({ route }: { route: any }) => {
         {/* REVIEWS TITLE FOR EXPERT || ADD REVIEW BUTTON FOR NOVICE */}
         <View style={styles.bg_grey} className="h-24 justify-center w-full font-bold mb-5">
           {user._id === currentUser_id ? (
-            <Text style={styles.blue_text} className="font-bold text-2xl text-center">
-              REVIEWS
+            <Text style={styles.blue_text} className="font-bold text-2xl text-center uppercase">
+              {reviews_string}
             </Text>
           ) : (
             <View className="items-center">
-              <ButtonComponent {...buttonData} button_style="lg" title="ADD REVIEW" route_name="review" disabled={alreadyAddedReview} />
+              <ButtonComponent {...buttonData} button_style="lg" title={addreview_string} route_name="review" disabled={alreadyAddedReview} />
 
               {/* REVIEW BOTTOM SHEET/MODAL CONTENT */}
               <RBSheet ref={modalRef} closeOnDragDown={true} closeOnPressMask={true} animationType={"fade"} customStyles={expertStyles}>
-                <Text>How was Your Experience with {user.firstName}?</Text>
+                <Text>
+                  {rating_title} {user.firstName}?
+                </Text>
                 <AddReviewModalFormComponent modalRef={modalRef} handleRatingSubmit={handleRatingSubmit} />
               </RBSheet>
             </View>
