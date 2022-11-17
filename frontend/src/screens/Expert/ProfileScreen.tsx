@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
-import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator, StyleSheet, Pressable } from "react-native";
+import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator, StyleSheet } from "react-native";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { reviewsType, userType, useUserContext } from "../../hooks/UserContext";
 import RBSheet from "react-native-raw-bottom-sheet";
+import { useColorScheme } from "nativewind";
 //internal imports
 import {
   AllReviewsStatsComponent,
@@ -12,13 +13,14 @@ import {
   AddReviewModalFormComponent,
   ButtonComponent,
   ReviewCardComponent,
+  ActivityIndicatorComponent,
 } from "../../components";
 import { COLORS, ROUTES } from "../../constants";
 import CalculateYearsOfExperienceHelper from "../Helpers/CalculateYearsOfExperienceHelper";
 import { calculateReviewsStatsHelper } from "../Helpers/CalculateReviewsStatsHelper";
 import styles from "../../../styles";
 import { useGoOfflineExpert } from "../../hooks/useExpert";
-import { LEADERBOARD_EXPERTS_KEY, useCurrentUser } from "../../hooks/useUser";
+import { useCurrentUser } from "../../hooks/useUser";
 import { useAddReview, useDeleteReview } from "../../hooks/useNovice";
 import { t } from "i18next";
 
@@ -41,6 +43,12 @@ const ProfileScreen = ({ route }: { route: any }) => {
   const message_string = t("MESSAGE");
   const block_string = t("BLOCK");
   const addreview_string = t("ADD REVIEW");
+
+  //theme
+  const { colorScheme } = useColorScheme();
+  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
+  const activityicon_color = colorScheme === "dark" ? COLORS.white : COLORS.dark;
+  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.white_text;
 
   const navigation = useNavigation<any>();
   let { user, setUser } = useUserContext();
@@ -125,6 +133,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
       const appointments_groups = user.appointments_groups;
       navigation.navigate(ROUTES.NOVICE_BOOK_APPOINTMENT, { appointments_groups });
     } else if (route_name === "review") modalRef.current?.open();
+    else if (route_name === ROUTES.USER_EDIT_PROFILE) navigation.navigate(route_name);
     else navigation.navigate(ROUTES.USER_SINGLE_CHAT, { data: user });
   };
   //END OF HANDLING BUTTONS CLICKED //For Current User Profile
@@ -195,10 +204,15 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //---------------------------------
 
   //PARAMS
-  const personalInfoData = { ...user, yearsOfExperience };
-  const buttonData = { button_style, title, handlePress, route_name, disabled }; //current user profile button data
-  const aboutData = { user_type, about };
-  const reviewsStatsData = { reviews_length: shownReviews?.length || 0, rating };
+  const personalInfoData = { ...user, yearsOfExperience, textcolor_style: colorScheme === "dark" ? styles.grey_text : styles.dark_text };
+  const buttonData = { button_style, title, handlePress, route_name, disabled, textcolor_style }; //current user profile button data
+  const aboutData = { user_type, about, textcolor_style: colorScheme === "dark" ? styles.grey_text : styles.dark_text };
+  const reviewsStatsData = {
+    reviews_length: shownReviews?.length || 0,
+    rating,
+    textcolor_style: colorScheme === "dark" ? styles.grey_text : styles.dark_text,
+    bgcolor_style,
+  };
 
   //----------------
   //----------------
@@ -206,15 +220,15 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //if loading submit
   if (isLoadingMutateGoOfflineExpert || isLoadingMutateAddReviewData || isLoadingMutateDeleteReviewData) {
     return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color={COLORS.dark} />
+      <View style={bgcolor_style} className="flex-1 items-center justify-center">
+        <ActivityIndicatorComponent color={activityicon_color} />
       </View>
     );
   }
 
   return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-      <View className="flex-1 items-center bg-white">
+    <ScrollView style={bgcolor_style} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <View style={bgcolor_style} className="flex-1 items-center">
         <ProfileImageCardComponent profile_url={profile_url} />
 
         <ProfilePersonalInfoComponent {...personalInfoData} />
@@ -231,6 +245,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
               handlePress={handlePress}
               route_name={ROUTES.NOVICE_BOOK_APPOINTMENT}
               disabled={disabled}
+              textcolor_style={textcolor_style}
             />
             <ButtonComponent
               title={message_string}
@@ -238,8 +253,11 @@ const ProfileScreen = ({ route }: { route: any }) => {
               handlePress={handlePress}
               route_name={ROUTES.USER_SINGLE_CHAT}
               disabled={false}
+              textcolor_style={textcolor_style}
             />
-            <ButtonComponent title={block_string} button_style={button_style} handlePress={handlePress} route_name="block" disabled={false} />
+            <ButtonComponent title={block_string} button_style={button_style} handlePress={handlePress} route_name="block" disabled={false} 
+              textcolor_style={textcolor_style}
+            />
           </View>
         )}
 
@@ -305,6 +323,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
                   handleCardClick={handleCardClick}
                   currentOwner={true}
                   handleDeleteOwnReview={handleDeleteOwnReview}
+                  textcolor_style={colorScheme === "dark" ? styles.grey_text : styles.dark_text}
                 />
               );
             } else {
@@ -315,6 +334,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
                   handleCardClick={handleCardClick}
                   currentOwner={false}
                   handleDeleteOwnReview={handleDeleteOwnReview}
+                  textcolor_style={colorScheme === "dark" ? styles.grey_text : styles.dark_text}
                 />
               );
             }
