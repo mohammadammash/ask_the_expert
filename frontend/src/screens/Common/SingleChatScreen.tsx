@@ -2,6 +2,7 @@ import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 import { useEffect, useCallback, useLayoutEffect, useState } from "react";
 import { GiftedChat, Send } from "react-native-gifted-chat";
 import { FontAwesome } from "@expo/vector-icons";
+import {useColorScheme} from "nativewind";
 //internal imports
 import { COLORS, IMAGES } from "../../constants";
 import styles from "../../../styles";
@@ -13,6 +14,10 @@ import { t } from "i18next";
 const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }) => {
   //translation
   const typemessage_placeholder = t('Type message...')
+
+  //theme
+  const {colorScheme} = useColorScheme();
+  const bgcolor_style = colorScheme === 'dark' ? styles.bg_dark : styles.bg_white;
 
   //ALWAYS THIS PAGE SHOULD BE AS PART FROM ANOTHER SCREEN STACK
   let shown_user = { ...userInitialData };
@@ -188,10 +193,8 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
   //-------------------------------
 
   return (
-    <View className="flex-1 items-center bg-white">
-      <View className="w-full flex-1 justify-between pt-3">
-        <View className="w-full">
-          <View className="h-full">
+    <View style={bgcolor_style} className="flex-1 h-full items-center">
+          <View className="h-full w-full">
             {messages.length === 0 ? <Text className="text-center mt-10">Say Hello! &#128075;</Text> : null}
             <GiftedChat
             placeholder={typemessage_placeholder}
@@ -207,8 +210,6 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
                 </Send>
               )}
             />
-          </View>
-        </View>
       </View>
     </View>
   );

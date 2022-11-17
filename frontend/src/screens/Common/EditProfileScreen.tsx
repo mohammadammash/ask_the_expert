@@ -1,14 +1,21 @@
 import { View, ScrollView } from "react-native";
 import { useContext, useState } from "react";
 import { UserContext } from "../../hooks/UserContext";
+import { useColorScheme } from "nativewind";
 //internal imports
 import { EditProfileFormComponent } from "../../components";
 import { USERTYPES } from "../../constants";
 import { pickImage, uploadImageAsync } from "../Helpers/ImageHandlerHelper";
+import styles from "../../../styles";
+
 
 const EditProfileScreen = () => {
   const { user, setUser } = useContext(UserContext);
   const { user_type, email } = user;
+
+  //theme
+  const {colorScheme} = useColorScheme();
+  const textcolor_style = colorScheme === 'dark' ? styles.grey_text : styles.dark_text;
 
   type EditAdminProfileFormValues = {
     firstName: string;
@@ -79,6 +86,7 @@ const EditProfileScreen = () => {
     focusAppTheme,
     handleSubmitForm,
     user_type,
+    textcolor_style,
   };
 
   const userDataProps = {

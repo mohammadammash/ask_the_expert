@@ -1,9 +1,10 @@
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { View, ScrollView, Text, Image, ActivityIndicator, Alert } from "react-native";
 import { useState, useEffect } from "react";
+import { useColorScheme } from "nativewind";
 //internal imports
-import { ChatAndAppointmentCardComponent } from "../../components";
-import { ROUTES, USERTYPES, IMAGES } from "../../constants";
+import { ActivityIndicatorComponent, ChatAndAppointmentCardComponent } from "../../components";
+import { ROUTES, USERTYPES, IMAGES, COLORS } from "../../constants";
 import styles from "../../../styles";
 import { useUserContext } from "../../hooks/UserContext";
 import { useDeleteAppointment } from "../../hooks/useUser";
@@ -13,7 +14,12 @@ const AppointmentsScreen = () => {
   //translation
   const appointmentremoved_string = t("Appointment is getting Removed");
   const noappointments_string = t("You Have No Appointments");
-  
+
+  //theme
+  const { colorScheme } = useColorScheme();
+  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
+  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
+
   const navigation = useNavigation<any>();
   const [removedAppointmentId, setRemovedAppointmentId] = useState("");
   const { user, setUser } = useUserContext();
@@ -122,18 +128,15 @@ const AppointmentsScreen = () => {
   //------------------
   //MAIN COMPONENT
   if (mutateRemoveAppointmentDataIsLoading && !mutateRemoveAppointmentDataIsSuccess) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" />
-        <Text className="text-center w-3/4 text-xs mt-5 bold">{appointmentremoved_string} &#10006</Text>
-      </View>
-    );
+    return <ActivityIndicatorComponent color={textcolor_style.color} title={`${appointmentremoved_string}  &#1000`} />;
   }
 
   if (myAppointments.length === 0) {
     return (
-      <View className="flex-1 justify-center items-center">
-        <Text className="text-center w-3/4 text-xs font-bold">{noappointments_string} 😴</Text>
+      <View style={bgcolor_style} className="flex-1 justify-center items-center">
+        <Text style={textcolor_style} className="text-center w-3/4 text-xs font-bold">
+          {noappointments_string} 😴
+        </Text>
         <Image className="w-64 h-64" source={IMAGES.emptyMyAppointments} />
       </View>
     );
@@ -147,7 +150,7 @@ const AppointmentsScreen = () => {
           let shown_user;
           if (user_type === "novice") shown_user = app.expert_id;
           else shown_user = app.novice_id;
-          return <ChatAndAppointmentCardComponent key={index} shown_user={shown_user} data={app} handleCardClick={handleAppointmentClick} />;
+          return <ChatAndAppointmentCardComponent textcolor_style={textcolor_style} key={index} shown_user={shown_user} data={app} handleCardClick={handleAppointmentClick} />;
         })}
       </ScrollView>
     </View>

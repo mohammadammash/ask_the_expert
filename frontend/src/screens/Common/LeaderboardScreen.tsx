@@ -1,11 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, ActivityIndicator, ScrollView } from "react-native";
+import { useColorScheme } from "nativewind";
 //internal imports
-import { LeaderboardCardComponent } from "../../components";
+import { ActivityIndicatorComponent, LeaderboardCardComponent } from "../../components";
 import { useLeaderboardExperts } from "../../hooks/useUser";
 import { COLORS, IMAGES } from "../../constants";
 import { useEffect } from "react";
 import { userType } from "../../hooks/UserContext";
+import styles from "../../../styles";
 
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
@@ -20,22 +22,25 @@ const LeaderboardScreen = () => {
     refetchLeaderboardExpertData;
   }, []);
 
+  //theme
+  const { colorScheme } = useColorScheme();
+  const bgcolor_style = colorScheme === 'dark' ? styles.bg_dark : styles.bg_white;
+  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
+
   //----------------
   //MAIN COMPONENT
   //LOADING DATA
   if (isLeaderboardExpertsDataLoading || isLeaderboardExpertsDataRefetching) {
     return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color={COLORS.dark} />
-      </View>
+      <ActivityIndicatorComponent color={textcolor_style.color} bgcolor_style={bgcolor_style}/>
     );
   }
 
   return (
-    <View className="flex-1 items-center bg-white">
+    <View style={bgcolor_style} className="flex-1 items-center">
       <ScrollView contentContainerStyle={{ alignItems: "center" }} className="h-full w-full">
         {leaderboardExpertsData.data?.map((expert: userType, index: number) => (
-          <LeaderboardCardComponent key={index} rank={index} expert={expert} />
+          <LeaderboardCardComponent key={index} rank={index} expert={expert} textcolor_style={textcolor_style}/>
         ))}
       </ScrollView>
     </View>
