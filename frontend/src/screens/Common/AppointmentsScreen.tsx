@@ -1,13 +1,14 @@
 import { useIsFocused, useNavigation } from "@react-navigation/native";
-import { View, ScrollView, Text, Image, ActivityIndicator, Alert } from "react-native";
-import { useState, useEffect } from "react";
+import { View, ScrollView, Text, Image, Alert, RefreshControl } from "react-native";
+import { useState, useEffect, useCallback } from "react";
 import { useColorScheme } from "nativewind";
 //internal imports
 import { ActivityIndicatorComponent, ChatAndAppointmentCardComponent } from "../../components";
-import { ROUTES, USERTYPES, IMAGES, COLORS } from "../../constants";
+import { ROUTES, USERTYPES, IMAGES } from "../../constants";
 import styles from "../../../styles";
 import { useUserContext } from "../../hooks/UserContext";
 import { useDeleteAppointment } from "../../hooks/useUser";
+import { useCurrentUser } from "../../hooks/useUser";
 import { t } from "i18next";
 
 const AppointmentsScreen = () => {
@@ -26,6 +27,28 @@ const AppointmentsScreen = () => {
   const { user_type } = user;
   const [myAppointments, setMyAppointments] = useState<any>([]);
   const isFocused = useIsFocused();
+
+  //----------------------------------------------
+  //START OF REFRESH PAGE UPDATE CURRENT USER DATA => UPDATE APPOINTMENTS
+  const [refreshing, setRefreshing] = useState(false);
+  const [enabled, setEnabled] = useState(false);
+  const { data: getCurrentUserData, isLoading: isCurrentUserLoading, isSuccess: isCurrentUserUpdatedSuccess } = useCurrentUser({ enabled });
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setEnabled(true); //call useCurrentUser //update current user
+  }, []);
+
+  useEffect(() => {
+    //userData is reRetrieved and loading stopped => update Current user Data
+    if (!isCurrentUserLoading && isCurrentUserUpdatedSuccess) {
+      setUser({ ...getCurrentUserData });
+      setRefreshing(false);
+      setEnabled(false);
+    }
+  }, [getCurrentUserData]);
+  //END OF REFRESH PAGE UPDATE CURRENT USER DATA => UPDATE APPOINTMENTS
+  //----------------------------------------------
 
   //----------------------------------
   //START OF HANDLE REMOVE APPOINTMENT
@@ -55,8 +78,6 @@ const AppointmentsScreen = () => {
 
   useEffect(() => {
     if (mutateRemoveAppointmentData && mutateRemoveAppointmentDataIsSuccess) {
-      const { user_device_token } = mutateRemoveAppointmentData.data;
-      //!!!!!!!!!SEND NOTIFICATION TO USERDEVICETOKEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       const new_appointments = myAppointments.filter((app: any) => app._id !== removedAppointmentId); //update shown appointments
       setMyAppointments([...new_appointments]);
       setRemovedAppointmentId("");
@@ -133,27 +154,42 @@ const AppointmentsScreen = () => {
 
   if (myAppointments.length === 0) {
     return (
-      <View style={bgcolor_style} className="flex-1 justify-center items-center">
-        <Text style={textcolor_style} className="text-center w-3/4 text-xs font-bold">
-          {noappointments_string} 😴
-        </Text>
-        <Image className="w-64 h-64" source={IMAGES.emptyMyAppointments} />
-      </View>
+      <ScrollView
+        style={bgcolor_style}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        contentContainerStyle={styles.flexCenter}
+      >
+          <Text style={textcolor_style} className="text-center w-3/4 text-xs font-bold">
+            {noappointments_string} 😴
+          </Text>
+          <Image className="w-64 h-64" source={IMAGES.emptyMyAppointments} />
+      </ScrollView>
     );
   }
 
   return (
-    <View className="flex-1 items-center bg-white">
-      <ScrollView className="w-full" contentContainerStyle={styles.alignCenter}>
-        {myAppointments?.map((app: any, index: number) => {
-          //conditionally set populated shown user data
-          let shown_user;
-          if (user_type === "novice") shown_user = app.expert_id;
-          else shown_user = app.novice_id;
-          return <ChatAndAppointmentCardComponent textcolor_style={textcolor_style} key={index} shown_user={shown_user} data={app} handleCardClick={handleAppointmentClick} />;
-        })}
-      </ScrollView>
-    </View>
+    <ScrollView
+      style={bgcolor_style}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      className="flex-1 w-full"
+      contentContainerStyle={styles.alignCenter}
+    >
+      {myAppointments?.map((app: any, index: number) => {
+        //conditionally set populated shown user data
+        let shown_user;
+        if (user_type === "novice") shown_user = app.expert_id;
+        else shown_user = app.novice_id;
+        return (
+          <ChatAndAppointmentCardComponent
+            textcolor_style={textcolor_style}
+            key={index}
+            shown_user={shown_user}
+            data={app}
+            handleCardClick={handleAppointmentClick}
+          />
+        );
+      })}
+    </ScrollView>
   );
 };
 
