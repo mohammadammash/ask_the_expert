@@ -29,7 +29,7 @@ export const useBookAppointment = () => useMutation({
 export const useAddReview = () => useMutation({
     mutationFn: (data: any) => Novice_Apis.addReview_post(data),
     onSuccess: (data: any) => {
-        queryClient.setQueryData(BOOKED_APPOINTMENT_KEY(data.data._id), { ...data.data })
+        queryClient.setQueryData(CURRENT_USER_REVIEW_KEY(data.data._id), { ...data.data })
     }
 });
 
