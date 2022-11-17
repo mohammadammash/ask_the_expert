@@ -1,11 +1,13 @@
 import { View, ScrollView, Text } from "react-native";
 import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
 import { AntDesign } from "@expo/vector-icons";
+import { t } from "i18next";
 //internal imports
-import { ChartsLowerLegendComponent, ChartsUpperLegendComponent } from "../../components";
+import { ChartsLowerLegendComponent, ChartsUpperLegendComponent, ActivityIndicatorComponent } from "../../components";
 import { COLORS } from "../../constants";
 import styles from "../../../styles";
-import { t } from "i18next";
+import { useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
+import { useEffect } from "react";
 
 //HARD CODED DATA
 const pieData = [
@@ -101,6 +103,17 @@ const appointmentsData = [
 ];
 
 const HomeScreen = () => {
+  //---------------------------
+  //START OF LOADING USERS DATA
+  const { data: allUsersData, isLoading: isLoadingGetAllData, isSuccess: isSuccessGetAllData } = useGetAllUsersWithStatistics();
+
+  useEffect(() => {
+    if (allUsersData) {
+      alert(JSON.stringify(allUsersData.countAppointments, null, 2));
+    }
+  }, []);
+  //END OF LOADING USERS DATA
+  //---------------------------
   //translation
   const experts_string = t("experts");
   const newusers_string = t("new users");
@@ -109,6 +122,14 @@ const HomeScreen = () => {
   const chats_string = t("Chats");
   const appointments_string = t("Appointments");
 
+  //------------------
+  //LOADING DATA STATE
+  if (isLoadingGetAllData) {
+    return <ActivityIndicatorComponent title="Users and Statistics are getting loaded" color={COLORS.dark} />;
+  }
+
+  //--------------
+  //MAIN COMPONENT
   return (
     <View style={styles.bg_dark} className="items-center justify-evenly flex-1 gap-1">
       <ScrollView horizontal={true} className="flex-row">
