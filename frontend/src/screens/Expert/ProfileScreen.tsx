@@ -64,7 +64,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
   const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
   const { mutate: mutateAddReview, data: mutateAddReviewData, isLoading: isLoadingMutateAddReviewData } = useAddReview();
   const { mutate: mutateDeleteReview, data: mutateDeleteReviewData, isLoading: isLoadingMutateDeleteReviewData } = useDeleteReview();
-  const { data: getCurrentUserData, isLoading: isCurrentUserLoading, isSuccess: isCurrentUserUpdatedSuccess } = useCurrentUser({ enabled });
+
   const {
     data: mutateGoOfflineExpertData,
     mutate: mutateGoOfflineExpert,
@@ -76,6 +76,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //START OF REFRESH PAGE UPDATE CURRENT USER DATA
   const [refreshing, setRefreshing] = useState(false);
   const [enabled, setEnabled] = useState(false);
+  const { data: getCurrentUserData, isLoading: isCurrentUserLoading, isSuccess: isCurrentUserUpdatedSuccess } = useCurrentUser({ enabled });
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -84,7 +85,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
   useEffect(() => {
     //userData is reRetrieved and loading stopped => update Current user Data
-    if (isCurrentUserUpdatedSuccess && !isCurrentUserLoading) {
+    if (!isCurrentUserLoading && isCurrentUserUpdatedSuccess) {
       setUser({ ...getCurrentUserData });
       setRefreshing(false);
       setEnabled(false);
@@ -99,7 +100,6 @@ const ProfileScreen = ({ route }: { route: any }) => {
   useEffect(() => {
     if (mutateGoOfflineExpertIsSuccess) {
       setUser({ ...user, isAvailable: false });
-      //!!!!!!!!!!DATA IS MADE OF NOVICE_DEVICE_TOKENS TO SEND NOTIFICATIONS TO!!!!!!!!!!!!
       alert(JSON.stringify(mutateGoOfflineExpertData, null, 2));
     }
   }, [mutateGoOfflineExpertIsSuccess]);
@@ -255,7 +255,12 @@ const ProfileScreen = ({ route }: { route: any }) => {
               disabled={false}
               textcolor_style={textcolor_style}
             />
-            <ButtonComponent title={block_string} button_style={button_style} handlePress={handlePress} route_name="block" disabled={false} 
+            <ButtonComponent
+              title={block_string}
+              button_style={button_style}
+              handlePress={handlePress}
+              route_name="block"
+              disabled={false}
               textcolor_style={textcolor_style}
             />
           </View>
