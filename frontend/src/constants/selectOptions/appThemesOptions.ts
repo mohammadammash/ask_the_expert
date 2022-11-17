@@ -1,5 +1,5 @@
 const app_themes = [
-    { label: "White", value: "white" },
+    { label: "Light", value: "light" },
     { label: "Dark", value: "dark" },
   ];
 
