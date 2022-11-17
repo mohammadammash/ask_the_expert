@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { SelectCountry } from "react-native-element-dropdown";
 import { Ionicons } from "@expo/vector-icons";
+import { useColorScheme } from "nativewind";
 //internal imports
 import styles from "../../../styles";
 import { ROUTES } from "../../constants";
@@ -14,15 +15,20 @@ const ViewUsersScreen = () => {
   const [shownUsersType, setShownUsersType] = useState("users");
   const handleShownUserType = (value: string) => setShownUsersType(value);
 
+  //theme
+  const { colorScheme } = useColorScheme();
+  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
+  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
+
   const route = useRoute();
   const { name: route_name } = route;
 
   return (
-    <View className="flex-1 items-center justify-between bg-white">
+    <View style={bgcolor_style} className="flex-1 items-center justify-between">
       {/* START OF FILTER PAGE TITLE */}
       <View className="h-2/6 w-full justify-start">
         <View className="flex-row  items-center w-full justify-between pr-3 pl-7">
-          <Text className="font-bold">
+          <Text style={textcolor_style} className="font-bold">
             View {route_name === ROUTES.ADMIN_VIEW_BANNED_USERS ? "Banned" : "All"} {shownUsersType.charAt(0).toUpperCase() + shownUsersType.slice(1)}
           </Text>
           <SelectCountry
@@ -44,7 +50,7 @@ const ViewUsersScreen = () => {
         </View>
         {/* SEARCH BAR */}
         <View className="items-center">
-          <TextInput style={[styles.text_input, styles.admin_search_input]} className="placeholder:pl-3" placeholder="Search" />
+          <TextInput style={[styles.text_input, styles.admin_search_input, textcolor_style]} className="placeholder:pl-3" placeholder="Search" />
         </View>
       </View>
       {/* END OF FILTER PAGE TITLE */}
