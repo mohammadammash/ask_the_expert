@@ -9,6 +9,12 @@ type RatingContentType = { average: number; totalOf5: number; totalOf4: number; 
 export interface AllReviewsStatsProps {
   reviews_length: number,
   rating: RatingContentType,
+  textcolor_style: {
+    color: string
+  },
+  bgcolor_style:{
+    backgroundColor: string,
+  }
 }
 
 export interface ReviewCardProps {
@@ -16,6 +22,9 @@ export interface ReviewCardProps {
   review: ReviewsType;
   currentOwner: boolean,
   handleDeleteOwnReview: (review_id: string) => void,
+  textcolor_style: {
+    color: string
+  }
 }
 
 export interface ReviewSingleChatProps {
@@ -27,7 +36,12 @@ export interface AvailabilityformValuesTypes {
   single_session_time: number;
 }
 export interface ConfirmAvailabilityFormCardProps {
-
   unmatchedOptions: boolean;
   handleSubmitForm: (values: AvailabilityformValuesTypes) => void;
+  textcolor_style: {
+    color: string
+  },
+  bgcolor_style: {
+    backgroundColor: string,
+  }
 }

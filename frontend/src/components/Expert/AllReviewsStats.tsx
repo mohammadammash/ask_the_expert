@@ -7,7 +7,7 @@ import { AllReviewsStatsProps } from "./types";
 import expertStyles from "./expert.styles";
 import { t } from "i18next";
 
-const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews_length, rating }) => {
+const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews_length, rating, textcolor_style, bgcolor_style }) => {
   //translation
   const basedon_string = t("Based on");
   const reviews_string = t("Reviews");
@@ -21,13 +21,15 @@ const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews_length, ratin
 
   return (
     // REVIEWS STATS
-    <View className="bg-white w-5/6">
+    <View style={bgcolor_style} className="w-5/6">
       <View className="h-40 justify-start">
         <View>
-          <Text className="text-center text-3xl font-bold">{rating_avg}.0</Text>
+          <Text style={textcolor_style} className="text-center text-3xl font-bold">
+            {rating_avg}.0
+          </Text>
         </View>
         <AirbnbRating defaultRating={rating.average} isDisabled reviews={[""]} starContainerStyle={expertStyles.height_10px} />
-        <Text className="text-center mt-6">
+        <Text style={textcolor_style} className="text-center mt-6">
           {basedon_string} {reviews_length} {reviews_string}
         </Text>
       </View>
@@ -41,7 +43,7 @@ const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews_length, ratin
       {/* SEARCH BAR */}
       {reviews_length ? (
         <View className="items-center mt-10 mb-5">
-          <TextInput style={[styles.text_input, styles.search_input]} className="placeholder:pl-3" placeholder="Search" />
+          <TextInput style={[styles.text_input, styles.search_input, textcolor_style]} className="placeholder:pl-3" placeholder="Search" />
         </View>
       ) : null}
     </View>

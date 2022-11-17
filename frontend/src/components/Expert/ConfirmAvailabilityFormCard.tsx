@@ -9,7 +9,7 @@ import { AVAILABILITY_SESSION_OPTIONS, AVAILABILITY_OPTIONS } from "../../consta
 import { ConfirmAvailabilityFormCardProps } from "./types";
 import { t } from "i18next";
 
-const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = ({ handleSubmitForm, unmatchedOptions }) => {
+const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = ({ handleSubmitForm, unmatchedOptions, textcolor_style }) => {
   //translation
   const available_string = t("Available from now till the upcoming:");
   const meetingstime_string = t("Meetings Time");
@@ -33,7 +33,7 @@ const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = 
         <>
           <View className="px-2 h-1/2">
             <View className="flex-row justify-around items-center">
-              <Text className="text-xs pl-3 w-1/2">{available_string}</Text>
+              <Text style={textcolor_style} className="text-xs pl-3 w-1/2">{available_string}</Text>
               <SelectCountry
                 style={commonStyles.dropdown}
                 selectedTextStyle={commonStyles.selectedTextStyle}
@@ -57,7 +57,7 @@ const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = 
             )}
 
             <View className="flex-row justify-around items-center">
-              <Text className="text-xs pl-3 w-1/2">{sessionlabel_string}</Text>
+              <Text style={textcolor_style} className="text-xs pl-3 w-1/2">{sessionlabel_string}</Text>
               <SelectCountry
                 style={commonStyles.dropdown}
                 selectedTextStyle={commonStyles.selectedTextStyle}
