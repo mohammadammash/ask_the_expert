@@ -22,10 +22,13 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
     shown_date = shown_date.toLocaleDateString() + " " + shown_date.toLocaleTimeString();
   }
   //ONLY APPOINTMENT
+  let start_timestamp;
+  let end_timestamp;
+  let notes;
   if (data) {
-    let { start_timestamp, end_timestamp, notes } = data;
-    start_timestamp = new Date(start_timestamp);
-    end_timestamp = new Date(end_timestamp);
+    start_timestamp = new Date(data.start_timestamp);
+    end_timestamp = new Date(data.end_timestamp);
+    notes = data.notes;
   }
 
   return (
@@ -80,7 +83,9 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
             // CHAT CARD
             <View className="flex-row items-end justify-between w-full">
               {lastMessage ? (
-                <Text className="text-xs" style={textcolor_style}>{lastMessage.slice(0,10)}...</Text>
+                <Text className="text-xs" style={textcolor_style}>
+                  {lastMessage.slice(0, 10)}...
+                </Text>
               ) : (
                 <Text style={textcolor_style} className="opacity-50 italic text-[10px]">
                   {start_conv_string}

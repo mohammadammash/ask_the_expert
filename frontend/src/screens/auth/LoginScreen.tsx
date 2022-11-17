@@ -77,7 +77,7 @@ const LoginScreen = () => {
 
   //MAIN COMPONENT
   //If Login isLoading //show loading indicator in middle of screen until user is redirected
-  if (mutateLoginUserIsLoading || isCurrentUserLoading) {
+  if (mutateLoginUserIsLoading) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color={COLORS.dark} />

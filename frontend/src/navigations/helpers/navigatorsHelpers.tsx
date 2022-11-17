@@ -17,7 +17,7 @@ export const usersIcon = <FontAwesome5 name="users" size={28} color={COLORS.blue
 // DRAWER NAVIGATOR: CUSTOM HEADER STYLE
 export const drawerScreenOptionsStyle = (navigation: any) => ({
   drawerActiveBackgroundColor: COLORS.grey,
-  drawerActiveTintColor: COLORS.blue,
+  drawerActiveTintColor: COLORS.white,
   drawerInactiveTintColor: COLORS.white,
   headerTitle: "",
   headerStyle: {
