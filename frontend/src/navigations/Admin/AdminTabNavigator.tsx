@@ -19,7 +19,10 @@ const AdminTabNavigator = () => {
       <Tab.Screen
         name={ROUTES.ADMIN_HOME}
         component={AdminHomeScreen}
-        options={{ tabBarIcon: () => homeIcon, title: home_title, headerShown: false }}
+        options={{
+          tabBarIcon: () => homeIcon,
+          title: home_title,
+        }}
       />
       <Tab.Screen
         name={ROUTES.USER_LEADERBOARD}
