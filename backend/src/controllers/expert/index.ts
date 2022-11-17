@@ -6,6 +6,7 @@ import createArrayOfAppointmentsObjectsHelper from "./helpers/createArrayOfAppoi
 import autoTurnUserToOfflineAtEndHelper from "./helpers/autoTurnUserToOfflineAtEnd";
 const AppointmentModel = require("../../database/models/Appointment.ts");
 const UserModel = require("../../database/models/User");
+import sendNotificationUtilityFunction from "../../utils/notifications";
 
 //When Expert Chooses to Be Available for appointments
 const goOnline = async (req: Request<{}, {}, GoOnlineBodyInterface>, res: Response) => {
@@ -77,6 +78,7 @@ const goOffline = async (req: Request, res: Response) => {
             result.push(novice.novice_id.device_token);
             return result;
         }, [])
+        sendNotificationUtilityFunction(novices_device_tokens, 'Appointment Removed', `${user.lastName} is not available anymore`)
         res.send(novices_device_tokens);
     } catch (err: any) {
         res.status(400).send({ message: err.message })

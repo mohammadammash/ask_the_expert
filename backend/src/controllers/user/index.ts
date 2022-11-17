@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { getUsersDataBodyInterface, getSingleUserDataParamsInterface, removeAppointmentBodyInterface, blockOrUnblockUserBodyInterface, updateProfileBodyInterface } from "./types";
 const UserModel = require('../../database/models/User');
 const AppointmentModel = require('../../database/models/Appointment');
+import sendNotificationUtilityFunction from "../../utils/notifications";
 
 //Update User Data (reviews, appointments, appointments_groups) => Can be for currentUser or if param provided for another user page to refresh if there is any changes
 const getSingleUserData = async (req: Request<getSingleUserDataParamsInterface>, res: Response) => {
@@ -47,6 +48,7 @@ const removeAppointment = async (req: Request<{}, {}, removeAppointmentBodyInter
         if (!expert) res.status(400).send('Expert to receive Notification not Found');
         else {
             const user_device_token = expert.device_token;
+            sendNotificationUtilityFunction([user_device_token], "Appointment Removed", `${appointmentRemoved.start_timestamp} appointment is removed`)
             res.status(200).send({ user_device_token });
         }
     }
@@ -56,6 +58,7 @@ const removeAppointment = async (req: Request<{}, {}, removeAppointmentBodyInter
         if (!novice) res.status(400).send('Novice to receive Notification not Found');
         else {
             const user_device_token = novice.device_token;
+            sendNotificationUtilityFunction([user_device_token], "Appointment Removed", `${appointmentRemoved.start_timestamp} appointment is removed`)
             res.status(200).send({ user_device_token });
         }
     }

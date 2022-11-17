@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import sendNotificationUtilityFunction from "../../utils/notifications";
 const mongoose = require('mongoose');
 //internal imports
 const UserModel = require("../../database/models/User");
@@ -59,6 +60,7 @@ const bookAppointment = async (req: Request<{}, {}, bookAppointmentBodyInterface
         if (appointment.start_timestamp > now && !appointment.isReserved) {
             const data = await AppointmentModel.findByIdAndUpdate(appointment_id, { $set: { novice_id: currentUser_id, isReserved: true, notes: notes } }, { new: true }).lean();
             await UserModel.updateOne({ _id: currentUser_id }, { $push: { appointments: appointment_id } })
+            sendNotificationUtilityFunction([expert_device_token],"Appointment Booked", `Appointment booked at ${appointment.start_timestamp}`)
             res.status(200).send({ ...data, expert, expert_device_token })
         }
         else res.status(400).send('Cannot be Reserved');
