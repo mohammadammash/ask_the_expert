@@ -4,6 +4,7 @@ import english from "./english.json";
 import french from "./french.json";
 
 i18n.use(initReactI18next).init({
+    compatibilityJSON: 'v3', //for android
     lng: "en",
     fallbackLng: "en",
     resources: {
