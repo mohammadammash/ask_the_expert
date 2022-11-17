@@ -3,14 +3,18 @@ import React from "react";
 import { IMAGES } from "../../constants";
 import commonStyles from "./common.styles";
 import { userType } from "../../hooks/UserContext";
+import styles from "../../../styles";
 //internal imports"
+import { LeaderboardCardProps } from "./types";
 
-const LeaderboardCard = ({ rank = 3, expert }: { rank: number; expert: userType }): JSX.Element => {
+const LeaderboardCard: React.FC<LeaderboardCardProps> = ({ rank = 3, expert, textcolor_style }): JSX.Element => {
   //Conditional styling for second and third rank
   let rank_style = {};
   let rank_color = {};
   if (rank === 1) [rank_style, rank_color] = [commonStyles.grey_card, commonStyles.grey_text];
   else if (rank === 2) [rank_style, rank_color] = [commonStyles.bronze_card, commonStyles.bronze_text];
+
+
 
   //unpacking expert
   const { firstName, lastName, score, speciality, profile_url } = expert;
@@ -31,21 +35,25 @@ const LeaderboardCard = ({ rank = 3, expert }: { rank: number; expert: userType 
         </View>
 
         <View className="text-center w-full">
-          <Text className="font-bold text-center text-lg">
+          <Text style={textcolor_style} className="font-bold text-center text-lg">
             {firstName[0].toUpperCase() +
               firstName.substring(1, firstName.length).toLowerCase() +
               " " +
               lastName[0].toUpperCase() +
               lastName.substring(1, lastName.length).toLowerCase()}{" "}
           </Text>
-          <Text className="text-sm opacity-50 text-center">{speciality}</Text>
+          <Text style={textcolor_style} className="text-sm opacity-50 text-center">
+            {speciality}
+          </Text>
         </View>
 
         <View className="h-2/5 items-center justify-end pb-3">
           <Text style={commonStyles.gold_text} className="font-bold text-center text-4xl">
             #{rank + 1}
           </Text>
-          <Text className="font-semibold text-lg">{score} Pts</Text>
+          <Text style={textcolor_style} className="font-semibold text-lg">
+            {score} Pts
+          </Text>
         </View>
       </View>
     );
@@ -67,20 +75,24 @@ const LeaderboardCard = ({ rank = 3, expert }: { rank: number; expert: userType 
 
         <View className="h-full items-center justify-between pr-3 w-3/4 flex-row">
           <View className="gap-1">
-            <Text className="text-xs font-bold">
+            <Text style={textcolor_style} className="text-xs font-bold">
               {firstName[0].toUpperCase() +
                 firstName.substring(1, firstName.length).toLowerCase() +
                 " " +
                 lastName[0].toUpperCase() +
                 lastName.substring(1, lastName.length).toLowerCase()}{" "}
             </Text>
-            <Text className="text-[10px] opacity-50">{speciality}</Text>
+            <Text style={textcolor_style} className="text-[10px] opacity-50">
+              {speciality}
+            </Text>
           </View>
           <View className="text-center">
-            <Text style={rank_color} className="text-center text-2xl font-bold">
+            <Text style={textcolor_style} style={rank_color} className="text-center text-2xl font-bold">
               #{rank + 1}
             </Text>
-            <Text className="opacity-50 font-semibold text-base">{score} Pts</Text>
+            <Text style={textcolor_style} className="opacity-50 font-semibold text-base">
+              {score} Pts
+            </Text>
           </View>
         </View>
       </View>

@@ -7,8 +7,9 @@ import { IMAGES } from "../../constants";
 import { ChatAndAppointmentCardProps } from "./types";
 import TurnUTCToLocateTimeHelper from "../../screens/Helpers/TurnUTCToLocalTimeHelper";
 import { t } from "i18next";
+import styles from "../../../styles";
 
-const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleCardClick, data, shown_user }) => {
+const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleCardClick, data, shown_user, textcolor_style }) => {
   //translation
   const start_conv_string = t("Tap to start the conversation");
 
@@ -40,21 +41,25 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
 
         <View className="h-full w-4/6 justify-around">
           <View>
-            <Text className="text-sm font-bold">
+            <Text style={textcolor_style} className="text-sm font-bold">
               {firstName[0].toUpperCase() +
                 firstName.substring(1, firstName.length).toLowerCase() +
                 " " +
                 lastName[0].toUpperCase() +
                 lastName.substring(1, lastName.length).toLowerCase()}{" "}
             </Text>
-            <Text className="text-xs opacity-50">{speciality}</Text>
+            <Text style={textcolor_style} className="text-xs opacity-50">
+              {speciality}
+            </Text>
           </View>
 
           {/* APPOINTMENTS CARD: */}
           {data ? (
             <>
               <View>
-                <Text className={`text-[10px] ${notes ? "" : "opacity-40 italic"}`}>{notes ? notes : "//No Notes"}</Text>
+                <Text style={textcolor_style} className={`text-[9px] ${notes ? "" : "opacity-40 italic"}`}>
+                  {notes ? notes : "//No Notes"}
+                </Text>
               </View>
               <View className="flex-row items-center justify-between w-full">
                 <View className="opacity-80 flex-row gap-2">
@@ -62,16 +67,28 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
                   <Entypo name="new-message" size={24} color="black" onPress={() => handleCardClick("chat", shown_user)} />
                 </View>
                 <View className="gap-1">
-                  <Text className="text-[9px] opacity-80">{TurnUTCToLocateTimeHelper(start_timestamp)}</Text>
-                  <Text className="text-[9px] opacity-80">{TurnUTCToLocateTimeHelper(end_timestamp)}</Text>
+                  <Text style={textcolor_style} className="text-[9px] opacity-80">
+                    {TurnUTCToLocateTimeHelper(start_timestamp)}
+                  </Text>
+                  <Text style={textcolor_style} className="text-[9px] opacity-80">
+                    {TurnUTCToLocateTimeHelper(end_timestamp)}
+                  </Text>
                 </View>
               </View>
             </>
           ) : (
             // CHAT CARD
             <View className="flex-row items-end justify-between w-full">
-              {lastMessage ? <Text>{lastMessage}</Text> : <Text className="opacity-50 italic text-xs">{start_conv_string}</Text>}
-              <Text className="text-[8px] opacity-50">{shown_date}</Text>
+              {lastMessage ? (
+                <Text className="text-xs" style={textcolor_style}>{lastMessage.slice(0,10)}...</Text>
+              ) : (
+                <Text style={textcolor_style} className="opacity-50 italic text-[10px]">
+                  {start_conv_string}
+                </Text>
+              )}
+              <Text style={textcolor_style} className="text-[8px] opacity-50">
+                {shown_date}
+              </Text>
             </View>
           )}
         </View>

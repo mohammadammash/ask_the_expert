@@ -1,9 +1,13 @@
+import { string } from "yup";
 import { userType } from "../../hooks/UserContext";
 
 export interface ChatAndAppointmentCardProps {
   handleCardClick: (type: string, user: userType) => void,
   data?: any,
   shown_user: userType,
+  textcolor_style: {
+    color: string
+  }
 }
 
 export interface EditProfileFormProps {
@@ -21,6 +25,9 @@ export interface EditProfileFormProps {
   selectedLanguages?: string[];
   handleSelectedLanguages?: (languages: string[]) => void;
   handleSubmitForm: (values: EditProfileFormValuesTypes) => void;
+  textcolor_style: {
+    color: string
+  }
 }
 
 export interface EditProfileFormValuesTypes {
@@ -36,16 +43,32 @@ export interface EditProfileFormValuesTypes {
 
 //END OF EDIT PROFILE COMPONENT
 
-export interface sendMessageFormProps {
-  message: string;
-  handleMessageChange: (message: string) => void;
-  submitMessage: () => void;
+export interface LeaderboardCardProps {
+  rank: number;
+  expert: userType;
+  textcolor_style: {
+    color: string
+  }
+}
+
+export interface ActivityIndicatorProps {
+  color: string,
+  title?: string,
+  bgcolor_style?: {
+    backgroundColor: string;
+  },
+  textcolor_style?: {
+    color: string
+  }
 }
 
 // START OF PROFILESCREEN
 export interface AboutSectionProps {
   user_type: string;
   about: string;
+  textcolor_style: {
+    color: string
+  }
 }
 
 
@@ -55,6 +78,9 @@ export interface ButtonComponentProps {
   disabled: boolean;
   route_name: string;
   handlePress: (route_name: string) => void;
+  textcolor_style: {
+    color: string
+  }
 }
 
 export interface ProfileImageCardProps {
@@ -69,6 +95,9 @@ export interface ProfilePersonalInfoProps {
   yearsOfExperience?: string;
   spoken_languages: string;
   score?: Number | undefined,
+  textcolor_style: {
+    color: string,
+  }
 }
 // END OF PROFILESCREEN
 

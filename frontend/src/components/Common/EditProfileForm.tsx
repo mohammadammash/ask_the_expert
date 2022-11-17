@@ -34,6 +34,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
   handleSubmitForm,
   selectedLanguages,
   handleSelectedLanguages,
+  textcolor_style,
 }) => {
   //translation
   const firstname_string = t("firstname");
@@ -65,7 +66,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           </View>
 
           <View>
-            <Text className="font-bold capitalize">{firstname_string}</Text>
+            <Text style={textcolor_style} className="font-bold capitalize">
+              {firstname_string}
+            </Text>
             <TextInput
               onChangeText={handleChange("firstName")}
               onBlur={handleBlur("firstName")}
@@ -78,7 +81,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           </View>
 
           <View className="mt-2 w-full">
-            <Text className="font-bold capitalize">{lastname_string}</Text>
+            <Text style={textcolor_style} className="font-bold capitalize">
+              {lastname_string}
+            </Text>
             <TextInput
               onChangeText={handleChange("lastName")}
               onBlur={handleBlur("lastName")}
@@ -94,7 +99,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           {user_type !== USERTYPES.ADMIN ? (
             <>
               <View className="mt-2">
-                <Text className="font-bold capitalize">{about_string}</Text>
+                <Text style={textcolor_style} className="font-bold capitalize">
+                  {about_string}
+                </Text>
                 <TextInput
                   onChangeText={handleChange("about")}
                   onBlur={handleBlur("about")}
@@ -108,7 +115,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               </View>
 
               <View>
-                <Text className="mt-2 font-bold border-b-2 bold capitalize">{speciality_string}</Text>
+                <Text style={textcolor_style} className="mt-2 font-bold border-b-2 bold capitalize">
+                  {speciality_string}
+                </Text>
                 <Picker
                   style={styles.select_input}
                   enabled={true}
@@ -123,7 +132,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
                 </Picker>
               </View>
 
-              <Text className="font-bold capitalize">{spokenlanguages_string}</Text>
+              <Text style={textcolor_style} className="font-bold capitalize">
+                {spokenlanguages_string}
+              </Text>
               <View className="border-2 rounded-lg pl-1">
                 <MultiSelect
                   style={authStyles.dropdown}
@@ -152,7 +163,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           {/* END OF NOVICES && EXPERTS ONLY */}
 
           <View className="mt-2">
-            <Text className="font-bold capitalize">{applanguage_string}</Text>
+            <Text style={textcolor_style} className="font-bold capitalize">
+              {applanguage_string}
+            </Text>
             <Dropdown
               style={commonStyles.edit_dropdown}
               placeholderStyle={commonStyles.edit_placeholderStyle}
@@ -181,7 +194,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           </View>
 
           <View className="mt-2">
-            <Text className="font-bold capitalize">{apptheme_string}</Text>
+            <Text style={textcolor_style} className="font-bold capitalize">
+              {apptheme_string}
+            </Text>
             <Dropdown
               style={commonStyles.edit_dropdown}
               placeholderStyle={commonStyles.edit_placeholderStyle}

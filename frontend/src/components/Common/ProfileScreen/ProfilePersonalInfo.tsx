@@ -12,11 +12,13 @@ const ProfilePersonalInfo: React.FC<ProfilePersonalInfoProps> = ({
   yearsOfExperience,
   spoken_languages,
   score,
+  textcolor_style,
 }) => {
   //translation
   const with_string = t("with");
   const ofExperience_string = t("of Experience");
   const languages_string = t("languages");
+
 
   return (
     <View className="w-full items-center justify-start gap-2">
@@ -32,18 +34,25 @@ const ProfilePersonalInfo: React.FC<ProfilePersonalInfoProps> = ({
             lastName[0].toUpperCase() +
             lastName.substring(1, lastName.length).toLowerCase()}{" "}
         </Text>
-        <Text className="opacity-60 text-xs text-center">{field}</Text>
+        <Text style={textcolor_style} className="opacity-60 text-xs text-center">
+          {field}
+        </Text>
       </View>
-      <Text style={styles.dark_text} className="text-sm font-bold">
+      <Text style={textcolor_style} className="text-sm font-bold">
         {speciality}
       </Text>
-      <Text className="opacity-40 text-xs text-center uppercase">{with_string}</Text>
-      <Text className="opacity-80 text-xs font-medium">
+      <Text style={textcolor_style} className="opacity-40 text-xs text-center uppercase">
+        {with_string}
+      </Text>
+      <Text style={textcolor_style} className="opacity-80 text-xs font-medium">
         {yearsOfExperience} {ofExperience_string}
       </Text>
       <View className="w-full flex-row justify-around items-center">
-        <Text className="opacity-80 text-[8px] font-medium bg-red">
-          <Text className="font-bold capitalize">{languages_string} </Text>({spoken_languages})
+        <Text style={textcolor_style} className="opacity-80 text-[8px] font-medium">
+          <Text style={textcolor_style} className="font-bold capitalize">
+            {languages_string}{" "}
+          </Text>
+          ({spoken_languages})
         </Text>
       </View>
     </View>
