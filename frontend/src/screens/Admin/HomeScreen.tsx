@@ -2,18 +2,15 @@ import { View, ScrollView, Text } from "react-native";
 import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
 import { AntDesign } from "@expo/vector-icons";
 import { t } from "i18next";
+import { useEffect, useState } from "react";
 //internal imports
 import { ChartsLowerLegendComponent, ChartsUpperLegendComponent, ActivityIndicatorComponent } from "../../components";
 import { COLORS } from "../../constants";
 import styles from "../../../styles";
 import { useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
-import { useEffect } from "react";
+import CalculateStatsHelper from "../Helpers/CalculateAdminUsersStatsHelper";
 
 //HARD CODED DATA
-const pieData = [
-  { value: 67, color: "#009FFF", gradientCenterColor: "#006DFF", focused: true },
-  { value: 33, color: "#BDB2FA", gradientCenterColor: "#8F80F3" },
-];
 const barData = [
   {
     value: 40,
@@ -103,19 +100,37 @@ const appointmentsData = [
 ];
 
 const HomeScreen = () => {
+  //---------------------------------
+  //START OF PIE CHART ALL USERS DATA
+  const [pieChartData1, setPieChartData1] = useState<any>([]);
+  const [usersCount, setUsersCount] = useState([0,0, 0]) //expertsTotal, noviceTotal, highestPerc
+  const addPieChartData1 = async ()=>{
+    const [data, experts_total, novices_total] = CalculateStatsHelper(allUsersData.users);
+    setPieChartData1(data);
+    //calc highest perc
+    let [max, min, highest_percantage]= [0,0,0];
+    [max, min] = experts_total > novices_total ? [experts_total, novices_total] : [novices_total, experts_total];
+    highest_percantage = (max/(max+min))*100;
+    setUsersCount([experts_total, novices_total, highest_percantage]);
+  }
+  //END OF PIE CHART ALL USERS DATA
+  //---------------------------------
+
+
   //---------------------------
   //START OF LOADING USERS DATA
   const { data: allUsersData, isLoading: isLoadingGetAllData, isSuccess: isSuccessGetAllData } = useGetAllUsersWithStatistics();
 
   useEffect(() => {
-    if (allUsersData) {
-      alert(JSON.stringify(allUsersData.countAppointments, null, 2));
+    if (allUsersData && isSuccessGetAllData) {
+      addPieChartData1();
     }
   }, []);
   //END OF LOADING USERS DATA
   //---------------------------
   //translation
   const experts_string = t("experts");
+  const novices_string = t("novices");
   const newusers_string = t("new users");
   const novice_string = t("Novice");
   const fieldsusers_string = t("Fields Users");
@@ -133,13 +148,14 @@ const HomeScreen = () => {
   return (
     <View style={styles.bg_dark} className="items-center justify-evenly flex-1 gap-1">
       <ScrollView horizontal={true} className="flex-row">
+
         {/* START OF ALL USERS CHARTS */}
         <View style={styles.screenWidth} className="bg-[#34448B] flex-1 items-center justify-center">
           <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
-            <Text className="text-white text-base font-bold">Performance</Text>
+            <Text className="text-white text-base font-bold">All Users Count</Text>
             <View className="items-center p-5">
               <PieChart
-                data={pieData}
+                data={pieChartData1}
                 donut
                 showGradient
                 sectionAutoFocus
@@ -148,13 +164,13 @@ const HomeScreen = () => {
                 innerCircleColor={"#232B5D"}
                 centerLabelComponent={() => (
                   <View className="justify-center items-center">
-                    <Text className="text-xl text-white font-bold">67%</Text>
-                    <Text className="text-base text-white capitalize">{experts_string}</Text>
+                    <Text className="text-xl text-white font-bold">{usersCount[2].toFixed(2)}%</Text>
+                    <Text className="text-base text-white capitalize">{usersCount[0] >= usersCount[1] ? experts_string : novices_string}</Text>
                   </View>
                 )}
               />
             </View>
-            <ChartsLowerLegendComponent novices_total={121} experts_total={59} users_total={180} />
+            <ChartsLowerLegendComponent novices_total={usersCount[1]} experts_total={usersCount[0]} users_total={usersCount[0]+usersCount[1]} />
             <View className="absolute right-0 h-full justify-center mr-1">
               <AntDesign name="rightcircle" size={24} color={COLORS.white} />
             </View>
