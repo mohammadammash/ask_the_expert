@@ -7,22 +7,26 @@ import { AuthStackNavigator, DrawerNavigator, AdminTabNavigator } from "./src/na
 import { USERTYPES } from "./src/constants";
 import "./src/assets/languages";
 import { useTranslation } from "react-i18next";
+import { useColorScheme } from "nativewind";
 
 export const queryClient = new QueryClient();
 
 export default function App() {
-  const { t, i18n } = useTranslation();
   const [user, setUser] = useState(userInitialData);
 
+  //Translation && Theme
+  const { t, i18n } = useTranslation();
+  const { colorScheme, toggleColorScheme } = useColorScheme();
   useEffect(() => {
-    //whenever user app language changes
     if (user.app_language) {
       i18n
         .changeLanguage(user.app_language)
         .then(() => console.log("🚀 ~ file: App.tsx ~ line 22 ~ useEffect ~ changed", user.app_language))
         .catch((err) => console.log("🚀 ~ file: App.tsx ~ line 23 ~ useEffect ~ changed", err.message));
     }
-  }, [user]);
+    if (user.theme === "dark" && colorScheme === "light") toggleColorScheme();
+    else if ((!user.theme || user.theme === "light") && colorScheme === "dark") toggleColorScheme();
+  }, [user.app_language, user.theme]);
 
   return (
     <QueryClientProvider client={queryClient}>

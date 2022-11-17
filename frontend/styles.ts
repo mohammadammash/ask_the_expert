@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "./src/constants/index";
 import { Dimensions } from "react-native";
+import { useUserContext } from "./src/hooks/UserContext";
 
 const { width } = Dimensions.get("screen");
 
@@ -29,6 +30,9 @@ export default StyleSheet.create({
   },
   bg_dark: {
     backgroundColor: COLORS.dark
+  },
+  bg_white: {
+    backgroundColor: COLORS.white
   },
 
   //BORDER
