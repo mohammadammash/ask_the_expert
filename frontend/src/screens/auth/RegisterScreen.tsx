@@ -10,6 +10,7 @@ import { RegisterFormValuesTypes } from "../../components/Auth/types";
 import { useRegisterUser } from "../../hooks/useAuth";
 import { COLORS } from "../../constants";
 import { setDefaultTokens } from "../../networks";
+import { useNotifications } from "../../hooks/useNotifications";
 
 const RegisterScreen = () => {
   //REACT QUERY POST
@@ -76,8 +77,9 @@ const RegisterScreen = () => {
     let { confirmPassword, languages, profile_url, ...data } = values;
     profile_url = imageURL ? imageURL : " ";
     const spoken_languages = languages.join(" ");
-    //Start of get device token
-    const device_token = "device_tokenito";
+    //get expo push device token
+    const { registerForPushNotificationsAsync } = useNotifications();
+    const device_token = await registerForPushNotificationsAsync();
     //End of get device token
     setImageUploadingToFirebaseStorage(false);
     const user_data = { ...data, _id, spoken_languages, profile_url, device_token };
