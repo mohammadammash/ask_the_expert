@@ -4,24 +4,30 @@ import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import MapView, { Marker } from "react-native-maps";
 import { Ionicons, FontAwesome5, SimpleLineIcons } from "@expo/vector-icons";
+import { useColorScheme } from "nativewind";
 //internal imports
 import { userInitialData, userType, useUserContext } from "../../hooks/UserContext";
 import { IMAGES, COLORS, ROUTES } from "../../constants";
 import styles from "../../../styles";
 import { useCloseExperts } from "../../hooks/useNovice";
 import CalculateYearsOfExperience from "../Helpers/CalculateYearsOfExperienceHelper";
+import { ActivityIndicatorComponent } from "../../components";
 import { t } from "i18next";
-
 
 const ProfileScreen = () => {
   //translation
   const noexperts_title = t("No Online Experts found right now!");
   const location_string = t("Your Current Location is");
-  const closeexperts_string = t("Close Experts are");
   const loading_string = t("getting loaded, it may take a few seconds");
   const away_string = t("away");
   const ofExperience_string = t("Of Experience");
-  
+
+  //theme
+  const { colorScheme } = useColorScheme();
+  const activityicon_color = colorScheme === "dark" ? COLORS.white : COLORS.dark;
+  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
+  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.white_text;
+
   const navigation = useNavigation<any>();
   const { user } = useUserContext();
   const { field } = user;
@@ -75,12 +81,12 @@ const ProfileScreen = () => {
   //if loading location
   if (isLoadingLocation || isLoadingCloseExpertsData) {
     return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color={COLORS.dark} />
-        <Text className="text-xs w-3/4 text-center mt-5">
-          {isLoadingLocation ? location_string : closeexperts_string} {loading_string}
-        </Text>
-      </View>
+      <ActivityIndicatorComponent
+        bgcolor_style={bgcolor_style}
+        color={activityicon_color}
+        title={`${location_string} ${loading_string}`}
+        textcolor_style={textcolor_style}
+      />
     );
   }
 
@@ -130,7 +136,7 @@ const ProfileScreen = () => {
       {shownExpert._id ? (
         <View className="flex-1 w-5/6 items-center justify-end absolute bottom-5 h-36">
           <TouchableOpacity
-            style={styles.shadow_bg}
+            style={[styles.shadow_bg, colorScheme === "dark" && styles.bg_grey]}
             className="flex-row w-full rounded-xl border-0.5 items-center justify-evenly h-full"
             onPress={() => handleCardPress(shownExpert)}
           >

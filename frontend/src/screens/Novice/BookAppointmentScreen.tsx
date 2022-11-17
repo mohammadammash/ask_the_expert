@@ -1,5 +1,6 @@
 import { View, Text, ScrollView, Image } from "react-native";
 import { useEffect, useState } from "react";
+import { useColorScheme } from "nativewind";
 //internal imports
 import { BookAppointmentFormCardComponent } from "../../components";
 import { BookFormValuesTypes } from "../../components/Novice/types";
@@ -16,7 +17,12 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
   const noappointments_string = t("All Appointments Got Reserved");
   const bookapp_maintitle = t("Your Career Advice Is One Click Away");
   const bookapp_title = t("Choose the available appointment time, and make sure to be there on time. A short timespan for a huge boost.");
-  
+
+  //theme
+  const { colorScheme } = useColorScheme();
+  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
+  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
+
   //-------------------------------------
   //START OF APPOINTMENTS ADD DATA FORM LOGIC
   let { appointments_groups } = route.params;
@@ -93,20 +99,24 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
   //EMPTY STATE
   if (data.length === 0) {
     return (
-      <View className="flex-1 justify-center items-center">
-        <Text className="text-center w-3/4 text-xs mt-5 font-bold">{noappointments_string} &#9785;</Text>
+      <View style={bgcolor_style} className="flex-1 justify-center items-center">
+        <Text style={textcolor_style} className="text-center w-3/4 text-xs mt-5 font-bold">{noappointments_string} &#9785;</Text>
         <Image className="w-64 h-64" source={IMAGES.emptyAppointments} />
       </View>
     );
   }
 
   return (
-    <ScrollView contentContainerStyle={{ alignContent: "center", justifyContent: "space-evenly" }} className="flex-1 w-full bg-white border">
+    <ScrollView
+      style={bgcolor_style}
+      contentContainerStyle={{ alignContent: "center", justifyContent: "space-evenly" }}
+      className="flex-1 w-full border"
+    >
       <View className="w-full items-center my-10">
         <Text style={styles.blue_text} className="text-slate-800 font-bold text-lg text-center">
           {bookapp_maintitle}
         </Text>
-        <Text className="text-center w-3/4 text-xs mt-5 opacity-40">{bookapp_title}</Text>
+        <Text style={textcolor_style} className="text-center w-3/4 text-xs mt-5 opacity-40">{bookapp_title}</Text>
       </View>
 
       {/* CONFIRM AVAILBILITY FORM */}

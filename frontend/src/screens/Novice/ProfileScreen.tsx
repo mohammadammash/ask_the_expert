@@ -2,11 +2,14 @@ import { View, ScrollView, RefreshControl } from "react-native";
 import { useState, useCallback, useEffect } from "react";
 import { useUserContext } from "../../hooks/UserContext";
 import { useNavigation } from "@react-navigation/native";
+import { useColorScheme } from "nativewind";
 //internal imports:
 import { ProfilePersonalInfoComponent, ProfileImageCardComponent, AboutSectionComponent, ButtonComponent } from "../../components";
 import CalculateYearsOfExperience from "../Helpers/CalculateYearsOfExperienceHelper";
 import { ROUTES } from "../../constants";
 import { useCurrentUser } from "../../hooks/useUser";
+import styles from "../../../styles";
+import { t } from "i18next";
 
 const ProfileScreen = ({ route }: { route: any }) => {
   const navigation = useNavigation<any>();
@@ -18,6 +21,14 @@ const ProfileScreen = ({ route }: { route: any }) => {
   if (novice_user) user = { ...novice_user };
   const { firstName, lastName, field, speciality, spoken_languages, start_date, profile_url, about, user_type } = user;
   const yearsOfExperience = CalculateYearsOfExperience(start_date);
+  const block_string = t("BLOCK");
+  const message_tring = t("MESSAGE");
+  const editprofile_string = t("EDIT PROFILE");
+
+  //theme
+  const { colorScheme } = useColorScheme();
+  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
+  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
 
   //----------------------------------------------
   //START OF REFRESH PAGE UPDATE CURRENT USER DATA
@@ -52,10 +63,12 @@ const ProfileScreen = ({ route }: { route: any }) => {
     speciality,
     spoken_languages,
     yearsOfExperience,
+    textcolor_style
   };
   const aboutData = {
     about,
     user_type,
+    textcolor_style
   };
 
   //handle button click
@@ -71,20 +84,21 @@ const ProfileScreen = ({ route }: { route: any }) => {
   };
   const messageButtonData = {
     user_type,
-    title: "Message",
+    title: message_tring,
     button_style: "sm",
     handlePress,
     disabled: false,
     route_name: ROUTES.USER_SINGLE_CHAT,
+    textcolor_style: colorScheme === "dark" ? styles.grey_text : styles.white_text,
   };
   const blockButtonData = {
     ...messageButtonData,
-    title: "Block",
+    title: block_string,
     route_name: "block",
   };
   const editProfileButtonData = {
     ...messageButtonData,
-    title: "Edit Profile",
+    title: editprofile_string,
     route_name: ROUTES.USER_EDIT_PROFILE,
     button_style: "md",
   };
@@ -93,8 +107,9 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
   return (
     <ScrollView
+      style={bgcolor_style}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      className="bg-white border flex-1"
+      className="border flex-1"
       contentContainerStyle={{ flexGrow: 1 }}
     >
       <View className="items-center h-4/6">
