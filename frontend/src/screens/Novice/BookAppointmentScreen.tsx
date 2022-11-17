@@ -59,6 +59,7 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
   const handleFormSubmit = (values: BookFormValuesTypes) => {
     mutateBookAppointment(values);
   };
+
   useEffect(() => {
     if (mutateBookAppointmentData) {
       //UPDATE USER APPOINTMENTS INSTANTLY
@@ -67,7 +68,6 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
       const appointments = user.appointments;
       appointments?.push(data);
       setUser({ ...user, appointments });
-      //Remove app from data shown
       //remove app from shown_expert
       for (let grp of appointments_groups) {
         for (let app of grp.appointments) {
@@ -100,7 +100,9 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
   if (data.length === 0) {
     return (
       <View style={bgcolor_style} className="flex-1 justify-center items-center">
-        <Text style={textcolor_style} className="text-center w-3/4 text-xs mt-5 font-bold">{noappointments_string} &#9785;</Text>
+        <Text style={textcolor_style} className="text-center w-3/4 text-xs mt-5 font-bold">
+          {noappointments_string} &#9785;
+        </Text>
         <Image className="w-64 h-64" source={IMAGES.emptyAppointments} />
       </View>
     );
@@ -116,7 +118,9 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
         <Text style={styles.blue_text} className="text-slate-800 font-bold text-lg text-center">
           {bookapp_maintitle}
         </Text>
-        <Text style={textcolor_style} className="text-center w-3/4 text-xs mt-5 opacity-40">{bookapp_title}</Text>
+        <Text style={textcolor_style} className="text-center w-3/4 text-xs mt-5 opacity-40">
+          {bookapp_title}
+        </Text>
       </View>
 
       {/* CONFIRM AVAILBILITY FORM */}

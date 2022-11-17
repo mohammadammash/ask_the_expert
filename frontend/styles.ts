@@ -136,8 +136,10 @@ export default StyleSheet.create({
   },
 
   //UTILS
-  alignCenter: {
-    alignItems: "center"
+  flexCenter: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   //screen width

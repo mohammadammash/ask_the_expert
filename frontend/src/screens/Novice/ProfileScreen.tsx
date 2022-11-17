@@ -109,7 +109,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
     <ScrollView
       style={bgcolor_style}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      className="border flex-1"
+      className="flex-1"
       contentContainerStyle={{ flexGrow: 1 }}
     >
       <View className="items-center h-4/6">
