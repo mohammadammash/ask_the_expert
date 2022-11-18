@@ -8,7 +8,8 @@ import { ChartsLowerLegendComponent, ChartsUpperLegendComponent, ActivityIndicat
 import { COLORS } from "../../constants";
 import styles from "../../../styles";
 import { useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
-import CalculateStatsHelper from "../Helpers/CalculateAdminUsersStatsHelper";
+import CalculateUserStatsHelper from "../Helpers/CalculateAdminUsersStatsHelper";
+import CalculateChatsAndAppointmentsStatsHelper from "../Helpers/CalculateChatsAndAppointmentsStatsHelper";
 import getChatsStatsFromFirestore from "../Helpers/GetChatsStatsFromFirestoreHelper";
 
 //HARD CODED DATA
@@ -81,32 +82,14 @@ const fields_Data = [
   { value: 2300, frontColor: "#BDB2FA", spacing: 0, label: "Jun" },
   { value: 2800, frontColor: "#006DFF" },
 ];
-const chatsData = [
-  { value: 0, dataPointText: "0" },
-  { value: 10, dataPointText: "10" },
-  { value: 8, dataPointText: "8" },
-  { value: 58, dataPointText: "58" },
-  { value: 56, dataPointText: "56" },
-  { value: 78, dataPointText: "78" },
-  { value: 74, dataPointText: "74" },
-];
-const appointmentsData = [
-  { value: 0, dataPointText: "0" },
-  { value: 20, dataPointText: "20" },
-  { value: 18, dataPointText: "18" },
-  { value: 40, dataPointText: "40" },
-  { value: 36, dataPointText: "36" },
-  { value: 60, dataPointText: "60" },
-  { value: 54, dataPointText: "54" },
-];
 
 const HomeScreen = () => {
   //---------------------------------
   //START OF PIE CHART ALL USERS DATA
-  const [pieChartData1, setPieChartData1] = useState<any>([]);
+  const [pieChartData1, setPieChartData1] = useState([]);
   const [usersCount, setUsersCount] = useState([0, 0, 0]); //expertsTotal, noviceTotal, highestPerc
   const addPieChartData1 = async () => {
-    const [data, experts_total, novices_total] = CalculateStatsHelper(allUsersData.users);
+    const [data, experts_total, novices_total] = CalculateUserStatsHelper(allUsersData.users);
     setPieChartData1(data);
     let [max, min, highest_percantage] = [0, 0, 0];
     [max, min] = experts_total > novices_total ? [experts_total, novices_total] : [novices_total, experts_total];
@@ -118,26 +101,30 @@ const HomeScreen = () => {
   //---------------------------------
 
   //---------------------------------------
-  //START OF GET CHATS STATS FROM FIRESTORE
-  const getLineChartData4 = async () => {
+  //START OF GET CHATS AND APPOINTMENTS STATS
+  const [lineChartData4, setLineChartData4] = useState<any>([]);
+  const addLineChartData4 = async () => {
     const chats_count_last_sixmonths = await getChatsStatsFromFirestore();
-    const appointments_count_last_sixmonths = {};
-    console.log(chats_count_last_sixmonths);
+    const [x_axis_labels, appointments_result, appointments_total, chats_result, chats_total] = CalculateChatsAndAppointmentsStatsHelper(
+      chats_count_last_sixmonths,
+      allUsersData.countAppointments
+    );
+    setLineChartData4([x_axis_labels, appointments_result, chats_result, appointments_total, chats_total]);
   };
-  //END OF GET CHATS STATS FROM FIRESTORE
+  //END OF GET CHATS AND APPOINTMENTS STATS
   //---------------------------------------
 
   //---------------------------
-  //START OF LOADING ALL DATA
+  //START OF MAIN LOADING ALL DATA
   const { data: allUsersData, isLoading: isLoadingGetAllData } = useGetAllUsersWithStatistics();
 
   useEffect(() => {
     if (allUsersData) {
       addPieChartData1();
-      getLineChartData4();
+      addLineChartData4();
     }
   }, [allUsersData]);
-  //END OF LOADING ALL DATA
+  //END OF MAIN LOADING ALL DATA
   //---------------------------
 
   //translation
@@ -151,7 +138,7 @@ const HomeScreen = () => {
 
   //------------------
   //LOADING DATA STATE
-  if (isLoadingGetAllData || !pieChartData1) {
+  if (isLoadingGetAllData || !pieChartData1 || !lineChartData4) {
     return <ActivityIndicatorComponent title="Users and Statistics are getting loaded" color={COLORS.dark} />;
   }
 
@@ -256,12 +243,12 @@ const HomeScreen = () => {
           <View>
             <ChartsUpperLegendComponent
               chart_type="AppointmentsAndChats"
-              dot1_title={`116 ${chats_string}`}
-              dot2_title={`432 ${appointments_string}`}
+              dot1_title={`${lineChartData4[4]} ${chats_string}`}
+              dot2_title={`${lineChartData4[3]} ${appointments_string}`}
             />
             <LineChart
-              data={chatsData}
-              data2={appointmentsData}
+              data={lineChartData4[1]}
+              data2={lineChartData4[2]}
               height={250}
               width={300}
               showVerticalLines
@@ -276,13 +263,13 @@ const HomeScreen = () => {
               verticalLinesThickness={0}
               yAxisTextStyle={styles.grey_text}
               xAxisLabelTextStyle={styles.grey_text}
-              xAxisLabelTexts={["", "Jan", "Feb", "Mar", "Apr", "May", "Jun"]}
+              xAxisLabelTexts={lineChartData4[0]}
               dataPointsHeight={6}
               dataPointsWidth={6}
               dataPointsColor1="blue"
               dataPointsColor2="red"
-              textShiftY={-5}
-              textShiftX={-6}
+              textShiftY={0}
+              textShiftX={0}
               textFontSize={10}
             />
           </View>
