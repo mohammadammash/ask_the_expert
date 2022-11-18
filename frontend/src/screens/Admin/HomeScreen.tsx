@@ -8,8 +8,8 @@ import { ChartsLowerLegendComponent, ChartsUpperLegendComponent, ActivityIndicat
 import { COLORS } from "../../constants";
 import styles from "../../../styles";
 import { useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
-import CalculateUserStatsHelper from "../Helpers/CalculateAdminUsersStatsHelper";
-import CalculateChatsAndAppointmentsStatsHelper from "../Helpers/CalculateChatsAndAppointmentsStatsHelper";
+import CalculateUserStatsHelper from "./Helpers/CalculateUsersStatsHelper";
+import CalculateChatsAndAppointmentsStatsHelper from "./Helpers/CalculateChatsAndAppointmentsStatsHelper";
 import getChatsStatsFromFirestore from "../Helpers/GetChatsStatsFromFirestoreHelper";
 
 //HARD CODED DATA
@@ -161,8 +161,7 @@ const HomeScreen = () => {
             />
             <View className="h-1/4 justify-center">
               <Text className="text-white text-md font-semibold text-center capitalize">
-                {newUserCount[0] + newUserCount[1]}{' '}
-                {newusers_string}
+                {newUserCount[0] + newUserCount[1]} {newusers_string}
               </Text>
             </View>
             <View className="absolute right-0 h-full justify-center mr-1">
