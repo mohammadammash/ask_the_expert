@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 //internal
-import { COLORS } from "../../../constants";
+import { COLORS } from "../../constants";
 import { t } from "i18next";
 
 interface ChartsUpperLegendProps {
@@ -13,7 +13,7 @@ const ChartsUpperLegend: React.FC<ChartsUpperLegendProps> = ({ chart_type, dot1_
   //translation
   const new_users_string = t("New Users");
   const new_appointments_string = t("Active Appointments And Chats");
-  
+
   const firstDotColor = chart_type === "new Users" ? "#BDB2FA" : COLORS.orange;
   const chartTitle = chart_type === "new Users" ? new_users_string : new_appointments_string;
 
