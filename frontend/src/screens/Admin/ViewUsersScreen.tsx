@@ -18,7 +18,7 @@ const ViewUsersScreen = () => {
   //theme
   const { colorScheme } = useColorScheme();
   const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
-  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
+  const textcolor_style = colorScheme === "dark" ? styles.white_text : styles.dark_text;
 
   const route = useRoute();
   const { name: route_name } = route;

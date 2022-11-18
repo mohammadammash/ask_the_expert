@@ -26,7 +26,7 @@ const HomeScreen = () => {
   //theme
   const { colorScheme } = useColorScheme();
   const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
-  const textcolor_style = colorScheme === "dark" ? styles.white_text : styles.dark_text;
+  const textcolor_style = colorScheme === "dark" ? styles.white_text : styles.grey_text;
 
   //---------------------------------
   //START OF USER CHARTS ALL USERS DATA
