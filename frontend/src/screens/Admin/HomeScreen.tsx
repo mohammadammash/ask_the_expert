@@ -13,56 +13,6 @@ import CalculateChatsAndAppointmentsStatsHelper from "../Helpers/CalculateChatsA
 import getChatsStatsFromFirestore from "../Helpers/GetChatsStatsFromFirestoreHelper";
 
 //HARD CODED DATA
-const barData = [
-  {
-    value: 40,
-    label: "Jan",
-    spacing: 2,
-    labelWidth: 30,
-    frontColor: "#BDB2FA",
-  },
-  { value: 20, frontColor: "#006DFF" },
-  {
-    value: 50,
-    label: "Feb",
-    spacing: 2,
-    labelWidth: 30,
-    frontColor: "#BDB2FA",
-  },
-  { value: 40, frontColor: "#006DFF" },
-  {
-    value: 75,
-    label: "Mar",
-    spacing: 2,
-    labelWidth: 30,
-    frontColor: "#BDB2FA",
-  },
-  { value: 25, frontColor: "#006DFF" },
-  {
-    value: 30,
-    label: "Apr",
-    spacing: 2,
-    labelWidth: 30,
-    frontColor: "#BDB2FA",
-  },
-  { value: 20, frontColor: "#006DFF" },
-  {
-    value: 60,
-    label: "May",
-    spacing: 2,
-    labelWidth: 30,
-    frontColor: "#BDB2FA",
-  },
-  { value: 40, frontColor: "#006DFF" },
-  {
-    value: 65,
-    label: "Jun",
-    spacing: 2,
-    labelWidth: 30,
-    frontColor: "#BDB2FA",
-  },
-  { value: 30, frontColor: "#006DFF" },
-];
 const fields_Data = [
   { value: 2500, frontColor: "#BDB2FA", spacing: 0, label: "Jan" },
   { value: 2400, frontColor: "#006DFF" },
@@ -85,19 +35,30 @@ const fields_Data = [
 
 const HomeScreen = () => {
   //---------------------------------
-  //START OF PIE CHART ALL USERS DATA
+  //START OF USER CHARTS ALL USERS DATA
+  //Chart1
   const [pieChartData1, setPieChartData1] = useState([]);
   const [usersCount, setUsersCount] = useState([0, 0, 0]); //expertsTotal, noviceTotal, highestPerc
+
+  //Chart2
+  const [barChartData2, setBarChartData2] = useState([]);
+  const [newUserCount, setNewUsersCount] = useState([0, 0]); //newExpertsTotal, newNovicesTotal
+
   const addPieChartData1 = async () => {
-    const [data, experts_total, novices_total] = CalculateUserStatsHelper(allUsersData.users);
+    const [data, experts_total, novices_total, barData, new_experts_total, new_novices_total] = CalculateUserStatsHelper(allUsersData.users);
+    //Chart1 Data fill
     setPieChartData1(data);
     let [max, min, highest_percantage] = [0, 0, 0];
     [max, min] = experts_total > novices_total ? [experts_total, novices_total] : [novices_total, experts_total];
     highest_percantage = (max / (max + min)) * 100;
     4;
     setUsersCount([experts_total, novices_total, highest_percantage]);
+
+    //Chart2 Data Fill
+    setBarChartData2(barData);
+    setNewUsersCount([new_experts_total, new_novices_total]);
   };
-  //END OF PIE CHART ALL USERS DATA
+  //END OF USER CHARTS ALL USERS DATA
   //---------------------------------
 
   //---------------------------------------
@@ -138,7 +99,7 @@ const HomeScreen = () => {
 
   //------------------
   //LOADING DATA STATE
-  if (isLoadingGetAllData || !pieChartData1 || !lineChartData4) {
+  if (isLoadingGetAllData || !pieChartData1 || !barChartData2 || !lineChartData4) {
     return <ActivityIndicatorComponent title="Users and Statistics are getting loaded" color={COLORS.dark} />;
   }
 
@@ -179,9 +140,13 @@ const HomeScreen = () => {
         {/* START OF NEW USERS CHART */}
         <View style={[styles.bg_dark, styles.screenWidth]} className="items-center justify-center">
           <View>
-            <ChartsUpperLegendComponent chart_type="newUsers" dot1_title={"118 Expert"} dot2_title={`1000 ${novice_string}`} />
+            <ChartsUpperLegendComponent
+              chart_type="new Users"
+              dot2_title={`${newUserCount[0]} ${experts_string}`}
+              dot1_title={`${newUserCount[1]} ${novice_string}`}
+            />
             <BarChart
-              data={barData}
+              data={barChartData2}
               barWidth={8}
               spacing={24}
               roundedTop
@@ -195,7 +160,10 @@ const HomeScreen = () => {
               maxValue={150}
             />
             <View className="h-1/4 justify-center">
-              <Text className="text-white text-md font-semibold text-center capitalize">1118 {newusers_string}</Text>
+              <Text className="text-white text-md font-semibold text-center capitalize">
+                {newUserCount[0] + newUserCount[1]}{' '}
+                {newusers_string}
+              </Text>
             </View>
             <View className="absolute right-0 h-full justify-center mr-1">
               <AntDesign name="rightcircle" size={24} color={COLORS.white} />
