@@ -14,8 +14,8 @@ const ChartsUpperLegend: React.FC<ChartsUpperLegendProps> = ({ chart_type, dot1_
   const new_users_string = t("New Users");
   const new_appointments_string = t("New Appointments And Chats");
   
-  const firstDotColor = chart_type === "newUsers" ? "#BDB2FA" : COLORS.orange;
-  const chartTitle = chart_type === new_users_string ? new_users_string : new_appointments_string;
+  const firstDotColor = chart_type === "new Users" ? "#BDB2FA" : COLORS.orange;
+  const chartTitle = chart_type === "new Users" ? new_users_string : new_appointments_string;
 
   return (
     <View className="my-8">
