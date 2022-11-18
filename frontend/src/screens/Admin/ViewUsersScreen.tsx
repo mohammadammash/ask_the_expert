@@ -1,15 +1,18 @@
-import { View, ScrollView, TextInput, Text } from "react-native";
-import { useState } from "react";
+import { View, ScrollView, TextInput, Text, TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
 import { useRoute } from "@react-navigation/native";
 import { SelectCountry } from "react-native-element-dropdown";
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 //internal imports
 import styles from "../../../styles";
-import { ROUTES } from "../../constants";
+import { ROUTES, COLORS } from "../../constants";
 import adminStyles from "./admin.styles";
 import { USERS_TYPES_OPTIONS } from "../../constants";
-import { UserCardComponent } from "../../components";
+import { UserCardComponent, ActivityIndicatorComponent } from "../../components";
+import { useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
+import { userType } from "../../hooks/UserContext";
+import CalculateRatingAverageHelper from "./Helpers/CalculateRatingAverageHelper";
 
 const ViewUsersScreen = () => {
   const [shownUsersType, setShownUsersType] = useState("users");
@@ -23,10 +26,24 @@ const ViewUsersScreen = () => {
   const route = useRoute();
   const { name: route_name } = route;
 
+  const { data: allUsersData, isLoading: isLoadingGetAllData } = useGetAllUsersWithStatistics();
+
+  useEffect(() => {
+    if (allUsersData) {
+    }
+  }, [allUsersData]);
+
+  //------------------
+  //LOADING DATA STATE
+  if (isLoadingGetAllData) {
+    return <ActivityIndicatorComponent title="Users and Statistics are getting loaded" color={COLORS.dark} />;
+  }
+
+  //MAIN COMPONENT
   return (
     <View style={bgcolor_style} className="flex-1 items-center justify-between">
       {/* START OF FILTER PAGE TITLE */}
-      <View className="h-2/6 w-full justify-start">
+      <View className="h-1/6 w-full justify-start mb-10">
         <View className="flex-row  items-center w-full justify-between pr-3 pl-7">
           <Text style={textcolor_style} className="font-bold">
             View {route_name === ROUTES.ADMIN_VIEW_BANNED_USERS ? "Banned" : "All"} {shownUsersType.charAt(0).toUpperCase() + shownUsersType.slice(1)}
@@ -57,9 +74,12 @@ const ViewUsersScreen = () => {
 
       {/* START OF CARDS SECTION */}
       <ScrollView className="h-5/6 pt-5" horizontal={true}>
-        <UserCardComponent />
-        <UserCardComponent />
-        <UserCardComponent />
+        {allUsersData.users.map((user: userType, index: number) => {
+          const ratingAverage = CalculateRatingAverageHelper(user.reviews);
+          return shownUsersType === "users" || shownUsersType === user.user_type ? (
+            <UserCardComponent key={index} reviews_average={ratingAverage} user={user} />
+          ) : null;
+        })}
       </ScrollView>
       {/* END OF CARDS SECTION */}
     </View>
