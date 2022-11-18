@@ -3,6 +3,7 @@ import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
 import { AntDesign } from "@expo/vector-icons";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
+import { useColorScheme } from "nativewind";
 //internal imports
 import { ChartsLowerLegendComponent, ChartsUpperLegendComponent, ActivityIndicatorComponent } from "../../components";
 import { COLORS } from "../../constants";
@@ -12,28 +13,21 @@ import CalculateUserStatsHelper from "./Helpers/CalculateUsersStatsHelper";
 import CalculateChatsAndAppointmentsStatsHelper from "./Helpers/CalculateChatsAndAppointmentsStatsHelper";
 import getChatsStatsFromFirestore from "../Helpers/GetChatsStatsFromFirestoreHelper";
 
-//HARD CODED DATA
-const fields_Data = [
-  { value: 2500, frontColor: "#BDB2FA", spacing: 0, label: "Jan" },
-  { value: 2400, frontColor: "#006DFF" },
-
-  { value: 3500, frontColor: "#BDB2FA", spacing: 0, label: "Feb" },
-  { value: 3000, frontColor: "#006DFF" },
-
-  { value: 4500, frontColor: "#BDB2FA", spacing: 0, label: "Mar" },
-  { value: 4000, frontColor: "#006DFF" },
-
-  { value: 5200, frontColor: "#BDB2FA", spacing: 0, label: "Apr" },
-  { value: 4900, frontColor: "#006DFF" },
-
-  { value: 3000, frontColor: "#BDB2FA", spacing: 0, label: "May" },
-  { value: 5800, frontColor: "#006DFF" },
-
-  { value: 2300, frontColor: "#BDB2FA", spacing: 0, label: "Jun" },
-  { value: 2800, frontColor: "#006DFF" },
-];
-
+//--------------------------
 const HomeScreen = () => {
+  //translation
+  const experts_string = t("experts");
+  const novices_string = t("novices");
+  const newusers_string = t("new users");
+  const novice_string = t("Novice");
+  const chats_string = t("Chats");
+  const appointments_string = t("Appointments");
+
+  //theme
+  const { colorScheme } = useColorScheme();
+  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
+  const textcolor_style = colorScheme === "dark" ? styles.white_text : styles.dark_text;
+
   //---------------------------------
   //START OF USER CHARTS ALL USERS DATA
   //Chart1
@@ -88,15 +82,7 @@ const HomeScreen = () => {
   //END OF MAIN LOADING ALL DATA
   //---------------------------
 
-  //translation
-  const experts_string = t("experts");
-  const novices_string = t("novices");
-  const newusers_string = t("new users");
-  const novice_string = t("Novice");
-  const fieldsusers_string = t("Fields Users");
-  const chats_string = t("Chats");
-  const appointments_string = t("Appointments");
-
+  //---------------------------
   //------------------
   //LOADING DATA STATE
   if (isLoadingGetAllData || !pieChartData1 || !barChartData2 || !lineChartData4) {
@@ -106,12 +92,14 @@ const HomeScreen = () => {
   //--------------
   //MAIN COMPONENT
   return (
-    <View style={styles.bg_dark} className="items-center justify-evenly flex-1 gap-1">
+    <View style={bgcolor_style} className="items-center justify-evenly flex-1 gap-1">
       <ScrollView horizontal={true} className="flex-row">
         {/* START OF ALL USERS CHARTS */}
-        <View style={styles.screenWidth} className="bg-[#34448B] flex-1 items-center justify-center">
+        <View style={styles.screenWidth} className=" flex-1 items-center justify-center">
           <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
-            <Text className="text-white text-base font-bold">All Users Count</Text>
+            <Text style={textcolor_style} className=" text-base font-bold">
+              All Users Count
+            </Text>
             <View className="items-center p-5">
               <PieChart
                 data={pieChartData1}
@@ -123,8 +111,12 @@ const HomeScreen = () => {
                 innerCircleColor={"#232B5D"}
                 centerLabelComponent={() => (
                   <View className="justify-center items-center">
-                    <Text className="text-xl text-white font-bold">{usersCount[2].toFixed(2)}%</Text>
-                    <Text className="text-base text-white capitalize">{usersCount[0] >= usersCount[1] ? experts_string : novices_string}</Text>
+                    <Text style={textcolor_style} className="text-xl font-bold">
+                      {usersCount[2].toFixed(2)}%
+                    </Text>
+                    <Text style={textcolor_style} className="text-base capitalize">
+                      {usersCount[0] >= usersCount[1] ? experts_string : novices_string}
+                    </Text>
                   </View>
                 )}
               />
@@ -138,7 +130,7 @@ const HomeScreen = () => {
         {/* END OF ALL USERS CHARTS */}
 
         {/* START OF NEW USERS CHART */}
-        <View style={[styles.bg_dark, styles.screenWidth]} className="items-center justify-center">
+        <View style={styles.screenWidth} className=" bg-[#232B5D] items-center justify-center">
           <View>
             <ChartsUpperLegendComponent
               chart_type="new Users"
@@ -154,60 +146,26 @@ const HomeScreen = () => {
               hideRules
               xAxisThickness={2}
               yAxisThickness={2}
-              yAxisTextStyle={styles.grey_text}
-              xAxisLabelTextStyle={styles.grey_text}
+              yAxisTextStyle={textcolor_style}
+              xAxisLabelTextStyle={textcolor_style}
               noOfSections={3}
               maxValue={150}
             />
             <View className="h-1/4 justify-center">
-              <Text className="text-white text-md font-semibold text-center capitalize">
+              <Text style={textcolor_style} className="text-md font-semibold text-center capitalize">
                 {newUserCount[0] + newUserCount[1]} {newusers_string}
               </Text>
             </View>
-            <View className="absolute right-0 h-full justify-center mr-1">
+            <View className="absolute right-0 h-full justify-center ml-5">
               <AntDesign name="rightcircle" size={24} color={COLORS.white} />
             </View>
           </View>
         </View>
         {/* END OF NEW USERS CHART */}
 
-        {/* START OF FIELDS STATISTICS CHART */}
-        <View style={styles.screenWidth} className="bg-[#34448B] flex-1 items-center justify-center">
-          <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
-            <Text className="text-white text-base font-bold ml-2">{fieldsusers_string}</Text>
-            <BarChart
-              data={fields_Data}
-              barWidth={12}
-              initialSpacing={10}
-              spacing={10}
-              barBorderRadius={4}
-              yAxisThickness={0}
-              xAxisType={"solid"}
-              xAxisColor={"lightgray"}
-              yAxisTextStyle={styles.grey_text}
-              stepValue={1000}
-              maxValue={6000}
-              noOfSections={6}
-              yAxisLabelTexts={["0", "1k", "2k", "3k", "4k", "5k", "6k"]}
-              labelWidth={38}
-              xAxisLabelTextStyle={{ color: "lightgray", textAlign: "center" }}
-              showLine
-              lineConfig={{
-                color: "transparent",
-                hideDataPoints: true,
-              }}
-            />
-            <ChartsLowerLegendComponent novices_total={40} experts_total={113} users_total={153} />
-            <View className="absolute right-0 h-full justify-center mr-1">
-              <AntDesign name="rightcircle" size={24} color={COLORS.white} />
-            </View>
-          </View>
-        </View>
-        {/* END OF FIELDS STATISTICS CHART */}
-
         {/* START OF APPOINTMENTS AND NEW STATISTICS CHART */}
-        <View style={[styles.bg_dark, styles.screenWidth]} className="w-1/4 items-center justify-center">
-          <View>
+        <View style={styles.screenWidth} className="w-1/4 items-center justify-center">
+          <View className="rounded-2xl p-4 bg-[#232B5D]">
             <ChartsUpperLegendComponent
               chart_type="AppointmentsAndChats"
               dot1_title={`${lineChartData4[4]} ${chats_string}`}
@@ -217,7 +175,7 @@ const HomeScreen = () => {
               data={lineChartData4[1]}
               data2={lineChartData4[2]}
               height={250}
-              width={300}
+              width={250}
               showVerticalLines
               spacing={45}
               initialSpacing={0}
@@ -228,8 +186,8 @@ const HomeScreen = () => {
               xAxisThickness={2}
               yAxisThickness={2}
               verticalLinesThickness={0}
-              yAxisTextStyle={styles.grey_text}
-              xAxisLabelTextStyle={styles.grey_text}
+              yAxisTextStyle={textcolor_style}
+              xAxisLabelTextStyle={textcolor_style}
               xAxisLabelTexts={lineChartData4[0]}
               dataPointsHeight={6}
               dataPointsWidth={6}

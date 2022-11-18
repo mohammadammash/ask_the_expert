@@ -33,7 +33,7 @@ const CalculateStats = (users: userType[]): [any, number, number, any, number, n
 
     let [experts_total, novices_total, new_experts_total, new_novices_total] = [0, 0, 0, 0];
     //make sure bar data values are 0s
-    for (let i = 0; i < pieChart1Data.length; i++) pieChart1Data[i].value = 0;
+    for (let i = 0; i < barChart2Data.length; i++) barChart2Data[i].value = 0;
     const current_date = new Date();
     let [five, four, three, two, one] = [new Date(), new Date(), new Date(), new Date(), new Date()];
     five.setMonth(current_date.getMonth() - 5)

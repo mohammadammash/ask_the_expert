@@ -12,7 +12,7 @@ interface ChartsUpperLegendProps {
 const ChartsUpperLegend: React.FC<ChartsUpperLegendProps> = ({ chart_type, dot1_title, dot2_title }): JSX.Element => {
   //translation
   const new_users_string = t("New Users");
-  const new_appointments_string = t("New Appointments And Chats");
+  const new_appointments_string = t("Active Appointments And Chats");
   
   const firstDotColor = chart_type === "new Users" ? "#BDB2FA" : COLORS.orange;
   const chartTitle = chart_type === "new Users" ? new_users_string : new_appointments_string;
