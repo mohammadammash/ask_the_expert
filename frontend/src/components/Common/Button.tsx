@@ -11,7 +11,7 @@ const Button: React.FC<ButtonComponentProps> = ({ button_style, title, handlePre
 
   return (
     <Pressable disabled={disabled} style={current_style} className={disabled ? "opacity-30" : ""} onPress={() => handlePress(route_name)}>
-      <Text style={textcolor_style} className={`font-bold text-${button_style}`}>{title}</Text>
+      <Text style={textcolor_style} className={`font-bold uppercase text-${button_style}`}>{title}</Text>
     </Pressable>
   );
 };

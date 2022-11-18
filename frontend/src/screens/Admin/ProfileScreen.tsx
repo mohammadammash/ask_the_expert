@@ -8,6 +8,7 @@ import { useColorScheme } from "nativewind";
 import styles from "../../../styles";
 import { ProfileImageCardComponent, ButtonComponent } from "../../components";
 import { t } from "i18next";
+import { ROUTES } from "../../constants";
 
 const ProfileScreen = () => {
   //translation
@@ -16,7 +17,7 @@ const ProfileScreen = () => {
   //theme
   const {colorScheme} = useColorScheme();
   const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
-  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
+  const textcolor_style = colorScheme === "dark" ? styles.white_text : styles.dark_text;
 
   const { user, setUser } = useContext(UserContext);
   const { firstName, lastName, email, profile_url, user_type } = user;
@@ -48,7 +49,6 @@ const ProfileScreen = () => {
             {email}
           </Text>
         </View>
-
         <View className="items-center gap-2">
           <Entypo name="shield" size={50} color={textcolor_style.color} />
           <Text style={textcolor_style} className="text-base font-bold uppercase">
@@ -57,7 +57,7 @@ const ProfileScreen = () => {
         </View>
 
         <View className="items-center w-full">
-          <ButtonComponent {...data} />
+          <ButtonComponent {...data} handlePress={handlePress} button_style='lg' title='EDIT PROFILE' route_name={ROUTES.USER_EDIT_PROFILE} disabled={false} textcolor_style={colorScheme === "dark" ? styles.white_text : styles.white_text}/>
         </View>
       </View>
     </View>

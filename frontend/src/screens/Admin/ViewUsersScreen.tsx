@@ -1,6 +1,5 @@
 import { View, ScrollView, TextInput, Text, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
-import { useRoute } from "@react-navigation/native";
 import { SelectCountry } from "react-native-element-dropdown";
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
@@ -15,21 +14,25 @@ import { userType } from "../../hooks/UserContext";
 import CalculateRatingAverageHelper from "./Helpers/CalculateRatingAverageHelper";
 
 const ViewUsersScreen = () => {
+  const [shownUsers, setShownUsers] = useState<userType[]>([]);
   const [shownUsersType, setShownUsersType] = useState("users");
-  const handleShownUserType = (value: string) => setShownUsersType(value);
+  const handleShownUserType = (value: string) => {
+    let users = <userType[]>[];
+    if (value !== "users") users = shownUsers.filter((user: userType) => user.user_type === value);
+    setShownUsers([...users]);
+  };
 
   //theme
   const { colorScheme } = useColorScheme();
   const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
   const textcolor_style = colorScheme === "dark" ? styles.white_text : styles.dark_text;
 
-  const route = useRoute();
-  const { name: route_name } = route;
-
   const { data: allUsersData, isLoading: isLoadingGetAllData } = useGetAllUsersWithStatistics();
 
   useEffect(() => {
     if (allUsersData) {
+      const users = allUsersData.users.filter((user: userType) => user.isBanned);
+      setShownUsers([...users]);
     }
   }, [allUsersData]);
 
@@ -46,7 +49,7 @@ const ViewUsersScreen = () => {
       <View className="h-1/6 w-full justify-start mb-10">
         <View className="flex-row  items-center w-full justify-between pr-3 pl-7">
           <Text style={textcolor_style} className="font-bold">
-            View {route_name === ROUTES.ADMIN_VIEW_BANNED_USERS ? "Banned" : "All"} {shownUsersType.charAt(0).toUpperCase() + shownUsersType.slice(1)}
+            View Banned All {shownUsersType.charAt(0).toUpperCase() + shownUsersType.slice(1)}
           </Text>
           <SelectCountry
             style={adminStyles.dropdown}
@@ -73,14 +76,18 @@ const ViewUsersScreen = () => {
       {/* END OF FILTER PAGE TITLE */}
 
       {/* START OF CARDS SECTION */}
-      <ScrollView className="h-5/6 pt-5" horizontal={true}>
-        {allUsersData.users.map((user: userType, index: number) => {
-          const ratingAverage = CalculateRatingAverageHelper(user.reviews);
-          return shownUsersType === "users" || shownUsersType === user.user_type ? (
-            <UserCardComponent key={index} reviews_average={ratingAverage} user={user} />
-          ) : null;
-        })}
-      </ScrollView>
+      {shownUsers.length === 0 ? (
+        <View className="flex-1 items-center justify-center">
+          <Text>No Banned {shownUsersType}</Text>
+        </View>
+      ) : (
+        <ScrollView className="h-5/6 pt-5" horizontal={true}>
+          {shownUsers.map((user: userType, index: number) => {
+            const ratingAverage = CalculateRatingAverageHelper(user.reviews);
+            return <UserCardComponent key={index} reviews_average={ratingAverage} user={user} />;
+          })}
+        </ScrollView>
+      )}
       {/* END OF CARDS SECTION */}
     </View>
   );
