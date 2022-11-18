@@ -9,6 +9,7 @@ import { COLORS } from "../../constants";
 import styles from "../../../styles";
 import { useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
 import CalculateStatsHelper from "../Helpers/CalculateAdminUsersStatsHelper";
+import getChatsStatsFromFirestore from "../Helpers/GetChatsStatsFromFirestoreHelper";
 
 //HARD CODED DATA
 const barData = [
@@ -103,31 +104,42 @@ const HomeScreen = () => {
   //---------------------------------
   //START OF PIE CHART ALL USERS DATA
   const [pieChartData1, setPieChartData1] = useState<any>([]);
-  const [usersCount, setUsersCount] = useState([0,0, 0]) //expertsTotal, noviceTotal, highestPerc
-  const addPieChartData1 = async ()=>{
+  const [usersCount, setUsersCount] = useState([0, 0, 0]); //expertsTotal, noviceTotal, highestPerc
+  const addPieChartData1 = async () => {
     const [data, experts_total, novices_total] = CalculateStatsHelper(allUsersData.users);
     setPieChartData1(data);
-    //calc highest perc
-    let [max, min, highest_percantage]= [0,0,0];
+    let [max, min, highest_percantage] = [0, 0, 0];
     [max, min] = experts_total > novices_total ? [experts_total, novices_total] : [novices_total, experts_total];
-    highest_percantage = (max/(max+min))*100;
+    highest_percantage = (max / (max + min)) * 100;
+    4;
     setUsersCount([experts_total, novices_total, highest_percantage]);
-  }
+  };
   //END OF PIE CHART ALL USERS DATA
   //---------------------------------
 
+  //---------------------------------------
+  //START OF GET CHATS STATS FROM FIRESTORE
+  const getLineChartData4 = async () => {
+    const chats_count_last_sixmonths = await getChatsStatsFromFirestore();
+    const appointments_count_last_sixmonths = {};
+    console.log(chats_count_last_sixmonths);
+  };
+  //END OF GET CHATS STATS FROM FIRESTORE
+  //---------------------------------------
 
   //---------------------------
-  //START OF LOADING USERS DATA
-  const { data: allUsersData, isLoading: isLoadingGetAllData, isSuccess: isSuccessGetAllData } = useGetAllUsersWithStatistics();
+  //START OF LOADING ALL DATA
+  const { data: allUsersData, isLoading: isLoadingGetAllData } = useGetAllUsersWithStatistics();
 
   useEffect(() => {
-    if (allUsersData && isSuccessGetAllData) {
+    if (allUsersData) {
       addPieChartData1();
+      getLineChartData4();
     }
-  }, []);
-  //END OF LOADING USERS DATA
+  }, [allUsersData]);
+  //END OF LOADING ALL DATA
   //---------------------------
+
   //translation
   const experts_string = t("experts");
   const novices_string = t("novices");
@@ -139,7 +151,7 @@ const HomeScreen = () => {
 
   //------------------
   //LOADING DATA STATE
-  if (isLoadingGetAllData) {
+  if (isLoadingGetAllData || !pieChartData1) {
     return <ActivityIndicatorComponent title="Users and Statistics are getting loaded" color={COLORS.dark} />;
   }
 
@@ -148,7 +160,6 @@ const HomeScreen = () => {
   return (
     <View style={styles.bg_dark} className="items-center justify-evenly flex-1 gap-1">
       <ScrollView horizontal={true} className="flex-row">
-
         {/* START OF ALL USERS CHARTS */}
         <View style={styles.screenWidth} className="bg-[#34448B] flex-1 items-center justify-center">
           <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
@@ -170,7 +181,7 @@ const HomeScreen = () => {
                 )}
               />
             </View>
-            <ChartsLowerLegendComponent novices_total={usersCount[1]} experts_total={usersCount[0]} users_total={usersCount[0]+usersCount[1]} />
+            <ChartsLowerLegendComponent novices_total={usersCount[1]} experts_total={usersCount[0]} users_total={usersCount[0] + usersCount[1]} />
             <View className="absolute right-0 h-full justify-center mr-1">
               <AntDesign name="rightcircle" size={24} color={COLORS.white} />
             </View>
