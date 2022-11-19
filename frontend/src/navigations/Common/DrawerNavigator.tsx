@@ -1,5 +1,5 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Alert } from "react-native";
+import { t } from "i18next";
 //internal imports
 import { useUserContext, userInitialData } from "../../hooks/UserContext";
 import { COLORS, ROUTES, USERTYPES } from "../../constants";
@@ -10,8 +10,7 @@ import AppointmentsStackNavigator from "./AppointmentsStackNavigator";
 import { drawerScreenOptionsStyle, homeIcon, settingsIcon, appointmentsIcon, leaderboardIcon, chatIcon } from "../Helpers/NavigatorsHelpers";
 import { CustomDrawerComponent } from "../../components";
 import NoviceHomeStackNavigator from "../Novice/NoviceHomeStackNavigator";
-import { removeAuthToken } from "../../networks";
-import { t } from "i18next";
+import { logoutUser } from "../../utils/authentication";
 
 const Drawer = createDrawerNavigator();
 
@@ -19,28 +18,17 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   //translation
   const leaderboard_title = t("Leaderboard");
-  const cancel_string = t("Cancel");
-  const submit_string = t("Submit");
-  const logout_string = t("Logout");
   const profilesettings_title = t("Profile/Settings");
   const chats_title = t("Chats");
   const appointments_title = t("Appointments");
   const home_title = t("Home");
-  const { user, setUser } = useUserContext();
+  const { user } = useUserContext();
 
-  const handleLogout = () => {
-    const logout = async () => {
-      await removeAuthToken();
-      setUser({ ...userInitialData });
-    };
-
-    Alert.alert(logout_string, "\nAre you sure you want to Logout?", [
-      {
-        text: cancel_string,
-        style: "destructive",
-      },
-      { text: submit_string, onPress: () => logout(), style: "default" },
-    ]);
+  //Handle logout
+  const { setUser } = useUserContext();
+  const handleLogout = async () => {
+    const result = await logoutUser();
+    if (result) setUser({ ...userInitialData });
   };
 
   return (
@@ -71,7 +59,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen
         name={ROUTES.USER_LEADERBOARD}
         component={LeaderboardScreen}
-        options={{ headerTitle: leaderboard_title, headerTintColor:COLORS.white, drawerIcon: () => leaderboardIcon, drawerLabel: leaderboard_title }}
+        options={{ headerTitle: leaderboard_title, headerTintColor: COLORS.white, drawerIcon: () => leaderboardIcon, drawerLabel: leaderboard_title }}
       />
       <Drawer.Screen
         name={ROUTES.CHATS_STACK}
