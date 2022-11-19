@@ -13,6 +13,11 @@ const CalculateChatsAndAppointmentsStatsHelper = (chats_count: chats_count_type,
     const x_axis_labels = getLastSixMonthsNamesHelper();
     const appointments_result = [];
     const chats_result = [];
+    for (let i = 0; i < 5; i++) {
+        appointments_result[i] = { value: 0, dataPointText: 0 }
+        chats_result[i] = { value: 0, dataPointText: 0 };
+    }
+
     const indices = generateSortedIndicesHelper();
     let appointments_total = 0;
     let chats_total = 0;
@@ -26,7 +31,6 @@ const CalculateChatsAndAppointmentsStatsHelper = (chats_count: chats_count_type,
         chats_total += chats_count[key - 1];
         chats_result[index] = { value: chats_count[key - 1], dataPointText: chats_count[key - 1] };
     };
-
     return [x_axis_labels, appointments_result, appointments_total, chats_result, chats_total];
 }
 
