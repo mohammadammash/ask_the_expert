@@ -9,7 +9,7 @@ import { uploadImageAsync, pickImage } from "../Helpers/ImageHandlerHelper";
 import { RegisterFormValuesTypes } from "../../components/Auth/types";
 import { useRegisterUser } from "../../hooks/useAuth";
 import { COLORS } from "../../constants";
-import { setDefaultTokens } from "../../networks";
+import { setDefaultTokens } from "../../networks/base";
 import { useNotifications } from "../../hooks/useNotifications";
 
 const RegisterScreen = () => {

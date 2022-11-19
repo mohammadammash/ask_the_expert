@@ -9,8 +9,9 @@ import styles from "../../../styles";
 import { auth } from "../../../firebaseConfig";
 import { useUserContext } from "../../hooks/UserContext";
 import { useLoginUser } from "../../hooks/useAuth";
-import { getAuthToken, setDefaultTokens } from "../../networks";
+import { setDefaultTokens } from "../../networks/base";
 import { useCurrentUser } from "../../hooks/useUser";
+import { getAuthToken as getAuthTokenUtility } from "../../utils/authentication";
 
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
@@ -19,7 +20,7 @@ const LoginScreen = () => {
   //get auth token if exists, to redirect user instantly
   const [token, setToken] = useState("");
   const getTokenIfExists = async () => {
-    const token = await getAuthToken();
+    const token = await getAuthTokenUtility();
     setToken(token);
   };
 
