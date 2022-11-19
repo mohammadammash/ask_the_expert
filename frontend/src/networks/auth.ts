@@ -1,4 +1,4 @@
-import axios from './index';
+import axios from './base';
 
 class Auth_Apis {
     login_post(data: any) { return axios.post('/login', data).then(data => data).catch(err => err) }

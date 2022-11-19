@@ -6,7 +6,7 @@ import * as Notifications from "expo-notifications";
 import { userInitialData, UserContext } from "./src/hooks/UserContext";
 import { AuthStackNavigator, DrawerNavigator, AdminTabNavigator } from "./src/navigations";
 import { USERTYPES } from "./src/constants";
-import "./src/assets/languages";
+import "./src/assets/languages/i18n";
 import { useTranslation } from "react-i18next";
 import { useColorScheme } from "nativewind";
 import { useNotifications } from "./src/hooks/useNotifications";

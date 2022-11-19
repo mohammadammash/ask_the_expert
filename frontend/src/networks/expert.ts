@@ -1,4 +1,4 @@
-import axios from './index';
+import axios from './base';
 
 class Expert_Apis {
     goOnline_post(data: any) { return axios.post('/expert/go_online', data).then(data => data).catch(err => err) }

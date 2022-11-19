@@ -1,6 +1,5 @@
 import { createContext, useContext } from "react";
 //internal imports:
-import { IMAGES } from "../constants/index";
 
 export type reviewsType = {
   _id: string,

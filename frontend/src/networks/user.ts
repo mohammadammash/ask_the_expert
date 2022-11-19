@@ -1,4 +1,4 @@
-import axios from './index';
+import axios from './base';
 
 class User_Apis {
     user_get() { return axios.get('/user').then(data => data).catch(err => err) }

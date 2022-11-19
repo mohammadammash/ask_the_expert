@@ -1,4 +1,4 @@
-import axios from './index';
+import axios from './base';
 
 class Novice_Apis {
     closeExperts_get(params: any) { return axios.get(`/novice/${params.longitude}/${params.latitude}/${params.field}`).then(data => data).catch(err => err) }
