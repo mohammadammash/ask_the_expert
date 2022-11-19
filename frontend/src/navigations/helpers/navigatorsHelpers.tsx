@@ -1,5 +1,6 @@
 import { MaterialCommunityIcons, MaterialIcons, Entypo, FontAwesome5 } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 //internal imports
 import { COLORS } from "../../constants";
 
@@ -13,12 +14,14 @@ export const menuIcon = (
   <MaterialCommunityIcons style={{ marginLeft: 20, marginBottom: 5 }} name="microsoft-xbox-controller-menu" size={32} color={COLORS.white} />
 );
 export const usersIcon = <FontAwesome5 name="users" size={28} color={COLORS.blue} />;
+export const logoutIcon = <AntDesign name="logout" size={24} color={COLORS.white} />;
 
 // DRAWER NAVIGATOR: CUSTOM HEADER STYLE
 export const drawerScreenOptionsStyle = (navigation: any) => ({
   drawerActiveBackgroundColor: COLORS.grey,
   drawerActiveTintColor: COLORS.white,
   drawerInactiveTintColor: COLORS.white,
+  headerTitleAlign: "center",
   headerTitle: "",
   headerStyle: {
     backgroundColor: COLORS.blue,
@@ -29,6 +32,7 @@ export const drawerScreenOptionsStyle = (navigation: any) => ({
 // STACK SCREEN: CUSTOM SCREEN OPTIONS
 export const stackScreenOptionsStyle = () => ({
   headerBackTitleVisible: false,
+  headerTitleAlign: "center",
   headerStyle: {
     backgroundColor: COLORS.blue,
   },
@@ -39,10 +43,13 @@ export const stackScreenOptionsStyle = () => ({
 });
 
 //TAB BOTTOM NAVIGATOR: SCREEN OPTIONS
-export const tabBarScreenOptions = (navigation: any) => ({
+export const tabBarScreenOptions = (handleLogout: () => void) => ({
+  tabBarHideOnKeyboard: true,
   headerStyle: {
     backgroundColor: COLORS.blue,
   },
+  headerTitleAlign: "center",
+  headerRight: () => <TouchableOpacity className="pr-5" onPress={handleLogout}>{logoutIcon}</TouchableOpacity>,
   headerTintColor: COLORS.white,
   tabBarActiveTintColor: COLORS.white,
   tabBarStyle: {
@@ -53,11 +60,5 @@ export const tabBarScreenOptions = (navigation: any) => ({
     margin: 15,
     borderRadius: 75,
   },
-  tabBarInactiveTintColor: COLORS.dark,
-  tabBarIconStyle: {
-    backgroundColor: COLORS.blue,
-  },
-  tabBarIcon: () => (
-    <MaterialCommunityIcons style={{ marginLeft: 20, marginBottom: 5 }} name="microsoft-xbox-controller-menu" size={32} color={COLORS.blue} />
-  ),
+  tabBarInactiveTintColor: COLORS.grey,
 });
