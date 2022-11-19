@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 //internal imports
 import styles from "../../../styles";
-import { ROUTES, COLORS } from "../../constants";
+import { COLORS } from "../../constants";
 import adminStyles from "./admin.styles";
 import { USERS_TYPES_OPTIONS } from "../../constants";
 import { UserCardComponent, ActivityIndicatorComponent } from "../../components";
@@ -16,23 +16,47 @@ import CalculateRatingAverageHelper from "./Helpers/CalculateRatingAverageHelper
 const ViewUsersScreen = () => {
   const [shownUsers, setShownUsers] = useState<userType[]>([]);
   const [shownUsersType, setShownUsersType] = useState("users");
+
+  //Handling filter users
   const handleShownUserType = (value: string) => {
     if (value !== "users") {
       const users = allUsersData.users.filter((user: userType) => user.user_type === value);
       setShownUsers(users);
       setShownUsersType(value);
     } else {
-      setShownUsers([...allUsersData.data]);
+      setShownUsers([...allUsersData.users]);
+      setShownUsersType(value);
     }
   };
+
+  //Handle Search User Input
+  const handleSearchUserChangeText = (text: string) => {
+    if (!text) return setShownUsers([...allUsersData.users]);
+    //Search only shown users filtered(all, only experts, only novices)
+    const result = allUsersData.users.filter((user: userType) => {
+      const { firstName, lastName, field, speciality, user_type, email } = user;
+      text = text.toLowerCase();
+      if (
+        (firstName.toLowerCase().includes(text) ||
+          lastName.toLowerCase().includes(text) ||
+          field.toLowerCase().includes(text) ||
+          email.toLowerCase().includes(text) ||
+          speciality.toLowerCase().includes(text)) &&
+        (user_type === shownUsersType || shownUsersType === "users")
+      )
+        return user;
+    });
+    setShownUsers([...result]);
+  };
+  //End of Handle Search User Input
 
   //theme
   const { colorScheme } = useColorScheme();
   const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
   const textcolor_style = colorScheme === "dark" ? styles.white_text : styles.dark_text;
 
+  //Handlie
   const { data: allUsersData, isLoading: isLoadingGetAllData } = useGetAllUsersWithStatistics();
-
   useEffect(() => {
     if (allUsersData) {
       setShownUsers([...allUsersData.users]);
@@ -40,11 +64,11 @@ const ViewUsersScreen = () => {
   }, [allUsersData]);
 
   //------------------
+  //------------------
   //LOADING DATA STATE
   if (isLoadingGetAllData) {
     return <ActivityIndicatorComponent title="Users and Statistics are getting loaded" color={COLORS.dark} />;
   }
-
   //MAIN COMPONENT
   return (
     <View style={bgcolor_style} className="flex-1 items-center justify-between">
@@ -52,7 +76,7 @@ const ViewUsersScreen = () => {
       <View className="h-1/6 w-full justify-start mb-10">
         <View className="flex-row  items-center w-full justify-between pr-3 pl-7">
           <Text style={textcolor_style} className="font-bold">
-            View Banned All {shownUsersType.charAt(0).toUpperCase() + shownUsersType.slice(1)}
+            View All {shownUsersType.charAt(0).toUpperCase() + shownUsersType.slice(1) + (shownUsersType === "users" ? "" : "s")}
           </Text>
           <SelectCountry
             style={adminStyles.dropdown}
@@ -73,7 +97,12 @@ const ViewUsersScreen = () => {
         </View>
         {/* SEARCH BAR */}
         <View className="items-center">
-          <TextInput style={[styles.text_input, styles.admin_search_input, textcolor_style]} className="placeholder:pl-3" placeholder="Search" />
+          <TextInput
+            style={[styles.text_input, styles.admin_search_input, textcolor_style]}
+            className="placeholder:pl-3"
+            placeholder="Search"
+            onChangeText={handleSearchUserChangeText}
+          />
         </View>
       </View>
       {/* END OF FILTER PAGE TITLE */}
@@ -81,7 +110,7 @@ const ViewUsersScreen = () => {
       {/* START OF CARDS SECTION */}
       {shownUsers.length === 0 ? (
         <View className="flex-1 items-center justify-center">
-          <Text>No Banned {shownUsersType}</Text>
+          <Text>No {shownUsersType} Found</Text>
         </View>
       ) : (
         <ScrollView className="h-5/6 pt-5" horizontal={true}>
