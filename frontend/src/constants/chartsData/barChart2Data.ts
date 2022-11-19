@@ -14,7 +14,7 @@ export default [
         labelWidth: 30,
         frontColor: "#BDB2FA",
     },
-    { value: 40, frontColor: "#006DFF" },
+    { value: 0, frontColor: "#006DFF" },
     {
         value: 0,
         label: "",

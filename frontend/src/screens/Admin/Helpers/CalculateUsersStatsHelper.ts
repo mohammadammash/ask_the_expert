@@ -2,8 +2,8 @@ import { USERTYPES } from "../../../constants";
 import { userType } from "../../../hooks/UserContext";
 import generateSortedIndices from "../../Helpers/GeneratedSortedLast6MonthsIndicesHelper";
 import getLastSixMonthsNamesHelper from "../../Helpers/getLastSixMonthsNamesHelper";
-import pieChart1Data from "./PieChart1Data";
-import barChart2Data from "./BarChart2Data";
+import pieChart1Data from "../../../constants/chartsData/pieChart1Data";
+import barChart2Data from "../../../constants/chartsData/barChart2Data";
 
 //START OF CHART 2 NEW USERS HELPERS
 const indices = generateSortedIndices();
