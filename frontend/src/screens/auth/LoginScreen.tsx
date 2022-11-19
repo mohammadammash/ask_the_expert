@@ -31,7 +31,7 @@ const LoginScreen = () => {
   const [enabled, setEnabled] = useState(false);
   const { data: getCurrentUserData, isLoading: isCurrentUserLoading } = useCurrentUser({ enabled });
   useEffect(() => {
-    if (token) {
+    if (token && !mutateLoginUserData) {
       setDefaultTokens(token);
       setEnabled(true); //fetch current user if token exists
     }

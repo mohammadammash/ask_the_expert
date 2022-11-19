@@ -160,7 +160,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
   const handleRatingType = (rating: ratingContent) => setRating(rating);
 
   useEffect(() => {
-    if (shownReviews.length !== 0) calculateReviewsStatsHelper(shownReviews, handleRatingType);
+    calculateReviewsStatsHelper(shownReviews, handleRatingType);
   }, [shownReviews]);
 
   const handleRatingSubmit = (values: { rating: number; content: string }) => {

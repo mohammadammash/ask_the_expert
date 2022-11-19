@@ -17,9 +17,13 @@ const ViewUsersScreen = () => {
   const [shownUsers, setShownUsers] = useState<userType[]>([]);
   const [shownUsersType, setShownUsersType] = useState("users");
   const handleShownUserType = (value: string) => {
-    let users = <userType[]>[];
-    if (value !== "users") users = shownUsers.filter((user: userType) => user.user_type === value);
-    setShownUsers([...users]);
+    if (value !== "users") {
+      const users = allUsersData.users.filter((user: userType) => user.user_type === value);
+      setShownUsers(users);
+      setShownUsersType(value);
+    } else {
+      setShownUsers([...allUsersData.data]);
+    }
   };
 
   //theme
@@ -31,8 +35,7 @@ const ViewUsersScreen = () => {
 
   useEffect(() => {
     if (allUsersData) {
-      const users = allUsersData.users.filter((user: userType) => user.isBanned);
-      setShownUsers([...users]);
+      setShownUsers([...allUsersData.users]);
     }
   }, [allUsersData]);
 

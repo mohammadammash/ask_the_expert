@@ -44,17 +44,14 @@ export const tabBarScreenOptions = (navigation: any) => ({
     backgroundColor: COLORS.blue,
   },
   headerTintColor: COLORS.white,
-  tabBarActiveTintColor: COLORS.blue,
-  tabBarActiveBackgroundColor: COLORS.blue,
+  tabBarActiveTintColor: COLORS.white,
   tabBarStyle: {
     backgroundColor: COLORS.dark,
-    height: 80,
+    height: 70,
   },
   tabBarItemStyle: {
-    backgroundColor: COLORS.grey,
-    margin: 12,
-    marginHorizontal: 22,
-    borderRadius: 5,
+    margin: 15,
+    borderRadius: 75,
   },
   tabBarInactiveTintColor: COLORS.dark,
   tabBarIconStyle: {

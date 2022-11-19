@@ -13,7 +13,7 @@ import CalculateUserStatsHelper from "./Helpers/CalculateUsersStatsHelper";
 import CalculateChatsAndAppointmentsStatsHelper from "./Helpers/CalculateChatsAndAppointmentsStatsHelper";
 import getChatsStatsFromFirestore from "../Helpers/GetChatsStatsFromFirestoreHelper";
 import { removeAuthToken } from "../../networks";
-import { userInitialData } from "../../hooks/UserContext";
+import { userInitialData, useUserContext } from "../../hooks/UserContext";
 
 //--------------------------
 const HomeScreen = () => {
@@ -90,6 +90,7 @@ const HomeScreen = () => {
   if (isLoadingGetAllData || !pieChartData1 || !barChartData2 || !lineChartData4) {
     return <ActivityIndicatorComponent title="Users and Statistics are getting loaded" color={COLORS.dark} />;
   }
+
   //--------------
   //MAIN COMPONENT
   return (
