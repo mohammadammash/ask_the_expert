@@ -1,17 +1,14 @@
-import { View, ScrollView, TextInput, Text, TouchableOpacity } from "react-native";
+import { View, ScrollView, TextInput, Text } from "react-native";
 import { useState, useEffect } from "react";
-import { SelectCountry } from "react-native-element-dropdown";
-import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 //internal imports
 import styles from "../../../styles";
 import { COLORS } from "../../constants";
-import adminStyles from "./admin.styles";
-import { USERS_TYPES_OPTIONS } from "../../constants";
-import { UserCardComponent, ActivityIndicatorComponent } from "../../components";
+import { UserCardComponent, ActivityIndicatorComponent, FilterPageTitleComponent } from "../../components";
 import { useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
 import { userType } from "../../hooks/UserContext";
 import CalculateRatingAverageHelper from "./Helpers/CalculateRatingAverageHelper";
+import { color } from "react-native-reanimated";
 
 const ViewUsersScreen = () => {
   const [shownUsers, setShownUsers] = useState<userType[]>([]);
@@ -23,8 +20,7 @@ const ViewUsersScreen = () => {
   const cardbgcolor_style = colorScheme === "dark" ? styles.bg_grey : styles.bg_white;
   const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
 
-
-  //Handling filter users
+  //Start of Handling filter users
   const handleShownUserType = (value: string) => {
     if (value !== "users") {
       const users = allUsersData.users.filter((user: userType) => user.user_type === value);
@@ -35,10 +31,22 @@ const ViewUsersScreen = () => {
       setShownUsersType(value);
     }
   };
+  //End of Handling filter users
+
+  //Start of Handling Ban User Login
+  const handleonPressBanButton = (user_id: string, isBanned: boolean) => {
+    alert(`${isBanned ? "UNBAN" : "BAN"} ${user_id}`);
+  };
+  //End of Handling UnBan User Login
 
   //Handle Search User Input
   const handleSearchUserChangeText = (text: string) => {
-    if (!text) return setShownUsers([...allUsersData.users]);
+    if (!text) {
+      let users = [];
+      if (shownUsersType !== "users") users = allUsersData.users.filter((user: userType) => user.user_type === shownUsersType);
+      else users = [...allUsersData.users];
+      return setShownUsers([...users]);
+    }
     //Search only shown users filtered(all, only experts, only novices)
     const result = allUsersData.users.filter((user: userType) => {
       const { firstName, lastName, field, speciality, user_type, email } = user;
@@ -76,31 +84,16 @@ const ViewUsersScreen = () => {
     <View style={bgcolor_style} className="flex-1 items-center justify-between">
       {/* START OF FILTER PAGE TITLE */}
       <View className="h-1/6 w-full justify-start mb-10">
-        <View className="flex-row  items-center w-full justify-between pr-3 pl-7">
-          <Text style={textcolor_style} className="font-bold">
-            View All {shownUsersType.charAt(0).toUpperCase() + shownUsersType.slice(1) + (shownUsersType === "users" ? "" : "s")}
-          </Text>
-          <SelectCountry
-            style={[adminStyles.dropdown, cardbgcolor_style]}
-            selectedTextStyle={adminStyles.selectedTextStyle}
-            placeholderStyle={adminStyles.placeholderStyle}
-            iconStyle={adminStyles.iconStyle}
-            maxHeight={200}
-            renderRightIcon={() => <Ionicons name="filter" size={18} color="black" />}
-            value={shownUsersType}
-            data={USERS_TYPES_OPTIONS}
-            valueField="value"
-            labelField="label"
-            imageField="image"
-            placeholder="All"
-            searchPlaceholder="Search..."
-            onChange={(e) => handleShownUserType(e.value)}
-          />
-        </View>
+        <FilterPageTitleComponent
+          cardbgcolor_style={cardbgcolor_style}
+          textcolor_style={textcolor_style}
+          shownUsersType={shownUsersType}
+          handleShownUserType={handleShownUserType}
+        />
         {/* SEARCH BAR */}
         <View className="items-center">
           <TextInput
-            style={[styles.text_input, styles.admin_search_input, textcolor_style]}
+            style={[styles.text_input, styles.admin_search_input, textcolor_style, colorScheme === "dark" && styles.border_grey]}
             className="placeholder:pl-3"
             placeholder="Search"
             placeholderTextColor={textcolor_style.color}
@@ -119,7 +112,16 @@ const ViewUsersScreen = () => {
         <ScrollView className="h-5/6 pt-5" horizontal={true}>
           {shownUsers.map((user: userType, index: number) => {
             const ratingAverage = CalculateRatingAverageHelper(user.reviews);
-            return <UserCardComponent key={index} reviews_average={ratingAverage} user={user} bgcolor_style={cardbgcolor_style} textcolor_style={textcolor_style}/>;
+            return (
+              <UserCardComponent
+                key={index}
+                reviews_average={ratingAverage}
+                user={user}
+                bgcolor_style={cardbgcolor_style}
+                textcolor_style={textcolor_style}
+                handlePress={handleonPressBanButton}
+              />
+            );
           })}
         </ScrollView>
       )}
