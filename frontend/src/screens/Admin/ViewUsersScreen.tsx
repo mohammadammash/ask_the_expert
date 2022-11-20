@@ -119,7 +119,7 @@ const ViewUsersScreen = () => {
         <ScrollView className="h-5/6 pt-5" horizontal={true}>
           {shownUsers.map((user: userType, index: number) => {
             const ratingAverage = CalculateRatingAverageHelper(user.reviews);
-            return <UserCardComponent key={index} reviews_average={ratingAverage} user={user} bgcolor_style={cardbgcolor_style}/>;
+            return <UserCardComponent key={index} reviews_average={ratingAverage} user={user} bgcolor_style={cardbgcolor_style} textcolor_style={textcolor_style}/>;
           })}
         </ScrollView>
       )}
