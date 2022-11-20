@@ -49,6 +49,7 @@ const commonStyles = StyleSheet.create({
   },
   edit_placeholderStyle: {
     fontSize: 16,
+    marginLeft: 5,
   },
   edit_selectedTextStyle: {
     fontSize: 16,
@@ -60,6 +61,11 @@ const commonStyles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+  },
+
+  //DARK MODE
+  edit_placeholder_dark: {
+    color: COLORS.grey,
   },
 
   //LEADERBOARD COLORS
