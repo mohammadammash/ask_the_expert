@@ -7,11 +7,18 @@ import { AllReviewsStatsProps } from "./types";
 import expertStyles from "./expert.styles";
 import { t } from "i18next";
 
-const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews_length, rating, textcolor_style, bgcolor_style }) => {
+const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({
+  reviews_length,
+  rating,
+  textcolor_style,
+  bgcolor_style,
+  handleSearchReviewsChangeText,
+  userIsSearchingReviews,
+}) => {
   //translation
   const basedon_string = t("Based on");
   const reviews_string = t("Reviews");
-  
+
   const five_avg = rating.totalOf5 > 0 ? rating.totalOf5 / reviews_length : 0;
   const four_avg = rating.totalOf4 > 0 ? rating.totalOf4 / reviews_length : 0;
   const three_avg = rating.totalOf3 > 0 ? rating.totalOf3 / reviews_length : 0;
@@ -41,9 +48,14 @@ const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({ reviews_length, ratin
       <SingleReviewStat key={5} progress={one_avg} rating={1} />
 
       {/* SEARCH BAR */}
-      {reviews_length ? (
+      {reviews_length || userIsSearchingReviews ? (
         <View className="items-center mt-10 mb-5">
-          <TextInput style={[styles.text_input, styles.search_input, textcolor_style]} className="placeholder:pl-3" placeholder="Search" />
+          <TextInput
+            onChangeText={handleSearchReviewsChangeText}
+            style={[styles.text_input, styles.search_input, textcolor_style]}
+            className="placeholder:pl-3"
+            placeholder="Search"
+          />
         </View>
       ) : null}
     </View>

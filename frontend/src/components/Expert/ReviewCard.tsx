@@ -8,7 +8,7 @@ import expertStyles from "./expert.styles";
 import { ReviewCardProps } from "./types";
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review, currentOwner, handleDeleteOwnReview, textcolor_style }) => {
-  const { firstName, lastName, profile_url, field } = review.novice_id;
+  const { firstName, lastName, profile_url, speciality } = review.novice_id;
   let { rating, content, createdAt } = review;
   createdAt = new Date(createdAt);
   const showed_date = `${createdAt.getDate()}/${createdAt.getMonth() + 1}/${createdAt.getFullYear()}`;
@@ -42,14 +42,16 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review, curren
             ) : null}
           </View>
           <Text style={textcolor_style} className="text-xs opacity-50 mb-3">
-            {field}
+            {speciality}
           </Text>
           <Text style={textcolor_style} className="w-full text-[11px]">
             {content}
           </Text>
           <View className="flex-row h-10 items-center justify-between">
             <AirbnbRating starContainerStyle={expertStyles.starsRatingRow} size={15} defaultRating={rating} isDisabled reviews={[""]} />
-            <Text style={textcolor_style} className="text-[9px] opacity-75">{showed_date}</Text>
+            <Text style={textcolor_style} className="text-[9px] opacity-75">
+              {showed_date}
+            </Text>
           </View>
         </View>
       </View>

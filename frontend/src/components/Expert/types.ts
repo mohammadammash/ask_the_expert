@@ -9,10 +9,12 @@ type RatingContentType = { average: number; totalOf5: number; totalOf4: number; 
 export interface AllReviewsStatsProps {
   reviews_length: number,
   rating: RatingContentType,
+  handleSearchReviewsChangeText: (text: string) => void,
+  userIsSearchingReviews: boolean,
   textcolor_style: {
     color: string
   },
-  bgcolor_style:{
+  bgcolor_style: {
     backgroundColor: string,
   }
 }
