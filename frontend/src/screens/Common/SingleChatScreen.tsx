@@ -2,7 +2,7 @@ import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 import { useEffect, useCallback, useLayoutEffect, useState } from "react";
 import { GiftedChat, Send } from "react-native-gifted-chat";
 import { FontAwesome } from "@expo/vector-icons";
-import {useColorScheme} from "nativewind";
+import { useColorScheme } from "nativewind";
 //internal imports
 import { COLORS, IMAGES } from "../../constants";
 import styles from "../../../styles";
@@ -13,11 +13,11 @@ import { t } from "i18next";
 
 const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }) => {
   //translation
-  const typemessage_placeholder = t('Type message...')
+  const typemessage_placeholder = t("Type message...");
 
   //theme
-  const {colorScheme} = useColorScheme();
-  const bgcolor_style = colorScheme === 'dark' ? styles.bg_dark : styles.bg_white;
+  const { colorScheme } = useColorScheme();
+  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
 
   //ALWAYS THIS PAGE SHOULD BE AS PART FROM ANOTHER SCREEN STACK
   let shown_user = { ...userInitialData };
@@ -194,22 +194,22 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
 
   return (
     <View style={bgcolor_style} className="flex-1 h-full items-center">
-          <View className="h-full w-full">
-            {messages.length === 0 ? <Text className="text-center mt-10">Say Hello! &#128075;</Text> : null}
-            <GiftedChat
-            placeholder={typemessage_placeholder}
-              messages={messages}
-              renderAvatar={() => null}
-              onSend={(messages: any) => onSend(messages)}
-              user={{
-                _id: user._id,
-              }}
-              renderSend={(props) => (
-                <Send {...props} containerStyle={commonStyles.sendMessageInput}>
-                  <FontAwesome name="send" size={24} color={COLORS.blue} />
-                </Send>
-              )}
-            />
+      <View className="h-full w-full">
+        {messages.length === 0 ? <Text className="text-center mt-10">Say Hello! &#128075;</Text> : null}
+        <GiftedChat
+          placeholder={typemessage_placeholder}
+          messages={messages}
+          renderAvatar={null}
+          onSend={(messages: any) => onSend(messages)}
+          user={{
+            _id: user._id,
+          }}
+          renderSend={(props) => (
+            <Send {...props} containerStyle={commonStyles.sendMessageInput}>
+              <FontAwesome name="send" size={24} color={COLORS.blue} />
+            </Send>
+          )}
+        />
       </View>
     </View>
   );
