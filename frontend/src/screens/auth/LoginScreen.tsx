@@ -23,7 +23,6 @@ const LoginScreen = () => {
     const token = await getAuthTokenUtility();
     setToken(token);
   };
-
   useEffect(() => {
     getTokenIfExists();
   }, []);

@@ -1,6 +1,5 @@
-import { View, Text, Pressable, TextInput, Image, Button, Platform } from "react-native";
+import { View, Text, TextInput, Image, Button, Platform } from "react-native";
 import { Formik } from "formik";
-import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -13,7 +12,7 @@ import { ALLJOBSFIELDS, ALLJOBSSPECIALTIES } from "../../constants";
 import { validateRegisterFormSchema, registerInitialValues } from "./Helpers/RegisterFormHelper";
 import { ALLANGUAGES } from "../../constants";
 import { RegisterFormProps } from "./types";
-import { date } from "yup";
+import ButtonComponent from "../Common/Button";
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
   image,
@@ -59,12 +58,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
           <View>
             <Text className="font-bold">LastName</Text>
             <TextInput
-              onChangeText={handleChange("lastName")}
+              onChangeText={handleChange("astName")}
               onBlur={handleBlur("lastName")}
               value={values.lastName}
               style={styles.text_input}
               className="placeholder:pl-3"
-              placeholder="lastname"
+              placeholder="Lastname"
             />
             {errors.lastName && touched.lastName && <Text className="text-red-600">{errors.lastName}</Text>}
           </View>
@@ -212,9 +211,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             ) : null}
           </View>
 
-          <Pressable className="mt-2 mb-7" style={styles.blue_auth_button} onPress={handleSubmit}>
-            <Text className="text-xl text-white font-bold">SIGN UP</Text>
-          </Pressable>
+          <View className="mb-3">
+            <ButtonComponent button_style="xl" route_name="" title="SIGN UP" handlePress={() => handleSubmit()} disabled={false} />
+          </View>
         </View>
       )}
     </Formik>
