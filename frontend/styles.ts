@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { COLORS } from "./src/constants/index";
 import { Dimensions } from "react-native";
 import { useUserContext } from "./src/hooks/UserContext";
+import Button from "./src/components/Common/Button";
 
 const { width } = Dimensions.get("screen");
 
@@ -75,7 +76,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.blue,
     width: '100%',
   },
-  blue_button_lg: {
+  blue_button_lg : {
     borderWidth: 2,
     height: 60,
     width: 200,
@@ -86,7 +87,7 @@ export default StyleSheet.create({
   },
   blue_button_md: {
     borderWidth: 2,
-    height: 60,
+    height: 50,
     width: 140,
     textTransform: "uppercase",
     borderRadius: 10,
@@ -106,7 +107,7 @@ export default StyleSheet.create({
   },
   blue_button_xs: {
     borderWidth: 2,
-    height: 40,
+    height: 30,
     width: 80,
     textTransform: "uppercase",
     borderRadius: 10,

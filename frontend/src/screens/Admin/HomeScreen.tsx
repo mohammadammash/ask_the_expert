@@ -12,8 +12,6 @@ import { useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
 import CalculateUserStatsHelper from "./Helpers/CalculateUsersStatsHelper";
 import CalculateChatsAndAppointmentsStatsHelper from "./Helpers/CalculateChatsAndAppointmentsStatsHelper";
 import getChatsStatsFromFirestore from "../Helpers/GetChatsStatsFromFirestoreHelper";
-import { removeAuthToken } from "../../networks/base";
-import { userInitialData, useUserContext } from "../../hooks/UserContext";
 
 //--------------------------
 const HomeScreen = () => {

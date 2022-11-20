@@ -34,8 +34,8 @@ const ViewBannedUsersScreen = () => {
   //End of Handling filter users
 
   //Start of Handling UnBan User Login
-  const handleonPressUnBanButton = (user_id: string)=>{
-    alert(`UNBAN ${user_id}`);
+  const handleonPressUnBanButton = (user_id: string, isBanned: false)=>{
+    alert(`${isBanned ? 'UNBAN': "BAN"} ${user_id}`);
   } 
   //End of Handling UnBan User Login
 

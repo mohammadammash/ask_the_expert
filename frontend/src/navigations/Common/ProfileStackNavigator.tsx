@@ -12,7 +12,7 @@ import {
   EditProfileScreen,
   AdminProfileScreen,
   SingleChatScreen,
-  AdminViewUsersScreen,
+  AdminViewBannedUsersScreen,
 } from "../../screens";
 import { ROUTES, USERTYPES } from "../../constants";
 import { menuIcon, stackScreenOptionsStyle } from "../Helpers/NavigatorsHelpers";
@@ -68,7 +68,7 @@ const ProfileStackNavigator = () => {
       {user_type === USERTYPES.ADMIN && (
         <>
           <Stack.Screen name={ROUTES.ADMIN_PROFILE} component={AdminProfileScreen} options={{ title: profile_title }} />
-          <Stack.Screen name={ROUTES.ADMIN_VIEW_BANNED_USERS} component={AdminViewUsersScreen} options={{ title: bannedusers_title }} />
+          <Stack.Screen name={ROUTES.ADMIN_VIEW_BANNED_USERS} component={AdminViewBannedUsersScreen} options={{ title: bannedusers_title }} />
         </>
       )}
 

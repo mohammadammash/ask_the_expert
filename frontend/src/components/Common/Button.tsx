@@ -26,7 +26,7 @@ const Button: React.FC<ButtonComponentProps> = ({ button_style, title, handlePre
         }, 300);
       }}
     >
-      <Text style={[styles.button_text, isActive && styles.button_click_text_style]} className={`font-bold uppercase text-${button_style}`}>
+      <Text style={[styles.button_text, isActive && styles.button_click_text_style]} className={`font-bold uppercase text-center text-${button_style}`}>
         {title}
       </Text>
     </Pressable>

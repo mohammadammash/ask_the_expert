@@ -25,6 +25,7 @@ export { default as ChatAndAppointmentCardComponent } from "./Common/ChatAndAppo
 export { default as LeaderboardCardComponent } from "./Common/LeaderboardCard";
 export { default as ButtonComponent } from "./Common/Button";
 export { default as ActivityIndicatorComponent } from "./Common/ActivityIndicator";
+export {default as FilterPageTitleComponent} from "./Admin/FilterPageTitle";
 
 //NAVIGATION
 export { default as CustomDrawerComponent } from "./Navigation/CustomDrawer";
