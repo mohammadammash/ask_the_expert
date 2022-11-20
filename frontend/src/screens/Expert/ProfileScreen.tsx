@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, ActivityIndicator, StyleSheet } from "react-native";
+import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, StyleSheet } from "react-native";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { reviewsType, userType, useUserContext } from "../../hooks/UserContext";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { useColorScheme } from "nativewind";
+import { useHeaderHeight } from "@react-navigation/elements";
 //internal imports
 import {
   AllReviewsStatsComponent,
@@ -100,7 +101,6 @@ const ProfileScreen = ({ route }: { route: any }) => {
   useEffect(() => {
     if (mutateGoOfflineExpertIsSuccess) {
       setUser({ ...user, isAvailable: false });
-      alert(JSON.stringify(mutateGoOfflineExpertData, null, 2));
     }
   }, [mutateGoOfflineExpertIsSuccess]);
 
@@ -194,7 +194,6 @@ const ProfileScreen = ({ route }: { route: any }) => {
   useEffect(() => {
     if (mutateAddReviewData && !alreadyAddedReview) {
       const new_review = mutateAddReviewData.data;
-      alert(JSON.stringify(mutateAddReviewData, null, 2));
       new_review.novice_id = { ...currentUser }; //manual populate
       setShownReviews((prev) => [new_review, ...prev]);
       setAlreadyAddedReview(true);
@@ -317,33 +316,38 @@ const ProfileScreen = ({ route }: { route: any }) => {
         <AllReviewsStatsComponent {...reviewsStatsData} />
 
         <View className="w-full items-center my-5">
-          {shownReviews?.map((review, index) => {
-            if (review.novice_id._id === currentUser_id) {
-              // not mark is to prevent reRendering infinite loop
-              if (!alreadyAddedReview) setAlreadyAddedReview(true);
-              return (
-                <ReviewCardComponent
-                  key={index}
-                  review={review}
-                  handleCardClick={handleCardClick}
-                  currentOwner={true}
-                  handleDeleteOwnReview={handleDeleteOwnReview}
-                  textcolor_style={colorScheme === "dark" ? styles.grey_text : styles.dark_text}
-                />
-              );
-            } else {
-              return (
-                <ReviewCardComponent
-                  key={index}
-                  review={review}
-                  handleCardClick={handleCardClick}
-                  currentOwner={false}
-                  handleDeleteOwnReview={handleDeleteOwnReview}
-                  textcolor_style={colorScheme === "dark" ? styles.grey_text : styles.dark_text}
-                />
-              );
-            }
-          })}
+          {shownReviews
+            ?.sort((a, b) => {
+              const [first, second] = [new Date(a.createdAt).getTime(), new Date(b.createdAt).getTime()];
+              return second - first;
+            })
+            .map((review, index) => {
+              if (review.novice_id._id === currentUser_id) {
+                // not mark is to prevent reRendering infinite loop
+                if (!alreadyAddedReview) setAlreadyAddedReview(true);
+                return (
+                  <ReviewCardComponent
+                    key={index}
+                    review={review}
+                    handleCardClick={handleCardClick}
+                    currentOwner={true}
+                    handleDeleteOwnReview={handleDeleteOwnReview}
+                    textcolor_style={colorScheme === "dark" ? styles.grey_text : styles.dark_text}
+                  />
+                );
+              } else {
+                return (
+                  <ReviewCardComponent
+                    key={index}
+                    review={review}
+                    handleCardClick={handleCardClick}
+                    currentOwner={false}
+                    handleDeleteOwnReview={handleDeleteOwnReview}
+                    textcolor_style={colorScheme === "dark" ? styles.grey_text : styles.dark_text}
+                  />
+                );
+              }
+            })}
         </View>
       </View>
     </ScrollView>
