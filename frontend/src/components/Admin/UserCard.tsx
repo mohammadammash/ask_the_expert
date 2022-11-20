@@ -12,11 +12,13 @@ const UserCard = ({
   user,
   reviews_average,
   bgcolor_style,
+  textcolor_style,
 }: {
   user: userType;
   key: number;
   reviews_average: number;
   bgcolor_style: { backgroundColor: string };
+  textcolor_style: { color: string };
 }) => {
   const [showMoreInfo, setShowMoreInfo] = useState(false);
   const toggleMoreInfo = () => setShowMoreInfo((prev) => !prev);
@@ -123,7 +125,9 @@ const UserCard = ({
       </TouchableOpacity>
       {!showMoreInfo ? (
         <View className="h-1/3 w-full text-center  py-5">
-          <Text className="opacity-40 italic text-xs text-center">{more_info_string}</Text>
+          <Text style={textcolor_style} className="opacity-40 italic text-xs text-center">
+            {more_info_string}
+          </Text>
         </View>
       ) : null}
     </View>
