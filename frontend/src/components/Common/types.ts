@@ -1,4 +1,3 @@
-import { string } from "yup";
 import { userType } from "../../hooks/UserContext";
 
 export interface ChatAndAppointmentCardProps {
@@ -27,7 +26,7 @@ export interface EditProfileFormProps {
   handleSubmitForm: (values: EditProfileFormValuesTypes) => void;
   textcolor_style: {
     color: string
-  }
+  },
 }
 
 export interface EditProfileFormValuesTypes {
@@ -78,9 +77,6 @@ export interface ButtonComponentProps {
   disabled: boolean;
   route_name: string;
   handlePress: (route_name: string) => void;
-  textcolor_style: {
-    color: string
-  }
 }
 
 export interface ProfileImageCardProps {
