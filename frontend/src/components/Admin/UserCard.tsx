@@ -1,39 +1,37 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, KeyboardAvoidingView } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, Pressable } from "react-native";
 import { t } from "i18next";
 import { useState } from "react";
 //internal imports
-import { COLORS, IMAGES, USERTYPES } from "../../constants";
+import { IMAGES, USERTYPES } from "../../constants";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "../../../styles";
-import { userType } from "../../hooks/UserContext";
 import CalculateYearsOfExperienceHelper from "../../screens/Helpers/CalculateYearsOfExperienceHelper";
+import { UserCardProps } from "./types";
 
-const UserCard = ({
+const UserCard : React.FC<UserCardProps> = ({
   user,
   reviews_average,
   bgcolor_style,
   textcolor_style,
-}: {
-  user: userType;
-  key: number;
-  reviews_average: number;
-  bgcolor_style: { backgroundColor: string };
-  textcolor_style: { color: string };
-}) => {
+  handlePress,
+}): JSX.Element => {
   const [showMoreInfo, setShowMoreInfo] = useState(false);
   const toggleMoreInfo = () => setShowMoreInfo((prev) => !prev);
 
   //translation
   const more_info_string = t("Press On The Card To View All Info");
-  const { profile_url, firstName, lastName, user_type, field, speciality, score, spoken_languages, about, email, isAvailable, start_date } = user;
+  const { _id, profile_url, firstName, lastName, user_type, field, speciality, score, spoken_languages, about, email, isAvailable, start_date, isBanned } =
+    user;
   const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
+  const banuser_string = t("BAN USER");
+  const unbanuser_string = t("UNBAN USER");
 
   return (
     <View style={styles.screenWidth}>
       <TouchableOpacity
         onPress={toggleMoreInfo}
         style={[styles.shadow_bg, bgcolor_style]}
-        className={`rounded-lg border-2 items-center min-h-64 ${showMoreInfo ? "h-96" : "h-64"} min-h-64 mx-5 pt-3`}
+        className={`rounded-lg border-2 items-center min-h-64 ${showMoreInfo ? "h-96" : "h-72"} min-h-64 mx-5 pt-3`}
       >
         <ScrollView className="w-full">
           <View className={`w-full ${user_type === USERTYPES.EXPERT && showMoreInfo ? "h-1/3" : ""} h-1/2 items-center gap-y-3`}>
@@ -58,6 +56,11 @@ const UserCard = ({
                 <AntDesign name="rightcircle" size={24} color="black" />
               </View>
             </View>
+            <Pressable style={styles.blue_button_sm} onPress={()=>handlePress(_id, isBanned)}>
+              <Text style={styles.button_text} className="text-[13px] font-bold">
+                {isBanned ? unbanuser_string : banuser_string}
+              </Text>
+            </Pressable>
           </View>
 
           {/* MORE INFO SECTION */}
