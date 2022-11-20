@@ -121,6 +121,14 @@ export default StyleSheet.create({
     justifyContent: "center",
     backgroundColor: COLORS.blue,
   },
+  //CLICK BUTTON STYLE CHANGE
+  button_click_style: {
+    borderColor: COLORS.blue,
+    backgroundColor: COLORS.white,
+  },
+  button_click_text_style:{
+    color: COLORS.blue,
+  },
 
   //CARDS:
   bg_grey_opacity30: {
