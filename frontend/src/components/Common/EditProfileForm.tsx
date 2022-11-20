@@ -6,7 +6,7 @@ import { Picker } from "@react-native-picker/picker";
 //internal imports:
 import styles from "../../../styles";
 import authStyles from "../Auth/auth.styles";
-import { IMAGES, USERTYPES } from "../../constants";
+import { IMAGES, USERTYPES, COLORS } from "../../constants";
 import { ALLJOBSSPECIALTIES, APP_LANGUAGES_OPTIONS, APP_THEME_OPTIONS } from "../../constants";
 import {
   userEditProfileInitialValues,
@@ -58,14 +58,14 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
         <View className="w-4/5 justify-center">
-          <View className="items-center mb-3 ">
-            <View className="border-2 rounded-full h-36 w-36">
+          <View className="items-center">
+            <View className="border-2 rounded-full h-36 w-36 mb-3">
               <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />
             </View>
             <Button title={pickimage_string} onPress={showImage} />
           </View>
 
-          <View>
+          <View className="mt-3">
             <Text style={textcolor_style} className="font-bold capitalize">
               {firstname_string}
             </Text>
@@ -73,9 +73,10 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               onChangeText={handleChange("firstName")}
               onBlur={handleBlur("firstName")}
               value={values.firstName}
-              style={styles.text_input}
               className="placeholder:pl-3"
               placeholder="Firstname"
+              style={[styles.text_input, textcolor_style.color === COLORS.grey && styles.border_grey]}
+              placeholderTextColor={textcolor_style.color}
             />
             {errors.firstName && touched.firstName && <Text className="text-red-600">{errors.firstName}</Text>}
           </View>
@@ -88,8 +89,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               onChangeText={handleChange("lastName")}
               onBlur={handleBlur("lastName")}
               value={values.lastName}
-              style={styles.text_input}
-              className="border-2 rounded-lg"
+              placeholderTextColor={textcolor_style.color}
+              className=" placeholder:pl-3 h-20 border-2 rounded-lg"
+              style={[styles.text_input, textcolor_style.color === COLORS.grey && styles.border_grey]}
               placeholder="Lastname"
             />
             {errors.lastName && touched.lastName && <Text className="text-red-600">{errors.lastName}</Text>}
@@ -107,7 +109,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
                   onBlur={handleBlur("about")}
                   value={values.about}
                   className=" placeholder:pl-3 h-20 border-2 rounded-lg"
+                  style={[textcolor_style, textcolor_style.color === COLORS.grey && styles.border_grey]}
                   placeholder="About"
+                  placeholderTextColor={textcolor_style.color}
                   multiline={true}
                   numberOfLines={10}
                 />
@@ -115,30 +119,32 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               </View>
 
               <View>
-                <Text style={textcolor_style} className="mt-2 font-bold border-b-2 bold capitalize">
+                <Text style={textcolor_style} className="mt-2 font-bold bold capitalize">
                   {speciality_string}
                 </Text>
-                <Picker
-                  style={styles.select_input}
-                  enabled={true}
-                  mode="dropdown"
-                  placeholder="Select Field"
-                  selectedValue={values.speciality}
-                  onValueChange={handleChange("speciality")}
-                >
-                  {ALLJOBSSPECIALTIES.map((job, index) => (
-                    <Picker.Item label={job} value={job} key={index} />
-                  ))}
-                </Picker>
+                <View style={[styles.select_input, textcolor_style.color === COLORS.grey && styles.border_grey]}>
+                  <Picker
+                    style={textcolor_style.color === COLORS.grey && textcolor_style}
+                    enabled={true}
+                    mode="dropdown"
+                    placeholder="Select Field"
+                    selectedValue={values.speciality}
+                    onValueChange={handleChange("speciality")}
+                  >
+                    {ALLJOBSSPECIALTIES.map((job, index) => (
+                      <Picker.Item label={job} value={job} key={index} />
+                    ))}
+                  </Picker>
+                </View>
               </View>
 
               <Text style={textcolor_style} className="font-bold capitalize">
                 {spokenlanguages_string}
               </Text>
-              <View className="border-2 rounded-lg pl-1">
+              <View style={[textcolor_style.color === COLORS.grey && styles.border_grey]} className="border-2 rounded-lg pl-1">
                 <MultiSelect
                   style={authStyles.dropdown}
-                  placeholderStyle={authStyles.placeholderStyle}
+                  placeholderStyle={[authStyles.placeholderStyle, textcolor_style.color === COLORS.grey && commonStyles.edit_placeholder_dark]}
                   selectedTextStyle={authStyles.selectedTextStyle}
                   inputSearchStyle={authStyles.inputSearchStyle}
                   iconStyle={authStyles.iconStyle}
@@ -167,8 +173,8 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               {applanguage_string}
             </Text>
             <Dropdown
-              style={commonStyles.edit_dropdown}
-              placeholderStyle={commonStyles.edit_placeholderStyle}
+              style={[commonStyles.edit_dropdown, textcolor_style.color === COLORS.grey && styles.border_grey]}
+              placeholderStyle={[commonStyles.edit_placeholderStyle, textcolor_style.color === COLORS.grey && commonStyles.edit_placeholder_dark]}
               selectedTextStyle={commonStyles.edit_selectedTextStyle}
               inputSearchStyle={commonStyles.inputSearchStyle}
               iconStyle={commonStyles.edit_iconStyle}
@@ -198,8 +204,8 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               {apptheme_string}
             </Text>
             <Dropdown
-              style={commonStyles.edit_dropdown}
-              placeholderStyle={commonStyles.edit_placeholderStyle}
+              style={[commonStyles.edit_dropdown, textcolor_style.color === COLORS.grey && styles.border_grey]}
+              placeholderStyle={[commonStyles.edit_placeholderStyle, textcolor_style.color === COLORS.grey && commonStyles.edit_placeholder_dark]}
               selectedTextStyle={commonStyles.edit_selectedTextStyle}
               inputSearchStyle={commonStyles.inputSearchStyle}
               iconStyle={commonStyles.edit_iconStyle}
@@ -224,7 +230,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             />
           </View>
 
-          <Pressable className="my-7" style={styles.blue_button_xl} onPress={handleSubmit}>
+          <Pressable className="mt-7" style={styles.blue_button_xl} onPress={handleSubmit}>
             <Text className="text-xl text-white font-bold uppercase">{submit_string}</Text>
           </Pressable>
         </View>
