@@ -62,28 +62,21 @@ export default StyleSheet.create({
   },
   admin_search_input: {
     width: '85%',
+    borderWidth: 2,
   },
 
   //BUTTONS
-  blue_auth_button: {
+  blue_button_xl: {
+    borderWidth: 2,
     height: 60,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.blue,
-    color: COLORS.white,
     width: '100%',
   },
-  blue_button_xl: {
-    height: 60,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: COLORS.blue,
-    color: COLORS.white,
-    width: 300,
-  },
   blue_button_lg: {
+    borderWidth: 2,
     height: 60,
     width: 200,
     borderRadius: 10,
@@ -128,6 +121,10 @@ export default StyleSheet.create({
   },
   button_click_text_style: {
     color: COLORS.blue,
+  },
+  button_text:{
+    color: COLORS.white,
+    textTransform: 'uppercase'
   },
 
   //CARDS:
