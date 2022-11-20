@@ -1,12 +1,12 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text } from "react-native";
 import { Formik } from "formik";
 import { SelectCountry } from "react-native-element-dropdown";
 //internal imports
 import commonStyles from "../Common/common.styles";
-import styles from "../../../styles";
 import { availabilityIntialValues, validateSetAvailabilityForm } from "./Helpers/ConfirmAvailabilityFormHelper";
 import { AVAILABILITY_SESSION_OPTIONS, AVAILABILITY_OPTIONS } from "../../constants";
 import { ConfirmAvailabilityFormCardProps } from "./types";
+import ButtonComponent from "../Common/Button";
 import { t } from "i18next";
 
 const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = ({ handleSubmitForm, unmatchedOptions, textcolor_style }) => {
@@ -19,8 +19,8 @@ const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = 
   const hoursfor_string = t("hour/s for");
   const confirmavb_string = t("Confirm your availability from now till the upcoming");
   const sessionsapp_string = t("sessions/appointments");
-  const signup_string = t("sign up");
-  
+  const submit_string = t("submit");
+
   return (
     <Formik
       initialValues={availabilityIntialValues}
@@ -33,7 +33,9 @@ const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = 
         <>
           <View className="px-2 h-1/2">
             <View className="flex-row justify-around items-center">
-              <Text style={textcolor_style} className="text-xs pl-3 w-1/2">{available_string}</Text>
+              <Text style={textcolor_style} className="text-xs pl-3 w-1/2">
+                {available_string}
+              </Text>
               <SelectCountry
                 style={commonStyles.dropdown}
                 selectedTextStyle={commonStyles.selectedTextStyle}
@@ -57,7 +59,9 @@ const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = 
             )}
 
             <View className="flex-row justify-around items-center">
-              <Text style={textcolor_style} className="text-xs pl-3 w-1/2">{sessionlabel_string}</Text>
+              <Text style={textcolor_style} className="text-xs pl-3 w-1/2">
+                {sessionlabel_string}
+              </Text>
               <SelectCountry
                 style={commonStyles.dropdown}
                 selectedTextStyle={commonStyles.selectedTextStyle}
@@ -90,9 +94,8 @@ const ConfirmAvailabilityFormCard: React.FC<ConfirmAvailabilityFormCardProps> = 
                 : Math.floor(values.meetings_time / values.single_session_time)}{" "}
               {sessionsapp_string}
             </Text>
-            <Pressable style={styles.blue_button_lg} onPress={handleSubmit}>
-              <Text className="text-xl text-white font-bold capitalize">{signup_string}</Text>
-            </Pressable>
+
+            <ButtonComponent button_style="lg" route_name="" title={submit_string} handlePress={() => handleSubmit()} disabled={false} />
           </View>
         </>
       )}

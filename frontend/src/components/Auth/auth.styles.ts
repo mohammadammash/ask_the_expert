@@ -12,6 +12,7 @@ export default StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 16,
+    marginLeft: 5,
   },
   selectedTextStyle: {
     fontSize: 14,
@@ -19,6 +20,7 @@ export default StyleSheet.create({
   iconStyle: {
     width: 20,
     height: 20,
+    marginRight:'5%',
   },
   inputSearchStyle: {
     height: 40,
