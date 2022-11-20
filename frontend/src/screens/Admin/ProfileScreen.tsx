@@ -25,19 +25,8 @@ const ProfileScreen = () => {
   const navigation = useNavigation<any>();
   const handlePress = (routeName: string) => navigation.navigate(routeName);
 
-  //Buttons comp params
-  const data = {
-    user_type,
-    handlePress,
-    button_style: "xl",
-    route_name: "",
-    disabled: false,
-    title: "View Banned Users",
-    textcolor_style,
-  };
-
   return (
-    <View style={bgcolor_style} className="flex-1 items-center bg-white">
+    <View style={bgcolor_style} className="flex-1 items-center">
       <ProfileImageCardComponent profile_url={profile_url} />
       <View className="w-full items-center justify-start gap-6">
         {/* PERSONAL INFO */}
@@ -56,8 +45,9 @@ const ProfileScreen = () => {
           </Text>
         </View>
 
-        <View className="items-center w-full">
-          <ButtonComponent {...data} handlePress={handlePress} button_style='lg' title='EDIT PROFILE' route_name={ROUTES.USER_EDIT_PROFILE} disabled={false} textcolor_style={colorScheme === "dark" ? styles.white_text : styles.white_text}/>
+        <View className="flex-row items-center justify-evenly w-full">
+          <ButtonComponent handlePress={handlePress} button_style="md" title="EDIT PROFILE" route_name={ROUTES.USER_EDIT_PROFILE} disabled={false} />
+          <ButtonComponent handlePress={handlePress} button_style="md" title="VIEW BANNED USERS" route_name={ROUTES.ADMIN_VIEW_BANNED_USERS} disabled={false} />
         </View>
       </View>
     </View>
