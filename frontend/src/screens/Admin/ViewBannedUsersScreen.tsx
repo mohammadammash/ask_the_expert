@@ -1,14 +1,10 @@
 import { View, ScrollView, TextInput, Text } from "react-native";
 import { useState, useEffect } from "react";
-import { SelectCountry } from "react-native-element-dropdown";
-import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 //internal imports
 import styles from "../../../styles";
 import { COLORS } from "../../constants";
-import adminStyles from "./admin.styles";
-import { USERS_TYPES_OPTIONS } from "../../constants";
-import { UserCardComponent, ActivityIndicatorComponent } from "../../components";
+import { UserCardComponent, ActivityIndicatorComponent, FilterPageTitleComponent } from "../../components";
 import { useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
 import { userType } from "../../hooks/UserContext";
 import CalculateRatingAverageHelper from "./Helpers/CalculateRatingAverageHelper";
@@ -23,7 +19,7 @@ const ViewBannedUsersScreen = () => {
   const cardbgcolor_style = colorScheme === "dark" ? styles.bg_grey : styles.bg_white;
   const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
 
-  //Handling filter users
+  //Start of Handling filter users
   const handleShownUserType = (value: string) => {
     if (value !== "users") {
       const users = allUsersData.users.filter((user: userType) => user.user_type === value && user.isBanned);
@@ -35,6 +31,13 @@ const ViewBannedUsersScreen = () => {
       setShownUsersType(value);
     }
   };
+  //End of Handling filter users
+
+  //Start of Handling UnBan User Login
+  const handleonPressUnBanButton = (user_id: string)=>{
+    alert(`UNBAN ${user_id}`);
+  } 
+  //End of Handling UnBan User Login
 
   //Handle Search User Input
   const handleSearchUserChangeText = (text: string) => {
@@ -65,7 +68,7 @@ const ViewBannedUsersScreen = () => {
   };
   //End of Handle Search User Input
 
-  //Handlie
+  //Handle SHOW BANNED USERS ON LOAD
   const { data: allUsersData, isLoading: isLoadingGetAllData } = useGetAllUsersWithStatistics();
   useEffect(() => {
     if (allUsersData) {
@@ -85,31 +88,16 @@ const ViewBannedUsersScreen = () => {
     <View style={bgcolor_style} className="flex-1 items-center justify-between">
       {/* START OF FILTER PAGE TITLE */}
       <View className="h-1/6 w-full justify-start mb-10">
-        <View className="flex-row  items-center w-full justify-between pr-3 pl-7">
-          <Text style={textcolor_style} className="font-bold">
-            View All {shownUsersType.charAt(0).toUpperCase() + shownUsersType.slice(1) + (shownUsersType === "users" ? "" : "s")}
-          </Text>
-          <SelectCountry
-            style={[adminStyles.dropdown, cardbgcolor_style]}
-            selectedTextStyle={adminStyles.selectedTextStyle}
-            placeholderStyle={adminStyles.placeholderStyle}
-            iconStyle={adminStyles.iconStyle}
-            maxHeight={200}
-            renderRightIcon={() => <Ionicons name="filter" size={18} color="black" />}
-            value={shownUsersType}
-            data={USERS_TYPES_OPTIONS}
-            valueField="value"
-            labelField="label"
-            imageField="image"
-            placeholder="All"
-            searchPlaceholder="Search..."
-            onChange={(e) => handleShownUserType(e.value)}
-          />
-        </View>
+        <FilterPageTitleComponent
+          cardbgcolor_style={cardbgcolor_style}
+          textcolor_style={textcolor_style}
+          shownUsersType={shownUsersType}
+          handleShownUserType={handleShownUserType}
+        />
         {/* SEARCH BAR */}
         <View className="items-center">
           <TextInput
-            style={[styles.text_input, styles.admin_search_input, textcolor_style]}
+            style={[styles.text_input, styles.admin_search_input, textcolor_style, colorScheme === "dark" && styles.border_grey]}
             className="placeholder:pl-3"
             placeholder="Search"
             placeholderTextColor={textcolor_style.color}
@@ -138,6 +126,7 @@ const ViewBannedUsersScreen = () => {
                 user={user}
                 bgcolor_style={cardbgcolor_style}
                 textcolor_style={textcolor_style}
+                handlePress={handleonPressUnBanButton}
               />
             );
           })}
