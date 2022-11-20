@@ -1,11 +1,13 @@
 import { View, ScrollView, TextInput, Text } from "react-native";
 import { useState, useEffect } from "react";
 import { useColorScheme } from "nativewind";
+import AlertAsync from "react-native-alert-async";
+import { t } from "i18next";
 //internal imports
 import styles from "../../../styles";
 import { COLORS } from "../../constants";
 import { UserCardComponent, ActivityIndicatorComponent, FilterPageTitleComponent } from "../../components";
-import { useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
+import { useBanOrUnBanUser, useGetAllUsersWithStatistics } from "../../hooks/useAdmin";
 import { userType } from "../../hooks/UserContext";
 import CalculateRatingAverageHelper from "./Helpers/CalculateRatingAverageHelper";
 
@@ -34,10 +36,32 @@ const ViewBannedUsersScreen = () => {
   //End of Handling filter users
 
   //Start of Handling UnBan User Login
-  const handleonPressUnBanButton = (user_id: string, isBanned: false)=>{
-    alert(`${isBanned ? 'UNBAN': "BAN"} ${user_id}`);
-  } 
-  //End of Handling UnBan User Login
+  const { mutate: mutateBanOrUnBanUser, isLoading: isLoadingmutateBanOrUnBanUser } = useBanOrUnBanUser();
+  const handleonPressBanOrUnBanButton = async (user_id: string, firstName: string, isBanned: boolean) => {
+    const cancel_string = t("Cancel");
+    const submit_string = t("Submit");
+    const logout_string = t("UnBan User");
+
+    const AsyncAlert = async () => {
+      const choice = await AlertAsync(
+        logout_string,
+        `\nAre you sure you want to UnBan ${firstName}?`,
+        [
+          { text: cancel_string, style: "destructive", onPress: () => false },
+          { text: submit_string, style: "default", onPress: () => true },
+        ],
+        { cancelable: true }
+      );
+      return choice;
+    };
+
+    const choice = await AsyncAlert();
+    if (!choice) return; //Alert Canceled
+
+    const data = { user_id, ban: false }; //Alwasy false since all users in this screen all already banned
+    mutateBanOrUnBanUser(data);
+  };
+  // End of Handling UnBan User Login
 
   //Handle Search User Input
   const handleSearchUserChangeText = (text: string) => {
@@ -80,7 +104,7 @@ const ViewBannedUsersScreen = () => {
   //------------------
   //------------------
   //LOADING DATA STATE
-  if (isLoadingGetAllData) {
+  if (isLoadingGetAllData || isLoadingmutateBanOrUnBanUser) {
     return <ActivityIndicatorComponent title="Users and Statistics are getting loaded" color={COLORS.dark} />;
   }
   //MAIN COMPONENT
@@ -126,7 +150,7 @@ const ViewBannedUsersScreen = () => {
                 user={user}
                 bgcolor_style={cardbgcolor_style}
                 textcolor_style={textcolor_style}
-                handlePress={handleonPressUnBanButton}
+                handlePress={handleonPressBanOrUnBanButton}
               />
             );
           })}
