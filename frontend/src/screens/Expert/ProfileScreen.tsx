@@ -202,6 +202,34 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //END OF REVIEWS SECTION HANDLING
   //---------------------------------
 
+  //---------------------------------
+  //START OF HANDLE SEARCH REVIEWS
+  const [userIsSearchingReviews, setUserIsSearchingReviews] = useState(false);
+  const handleSearchReviewsChangeText = (text: string) => {
+    if (!text) {
+      setUserIsSearchingReviews(false);
+      return setShownReviews([...user.reviews]);
+    }
+    setUserIsSearchingReviews(true);
+    const result = user.reviews?.filter((review: reviewsType) => {
+      const { firstName, lastName, field, speciality } = review.novice_id; //populated id
+      const { rating, content } = review;
+      text = text.toLowerCase();
+      if (
+        firstName.toLowerCase().includes(text) ||
+        lastName.toLowerCase().includes(text) ||
+        field.toLowerCase().includes(text) ||
+        content.toLowerCase().includes(text) ||
+        rating === parseInt(text) ||
+        speciality.toLowerCase().includes(text)
+      )
+        return review;
+    });
+    setShownReviews([...result]);
+  };
+  //END OF HANDLE SEARCH REVIEWS
+  //---------------------------------
+
   //PARAMS
   const personalInfoData = { ...user, yearsOfExperience, textcolor_style: colorScheme === "dark" ? styles.grey_text : styles.dark_text };
   const buttonData = { button_style, title, handlePress, route_name, disabled, textcolor_style }; //current user profile button data
@@ -211,6 +239,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
     rating,
     textcolor_style: colorScheme === "dark" ? styles.grey_text : styles.dark_text,
     bgcolor_style,
+    userIsSearchingReviews,
   };
 
   //----------------
@@ -313,7 +342,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
         </View>
 
         {/* REVIEWS SECTION */}
-        <AllReviewsStatsComponent {...reviewsStatsData} />
+        <AllReviewsStatsComponent {...reviewsStatsData} handleSearchReviewsChangeText={handleSearchReviewsChangeText} />
 
         <View className="w-full items-center my-5">
           {shownReviews
