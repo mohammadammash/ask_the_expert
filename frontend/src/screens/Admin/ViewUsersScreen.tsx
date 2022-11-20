@@ -35,12 +35,9 @@ const ViewUsersScreen = () => {
   //End of Handling filter users
 
   //Start of Handling UnBan User Login
-  const [changedUserBanStatusId, setChangedUserBanStatusId] = useState("");
   const {
     mutate: mutateBanOrUnBanUser,
-    data: mutateBanOrUnBanUserData,
     isLoading: isLoadingmutateBanOrUnBanUser,
-    isSuccess: isSuccessBanOrUnBanUser,
   } = useBanOrUnBanUser();
   const handleonPressBanOrUnBanButton = async (user_id: string, firstName: string, isBanned: boolean) => {
     const cancel_string = t("Cancel");
@@ -65,22 +62,8 @@ const ViewUsersScreen = () => {
 
     isBanned = !isBanned; //Toggle user isBanned boolean onClick
     const data = { user_id, ban: isBanned };
-    setChangedUserBanStatusId(user_id);
     mutateBanOrUnBanUser(data);
   };
-  useEffect(() => {
-    if (isSuccessBanOrUnBanUser && !isLoadingmutateBanOrUnBanUser) {
-      const users = shownUsers.map((user: userType) => {
-        if (user._id === changedUserBanStatusId) {
-          user.isBanned = !user.isBanned;
-          return user;
-        }
-        return user;
-      });
-      setShownUsers([...users]);
-      setChangedUserBanStatusId("");
-    }
-  }, [mutateBanOrUnBanUserData]);
   // End of Handling UnBan User Login
 
   //Handle Search User Input
