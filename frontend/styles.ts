@@ -39,6 +39,9 @@ export default StyleSheet.create({
   border_blue: {
     borderColor: COLORS.blue
   },
+  border_grey: {
+    borderColor: COLORS.grey,
+  },
 
   //INPUTS
   text_input: {
@@ -63,7 +66,6 @@ export default StyleSheet.create({
 
   //BUTTONS
   blue_auth_button: {
-    borderWidth: 2,
     height: 60,
     borderRadius: 10,
     alignItems: "center",
@@ -73,7 +75,6 @@ export default StyleSheet.create({
     width: '100%',
   },
   blue_button_xl: {
-    borderWidth: 2,
     height: 60,
     borderRadius: 10,
     alignItems: "center",
@@ -83,7 +84,6 @@ export default StyleSheet.create({
     width: 300,
   },
   blue_button_lg: {
-    borderWidth: 2,
     height: 60,
     width: 200,
     borderRadius: 10,
