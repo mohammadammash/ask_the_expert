@@ -18,6 +18,7 @@ import { ALLANGUAGES } from "../../constants";
 import commonStyles from "./common.styles";
 import { EditProfileFormProps } from "./types";
 import { t } from "i18next";
+import { ButtonComponent } from "..";
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({
   user_type,
@@ -59,7 +60,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
         <View className="w-4/5 justify-center">
           <View className="items-center">
-            <View className="border-2 rounded-full h-36 w-36 mb-3">
+            <View style={styles.border_blue} className="border-4 rounded-full h-36 w-36 mb-3">
               <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />
             </View>
             <Button title={pickimage_string} onPress={showImage} />
@@ -75,7 +76,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               value={values.firstName}
               className="placeholder:pl-3"
               placeholder="Firstname"
-              style={[styles.text_input, textcolor_style.color === COLORS.grey && styles.border_grey]}
+              style={[styles.text_input, , textcolor_style, textcolor_style.color === COLORS.grey && styles.border_grey]}
               placeholderTextColor={textcolor_style.color}
             />
             {errors.firstName && touched.firstName && <Text className="text-red-600">{errors.firstName}</Text>}
@@ -91,7 +92,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               value={values.lastName}
               placeholderTextColor={textcolor_style.color}
               className=" placeholder:pl-3 h-20 border-2 rounded-lg"
-              style={[styles.text_input, textcolor_style.color === COLORS.grey && styles.border_grey]}
+              style={[styles.text_input, textcolor_style, textcolor_style.color === COLORS.grey && styles.border_grey]}
               placeholder="Lastname"
             />
             {errors.lastName && touched.lastName && <Text className="text-red-600">{errors.lastName}</Text>}
@@ -199,7 +200,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             />
           </View>
 
-          <View className="mt-2">
+          <View className="mt-2 mb-5">
             <Text style={textcolor_style} className="font-bold capitalize">
               {apptheme_string}
             </Text>
@@ -230,9 +231,13 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             />
           </View>
 
-          <Pressable className="mt-7" style={styles.blue_button_xl} onPress={handleSubmit}>
-            <Text className="text-xl text-white font-bold uppercase">{submit_string}</Text>
-          </Pressable>
+          <ButtonComponent
+            button_style="xl"
+            route_name=""
+            title={submit_string}
+            handlePress={() => handleSubmit()}
+            disabled={false}
+          />
         </View>
       )}
     </Formik>
