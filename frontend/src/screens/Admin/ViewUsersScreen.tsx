@@ -17,6 +17,13 @@ const ViewUsersScreen = () => {
   const [shownUsers, setShownUsers] = useState<userType[]>([]);
   const [shownUsersType, setShownUsersType] = useState("users");
 
+  //theme
+  const { colorScheme } = useColorScheme();
+  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
+  const cardbgcolor_style = colorScheme === "dark" ? styles.bg_grey : styles.bg_white;
+  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
+
+
   //Handling filter users
   const handleShownUserType = (value: string) => {
     if (value !== "users") {
@@ -50,11 +57,6 @@ const ViewUsersScreen = () => {
   };
   //End of Handle Search User Input
 
-  //theme
-  const { colorScheme } = useColorScheme();
-  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
-  const textcolor_style = colorScheme === "dark" ? styles.white_text : styles.dark_text;
-
   //Handlie
   const { data: allUsersData, isLoading: isLoadingGetAllData } = useGetAllUsersWithStatistics();
   useEffect(() => {
@@ -79,7 +81,7 @@ const ViewUsersScreen = () => {
             View All {shownUsersType.charAt(0).toUpperCase() + shownUsersType.slice(1) + (shownUsersType === "users" ? "" : "s")}
           </Text>
           <SelectCountry
-            style={adminStyles.dropdown}
+            style={[adminStyles.dropdown, cardbgcolor_style]}
             selectedTextStyle={adminStyles.selectedTextStyle}
             placeholderStyle={adminStyles.placeholderStyle}
             iconStyle={adminStyles.iconStyle}
@@ -101,6 +103,7 @@ const ViewUsersScreen = () => {
             style={[styles.text_input, styles.admin_search_input, textcolor_style]}
             className="placeholder:pl-3"
             placeholder="Search"
+            placeholderTextColor={textcolor_style.color}
             onChangeText={handleSearchUserChangeText}
           />
         </View>
@@ -116,7 +119,7 @@ const ViewUsersScreen = () => {
         <ScrollView className="h-5/6 pt-5" horizontal={true}>
           {shownUsers.map((user: userType, index: number) => {
             const ratingAverage = CalculateRatingAverageHelper(user.reviews);
-            return <UserCardComponent key={index} reviews_average={ratingAverage} user={user} />;
+            return <UserCardComponent key={index} reviews_average={ratingAverage} user={user} bgcolor_style={cardbgcolor_style}/>;
           })}
         </ScrollView>
       )}
