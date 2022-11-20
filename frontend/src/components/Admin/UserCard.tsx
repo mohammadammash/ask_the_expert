@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView , KeyboardAvoidingView} from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, KeyboardAvoidingView } from "react-native";
 import { t } from "i18next";
 import { useState } from "react";
 //internal imports
@@ -8,7 +8,16 @@ import styles from "../../../styles";
 import { userType } from "../../hooks/UserContext";
 import CalculateYearsOfExperienceHelper from "../../screens/Helpers/CalculateYearsOfExperienceHelper";
 
-const UserCard = ({ user, reviews_average }: { user: userType; key: number, reviews_average: number }) => {
+const UserCard = ({
+  user,
+  reviews_average,
+  bgcolor_style,
+}: {
+  user: userType;
+  key: number;
+  reviews_average: number;
+  bgcolor_style: { backgroundColor: string };
+}) => {
   const [showMoreInfo, setShowMoreInfo] = useState(false);
   const toggleMoreInfo = () => setShowMoreInfo((prev) => !prev);
 
@@ -21,11 +30,11 @@ const UserCard = ({ user, reviews_average }: { user: userType; key: number, revi
     <View style={styles.screenWidth}>
       <TouchableOpacity
         onPress={toggleMoreInfo}
-        style={[styles.shadow_bg, { borderColor: COLORS.blue }]}
+        style={[styles.shadow_bg, bgcolor_style]}
         className={`rounded-lg border-2 items-center min-h-64 ${showMoreInfo ? "h-96" : "h-64"} min-h-64 mx-5 pt-3`}
       >
         <ScrollView className="w-full">
-          <View className={`w-full ${user_type === USERTYPES.EXPERT && showMoreInfo ? 'h-1/3': ''} h-1/2 items-center gap-y-3`}>
+          <View className={`w-full ${user_type === USERTYPES.EXPERT && showMoreInfo ? "h-1/3" : ""} h-1/2 items-center gap-y-3`}>
             <View style={styles.border_blue} className="avatar aspect-square max-w-28 max-h-28 h-full w-full rounded-full border-4">
               <Image
                 className="max-w-full max-h-full h-full w-full rounded-full"

@@ -126,7 +126,7 @@ export default StyleSheet.create({
     borderColor: COLORS.blue,
     backgroundColor: COLORS.white,
   },
-  button_click_text_style:{
+  button_click_text_style: {
     color: COLORS.blue,
   },
 
@@ -141,6 +141,7 @@ export default StyleSheet.create({
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.5,
     shadowRadius: 3,
+    borderColor: COLORS.blue,
   },
 
   //UTILS
