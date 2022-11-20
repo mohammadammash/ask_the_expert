@@ -1,13 +1,8 @@
 import { View, Text } from "react-native";
+import { t } from "i18next";
 //internal
 import { COLORS } from "../../constants";
-import { t } from "i18next";
-
-interface ChartsUpperLegendProps {
-  chart_type: string;
-  dot1_title: string;
-  dot2_title: string;
-}
+import { ChartsUpperLegendProps } from "./types";
 
 const ChartsUpperLegend: React.FC<ChartsUpperLegendProps> = ({ chart_type, dot1_title, dot2_title }): JSX.Element => {
   //translation
