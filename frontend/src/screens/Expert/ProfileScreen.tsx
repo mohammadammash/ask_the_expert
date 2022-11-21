@@ -128,8 +128,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
   const button_style = `${user._id === currentUser_id ? "md" : "sm"}`;
 
   const handlePress = (route_name: string) => {
-    if (route_name === "block") return alert("BLOCKED");
-    else if (route_name === ROUTES.NOVICE_BOOK_APPOINTMENT) {
+    if (route_name === ROUTES.NOVICE_BOOK_APPOINTMENT) {
       const appointments_groups = user.appointments_groups;
       navigation.navigate(ROUTES.NOVICE_BOOK_APPOINTMENT, { appointments_groups });
     } else if (route_name === "review") modalRef.current?.open();
@@ -266,14 +265,13 @@ const ProfileScreen = ({ route }: { route: any }) => {
             <ButtonComponent {...buttonData} disabled={false} />
           </View>
         ) : (
-          <View className="mt-5 flex-row w-3/4 justify-between">
+          <View className="mt-5 flex-row w-1/2 justify-evenly items-center h-12">
             <ButtonComponent
               title={book_string}
               button_style={button_style}
               handlePress={handlePress}
               route_name={ROUTES.NOVICE_BOOK_APPOINTMENT}
               disabled={disabled}
-              textcolor_style={textcolor_style}
             />
             <ButtonComponent
               title={message_string}
@@ -281,15 +279,6 @@ const ProfileScreen = ({ route }: { route: any }) => {
               handlePress={handlePress}
               route_name={ROUTES.USER_SINGLE_CHAT}
               disabled={false}
-              textcolor_style={textcolor_style}
-            />
-            <ButtonComponent
-              title={block_string}
-              button_style={button_style}
-              handlePress={handlePress}
-              route_name="block"
-              disabled={false}
-              textcolor_style={textcolor_style}
             />
           </View>
         )}
