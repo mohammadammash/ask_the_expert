@@ -68,7 +68,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
   const aboutData = {
     about,
     user_type,
-    textcolor_style
+    textcolor_style: styles.dark_text
   };
 
   //handle button click
