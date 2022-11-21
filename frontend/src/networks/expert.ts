@@ -1,9 +1,9 @@
 import axios from './base';
 
 class Expert_Apis {
-    goOnline_post(data: any) { return axios.post('/expert/go_online', data).then(data => data).catch(err => err) }
+    async goOnline_post(data: any) { return await axios.post('/expert/go_online', data) }
 
-    goOffline_post() { return axios.post('/expert/go_offline').then(data => data).catch(err => err) }
+    async goOffline_post() { return await axios.post('/expert/go_offline') }
 }
 
 export default new Expert_Apis();
