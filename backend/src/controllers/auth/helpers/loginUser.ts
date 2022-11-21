@@ -7,10 +7,10 @@ const loginUser = async (email: String, password: String, _id: String) => {
     if (!user) return false;
 
     const matchingPassword = await bcrypt.compareSync(password, user.password);
-    if (!matchingPassword) return false;
+    if (!matchingPassword) return 'unmatched';
 
     //check if user logging in is banned:
-    if (user.isBanned) return false;
+    if (user.isBanned) return 'banned';
 
     user.password = undefined; //remove pass from result
     const token = jwt.sign({ email, _id }, process.env.JWT_SECRET_KEY, {
