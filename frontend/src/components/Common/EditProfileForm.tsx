@@ -18,10 +18,10 @@ import { ALLANGUAGES } from "../../constants";
 import commonStyles from "./common.styles";
 import { EditProfileFormProps } from "./types";
 import { t } from "i18next";
-import { ButtonComponent } from "..";
+import ButtonComponent from "./Button";
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({
-  user_type,
+  user,
   image,
   showImage,
   isAppLanguageFocus,
@@ -36,7 +36,11 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
   selectedLanguages,
   handleSelectedLanguages,
   textcolor_style,
+  bgcolor_style,
 }) => {
+  //Intiate values another than Formik intial ones
+  const { user_type, profile_url } = user;
+
   //translation
   const firstname_string = t("firstname");
   const lastname_string = t("lastname");
@@ -51,17 +55,20 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
 
   return (
     <Formik
-      initialValues={user_type === USERTYPES.ADMIN ? adminEditProfileInitialValues : userEditProfileInitialValues}
+      initialValues={user_type === USERTYPES.ADMIN ? adminEditProfileInitialValues(user) : userEditProfileInitialValues(user)}
       onSubmit={async (values) => {
         handleSubmitForm(values);
       }}
       validationSchema={user_type === USERTYPES.ADMIN ? validateAdminEditProfileFormSchema : validateUserEditProfileFormSchema}
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
-        <View className="w-4/5 justify-center">
+        <View style={bgcolor_style} className="w-4/5 justify-center">
           <View className="items-center">
             <View style={styles.border_blue} className="border-4 rounded-full h-36 w-36 mb-3">
-              <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />
+              <Image
+                className="rounded-full h-full w-full"
+                source={image ? { uri: image } : (profile_url.length>1 ? { uri: profile_url } : IMAGES.dummyProfile)}
+              />
             </View>
             <Button title={pickimage_string} onPress={showImage} />
           </View>
@@ -191,7 +198,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               onBlur={() => focusAppLanguage(false)}
               onChange={(item) => {
                 handleAppLanguage(item.value);
-                values.language = item.value;
+                values.app_language = item.value;
                 focusAppLanguage(false);
               }}
               renderLeftIcon={() => (
@@ -231,13 +238,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             />
           </View>
 
-          <ButtonComponent
-            button_style="xl"
-            route_name=""
-            title={submit_string}
-            handlePress={() => handleSubmit()}
-            disabled={false}
-          />
+          <ButtonComponent button_style="xl" route_name="" title={submit_string} handlePress={() => handleSubmit()} disabled={false} />
         </View>
       )}
     </Formik>
