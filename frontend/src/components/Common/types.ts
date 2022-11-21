@@ -10,7 +10,7 @@ export interface ChatAndAppointmentCardProps {
 }
 
 export interface EditProfileFormProps {
-  user_type: string;
+  user: userType,
   image: string;
   showImage: () => void;
   isAppLanguageFocus: boolean;
@@ -27,6 +27,9 @@ export interface EditProfileFormProps {
   textcolor_style: {
     color: string
   },
+  bgcolor_style:{
+    backgroundColor: string
+  }
 }
 
 export interface EditProfileFormValuesTypes {
