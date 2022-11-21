@@ -1,11 +1,9 @@
 import axios from './base';
 
 class Admin_Apis {
-    all_users_with_statistics_get() { return axios.get('/admin').then(data => data).catch(err => err) }
+    async all_users_with_statistics_get() { return await axios.get('/admin') }
 
-    ban_or_unban_user_post(data: any) {
-        return axios.post('/admin/ban', data).then(data => data).catch(err => err)
-    }
+    async ban_or_unban_user_post(data: any) {return await axios.post('/admin/ban', data)}
 }
 
 export default new Admin_Apis();
