@@ -23,12 +23,13 @@ const getAllUsersWithStatistics = async (req: Request, res: Response) => {
     ).catch((err: any) => res.status(200).send({ users: allUsers }));
 };
 
-const banOrUnbanUser = (req: Request<{}, {}, banOrUnbanUserBodyInterface>, res: Response) => {
+const banOrUnbanUser = async (req: Request<{}, {}, banOrUnbanUserBodyInterface>, res: Response) => {
     const { user_id, ban } = req.body;
+    console.log("🚀 ~ file: index.ts ~ line 28 ~ banOrUnbanUser ~ { user_id, ban }", { user_id, ban })
 
-    UserModel.findByIdAndUpdate(user_id, { isBanned: ban })
-        .then((data: any) => res.status(200).send({ message: `Success` }))
-        .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
+    const data = await UserModel.findByIdAndUpdate(user_id, { $set: { isBanned: ban } }, { new: true }).lean();
+    if (data) res.status(200).send({ ...data })
+    else res.status(400).send({ message: "Something went wrong" })
 };
 
 module.exports = { getAllUsersWithStatistics, banOrUnbanUser };
