@@ -30,7 +30,7 @@ const updateProfile = (req: Request<{}, {}, updateProfileBodyInterface>, res: Re
     const { currentUser_id } = req;
 
     UserModel.findByIdAndUpdate(currentUser_id, { ...req.body }, { new: true })
-        .then((data: any) => res.status(200).send({ message: 'Successfully Updated' }))
+        .then((data: any) => res.status(200).send({...data}))
         .catch((err: any) => res.status(400).send({ message: err.message }))
 };
 

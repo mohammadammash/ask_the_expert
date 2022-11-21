@@ -8,8 +8,8 @@ export interface updateProfileBodyInterface {
     lastName: string;
     about?: string; //optional for admin
     speciality?: string; //optional for admin
-    profile_url: string,
-    spoken_languages?: string[]; //optional for admin
+    profile_url?: string,
+    spoken_languages?: string; //optional for admin
     app_language: string,
     theme: string,
 };
