@@ -16,6 +16,7 @@ const EditProfileScreen = () => {
   //theme
   const {colorScheme} = useColorScheme();
   const textcolor_style = colorScheme === 'dark' ? styles.grey_text : styles.dark_text;
+  const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
 
   type EditAdminProfileFormValues = {
     firstName: string;
@@ -97,7 +98,7 @@ const EditProfileScreen = () => {
 
   return (
     <ScrollView>
-      <View className="flex-1 items-center justify-center">
+      <View style={bgcolor_style} className="flex-1 items-center justify-center">
         {user_type === USERTYPES.ADMIN ? <EditProfileFormComponent {...adminDataProps} /> : <EditProfileFormComponent {...userDataProps} />}
       </View>
     </ScrollView>
