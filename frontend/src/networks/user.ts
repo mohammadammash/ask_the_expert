@@ -1,11 +1,11 @@
 import axios from './base';
 
 class User_Apis {
-    user_get() { return axios.get('/user').then(data => data).catch(err => err) }
+    async user_get() { return await axios.get('/user') }
 
-    leaderboard_get() { return axios.get('/user/leaderboard').then(data => data).catch(err => err) }
+    async leaderboard_get() { return await axios.get('/user/leaderboard') }
 
-    appointment_delete(data: any) { return axios.delete('/user/appointment', { data: { appointment_id: data } }).then(data => data).catch(err => err) }
+    async appointment_delete(data: any) { return await axios.delete('/user/appointment', { data: { appointment_id: data } }) }
 }
 
 export default new User_Apis();
