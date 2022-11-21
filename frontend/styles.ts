@@ -88,7 +88,7 @@ export default StyleSheet.create({
   blue_button_md: {
     borderWidth: 2,
     height: 50,
-    width: 140,
+    width: 130,
     textTransform: "uppercase",
     borderRadius: 10,
     alignItems: "center",
@@ -107,7 +107,7 @@ export default StyleSheet.create({
   },
   blue_button_xs: {
     borderWidth: 2,
-    height: 30,
+    height: 40,
     width: 80,
     textTransform: "uppercase",
     borderRadius: 10,
