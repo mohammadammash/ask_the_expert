@@ -91,6 +91,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               style={styles.text_input}
               className="placeholder:pl-3"
               placeholder="Password"
+              secureTextEntry={true}
             />
             {errors.password && touched.password && <Text className="text-red-600  ">{errors.password}</Text>}
           </View>
@@ -104,6 +105,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               style={styles.text_input}
               className="placeholder:pl-3"
               placeholder="Renter Password"
+              secureTextEntry={true}
             />
             {errors.confirmPassword && touched.confirmPassword && <Text className="text-red-600  ">{errors.confirmPassword}</Text>}
           </View>
