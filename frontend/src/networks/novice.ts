@@ -1,17 +1,13 @@
 import axios from './base';
 
 class Novice_Apis {
-    closeExperts_get(params: any) { return axios.get(`/novice/${params.longitude}/${params.latitude}/${params.field}`).then(data => data).catch(err => err) }
+    async closeExperts_get(params: any) { return await axios.get(`/novice/${params.longitude}/${params.latitude}/${params.field}`) }
 
-    bookAppointment_post(data: any) { return axios.post('/novice/book', data).then(data => data).catch(err => err) }
+    async bookAppointment_post(data: any) { return await axios.post('/novice/book', data) }
 
-    addReview_post(data: any) {
-        return axios.post('/novice/review', data).then(data => data).catch(error => error)
-    }
+    async addReview_post(data: any) {return await axios.post('/novice/review', data)}
 
-    removeReview_delete(data: any) {
-        return axios.delete('/novice/review', { data: { expert_id: data } }).then(data => data).catch(error => error)
-    }
+    async removeReview_delete(data: any) {return await axios.delete('/novice/review', { data: { expert_id: data } })}
 }
 
 export default new Novice_Apis();
