@@ -24,11 +24,23 @@ export const useLeaderboardExperts = () =>
         queryKey: LEADERBOARD_EXPERTS_KEY,
         queryFn: () => User_Apis.leaderboard_get(),
         placeholderData: [],
-        onSuccess: (data) => {
+        onSuccess: (data: any) => {
             queryClient.setQueryData(LEADERBOARD_EXPERTS_KEY, { ...data.data })
         }
     });
 
+//Delete-Remove Appointments
 export const useDeleteAppointment = () => useMutation({
     mutationFn: (data: any) => User_Apis.appointment_delete(data),
-});;
+});
+
+//Update Profile
+export const useUpdateUser = () => useMutation({
+    mutationFn: (data: any) => User_Apis.user_update(data),
+    onError(error, variables, context) {
+        alert(JSON.stringify(error, null, 2));
+    },
+    onSuccess: (data: any) => {
+        queryClient.setQueryData(CURRENT_USER_KEY, { ...data.data })
+    }
+});
