@@ -28,5 +28,5 @@ export interface UserCardProps {
   reviews_average: number;
   bgcolor_style: { backgroundColor: string };
   textcolor_style: { color: string };
-  handlePress: (user_id: string, isBanned: boolean) => void;
+  handlePress: (user_id: string, firstName: string, isBanned: boolean) => void;
 }

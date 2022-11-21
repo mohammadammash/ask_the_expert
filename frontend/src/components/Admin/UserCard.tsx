@@ -8,20 +8,28 @@ import styles from "../../../styles";
 import CalculateYearsOfExperienceHelper from "../../screens/Helpers/CalculateYearsOfExperienceHelper";
 import { UserCardProps } from "./types";
 
-const UserCard : React.FC<UserCardProps> = ({
-  user,
-  reviews_average,
-  bgcolor_style,
-  textcolor_style,
-  handlePress,
-}): JSX.Element => {
+const UserCard: React.FC<UserCardProps> = ({ user, reviews_average, bgcolor_style, textcolor_style, handlePress }): JSX.Element => {
   const [showMoreInfo, setShowMoreInfo] = useState(false);
   const toggleMoreInfo = () => setShowMoreInfo((prev) => !prev);
 
   //translation
   const more_info_string = t("Press On The Card To View All Info");
-  const { _id, profile_url, firstName, lastName, user_type, field, speciality, score, spoken_languages, about, email, isAvailable, start_date, isBanned } =
-    user;
+  const {
+    _id,
+    profile_url,
+    firstName,
+    lastName,
+    user_type,
+    field,
+    speciality,
+    score,
+    spoken_languages,
+    about,
+    email,
+    isAvailable,
+    start_date,
+    isBanned,
+  } = user;
   const yearsOfExperience = CalculateYearsOfExperienceHelper(start_date);
   const banuser_string = t("BAN USER");
   const unbanuser_string = t("UNBAN USER");
@@ -56,7 +64,7 @@ const UserCard : React.FC<UserCardProps> = ({
                 <AntDesign name="rightcircle" size={24} color="black" />
               </View>
             </View>
-            <Pressable style={styles.blue_button_sm} onPress={()=>handlePress(_id, isBanned)}>
+            <Pressable style={styles.blue_button_sm} onPress={() => handlePress(_id, firstName, isBanned)}>
               <Text style={styles.button_text} className="text-[13px] font-bold">
                 {isBanned ? unbanuser_string : banuser_string}
               </Text>
