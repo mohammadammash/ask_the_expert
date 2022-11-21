@@ -40,6 +40,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleInvalidCredentials, inValid
               style={styles.text_input}
               className="placeholder:pl-3"
               placeholder="Password"
+              secureTextEntry={true}
             />
             {errors.password && touched.password && <Text className="text-red-600  ">{errors.password}</Text>}
           </View>
