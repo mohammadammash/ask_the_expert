@@ -25,7 +25,8 @@ const registerUser = async (req: Request<{}, {}, RegisterBodyInterface>, res: Re
         await newUser.save();
         //login new user auto with jwt token
         const result = await loginUserHelper(req.body.email, req.body.password, req.body._id);
-        if (!result) res.status(400).send({ message: 'Invalid Credentials' });
+        if (result === 'unmatched') res.status(400).send({ message: 'Invalid Credentials' });
+        else if(result === 'banned') res.status(403).send({message: 'Forbidden'})
         else res.status(200).send({ ...result })
     }
     catch (err: any) {
@@ -40,7 +41,8 @@ const loginUser = async (req: Request<{}, {}, LoginBodyInterface>, res: Response
     const { email, password, _id } = req.body;
     const result = await loginUserHelper(email, password, _id);
 
-    if (!result) res.status(400).send({ message: 'Invalid Credentials' });
+    if (result === 'unmatched') res.status(400).send({ message: 'Invalid Credentials' });
+    else if (result === 'banned') res.status(403).send({ message: 'Forbidden' })
     else res.status(200).send({ ...result })
 }
 
