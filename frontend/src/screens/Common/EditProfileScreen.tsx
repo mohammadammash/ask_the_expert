@@ -1,21 +1,23 @@
 import { View, ScrollView } from "react-native";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../hooks/UserContext";
 import { useColorScheme } from "nativewind";
+import { useNavigation } from "@react-navigation/native";
 //internal imports
-import { EditProfileFormComponent } from "../../components";
+import { ActivityIndicatorComponent, EditProfileFormComponent } from "../../components";
 import { USERTYPES } from "../../constants";
 import { pickImage, uploadImageAsync } from "../Helpers/ImageHandlerHelper";
 import styles from "../../../styles";
-
+import { useUpdateUser } from "../../hooks/useUser";
 
 const EditProfileScreen = () => {
   const { user, setUser } = useContext(UserContext);
-  const { user_type, email } = user;
+  const { user_type, email, app_language, theme, spoken_languages } = user;
+  const navigation = useNavigation<any>();
 
   //theme
-  const {colorScheme} = useColorScheme();
-  const textcolor_style = colorScheme === 'dark' ? styles.grey_text : styles.dark_text;
+  const { colorScheme } = useColorScheme();
+  const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.dark_text;
   const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
 
   type EditAdminProfileFormValues = {
@@ -26,19 +28,46 @@ const EditProfileScreen = () => {
     theme: string;
   };
 
-  //---START OF HANDLE FORM---//
+  //intiate values
+  useEffect(() => {
+    if (user) {
+      handleAppLanguage(app_language);
+      handleAppTheme(theme);
+      handleSelectedLanguages(spoken_languages.split(" "));
+    }
+  }, [user]);
+
+  //---START OF HANDLE FORM SUBMIT---//
+  const { data: mutateUpdateUserData, mutate: mutateUpdateUser, isSuccess: isSuccessUpdateUser, isLoading: isLoadingUpdateUser } = useUpdateUser();
+  const [imageIsGettingUploaded, setImageIsGettingUploaded] = useState(false);
   const handleSubmitForm = async (values: EditAdminProfileFormValues) => {
     if (image) {
+      setImageIsGettingUploaded(true);
       const profileimage_url = await uploadImageAsync(image, email);
       setImage(profileimage_url);
       values.profile_url = image;
     }
-    alert(JSON.stringify(values, null, 2));
+    //Expert or novice edit profile
+    if (user_type !== USERTYPES.ADMIN) {
+      let { languages, ...data } = values;
+      const spoken_languages = languages.join(" ");
+      mutateUpdateUser({ ...data, spoken_languages });
+    } else {
+      mutateUpdateUser(values);
+    }
+    setImageIsGettingUploaded(false);
   };
+
+  useEffect(() => {
+    if (isSuccessUpdateUser) {
+      setUser({ ...mutateUpdateUserData.data });
+      navigation.goBack();
+    }
+  }, [isSuccessUpdateUser]);
+  //---END OF HANDLE FORM SUBMIT---//
 
   //image
   const [image, setImage] = useState("");
-  const updateImage = (image: any) => setImage(image);
   const showImage = async () => {
     const newImage = await pickImage();
     setImage(newImage);
@@ -71,8 +100,6 @@ const EditProfileScreen = () => {
   };
   //---END OF HANDLE FORM---//
 
-  // SPECIFIC USER FORM DATA:
-
   //PARAMETERS
   const adminDataProps = {
     image,
@@ -86,19 +113,24 @@ const EditProfileScreen = () => {
     handleAppTheme,
     focusAppTheme,
     handleSubmitForm,
-    user_type,
+    user,
     textcolor_style,
+    bgcolor_style,
   };
-
   const userDataProps = {
     ...adminDataProps,
     selectedLanguages,
     handleSelectedLanguages,
   };
 
+  //Loading update state
+  if (isLoadingUpdateUser || imageIsGettingUploaded) {
+    return <ActivityIndicatorComponent color={textcolor_style.color} bgcolor_style={bgcolor_style} textcolor_style={textcolor_style}/>;
+  }
+
   return (
-    <ScrollView>
-      <View style={bgcolor_style} className="flex-1 items-center justify-center">
+    <ScrollView style={bgcolor_style}>
+      <View style={bgcolor_style} className="flex-1 items-center justify-center py-3">
         {user_type === USERTYPES.ADMIN ? <EditProfileFormComponent {...adminDataProps} /> : <EditProfileFormComponent {...userDataProps} />}
       </View>
     </ScrollView>
