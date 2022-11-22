@@ -79,6 +79,9 @@
       "BOOK": "BOOK",
       "MESSAGE": "MESSAGE",
       "BLOCK": "BLOCK",
-      "ADD REVIEW": "ADD REVIEW"
+      "ADD REVIEW": "ADD REVIEW",
+      "Ban/UnBan User": "Bannir/Débannir Un Utilisateur",
+      "BAN USER": "UTILISATEUR BANNI",
+      "UNBAN USER": "UNBAN UTILISATEUR"
   }
 }

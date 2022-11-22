@@ -4,7 +4,6 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { reviewsType, userType, useUserContext } from "../../hooks/UserContext";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { useColorScheme } from "nativewind";
-import { useHeaderHeight } from "@react-navigation/elements";
 //internal imports
 import {
   AllReviewsStatsComponent,
@@ -286,7 +285,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
         {/* SET AVAILBILITY SWITCH SECTION */}
         <View className="w-full my-3">
           <View className="h-24 w-full items-center justify-evenly" style={styles.bg_grey}>
-            <Text className="text-xs font-bold">
+            <Text className="text-xs">
               {user._id !== currentUser_id
                 ? user.isAvailable
                   ? expertisnowonline_string

@@ -38,18 +38,33 @@ const LoginScreen = () => {
   }, [token]);
 
   //React Query Post:
-  const { mutate: mutateLoginUser, isLoading: mutateLoginUserIsLoading, data: mutateLoginUserData } = useLoginUser();
+  const {
+    mutate: mutateLoginUser,
+    isLoading: mutateLoginUserIsLoading,
+    data: mutateLoginUserData,
+    isSuccess: mutateLoginUserDataIsSuccess,
+    isError: mutateLoginUserDataIsError,
+  } = useLoginUser();
   //when user data is found update UserContext
   useEffect(() => {
-    if (mutateLoginUserData && !mutateLoginUserIsLoading) {
+    if (mutateLoginUserDataIsSuccess) {
+      if (!mutateLoginUserData.data) return;
       const { token, ...data } = mutateLoginUserData.data;
       setDefaultTokens(token);
       setUser(data);
     }
 
+    //Error Handle
+    if (mutateLoginUserDataIsError) {
+      handleInvalidCredentials(true);
+      setTimeout(() => {
+        handleInvalidCredentials(false);
+      }, 3000);
+    }
+
     //app is closed but token already exists
     if (token && getCurrentUserData && !isCurrentUserLoading) setUser(getCurrentUserData);
-  }, [mutateLoginUserData, getCurrentUserData]);
+  }, [mutateLoginUserData, getCurrentUserData, mutateLoginUserDataIsError]);
 
   //FORM DATA
   const [inValidCredentials, setInValidCredentials] = useState(false);

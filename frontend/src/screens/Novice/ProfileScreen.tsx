@@ -63,12 +63,12 @@ const ProfileScreen = ({ route }: { route: any }) => {
     speciality,
     spoken_languages,
     yearsOfExperience,
-    textcolor_style
+    textcolor_style,
   };
   const aboutData = {
     about,
     user_type,
-    textcolor_style: styles.dark_text
+    textcolor_style: styles.dark_text,
   };
 
   //handle button click
@@ -90,11 +90,6 @@ const ProfileScreen = ({ route }: { route: any }) => {
     disabled: false,
     route_name: ROUTES.USER_SINGLE_CHAT,
     textcolor_style: colorScheme === "dark" ? styles.grey_text : styles.white_text,
-  };
-  const blockButtonData = {
-    ...messageButtonData,
-    title: block_string,
-    route_name: "block",
   };
   const editProfileButtonData = {
     ...messageButtonData,
@@ -120,9 +115,8 @@ const ProfileScreen = ({ route }: { route: any }) => {
         <View className="w-full mt-5 items-center">
           {/* If expert visiting novice profile */}
           {novice_user ? (
-            <View className="flex-row w-3/4 justify-evenly">
+            <View className="flex-row w-3/4 justify-evenly h-12">
               <ButtonComponent {...messageButtonData} />
-              <ButtonComponent {...blockButtonData} />
             </View>
           ) : (
             // IF CURRENT USER PROFILE
