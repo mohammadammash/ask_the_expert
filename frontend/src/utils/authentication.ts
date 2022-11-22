@@ -19,7 +19,7 @@ export const setAuthToken = async (token: string) => {
 }
 
 //User Logout by removing Authtoken and returning Boolean Success
-export const logoutUser = async (directly = false) => {
+export const logoutUser = async () => {
     const cancel_string = t("Cancel");
     const submit_string = t("Submit");
     const logout_string = t("Logout");
@@ -36,11 +36,5 @@ export const logoutUser = async (directly = false) => {
         return choice;
     }
 
-    //if expirted token or banned user directly param is sent as true and user is logged out instantly
-    if (directly) {
-        await SecureStore.deleteItemAsync('token')
-        return directly
-    } else {
-        return AsyncAlert();
-    }
+    return AsyncAlert();
 }
