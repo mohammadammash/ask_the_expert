@@ -1,12 +1,21 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "./src/constants/index";
+import { COLORS, FONTS } from "./src/constants/index";
 import { Dimensions } from "react-native";
-import { useUserContext } from "./src/hooks/UserContext";
-import Button from "./src/components/Common/Button";
 
 const { width } = Dimensions.get("screen");
 
 export default StyleSheet.create({
+  //FONTS
+  main_regular: {
+    fontFamily: FONTS.MAIN_REGULAR
+  },
+  main_italic: {
+    fontFamily: FONTS.MAIN_ITALIC
+  },
+  main_bold: {
+    fontFamily: FONTS.MAIN_BOLD
+  },
+
   //TEXT COLORS
   orange_text: {
     color: COLORS.orange,
@@ -76,7 +85,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.blue,
     width: '100%',
   },
-  blue_button_lg : {
+  blue_button_lg: {
     borderWidth: 2,
     height: 60,
     width: 200,
@@ -123,7 +132,7 @@ export default StyleSheet.create({
   button_click_text_style: {
     color: COLORS.blue,
   },
-  button_text:{
+  button_text: {
     color: COLORS.white,
     textTransform: 'uppercase'
   },
