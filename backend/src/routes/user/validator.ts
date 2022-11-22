@@ -12,5 +12,14 @@ const updateProfileValidationRules = () => {
 
 const removeAppointmentValidationRules = () => body('appointment_id').not().isEmpty().withMessage('cannot be empty');
 
+const blockOrUnblockUserValidationRules = () => {
+    return [
+        body('user_id').not().isEmpty().withMessage('cannot be empty'),
+        body('block').isBoolean().withMessage('should be bool'),
+    ]
+}
 
-module.exports = { updateProfileValidationRules, removeAppointmentValidationRules };
+const getUsersDataValidationRules = () => body('users_ids').not().isEmpty().withMessage('cannot be empty');
+
+
+module.exports = { blockOrUnblockUserValidationRules, updateProfileValidationRules, getUsersDataValidationRules, removeAppointmentValidationRules };
