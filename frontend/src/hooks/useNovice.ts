@@ -3,8 +3,6 @@ import { AxiosError } from "axios";
 //internal imports 
 import { queryClient } from "../../App";
 import Novice_Apis from "../networks/novice";
-import { logoutUser } from "../utils/authentication";
-import { userInitialData, useUserContext } from "./UserContext";
 
 export const CLOSE_EXPERTS_KEYS = ["CLOSE_EXPERTS_KEYS"];
 export const BOOKED_APPOINTMENT_KEY = (id: string) => [`BOOKED_APPOINTMENT_KEY_${id}`];
@@ -16,13 +14,6 @@ export const useCloseExperts = ({ enabled, params }: { enabled: boolean, params:
         enabled,
         queryKey: ["CLOSE_EXPERTS_KEYS"],
         queryFn: () => Novice_Apis.closeExperts_get(params),
-        onError: async (error: AxiosError) => {
-            const { setUser } = useUserContext();
-            if (error.request.status === 403 || error.request.status === 401) {
-                await logoutUser(true);
-                setUser({ ...userInitialData });
-            }
-        },
         onSuccess: (data) => {
             queryClient.setQueryData([CLOSE_EXPERTS_KEYS], { ...data.data })
         }
@@ -31,13 +22,6 @@ export const useCloseExperts = ({ enabled, params }: { enabled: boolean, params:
 
 export const useBookAppointment = () => useMutation({
     mutationFn: (data: any) => Novice_Apis.bookAppointment_post(data),
-    onError: async (error: AxiosError) => {
-        const { setUser } = useUserContext();
-        if (error.request.status === 403 || error.request.status === 401) {
-            await logoutUser(true);
-            setUser({ ...userInitialData });
-        }
-    },
     onSuccess: (data: any) => {
         queryClient.setQueryData(BOOKED_APPOINTMENT_KEY(data.data._id), { ...data.data })
     }
@@ -45,13 +29,6 @@ export const useBookAppointment = () => useMutation({
 
 export const useAddReview = () => useMutation({
     mutationFn: (data: any) => Novice_Apis.addReview_post(data),
-    onError: async (error: AxiosError) => {
-        const { setUser } = useUserContext();
-        if (error.request.status === 403 || error.request.status === 401) {
-            await logoutUser(true);
-            setUser({ ...userInitialData });
-        }
-    },
     onSuccess: (data: any) => {
         queryClient.setQueryData(CURRENT_USER_REVIEW_KEY(data.data._id), { ...data.data })
     }
@@ -59,11 +36,4 @@ export const useAddReview = () => useMutation({
 
 export const useDeleteReview = () => useMutation({
     mutationFn: (data: any) => Novice_Apis.removeReview_delete(data),
-    onError: async (error: AxiosError) => {
-        const { setUser } = useUserContext();
-        if (error.request.status === 403 || error.request.status === 401) {
-            await logoutUser(true);
-            setUser({ ...userInitialData });
-        }
-    },
 });;
