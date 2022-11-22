@@ -91,6 +91,8 @@ const BookAppointmentScreen = ({ route }: { route: any }) => {
     data,
     handleSubmitAppointmentId,
     handleFormSubmit,
+    colorScheme,
+    textcolor_style,
   };
 
   //--------------
