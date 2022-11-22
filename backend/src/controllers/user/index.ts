@@ -11,10 +11,13 @@ const getSingleUserData = async (req: Request<getSingleUserDataParamsInterface>,
     //if no user id param given => get the data of current user
     if (!user_id) user_id = req.currentUser_id;
 
-    let user = await UserModel.findById(user_id).populate('reviews.novice_id appointments appointments_groups.appointments blocked_users');
+    let user = await UserModel.findById(user_id).populate('reviews.novice_id appointments appointments_groups.appointments blocked_users').lean();
     if (user && user.user_type === 'novice') user = await UserModel.populate(user, { path: 'appointments.expert_id' });
     else if (user && user.user_type === 'expert') user = await UserModel.populate(user, { path: 'appointments_groups.appointments.novice_id' });
-    res.status(200).send(user);
+
+    //Check if banned
+    if (user.isBanned) res.status(403).send({ message: 'Forbidden' });
+    else res.status(200).send({ ...user });
 }
 
 //For Leaderboard Results
@@ -26,12 +29,16 @@ const getRankedExperts = (req: Request, res: Response) => {
 };
 
 //Update own profile
-const updateProfile = (req: Request<{}, {}, updateProfileBodyInterface>, res: Response) => {
+const updateProfile = async (req: Request<{}, {}, updateProfileBodyInterface>, res: Response) => {
     const { currentUser_id } = req;
 
-    UserModel.findByIdAndUpdate(currentUser_id, { ...req.body }, { new: true })
-        .then((data: any) => res.status(200).send({...data}))
-        .catch((err: any) => res.status(400).send({ message: err.message }))
+    try {
+        const data = await UserModel.findByIdAndUpdate(currentUser_id, { ...req.body }, { new: true })
+        if (data.isBanned) res.status(403).send({ message: 'Forbidden' });
+        else res.status(200).send({ ...data });
+    } catch (err) {
+        res.status(400).send({ message: "Something went wrong" })
+    }
 };
 
 //Remove Appointment and notify second part in this appointment
