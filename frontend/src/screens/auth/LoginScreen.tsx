@@ -2,16 +2,17 @@ import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import * as SecureStore from "expo-secure-store";
 //internal imports
 import { ROUTES, IMAGES, COLORS } from "../../constants";
 import { LoginFormComponent } from "../../components";
 import styles from "../../../styles";
 import { auth } from "../../../firebaseConfig";
-import { useUserContext } from "../../hooks/UserContext";
+import { userInitialData, useUserContext } from "../../hooks/UserContext";
 import { useLoginUser } from "../../hooks/useAuth";
 import { setDefaultTokens } from "../../networks/base";
 import { useCurrentUser } from "../../hooks/useUser";
-import { getAuthToken as getAuthTokenUtility } from "../../utils/authentication";
+import { getAuthToken as getAuthTokenUtility, logoutUser } from "../../utils/authentication";
 
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
@@ -29,11 +30,12 @@ const LoginScreen = () => {
 
   //on page loads if there is a token get the user and redirect him/her
   const [enabled, setEnabled] = useState(false);
-  const { data: getCurrentUserData, isLoading: isCurrentUserLoading } = useCurrentUser({ enabled });
+  const { data: getCurrentUserData, isLoading: isCurrentUserLoading, isError: isErrorCurrentUserLoading } = useCurrentUser({ enabled });
   useEffect(() => {
     if (token && !mutateLoginUserData) {
       setDefaultTokens(token);
       setEnabled(true); //fetch current user if token exists
+      setToken("");
     }
   }, [token]);
 
@@ -48,22 +50,22 @@ const LoginScreen = () => {
   //when user data is found update UserContext
   useEffect(() => {
     if (mutateLoginUserDataIsSuccess) {
-      if (!mutateLoginUserData.data) return;
       const { token, ...data } = mutateLoginUserData.data;
       setDefaultTokens(token);
       setUser(data);
     }
 
     //Error Handle
-    if (mutateLoginUserDataIsError) {
+    if (mutateLoginUserDataIsError || isErrorCurrentUserLoading) {
       handleInvalidCredentials(true);
       setTimeout(() => {
         handleInvalidCredentials(false);
       }, 3000);
     }
-
     //app is closed but token already exists
-    if (token && getCurrentUserData && !isCurrentUserLoading) setUser(getCurrentUserData);
+    if (getCurrentUserData) {
+      setUser(getCurrentUserData);
+    }
   }, [mutateLoginUserData, getCurrentUserData, mutateLoginUserDataIsError]);
 
   //FORM DATA
