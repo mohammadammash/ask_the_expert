@@ -34,7 +34,13 @@ const ProfileScreen = ({ route }: { route: any }) => {
   //START OF REFRESH PAGE UPDATE CURRENT USER DATA
   const [refreshing, setRefreshing] = useState(false);
   const [enabled, setEnabled] = useState(false);
-  const { data: getCurrentUserData, isLoading: isCurrentUserLoading, isSuccess: isCurrentUserUpdatedSuccess } = useCurrentUser({ enabled });
+  const {
+    data: getCurrentUserData,
+    isLoading: isCurrentUserLoading,
+    isSuccess: isCurrentUserUpdatedSuccess,
+    isError: isErrorUpdatedCurrentUser,
+    status: updateCurrentUserResponseStatus,
+  } = useCurrentUser({ enabled });
 
   const onRefresh = useCallback(() => {
     if (!novice_user && user) {
@@ -50,7 +56,11 @@ const ProfileScreen = ({ route }: { route: any }) => {
       setRefreshing(false);
       setEnabled(false);
     }
-  }, [getCurrentUserData]);
+
+    if (isErrorUpdatedCurrentUser) {
+      setRefreshing(false);
+    }
+  }, [getCurrentUserData, isErrorUpdatedCurrentUser]);
   //END OF REFRESH PAGE UPDATE CURRENT USER DATA
   //----------------------------------------------
 
