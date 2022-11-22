@@ -56,7 +56,8 @@ export default function App() {
       } catch (err) {
         console.log("🚀 ~ file: App.tsx ~ line 78 ~ { ~ err", err);
       } finally {
-
+        //Alter All <Text/> To have this fontfamily
+        setCustomText({ style: { fontFamily: FONTS.MAIN_REGULAR } });
         setAppIsReady(true);
       }
     })();
