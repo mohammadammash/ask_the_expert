@@ -36,5 +36,9 @@ export interface BookAppointmentFormCardProps {
   handleSubmitAppointmentId: (value: string) => void;
   submitButtonTouched: boolean;
   handleFormSubmit: (values: BookFormValuesTypes) => void;
+  colorScheme: string;
+  textcolor_style: {
+    color: string;
+  }
 }
 //END OF BOOK APPOINTMENT
