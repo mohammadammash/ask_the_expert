@@ -8,6 +8,7 @@ import { COLORS } from "../../constants";
 import styles from "../../../styles";
 import { BookFormValuesTypes, BookAppointmentFormCardProps } from "./types";
 import noviceStyles from "./novice.styles";
+import { color } from "react-native-reanimated";
 
 //FORMIK
 const appointmentIntialValues: BookFormValuesTypes = {
@@ -23,6 +24,8 @@ const BookAppointmentFormCard: React.FC<BookAppointmentFormCardProps> = ({
   data,
   handleSubmitAppointmentId,
   handleFormSubmit,
+  colorScheme,
+  textcolor_style,
 }) => {
   return (
     <Formik
@@ -39,8 +42,8 @@ const BookAppointmentFormCard: React.FC<BookAppointmentFormCardProps> = ({
           <RadioButton
             data={data}
             style={noviceStyles.radioButton}
-            boxStyle={noviceStyles.radioButtonBox}
-            textStyle={noviceStyles.radioButtonText}
+            boxStyle={[noviceStyles.radioButtonBox, colorScheme === "dark" && noviceStyles.radioButtonBoxDark]}
+            textStyle={[noviceStyles.radioButtonText, colorScheme === "dark" && noviceStyles.radioButtonTextDark]}
             selectedBtn={(e) => handleSubmitAppointmentId(e.appointment_id)}
             icon={<Icon name="check-circle" size={25} color={COLORS.blue} />}
           />
@@ -52,6 +55,8 @@ const BookAppointmentFormCard: React.FC<BookAppointmentFormCardProps> = ({
             value={values.notes}
             className=" placeholder:px-2 h-32 border-2 mt-8 w-5/6 rounded-lg"
             placeholder="Any notes to prepare for the meeting"
+            placeholderTextColor={textcolor_style.color}
+            style={[textcolor_style, colorScheme === "dark" && textcolor_style && styles.border_grey]}
             multiline={true}
             maxLength={100}
             numberOfLines={15}
