@@ -53,9 +53,10 @@ const AllReviewsStats: React.FC<AllReviewsStatsProps> = ({
         <View className="items-center mt-10 mb-5">
           <TextInput
             onChangeText={handleSearchReviewsChangeText}
-            style={[styles.text_input, styles.search_input, textcolor_style === styles.grey_text && textcolor_style && styles.border_grey]}
+            style={[styles.text_input, styles.search_input, textcolor_style && styles.border_grey]}
             className="placeholder:pl-3"
             placeholder="Search"
+            placeholderTextColor={textcolor_style.color}
           />
         </View>
       ) : null}
