@@ -7,6 +7,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import styles from "../../../styles";
 import { RatingFormValuesTypes, AddReviewModalFormProps } from "./types";
 import noviceStyles from "./novice.styles";
+import { ButtonComponent } from "..";
 
 const reviewIntialValues: RatingFormValuesTypes = {
   content: "",
@@ -30,7 +31,7 @@ const AddReviewModalForm: React.FC<AddReviewModalFormProps> = ({ modalRef, handl
       validationSchema={validateReviewIntialValues}
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
-        <KeyboardAwareScrollView className='w-full'>
+        <KeyboardAwareScrollView className="w-full">
           <View className="w-full items-center">
             <AirbnbRating
               defaultRating={values.rating}
@@ -51,9 +52,9 @@ const AddReviewModalForm: React.FC<AddReviewModalFormProps> = ({ modalRef, handl
             />
             {errors.content && touched.content && <Text className="text-red-600">{errors.content}</Text>}
 
-            <Pressable className="mt-2" style={styles.blue_button_sm} onPress={handleSubmit}>
-              <Text className="text-sm text-white font-bold">SUBMIT</Text>
-            </Pressable>
+            <View className="mb-5">
+              <ButtonComponent button_style="md" route_name="" title="SUBMIT" handlePress={() => handleSubmit()} disabled={false} />
+            </View>
           </View>
         </KeyboardAwareScrollView>
       )}
