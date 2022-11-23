@@ -2,7 +2,7 @@ import { View, Text, Image, TouchableOpacity, ScrollView, Pressable } from "reac
 import { t } from "i18next";
 import { useState } from "react";
 //internal imports
-import { IMAGES, USERTYPES } from "../../constants";
+import { COLORS, IMAGES, USERTYPES } from "../../constants";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "../../../styles";
 import CalculateYearsOfExperienceHelper from "../../screens/Helpers/CalculateYearsOfExperienceHelper";
@@ -39,10 +39,10 @@ const UserCard: React.FC<UserCardProps> = ({ user, reviews_average, bgcolor_styl
       <TouchableOpacity
         onPress={toggleMoreInfo}
         style={[styles.shadow_bg, bgcolor_style]}
-        className={`rounded-lg border-2 items-center min-h-64 ${showMoreInfo ? "h-96" : "h-72"} min-h-64 mx-5 pt-3`}
+        className={`rounded-lg border-2 items-center  ${showMoreInfo ? "h-96" : "h-72"} min-h-64 mx-5 pt-3`}
       >
         <ScrollView className="w-full">
-          <View className={`w-full ${user_type === USERTYPES.EXPERT && showMoreInfo ? "h-1/3" : ""} h-1/2 items-center gap-y-3`}>
+          <View className={`w-full ${user_type === USERTYPES.EXPERT && showMoreInfo ? "h-2/5" : "h-1/2"}  items-center gap-y-3`}>
             <View style={styles.border_blue} className="avatar aspect-square max-w-28 max-h-28 h-full w-full rounded-full border-4">
               <Image
                 className="max-w-full max-h-full h-full w-full rounded-full"
@@ -73,61 +73,83 @@ const UserCard: React.FC<UserCardProps> = ({ user, reviews_average, bgcolor_styl
 
           {/* MORE INFO SECTION */}
           {showMoreInfo && user_type === USERTYPES.NOVICE ? (
-            <View className="p-1 h-64 min-h-64 justify-start gap-y-2">
+            <View className="p-2 h-1/2 justify-center mt-5">
               <View className="mb-1">
-                <Text className="font-semibold text-sm">About:</Text>
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  About:
+                </Text>
                 <Text className="font-normal text-xs">{about}</Text>
               </View>
 
               <View className="mb-1">
-                <Text className="font-semibold text-sm">Speciality:</Text>
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  Speciality:
+                </Text>
                 <Text className="font-normal text-xs">{speciality}</Text>
               </View>
 
               <View className="mb-1">
-                <Text className="font-semibold text-sm">Email:</Text>
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  Email:
+                </Text>
                 <Text className="font-normal text-xs">{email}</Text>
               </View>
 
-              <View className="mb-5">
-                <Text className="font-semibold text-sm">Spoken Languages:</Text>
+              <View className="mb-1">
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  Spoken Languages:
+                </Text>
                 <Text className="font-normal text-xs">{spoken_languages}</Text>
               </View>
             </View>
           ) : showMoreInfo && user_type === USERTYPES.EXPERT ? (
-            <View className="p-1 justify-start">
+            <View className="p-2 justify-end h-3/5 mt-3">
               <View className="mb-1">
-                <Text className="font-semibold text-sm">About:</Text>
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  About:
+                </Text>
                 <Text className="font-normal text-xs">{about}</Text>
               </View>
 
               <View className="mb-1">
-                <Text className="font-semibold text-sm">Speciality:</Text>
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  Speciality:
+                </Text>
                 <Text className="font-normal text-xs">{speciality}</Text>
               </View>
 
-              <View className="mb-3">
-                <Text className="font-semibold text-sm">Email:</Text>
+              <View className="mb-1">
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  Email:
+                </Text>
                 <Text className="font-normal text-xs">{email}</Text>
               </View>
 
-              <View className="mb-3">
-                <Text className="font-semibold text-sm">Experience Years:</Text>
+              <View className="mb-1">
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  Experience Years:
+                </Text>
                 <Text className="font-normal text-xs">{yearsOfExperience}</Text>
               </View>
 
               <View className="mb-3">
-                <Text className="font-semibold text-sm">Available Right now:</Text>
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  Available Right now:
+                </Text>
                 <Text className="font-normal text-xs">{isAvailable ? "Online" : "Offline"}</Text>
               </View>
 
-              <View className="mb-5 pb-20">
-                <Text className="font-semibold text-sm">Reviews Average:</Text>
+              <View className="mb-1">
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  Reviews Average:
+                </Text>
                 <Text className="font-normal text-xs">{reviews_average}.0</Text>
               </View>
 
-              <View className="mb-5">
-                <Text className="font-semibold text-sm">Score:</Text>
+              <View>
+                <Text style={styles.blue_text} className="font-bold text-sm">
+                  Score:
+                </Text>
                 <Text className="font-normal text-xs">{score} Points</Text>
               </View>
             </View>
