@@ -26,8 +26,8 @@ const DrawerNavigator = () => {
   //Handle logout
   const { user, setUser } = useUserContext();
   const handleLogout = async () => {
-    const result = await logoutUser();
-    if (result) setUser(userInitialData);
+    await logoutUser();
+    setUser(userInitialData);
   };
 
   return (
