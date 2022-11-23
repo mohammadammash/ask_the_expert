@@ -1,6 +1,7 @@
 import { View, Text, Image, TouchableOpacity, ScrollView, Pressable } from "react-native";
 import { t } from "i18next";
 import { useState } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 //internal imports
 import { COLORS, IMAGES, USERTYPES } from "../../constants";
 import { AntDesign } from "@expo/vector-icons";
