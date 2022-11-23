@@ -2,17 +2,16 @@ import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import * as SecureStore from "expo-secure-store";
 //internal imports
 import { ROUTES, IMAGES, COLORS } from "../../constants";
 import { LoginFormComponent } from "../../components";
 import styles from "../../../styles";
 import { auth } from "../../../firebaseConfig";
-import { userInitialData, useUserContext } from "../../hooks/UserContext";
+import { useUserContext } from "../../hooks/UserContext";
 import { useLoginUser } from "../../hooks/useAuth";
 import { setDefaultTokens } from "../../networks/base";
 import { useCurrentUser } from "../../hooks/useUser";
-import { getAuthToken as getAuthTokenUtility, logoutUser } from "../../utils/authentication";
+import { getAuthToken as getAuthTokenUtility } from "../../utils/authentication";
 
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
@@ -110,7 +109,7 @@ const LoginScreen = () => {
 
       <LoginFormComponent {...data} />
 
-      <View className="flex-row mt-10">
+      <View className="flex-row">
         <Text className="inline mr-1 font-bold">Don't have an account?</Text>
         <Pressable onPress={() => navigation.navigate(ROUTES.REGISTER)}>
           <Text className="font-bold" style={styles.orange_text}>

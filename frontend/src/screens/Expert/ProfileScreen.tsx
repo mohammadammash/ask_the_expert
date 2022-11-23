@@ -269,7 +269,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
         )}
 
         {/* SET AVAILBILITY SWITCH SECTION */}
-        <View className="w-full my-3">
+        <View className="w-full mt-3">
           <View className="h-24 w-full items-center justify-evenly" style={styles.bg_grey}>
             <Text className="text-xs">
               {user._id !== currentUser_id
@@ -306,7 +306,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
 
               {/* REVIEW BOTTOM SHEET/MODAL CONTENT */}
               <RBSheet ref={modalRef} closeOnDragDown={true} closeOnPressMask={true} animationType={"fade"} customStyles={expertStyles}>
-                <Text>
+                <Text className="px-5 text-center">
                   {rating_title} {user.firstName}?
                 </Text>
                 <AddReviewModalFormComponent modalRef={modalRef} handleRatingSubmit={handleRatingSubmit} />
@@ -361,7 +361,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
 const expertStyles = StyleSheet.create({
   wrapper: { backgroundColor: "rgba(255,255,255,0.9)" },
   draggableIcon: styles.bg_dark,
-  container: { borderTopWidth: 2, borderColor: COLORS.dark, alignItems: "center", height: "40%" },
+  container: { borderTopWidth: 2, borderColor: COLORS.dark, alignItems: "center", height: "45%" },
 });
 
 export default ProfileScreen;

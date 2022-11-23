@@ -96,10 +96,8 @@ const HomeScreen = () => {
       <ScrollView horizontal={true} className="flex-row">
         {/* START OF ALL USERS CHARTS */}
         <View style={styles.screenWidth} className=" flex-1 items-center justify-center">
-          <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
-            <Text style={textcolor_style} className=" text-base font-bold">
-              All Users Count
-            </Text>
+          <View className="rounded-2xl mx-7 h-3/4 p-4 bg-[#232B5D] justify-center">
+            <Text className="text-white text-xl font-bold text-center mb-2">All Users Count</Text>
             <View className="items-center p-5">
               <PieChart
                 data={pieChartData1}
@@ -165,7 +163,7 @@ const HomeScreen = () => {
 
         {/* START OF APPOINTMENTS AND NEW STATISTICS CHART */}
         <View style={styles.screenWidth} className="w-1/4 items-center justify-center">
-          <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
+          <View className="rounded-2xl h-3/4 p-4 bg-[#232B5D]">
             <ChartsUpperLegendComponent
               chart_type="AppointmentsAndChats"
               dot1_title={`${lineChartData4[4]} ${chats_string}`}

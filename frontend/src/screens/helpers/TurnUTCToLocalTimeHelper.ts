@@ -1,9 +1,14 @@
+
+const padTo2Digits = (num: number) => {
+    return num.toString().padStart(2, '0');
+}
 const TurnUTCToLocateTimeHelper = (date: Date) => {
-    return date.toLocaleTimeString("en-US", {
-        // en-US can be set to 'default' to use user's browser settings
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-};
+    return (
+        [
+            padTo2Digits(date.getHours()),
+            padTo2Digits(date.getMinutes()),
+        ].join(':')
+    );
+}
 
 export default TurnUTCToLocateTimeHelper;

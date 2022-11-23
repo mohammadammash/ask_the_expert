@@ -150,6 +150,11 @@ export default StyleSheet.create({
     shadowRadius: 3,
     borderColor: COLORS.blue,
   },
+  border_bottom_grey: {
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.grey,
+    borderTopWidth: 0,
+  },
 
   //UTILS
   flexCenter: {
