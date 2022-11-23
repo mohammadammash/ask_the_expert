@@ -7,6 +7,7 @@ import ProfileStackNavigator from "../Common/ProfileStackNavigator";
 import { t } from "i18next";
 import { logoutUser } from "../../utils/authentication";
 import { userInitialData, useUserContext } from "../../hooks/UserContext";
+import { useEffect, useState } from "react";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,10 +19,18 @@ const AdminTabNavigator = () => {
   const home_title = t("Home");
 
   //Handle logout
+  const [logoutResult, setLogoutResult] = useState(false);
   const { setUser } = useUserContext();
+  useEffect(() => {
+    if (logoutResult) {
+      alert("bara");
+      setUser(userInitialData);
+      setLogoutResult(false);
+    }
+  }, [logoutResult]);
   const handleLogout = async () => {
-    const result = await logoutUser();
-    if (result) setUser({ ...userInitialData });
+    await logoutUser();
+    setLogoutResult(true);
   };
 
   return (
