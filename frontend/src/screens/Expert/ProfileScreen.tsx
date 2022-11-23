@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { RefreshControl, View, Text, ScrollView, Switch, Platform, Alert, StyleSheet } from "react-native";
+import { RefreshControl, View, Text, ScrollView, Switch, Platform, StyleSheet } from "react-native";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { reviewsType, userType, useUserContext } from "../../hooks/UserContext";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -27,6 +27,7 @@ import { t } from "i18next";
 const ProfileScreen = ({ route }: { route: any }) => {
   //translation
   const reviews_string = t("REVIEWS");
+  ``;
   const rating_title = t("Choose the time you will be available by, and the time of each meeting");
   const expertisnowoffline_string = t("EXPERT IS CURRENTLY OFFLINE!");
   const expertisnowonline_string = t("EXPERT IS CURRENTLY ONLINE");
@@ -108,13 +109,7 @@ const ProfileScreen = ({ route }: { route: any }) => {
     //if user is offline send him/her to goOnline form page
     if (!isAvailable) return navigation.navigate(ROUTES.EXPERT_GO_ONLINE);
     //if user is currently online => show popup to make sure that user want to go offine and remove all remaining appointments if exists
-    Alert.alert(gooffline_string, `\n ${allappointments_string}?\n\n ${assure_string}?`, [
-      {
-        text: cancel_string,
-        style: "destructive",
-      },
-      { text: submit_string, onPress: () => mutateGoOfflineExpert(), style: "default" },
-    ]);
+    mutateGoOfflineExpert();
   };
   //END OF GO OFFLINE POST API SUBMIT
   //-----------------------------------
@@ -162,17 +157,8 @@ const ProfileScreen = ({ route }: { route: any }) => {
   }, [shownReviews]);
 
   const handleRatingSubmit = (values: { rating: number; content: string }) => {
-    const submitReview = () => {
-      const data = { ...values, expert_id: user._id };
-      mutateAddReview(data);
-    };
-    Alert.alert(submit_string + review_string, `\n${assuresubmitreview_string}?`, [
-      {
-        text: cancel_string,
-        style: "destructive",
-      },
-      { text: submit_string, onPress: submitReview, style: "default" },
-    ]);
+    const data = { ...values, expert_id: user._id };
+    mutateAddReview(data);
   };
 
   const handleDeleteOwnReview = (review_id: string) => {
