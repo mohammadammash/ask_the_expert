@@ -11,7 +11,7 @@ import { updateDoc, doc, getDoc, setDoc, serverTimestamp, onSnapshot, arrayUnion
 import { firebase_db } from "../../../firebaseConfig";
 import { t } from "i18next";
 
-const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }) => {
+const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any, textcolor_style: {} }) => {
   //translation
   const typemessage_placeholder = t("Type message...");
 
@@ -195,7 +195,7 @@ const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }
   return (
     <View style={bgcolor_style} className="flex-1 h-full items-center">
       <View className="h-full w-full">
-        {messages.length === 0 ? <Text className="text-center mt-10">Say Hello! &#128075;</Text> : null}
+        {messages.length === 0 ? <Text style={textcolor_style} className="text-center mt-10">Say Hello! &#128075;</Text> : null}
         <GiftedChat
           placeholder={typemessage_placeholder}
           messages={messages}

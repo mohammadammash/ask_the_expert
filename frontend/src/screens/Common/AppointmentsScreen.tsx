@@ -1,5 +1,5 @@
 import { useIsFocused, useNavigation } from "@react-navigation/native";
-import { View, ScrollView, Text, Image, Alert, RefreshControl } from "react-native";
+import { View, ScrollView, Text, Image, RefreshControl } from "react-native";
 import { useState, useEffect, useCallback } from "react";
 import { useColorScheme } from "nativewind";
 //internal imports
@@ -60,20 +60,8 @@ const AppointmentsScreen = () => {
   } = useDeleteAppointment();
 
   const handleRemoveAppointment = (appointment_id: string) => {
-    Alert.alert("Remove Appointment", "\nAre you sure you want to Remove this appointment?", [
-      {
-        text: "Cancel",
-        style: "destructive",
-      },
-      {
-        text: "Submit",
-        onPress: () => {
-          setRemovedAppointmentId(appointment_id);
-          mutateRemoveAppointment(appointment_id);
-        },
-        style: "default",
-      },
-    ]);
+    setRemovedAppointmentId(appointment_id);
+    mutateRemoveAppointment(appointment_id);
   };
 
   useEffect(() => {
@@ -159,10 +147,10 @@ const AppointmentsScreen = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         contentContainerStyle={styles.flexCenter}
       >
-          <Text style={textcolor_style} className="text-center w-3/4 text-xs font-bold">
-            {noappointments_string} 😴
-          </Text>
-          <Image className="w-64 h-64" source={IMAGES.emptyMyAppointments} />
+        <Text style={textcolor_style} className="text-center w-3/4 text-xs font-bold">
+          {noappointments_string} 😴
+        </Text>
+        <Image className="w-64 h-64" source={IMAGES.emptyMyAppointments} />
       </ScrollView>
     );
   }

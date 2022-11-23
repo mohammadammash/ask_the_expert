@@ -34,7 +34,7 @@ const ChatsScreen = () => {
       if (doc.data()) {
         setMyChats(Object.entries(doc.data()));
       }
-    setIsLoadingChats(false);
+      setIsLoadingChats(false);
     });
 
     return () => {
