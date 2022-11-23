@@ -7,7 +7,15 @@ import navigationStyles from "./navigation.styles";
 import { IMAGES, COLORS, ROUTES } from "../../constants";
 import { t } from "i18next";
 
-const CustomDrawer = ({ props, handleLogout }: { props: DrawerContentComponentProps; handleLogout: () => void }): JSX.Element => {
+const CustomDrawer = ({
+  props,
+  handleLogout,
+  profile_url,
+}: {
+  props: DrawerContentComponentProps;
+  handleLogout: () => void;
+  profile_url: string;
+}): JSX.Element => {
   //translation
   const logout_string = t("Logout");
 
@@ -15,7 +23,7 @@ const CustomDrawer = ({ props, handleLogout }: { props: DrawerContentComponentPr
     // Drawer whole content
     <DrawerContentScrollView {...props} contentContainerStyle={navigationStyles.mainContainer}>
       <ImageBackground className="h-36" source={IMAGES.fakeMapImage}>
-        <Image source={IMAGES.dummyProfile} style={navigationStyles.userImg} />
+        <Image source={profile_url.length > 1 ? { uri: profile_url } : IMAGES.dummyProfile} style={navigationStyles.userImg} />
       </ImageBackground>
 
       <View className="h-5/6 justify-between pb-5">
