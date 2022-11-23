@@ -1,6 +1,7 @@
 import { AirbnbRating } from "react-native-ratings";
 import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { t } from "i18next";
 //internal imports
 import { IMAGES } from "../../constants";
 import styles from "../../../styles";
@@ -42,7 +43,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ handleCardClick, review, curren
             ) : null}
           </View>
           <Text style={textcolor_style} className="text-xs opacity-50 mb-3">
-            {speciality}
+            {t(speciality)}
           </Text>
           <Text style={textcolor_style} className="w-full text-[11px]">
             {content}
