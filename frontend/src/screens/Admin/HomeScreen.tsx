@@ -165,7 +165,7 @@ const HomeScreen = () => {
 
         {/* START OF APPOINTMENTS AND NEW STATISTICS CHART */}
         <View style={styles.screenWidth} className="w-1/4 items-center justify-center">
-          <View className="rounded-2xl p-4 bg-[#232B5D]">
+          <View className="rounded-2xl m-7 p-4 bg-[#232B5D]">
             <ChartsUpperLegendComponent
               chart_type="AppointmentsAndChats"
               dot1_title={`${lineChartData4[4]} ${chats_string}`}
@@ -177,7 +177,7 @@ const HomeScreen = () => {
               height={250}
               width={250}
               showVerticalLines
-              spacing={45}
+              spacing={40}
               initialSpacing={0}
               color1={COLORS.blue}
               color2={COLORS.orange}
