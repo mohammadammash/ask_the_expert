@@ -11,13 +11,14 @@ import { updateDoc, doc, getDoc, setDoc, serverTimestamp, onSnapshot, arrayUnion
 import { firebase_db } from "../../../firebaseConfig";
 import { t } from "i18next";
 
-const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any, textcolor_style: {} }) => {
+const SingleChatScreen = ({ route, navigation }: { route: any; navigation: any }) => {
   //translation
   const typemessage_placeholder = t("Type message...");
 
   //theme
   const { colorScheme } = useColorScheme();
   const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
+  const textcolor_style = colorScheme === "dark" ? styles.white_text : styles.dark_text;
 
   //ALWAYS THIS PAGE SHOULD BE AS PART FROM ANOTHER SCREEN STACK
   let shown_user = { ...userInitialData };
