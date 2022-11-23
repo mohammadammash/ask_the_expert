@@ -13,6 +13,7 @@ import { useCloseExperts } from "../../hooks/useNovice";
 import CalculateYearsOfExperience from "../Helpers/CalculateYearsOfExperienceHelper";
 import { ActivityIndicatorComponent } from "../../components";
 import { t } from "i18next";
+import { logoutUser } from "../../utils/authentication";
 
 const ProfileScreen = () => {
   //translation
@@ -27,6 +28,7 @@ const ProfileScreen = () => {
   const activityicon_color = colorScheme === "dark" ? COLORS.white : COLORS.dark;
   const bgcolor_style = colorScheme === "dark" ? styles.bg_dark : styles.bg_white;
   const textcolor_style = colorScheme === "dark" ? styles.grey_text : styles.white_text;
+  const cardtextcolor_style = colorScheme === "dark" ? styles.white_text : styles.dark_text;
 
   const navigation = useNavigation<any>();
   const { user } = useUserContext();
@@ -91,7 +93,7 @@ const ProfileScreen = () => {
   }
 
   //EMPTY STATE
-  if (closeExpertData?.data.length === 0) {
+  if (closeExpertData?.data?.length === 0) {
     return (
       <ImageBackground className="w-full h-full" source={IMAGES.fakeMapImage}>
         <View className="w-full items-center justify-center h-1/5 px-10">
@@ -120,7 +122,7 @@ const ProfileScreen = () => {
         </Marker>
 
         {/* RENDER ALL POINTERS */}
-        {closeExpertData.data?.map((expert: userType) => {
+        {closeExpertData?.data?.map((expert: userType) => {
           const expert_cords = { longitude: expert.location.coordinates[0], latitude: expert.location.coordinates[1] };
           return (
             <Marker key={expert._id} coordinate={expert_cords} onPress={() => handlePointerPress(expert)}>
@@ -136,7 +138,7 @@ const ProfileScreen = () => {
       {shownExpert._id ? (
         <View className="flex-1 w-5/6 items-center justify-end absolute bottom-5 h-36">
           <TouchableOpacity
-            style={[styles.shadow_bg, colorScheme === "dark" && styles.bg_grey]}
+            style={[styles.shadow_bg, bgcolor_style]}
             className="flex-row w-full rounded-xl border-0.5 items-center justify-evenly h-full"
             onPress={() => handleCardPress(shownExpert)}
           >
@@ -149,24 +151,28 @@ const ProfileScreen = () => {
 
             <View className="h-full justify-around">
               <View className="h-1/2 gap-y-1">
-                <Text className="text-base font-bold">
+                <Text style={cardtextcolor_style} className="text-base font-bold">
                   {shownExpert.firstName[0].toUpperCase() +
                     shownExpert.firstName.substring(1, shownExpert.firstName.length).toLowerCase() +
                     " " +
                     shownExpert.lastName[0].toUpperCase() +
                     shownExpert.lastName.substring(1, shownExpert.lastName.length).toLowerCase()}{" "}
                 </Text>
-                <Text className="text-sm opacity-80">{shownExpert.field}</Text>
-                <Text className="text-xs opacity-50">{shownExpert.speciality}</Text>
+                <Text style={cardtextcolor_style} className="text-sm opacity-80">
+                  {shownExpert.field}
+                </Text>
+                <Text style={cardtextcolor_style} className="text-xs opacity-50">
+                  {shownExpert.speciality}
+                </Text>
               </View>
               <View className="flex-row items-center justify-between w-52">
                 <View className="flex-row items-center gap-x-1">
                   <SimpleLineIcons name="location-pin" size={20} color={COLORS.blue} />
-                  <Text className="text-[8px] opacity-80">
+                  <Text style={cardtextcolor_style} className="text-[8px] opacity-80">
                     {(shownExpert.distance.calculated / 1000).toFixed(2)} km {away_string}
                   </Text>
                 </View>
-                <Text className="text-[8px] opacity-50">
+                <Text style={cardtextcolor_style} className="text-[8px] opacity-50">
                   {CalculateYearsOfExperience(shownExpert.start_date).slice(0, 8)}... {ofExperience_string}
                 </Text>
               </View>
