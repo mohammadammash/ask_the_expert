@@ -1,8 +1,7 @@
-import { View, ScrollView, TextInput, Text } from "react-native";
+import { View, ScrollView, TextInput, Text,KeyboardAvoidingView } from "react-native";
 import { useState, useEffect } from "react";
 import { useColorScheme } from "nativewind";
-import { t } from "i18next";
-import AlertAsync from "react-native-alert-async";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 //internal imports
 import styles from "../../../styles";
 import { COLORS } from "../../constants";
@@ -35,31 +34,8 @@ const ViewUsersScreen = () => {
   //End of Handling filter users
 
   //Start of Handling UnBan User Login
-  const {
-    mutate: mutateBanOrUnBanUser,
-    isLoading: isLoadingmutateBanOrUnBanUser,
-  } = useBanOrUnBanUser();
+  const { mutate: mutateBanOrUnBanUser, isLoading: isLoadingmutateBanOrUnBanUser } = useBanOrUnBanUser();
   const handleonPressBanOrUnBanButton = async (user_id: string, firstName: string, isBanned: boolean) => {
-    const cancel_string = t("Cancel");
-    const submit_string = t("Submit");
-    const logout_string = t("Ban/UnBan User");
-
-    const AsyncAlert = async () => {
-      const choice = await AlertAsync(
-        logout_string,
-        `\nAre you sure you want to ${isBanned ? "Unban" : "Ban"} ${firstName}?`,
-        [
-          { text: cancel_string, style: "destructive", onPress: () => false },
-          { text: submit_string, style: "default", onPress: () => true },
-        ],
-        { cancelable: true }
-      );
-      return choice;
-    };
-
-    const choice = await AsyncAlert();
-    if (!choice) return; //Alert Canceled
-
     isBanned = !isBanned; //Toggle user isBanned boolean onClick
     const data = { user_id, ban: isBanned };
     mutateBanOrUnBanUser(data);
@@ -136,21 +112,23 @@ const ViewUsersScreen = () => {
           <Text>No {shownUsersType} Found</Text>
         </View>
       ) : (
-        <ScrollView className="h-5/6 pt-5" horizontal={true}>
-          {shownUsers.map((user: userType, index: number) => {
-            const ratingAverage = CalculateRatingAverageHelper(user.reviews);
-            return (
-              <UserCardComponent
-                key={index}
-                reviews_average={ratingAverage}
-                user={user}
-                bgcolor_style={cardbgcolor_style}
-                textcolor_style={textcolor_style}
-                handlePress={handleonPressBanOrUnBanButton}
-              />
-            );
-          })}
-        </ScrollView>
+        <KeyboardAwareScrollView>
+          <ScrollView className="h-5/6 pt-5" horizontal={true}>
+            {shownUsers.map((user: userType, index: number) => {
+              const ratingAverage = CalculateRatingAverageHelper(user.reviews);
+              return (
+                <UserCardComponent
+                  key={index}
+                  reviews_average={ratingAverage}
+                  user={user}
+                  bgcolor_style={cardbgcolor_style}
+                  textcolor_style={textcolor_style}
+                  handlePress={handleonPressBanOrUnBanButton}
+                />
+              );
+            })}
+          </ScrollView>
+        </KeyboardAwareScrollView>
       )}
       {/* END OF CARDS SECTION */}
     </View>

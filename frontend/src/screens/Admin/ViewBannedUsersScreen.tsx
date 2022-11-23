@@ -38,26 +38,6 @@ const ViewBannedUsersScreen = () => {
   //Start of Handling UnBan User Login
   const { mutate: mutateBanOrUnBanUser, isLoading: isLoadingmutateBanOrUnBanUser } = useBanOrUnBanUser();
   const handleonPressBanOrUnBanButton = async (user_id: string, firstName: string, isBanned: boolean) => {
-    const cancel_string = t("Cancel");
-    const submit_string = t("Submit");
-    const logout_string = t("UnBan User");
-
-    const AsyncAlert = async () => {
-      const choice = await AlertAsync(
-        logout_string,
-        `\nAre you sure you want to UnBan ${firstName}?`,
-        [
-          { text: cancel_string, style: "destructive", onPress: () => false },
-          { text: submit_string, style: "default", onPress: () => true },
-        ],
-        { cancelable: true }
-      );
-      return choice;
-    };
-
-    const choice = await AsyncAlert();
-    if (!choice) return; //Alert Canceled
-
     const data = { user_id, ban: false }; //Alwasy false since all users in this screen all already banned
     mutateBanOrUnBanUser(data);
   };
