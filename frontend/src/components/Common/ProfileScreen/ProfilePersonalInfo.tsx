@@ -35,11 +35,11 @@ const ProfilePersonalInfo: React.FC<ProfilePersonalInfoProps> = ({
             lastName.substring(1, lastName.length).toLowerCase()}{" "}
         </Text>
         <Text style={textcolor_style} className="opacity-60 text-xs text-center">
-          {field}
+          {t(field)}
         </Text>
       </View>
       <Text style={textcolor_style} className="text-sm font-bold">
-        {speciality}
+        {t(speciality)}
       </Text>
       <Text style={textcolor_style} className="opacity-40 text-xs text-center uppercase">
         {with_string}

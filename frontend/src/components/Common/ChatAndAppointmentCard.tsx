@@ -52,7 +52,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
                 lastName.substring(1, lastName.length).toLowerCase()}{" "}
             </Text>
             <Text style={textcolor_style} className="text-xs opacity-50">
-              {speciality}
+              {t(speciality)}
             </Text>
           </View>
 

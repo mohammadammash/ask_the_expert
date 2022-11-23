@@ -2,8 +2,8 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import { IMAGES } from "../../constants";
 import commonStyles from "./common.styles";
-import { userType } from "../../hooks/UserContext";
 import styles from "../../../styles";
+import { t } from "i18next";
 //internal imports"
 import { LeaderboardCardProps } from "./types";
 
@@ -13,8 +13,6 @@ const LeaderboardCard: React.FC<LeaderboardCardProps> = ({ rank = 3, expert, tex
   let rank_color = {};
   if (rank === 1) [rank_style, rank_color] = [commonStyles.grey_card, commonStyles.grey_text];
   else if (rank === 2) [rank_style, rank_color] = [commonStyles.bronze_card, commonStyles.bronze_text];
-
-
 
   //unpacking expert
   const { firstName, lastName, score, speciality, profile_url } = expert;
@@ -43,7 +41,7 @@ const LeaderboardCard: React.FC<LeaderboardCardProps> = ({ rank = 3, expert, tex
               lastName.substring(1, lastName.length).toLowerCase()}{" "}
           </Text>
           <Text style={textcolor_style} className="text-sm opacity-50 text-center">
-            {speciality}
+            {t(speciality)}
           </Text>
         </View>
 
@@ -83,7 +81,7 @@ const LeaderboardCard: React.FC<LeaderboardCardProps> = ({ rank = 3, expert, tex
                 lastName.substring(1, lastName.length).toLowerCase()}{" "}
             </Text>
             <Text style={textcolor_style} className="text-[10px] opacity-50">
-              {speciality}
+              {t(speciality)}
             </Text>
           </View>
           <View className="text-center">
