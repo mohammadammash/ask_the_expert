@@ -34,7 +34,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
       validationSchema={validateRegisterFormSchema}
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
-        <View className="w-4/5 justify-center gap-3">
+        <View className="w-5/6 justify-center gap-3">
           <View className="items-center">
             <View className="border-2 rounded-full h-36 w-36 mb-3">
               <Image className="rounded-full h-full w-full" source={image ? { uri: image } : IMAGES.dummyProfile} />

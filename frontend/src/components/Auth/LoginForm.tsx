@@ -17,7 +17,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleInvalidCredentials, inValid
       validationSchema={validateLoginFormSchema}
     >
       {({ handleChange, handleBlur, handleSubmit, errors, touched, values }) => (
-        <View className="w-4/5 h-64 justify-evenly">
+        <View className="w-5/6 h-72 justify-evenly">
           <View>
             <Text className="font-bold">Email</Text>
             <TextInput
@@ -31,7 +31,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleInvalidCredentials, inValid
             {errors.email && touched.email && <Text className="text-red-600">{errors.email}</Text>}
           </View>
 
-          <View className="mt-2">
+          <View>
             <Text className="font-bold">Password</Text>
             <TextInput
               onChangeText={handleChange("password")}
