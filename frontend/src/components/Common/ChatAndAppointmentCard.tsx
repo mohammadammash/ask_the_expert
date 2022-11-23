@@ -34,7 +34,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
   return (
     //Touch navigation for chat card only
     <TouchableOpacity onPress={() => handleCardClick("navigate_chat", shown_user)}>
-      <View className="flex-row w-full border-b-0.5 items-center justify-around h-28">
+      <View className="pl-2 flex-row w-full border-b-1 items-center justify-around h-28">
         <View className="avatar aspect-square max-w-1/5 max-h-1/5 h-1/6 w-1/6 rounded-full items-center border-2 border-[#1FA6D1]">
           <Image
             className="max-w-full max-h-full h-full w-full rounded-full"
@@ -42,7 +42,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
           />
         </View>
 
-        <View className="h-full w-4/6 justify-around">
+        <View className="h-full w-5/6 px-4 justify-around">
           <View>
             <Text style={textcolor_style} className="text-sm font-bold">
               {firstName[0].toUpperCase() +
@@ -66,8 +66,13 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
               </View>
               <View className="flex-row items-center justify-between w-full">
                 <View className="opacity-80 flex-row gap-2">
-                  <MaterialCommunityIcons onPress={() => handleCardClick("remove", data._id)} name="book-cancel" size={24} color="black" />
-                  <Entypo name="new-message" size={24} color="black" onPress={() => handleCardClick("chat", shown_user)} />
+                  <MaterialCommunityIcons
+                    onPress={() => handleCardClick("remove", data._id)}
+                    name="book-cancel"
+                    size={24}
+                    color={textcolor_style.color}
+                  />
+                  <Entypo name="new-message" size={24} color={textcolor_style.color} onPress={() => handleCardClick("chat", shown_user)} />
                 </View>
                 <View className="gap-1">
                   <Text style={textcolor_style} className="text-[9px] opacity-80">
