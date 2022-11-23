@@ -16,7 +16,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ user_type, about, textcolor
   else current_style = commonStyles.expert_about;
 
   return (
-    <View style={current_style}>
+    <View className="items-center" style={current_style}>
       <View className="w-4/5 items-center">
         <Text style={styles.blue_text} className="font-bold text-2xl pb-5 uppercase">
           {about_title}
