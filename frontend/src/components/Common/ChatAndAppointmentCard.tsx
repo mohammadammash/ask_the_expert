@@ -34,7 +34,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
   return (
     //Touch navigation for chat card only
     <TouchableOpacity onPress={() => handleCardClick("navigate_chat", shown_user)}>
-      <View className="pl-2 flex-row w-full border-b-1 items-center justify-around h-28">
+      <View style={styles.border_bottom_grey} className="pl-2 flex-row w-full items-center justify-around h-28">
         <View className="avatar aspect-square max-w-1/5 max-h-1/5 h-1/6 w-1/6 rounded-full items-center border-2 border-[#1FA6D1]">
           <Image
             className="max-w-full max-h-full h-full w-full rounded-full"
@@ -42,7 +42,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
           />
         </View>
 
-        <View className="h-full w-5/6 px-4 justify-around">
+        <View className="h-full w-5/6 px-4 justify-center gap-y-5">
           <View>
             <Text style={textcolor_style} className="text-sm font-bold">
               {firstName[0].toUpperCase() +
@@ -51,7 +51,7 @@ const ChatAndAppointmentCard: React.FC<ChatAndAppointmentCardProps> = ({ handleC
                 lastName[0].toUpperCase() +
                 lastName.substring(1, lastName.length).toLowerCase()}{" "}
             </Text>
-            <Text style={textcolor_style} className="text-xs opacity-50">
+            <Text style={textcolor_style} className="text-xs opacity-50 pt-1">
               {t(speciality)}
             </Text>
           </View>
