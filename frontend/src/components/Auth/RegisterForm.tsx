@@ -58,7 +58,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
           <View>
             <Text className="font-bold">LastName</Text>
             <TextInput
-              onChangeText={handleChange("astName")}
+              onChangeText={handleChange("lastName")}
               onBlur={handleBlur("lastName")}
               value={values.lastName}
               style={styles.text_input}
