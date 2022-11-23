@@ -22,19 +22,18 @@ const DrawerNavigator = () => {
   const chats_title = t("Chats");
   const appointments_title = t("Appointments");
   const home_title = t("Home");
-  const { user } = useUserContext();
 
   //Handle logout
-  const { setUser } = useUserContext();
+  const { user, setUser } = useUserContext();
   const handleLogout = async () => {
     const result = await logoutUser();
-    if (result) setUser({ ...userInitialData });
+    if (result) setUser(userInitialData);
   };
 
   return (
     <Drawer.Navigator
       useLegacyImplementation={true}
-      drawerContent={(props) => <CustomDrawerComponent props={props} handleLogout={handleLogout} />}
+      drawerContent={(props) => <CustomDrawerComponent props={props} handleLogout={handleLogout} profile_url={user.profile_url} />}
       screenOptions={({ navigation }) => drawerScreenOptionsStyle(navigation)}
     >
       {/* NOVICE HOME_STACK */}
