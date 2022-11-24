@@ -85,11 +85,13 @@ Here's a brief high-level overview of the tech stack the Ask The Expert app uses
 <a id="implementation"></a>
 <img src="./readme/titles/implementation.svg"/>
 
-> Using the above mentioned tech stacks and the wireframes build with figma from the user stories we have, the implementation of the app is shown as below, these are GIFs from the real app
+> Using the above mentioned tech stacks and the wireframes build with figma from the user stories we have, the implementation of the app is shown as below, these are GIFs from the real app 
+> 
+> Below GIFs may take some time to load
 
-| Novice                                                | Expert                                          | Admin                                          |
+| Novice (french - dark mode)                                                | Expert (english - light mode)                                          | Admin                                          |
 | ----------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- |
-| ![Novice](./) | ![Expert](./) | ![Admin](./) |
+| ![Novice](./readme/prototypes/novice_french_dark.gif) | ![Expert](./readme/prototypes/expert_lightmode.gif) | ![Admin](.//readme/prototypes/admin.gif) |
 
 <br><br>
 
@@ -138,6 +140,7 @@ _Below is an example of how you can instruct your audience on installing and set
 3. Navigate to the frontend folder and run following commands:
    ```sh
    npm install
+   #[Navigate to src/networks/base.ts and replace base url by current local IPv4:Port]
    npm start
    ```
 4. Scan the frontend Expo barcode from the terminal or open it using an emulator and enjoy your tour🎉.
