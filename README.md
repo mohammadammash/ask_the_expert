@@ -89,10 +89,23 @@ Here's a brief high-level overview of the tech stack the Ask The Expert app uses
 > 
 > Below GIFs may take some time to load
 
+---------------
+### Workflow:
+---------------
 | Novice (french - dark mode)                                                | Expert (english - light mode)                                          | Admin                                          |
 | ----------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- |
-| ![Novice](./readme/prototypes/novice_french_dark.gif) | ![Expert](./readme/prototypes/expert_lightmode.gif) | ![Admin](.//readme/prototypes/admin.gif) |
+| ![Novice](./readme/gifs/novice_french_dark.gif) | ![Expert](./readme/gifs/expert_lightmode.gif) | ![Admin](./readme/gifs/admin.gif) |
+---------------
+### Features:
+---------------
+| Book Appointment + Notification                                   | Set Availability                                         | Add/Remove Review                                            |
+| --------------------------------------- | --------------------------------------------------- | ------------------------------------------------------ | 
+| ![Book](./readme/gifs/book_appointment_notification.gif) | ![Chats](./readme/gifs/go_online.gif) | ![Go Online](./readme/gifs/add_or_remove_review.gif) |
 
+| Live Chats                                             | Filter/Ban User                                         |
+| -------------------------------------------------------- | ------------------------------------------------------------- | 
+| ![Chats](./readme/gifs/chats.gif) | ![Filter/Ban User](./readme/gifs/filter_and_ban.gif) | 
+---------------
 <br><br>
 
 <a id="how_to_run"></a>
