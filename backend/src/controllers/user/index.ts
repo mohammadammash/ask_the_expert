@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 //internal imports
-import { getUsersDataBodyInterface, getSingleUserDataParamsInterface, removeAppointmentBodyInterface, blockOrUnblockUserBodyInterface, updateProfileBodyInterface } from "./types";
+import {getSingleUserDataParamsInterface, removeAppointmentBodyInterface, updateProfileBodyInterface } from "./types";
 const UserModel = require('../../database/models/User');
 const AppointmentModel = require('../../database/models/Appointment');
 import sendNotificationUtilityFunction from "../../utils/notifications";
@@ -72,35 +72,4 @@ const removeAppointment = async (req: Request<{}, {}, removeAppointmentBodyInter
 };
 
 
-const blockOrUnblockUser = async (req: Request<{}, {}, blockOrUnblockUserBodyInterface>, res: Response) => {
-    const { currentUser_id } = req;
-    const { user_id, block } = req.body;
-
-    //block is bool //block user
-    if (block) {
-        const exists = await UserModel.findOne({ "blocked_users._id": user_id });
-        if (exists) return res.status(400).send({ message: 'User Already blocked' });
-
-        const blocked_user = { _id: user_id };
-        UserModel.findByIdAndUpdate(currentUser_id, { $push: { blocked_users: blocked_user } })
-            .then((data: any) => res.status(200).send({ message: 'User Blocked' }))
-            .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
-    }
-    //if false unblock user
-    else {
-        UserModel.findByIdAndUpdate(currentUser_id, { $pull: { blocked_users: user_id } })
-            .then((data: any) => res.status(200).send({ message: 'User UnBlocked' }))
-            .catch((err: any) => res.status(400).send({ message: 'Something went wrong' }))
-    }
-};
-
-//Get users data for Chats collection saved in firestore with users_ids only
-export const getUsersData = (req: Request<{}, {}, getUsersDataBodyInterface>, res: Response) => {
-    const { users_ids } = req.body;
-
-    UserModel.find({ _id: { $in: users_ids } }).populate('reviews.novice_id appointments_groups.appointments').lean()
-        .then((data: any) => res.status(200).send(data))
-        .catch((err: any) => res.status(200).send({ message: err.message }))
-};
-
-module.exports = { getSingleUserData, getRankedExperts, updateProfile, removeAppointment, blockOrUnblockUser, getUsersData };
+module.exports = { getSingleUserData, getRankedExperts, updateProfile, removeAppointment };

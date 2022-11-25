@@ -17,12 +17,3 @@ export interface updateProfileBodyInterface {
 export interface removeAppointmentBodyInterface {
     appointment_id: ObjectId,
 }
-
-export interface blockOrUnblockUserBodyInterface {
-    block: Boolean,
-    user_id: String,
-}
-
-export interface getUsersDataBodyInterface {
-    users_ids: String[],
-}
