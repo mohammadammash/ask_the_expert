@@ -23,19 +23,20 @@
 
 - I want to change the language of my app so that I can use it freely.
 - I want to change the theme to dark so that I use it comfortably at night.
-- I want to remove appointments that I wouldn't be able to attend anymore so that I wouldn't miss the appointment.
+- I want to receive notifications about booked or removed appointments with me
 
 #### &nbsp; &nbsp; &nbsp; As a Novice:
 
 - I want to book appointments with available experts close to me within same field so I can learn and ask questions about my field.
-- I want to chat with experts so that I can make sure that my appointment will benefits me as much as possible or to recheck whether he/she will be available again.
+- I want to have a live chat with experts so that I can make sure that my appointment will benefits me as much as possible or to recheck whether he/she will be available again.
 - I want to view the leaderboard and visualize the top experts, so If I viewed this expert available would instantly book with him/her.
 
 #### &nbsp; &nbsp; &nbsp; As an Expert:
 
 - I want to set availability to online so that I can gain scores and be on the top of the leaderboard.
-- I want to intiate and chat with novices so I can get more points and help novices reach their answers
+- I want to have a live chat with novices so I can get more points and help novices reach their answers
 - I want to view the leaderboard and visualize the top experts, so I can try to reach the top and view the difference score.
+- I want to turn my availability into offline, remove all reserved appointments and notify novices about appointments cancelation.
 
 #### &nbsp; &nbsp; &nbsp; As an Admin:
 
@@ -90,22 +91,33 @@ Here's a brief high-level overview of the tech stack the Ask The Expert app uses
 > Below GIFs may take some time to load
 
 ---------------
-### Workflow:
+### Admin:
 ---------------
-| Novice (french - dark mode)                                                | Expert (english - light mode)                                          | Admin                                          |
-| ----------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- |
-| ![Novice](./readme/gifs/novice_french_dark.gif) | ![Expert](./readme/gifs/expert_lightmode.gif) | ![Admin](./readme/gifs/admin.gif) |
+| View Statistics                                                | View Users                                          | Filter Users                                          | Banned Users                                          |
+| ----------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| ![Stats](./readme/gifs/admin/admin_view_stats.gif) | ![View Users](./readme/gifs/admin/admin_view_users.gif) | ![Filter Users](./readme/gifs/admin/admin_filter_users.gif) | ![Banned Users](./readme/gifs/admin/admin_banned_users.gif) |
 ---------------
-### Features:
----------------
-| Book Appointment + Notification                                   | Set Availability                                         | Add/Remove Review                                            |
-| --------------------------------------- | --------------------------------------------------- | ------------------------------------------------------ | 
-| ![Book](./readme/gifs/book_appointment_notification.gif) | ![Chats](./readme/gifs/go_online.gif) | ![Go Online](./readme/gifs/add_or_remove_review.gif) |
 
-| Live Chats                                             | Filter/Ban User                                         |
-| -------------------------------------------------------- | ------------------------------------------------------------- | 
-| ![Chats](./readme/gifs/chats.gif) | ![Filter/Ban User](./readme/gifs/filter_and_ban.gif) | 
+### Expert (Light Mode - English):
 ---------------
+| View Profile                                                | View Reviews                                          | Edit Profile                                          | Set Availability                                          |
+| ----------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| ![View Profile](./readme/gifs/expert/expert_profile.gif) | ![View Reviews](./readme/gifs/expert/filter_reviews.gif) | ![Edit Profile](./readme/gifs/expert/edit_profile.gif) | ![Set Availability](./readme/gifs/expert/set_availability.gif) |
+---------------
+
+### Novice (Dark Mode - French):
+---------------
+| View Close Expert                                                | Add Review                                          | Remove Review                                          | Book Appointment                                          |
+| ----------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| ![View Close Expert](./readme/gifs/novice/view_expert.gif) | ![Add Review](./readme/gifs/novice/add_review.gif) | ![Remove Review](./readme/gifs/novice/remove_review.gif) | ![Book Appointment](./readme/gifs/novice/book_appointment.gif) |
+-------------
+### Common:
+-------------
+| Book Appointment Notification                                                | Remove Appointment Notification                                          | User Chats                                          | Live Chat                                          |
+| ----------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| ![Book Appointment Notification](./readme/gifs/book_appointment_notification.gif) | ![Remove Appointment Notification](./readme/gifs/remove_appointment_notification.gif) | ![User Chats](./readme/gifs/chats.gif) | ![Live Chat](./readme/gifs/live_chat.gif) |
+| Empty Appointments State                                                |
+| ![Empty Appointments State](./readme/gifs/appointments_empty_state.gif) |
 <br><br>
 
 <a id="how_to_run"></a>
