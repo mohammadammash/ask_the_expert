@@ -27,7 +27,6 @@ module.exports = () => {
         for (let expert_id of Object.keys(experts)) {
             const val = experts[expert_id] * 5;
             await UserModel.findByIdAndUpdate(expert_id, { $inc: { score: val } })
-            console.log('ok');
         }
     })
 }

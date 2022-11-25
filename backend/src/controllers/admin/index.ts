@@ -25,7 +25,6 @@ const getAllUsersWithStatistics = async (req: Request, res: Response) => {
 
 const banOrUnbanUser = async (req: Request<{}, {}, banOrUnbanUserBodyInterface>, res: Response) => {
     const { user_id, ban } = req.body;
-    console.log("🚀 ~ file: index.ts ~ line 28 ~ banOrUnbanUser ~ { user_id, ban }", { user_id, ban })
 
     const data = await UserModel.findByIdAndUpdate(user_id, { $set: { isBanned: ban } }, { new: true }).lean();
     if (data) res.status(200).send({ ...data })

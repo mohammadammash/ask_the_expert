@@ -1,4 +1,4 @@
-import { Expo, ExpoPushMessage } from 'expo-server-sdk';
+import { Expo } from 'expo-server-sdk';
 
 //Create a new Expo SDK Client
 let expo = new Expo();
@@ -32,13 +32,11 @@ const sendNotification = (push_tokens: string[], title: string, body: string) =>
                     console.log(ticketChunk);
                     tickets.push(...ticketChunk);
                 } catch (error) {
-                    console.error(error);
                 }
             }
         })();
     }
     catch (err) {
-        console.log(err);
     }
 };
 
