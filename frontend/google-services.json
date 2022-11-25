@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "90068489206",
+    "project_id": "asktheexpert-40cf3",
+    "storage_bucket": "asktheexpert-40cf3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90068489206:android:676457735033940a12edd7",
+        "android_client_info": {
+          "package_name": "com.asktheexpert.mobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90068489206-tq330vv6q232kovvcn74tfr2uacfq34c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdvll_oVA-xiGSwFDWXqmAPGSUoCiNT34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90068489206-tq330vv6q232kovvcn74tfr2uacfq34c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
