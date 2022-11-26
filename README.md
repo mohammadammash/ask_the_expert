@@ -117,6 +117,10 @@ Here's a brief high-level overview of the tech stack the Ask The Expert app uses
 | ----------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
 | ![Book Appointment Notification](./readme/gifs/book_appointment_notification.gif) | ![Remove Appointment Notification](./readme/gifs/remove_appointment_notification.gif) | ![User Chats](./readme/gifs/chats.gif) | ![Live Chat](./readme/gifs/live_chat.gif) |
 <br><br>
+| Leaderboard                                                | Empty State                                          |
+| ![Book Appointment Notification](./readme/gifs/leaderboard.gif) | ![Empty State](./readme/gifs/empty_state.gif) |
+<br><br>
+
 
 <a id="how_to_run"></a>
 <img src="./readme/titles/how_to_run.svg"/>
