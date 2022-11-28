@@ -54,7 +54,6 @@ export default function App() {
         await SplashScreen.preventAutoHideAsync();
         await Font.loadAsync({ Roboto_400Regular, Roboto_400Regular_Italic, Roboto_700Bold });
       } catch (err) {
-        console.log("🚀 ~ file: App.tsx ~ line 78 ~ { ~ err", err);
       } finally {
         //Alter All <Text/> To have this fontfamily
         setCustomText({ style: { fontFamily: FONTS.MAIN_REGULAR } });
