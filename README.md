@@ -1,4 +1,4 @@
-<img src="./readme/titles/main.svg"/>
+<img src="./readme/titles/main_.svg"/>
 
 <div align="center">
 
