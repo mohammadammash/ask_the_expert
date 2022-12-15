@@ -121,6 +121,7 @@ Here's a brief high-level overview of the tech stack the Ask The Expert app uses
 | ![Book Appointment Notification](./readme/gifs/leaderboard.gif) | ![Empty State](./readme/gifs/empty_state.gif) |
 <br><br>
 
+=======
 
 <a id="how_to_run"></a>
 <img src="./readme/titles/how_to_run.svg"/>
