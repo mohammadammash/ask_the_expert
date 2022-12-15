@@ -1,4 +1,4 @@
-<img src="./readme/titles/main.svg"/>
+<img src="./readme/titles/main_.svg"/>
 
 <div align="center">
 
@@ -120,6 +120,8 @@ Here's a brief high-level overview of the tech stack the Ask The Expert app uses
 | Leaderboard                                                | Empty State                                          |
 | ![Book Appointment Notification](./readme/gifs/leaderboard.gif) | ![Empty State](./readme/gifs/empty_state.gif) |
 <br><br>
+
+=======
 
 <a id="how_to_run"></a>
 <img src="./readme/titles/how_to_run.svg"/>
